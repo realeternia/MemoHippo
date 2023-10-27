@@ -34,7 +34,7 @@ namespace MemoHippo
                 string[] names = ((string)e.Data.GetData(DataFormats.StringFormat)).Split('.');
 
                 // 根据 Name 查找 Label 控件
-                var label = Controls[names[0]].Controls[names[1]];
+                var label = flowLayoutPanelF.Controls[names[0]].Controls[names[1]];
 
                 if (label != null)
                 {
@@ -50,7 +50,7 @@ namespace MemoHippo
 
         private void label_MouseDown(object sender, MouseEventArgs e)
         {
-            Label label = (Label)sender;
+            var label = (Control)sender;
             label.DoDragDrop(label.Parent.Name + "." + label.Name, DragDropEffects.Move);
         }
     }
