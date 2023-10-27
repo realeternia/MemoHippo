@@ -58,6 +58,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UCMenuItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCMenuItem.Designer.cs">
+      <DependentUpon>UCMenuItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="UCTipGroup.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -77,6 +83,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UCMenuItem.resx">
+      <DependentUpon>UCMenuItem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UCTipGroup.resx">
       <DependentUpon>UCTipGroup.cs</DependentUpon>
     </EmbeddedResource>

@@ -42,7 +42,7 @@ namespace MemoHippo
         private void Uctool_OnClickItem(object sender, int e)
         {
             if (e > 0)
-                splitContainer2.SplitterDistance = splitContainer2.Width - 1000;
+                splitContainer2.SplitterDistance = System.Math.Max(0,splitContainer2.Width - 1000);
             else
                 splitContainer2.SplitterDistance = splitContainer2.Width;
         }
