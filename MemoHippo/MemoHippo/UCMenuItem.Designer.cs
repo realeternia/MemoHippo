@@ -54,9 +54,9 @@ namespace MemoHippo
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.label1.Location = new System.Drawing.Point(17, 4);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 20);
+            this.label1.Size = new System.Drawing.Size(51, 20);
             this.label1.TabIndex = 1;
-            this.label1.Text = "测试文本";
+            this.label1.Text = "新项目";
             // 
             // UCMenuItem
             // 

@@ -10,7 +10,16 @@ namespace MemoHippo
         {
             InitializeComponent();
 
+            ucMenuNew1.tbutton1.Click += Tbutton1_Click;
+
             TestInit();
+        }
+
+        private void Tbutton1_Click(object sender, System.EventArgs e)
+        {
+            var newItem = new UCMenuItem();
+            flowLayoutPanel1.Controls.Add(newItem);
+            flowLayoutPanel1.Controls.SetChildIndex(ucMenuNew1, flowLayoutPanel1.Controls.Count-1);
         }
 
         private void TestInit()
