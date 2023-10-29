@@ -17,9 +17,18 @@ namespace MemoHippo
 
         private void Tbutton1_Click(object sender, System.EventArgs e)
         {
+            MemoBook.Instance.AddCatalog();
+
+            RefreshMenu();
+
             var newItem = new UCMenuItem();
             flowLayoutPanel1.Controls.Add(newItem);
             flowLayoutPanel1.Controls.SetChildIndex(ucMenuNew1, flowLayoutPanel1.Controls.Count-1);
+        }
+
+        private void RefreshMenu()
+        {
+
         }
 
         private void TestInit()
