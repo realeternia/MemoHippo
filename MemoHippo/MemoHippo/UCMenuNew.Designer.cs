@@ -34,27 +34,29 @@ namespace MemoHippo
             // 
             // tbutton1
             // 
+            this.tbutton1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.tbutton1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.tbutton1.FlatAppearance.BorderSize = 0;
             this.tbutton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.tbutton1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbutton1.ForeColor = System.Drawing.Color.Silver;
-            this.tbutton1.Location = new System.Drawing.Point(36, 3);
+            this.tbutton1.Location = new System.Drawing.Point(60, 4);
+            this.tbutton1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tbutton1.Name = "tbutton1";
-            this.tbutton1.Size = new System.Drawing.Size(154, 23);
+            this.tbutton1.Size = new System.Drawing.Size(205, 29);
             this.tbutton1.TabIndex = 0;
             this.tbutton1.Text = "< 点击添加新项 >";
             this.tbutton1.UseVisualStyleBackColor = true;
             // 
             // UCMenuNew
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
             this.Controls.Add(this.tbutton1);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "UCMenuNew";
-            this.Size = new System.Drawing.Size(240, 30);
+            this.Size = new System.Drawing.Size(320, 38);
             this.ResumeLayout(false);
 
         }

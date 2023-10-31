@@ -1,7 +1,7 @@
 ﻿
 namespace MemoHippo
 {
-    partial class UCTipGroup
+    partial class UCTipColumn
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -47,6 +47,8 @@ namespace MemoHippo
             this.flowLayoutPanel1.Click += new System.EventHandler(this.flowLayoutPanel1_Click);
             this.flowLayoutPanel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.flowLayoutPanel1_DragDrop);
             this.flowLayoutPanel1.DragEnter += new System.Windows.Forms.DragEventHandler(this.flowLayoutPanel1_DragEnter);
+            this.flowLayoutPanel1.DragOver += new System.Windows.Forms.DragEventHandler(this.flowLayoutPanel1_DragOver);
+            this.flowLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel1_Paint);
             // 
             // labelTT
             // 
@@ -60,7 +62,7 @@ namespace MemoHippo
             this.labelTT.Text = "Work";
             this.labelTT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // UCTipGroup
+            // UCTipColumn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -68,7 +70,7 @@ namespace MemoHippo
             this.Controls.Add(this.labelTT);
             this.Controls.Add(this.flowLayoutPanel1);
             this.ForeColor = System.Drawing.Color.White;
-            this.Name = "UCTipGroup";
+            this.Name = "UCTipColumn";
             this.Size = new System.Drawing.Size(340, 747);
             this.Click += new System.EventHandler(this.flowLayoutPanel1_Click);
             this.ResumeLayout(false);

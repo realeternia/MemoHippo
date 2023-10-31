@@ -35,14 +35,16 @@ namespace MemoHippo
             // 
             // button1
             // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.Silver;
-            this.button1.Location = new System.Drawing.Point(192, 1);
+            this.button1.Location = new System.Drawing.Point(197, 1);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(35, 23);
+            this.button1.Size = new System.Drawing.Size(47, 29);
             this.button1.TabIndex = 0;
             this.button1.Text = "...";
             this.button1.UseVisualStyleBackColor = true;
@@ -52,22 +54,25 @@ namespace MemoHippo
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.label1.Location = new System.Drawing.Point(17, 4);
+            this.label1.Location = new System.Drawing.Point(23, 5);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 20);
+            this.label1.Size = new System.Drawing.Size(64, 24);
             this.label1.TabIndex = 1;
             this.label1.Text = "新项目";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // UCMenuItem
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "UCMenuItem";
-            this.Size = new System.Drawing.Size(240, 30);
+            this.Size = new System.Drawing.Size(255, 38);
+            this.Click += new System.EventHandler(this.UCMenuItem_Click);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -76,6 +81,6 @@ namespace MemoHippo
         #endregion
 
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label1;
+        public System.Windows.Forms.Label label1;
     }
 }
