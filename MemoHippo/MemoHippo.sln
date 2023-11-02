@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoHippo", "MemoHippo\Memo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Text Editor", "RichTextEditor\Text Editor\Text Editor.csproj", "{4272F390-D4C6-4663-98BC-F29DAD158162}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicResource", "PicResource\PicResource.csproj", "{DC2272A3-3148-4D36-A898-57B7CDA658FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{4272F390-D4C6-4663-98BC-F29DAD158162}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4272F390-D4C6-4663-98BC-F29DAD158162}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4272F390-D4C6-4663-98BC-F29DAD158162}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC2272A3-3148-4D36-A898-57B7CDA658FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC2272A3-3148-4D36-A898-57B7CDA658FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC2272A3-3148-4D36-A898-57B7CDA658FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC2272A3-3148-4D36-A898-57B7CDA658FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
