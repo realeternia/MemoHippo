@@ -165,7 +165,7 @@
       <Project>{dc2272a3-3148-4d36-a898-57b7cda658fd}</Project>
       <Name>PicResource</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RichTextEditor\Text Editor\Text Editor.csproj">
+    <ProjectReference Include="..\RichTextEditor2\Text Editor\Text Editor.csproj">
       <Project>{4272f390-d4c6-4663-98bc-f29dad158162}</Project>
       <Name>Text Editor</Name>
     </ProjectReference>
