@@ -55,6 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\IRowItem.cs" />
+    <Compile Include="UCRowNikon.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UCRowCommon.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -72,7 +75,7 @@
     </Compile>
     <Compile Include="Model\MemoBook.cs" />
     <Compile Include="Model\MemoCatalogInfo.cs" />
-    <Compile Include="PicLoader.cs" />
+    <Compile Include="ResLoader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UCCatalogNew.cs">
@@ -132,6 +135,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UCRowCommon.resx">
       <DependentUpon>UCRowCommon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCRowNikon.resx">
+      <DependentUpon>UCRowNikon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UCTipColumn.resx">
       <DependentUpon>UCTipColumn.cs</DependentUpon>

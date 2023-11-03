@@ -72,13 +72,22 @@ namespace MemoHippo
         private void RefreshLabels()
         {
             flowLayoutPanel1.Controls.Clear();
-            foreach (var item in ColumnInfo.Items)
+            foreach (var memoItem in ColumnInfo.Items)
             {
-                var label1 = new UCRowCommon();
-                label1.SetTitile(item.Title);
-              //  label1.Height = 100;
-                DecorateControl(label1, item.Id);
-                AddControl(label1);
+                Control labelCtr;
+                if (memoItem.Type == 1)
+                    labelCtr = new UCRowNikon();
+                else
+                    labelCtr = new UCRowCommon();
+
+                var rowItem = labelCtr as IRowItem;
+                rowItem.ItemId = memoItem.Id;
+                rowItem.SetTitle(memoItem.Title);
+                rowItem.SetIcon(memoItem.Icon);
+                DecorateControl(labelCtr, memoItem.Id);
+                AddControl(labelCtr);
+
+                rowItem.AfterInit();
             }
             AddControl(rowAdd);
         }

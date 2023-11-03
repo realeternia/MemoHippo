@@ -63,23 +63,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Icon\abl1.PNG" />
-    <EmbeddedResource Include="Icon\abl2.PNG" />
-    <EmbeddedResource Include="Icon\abl3.PNG" />
-    <EmbeddedResource Include="Icon\abl4.PNG" />
-    <EmbeddedResource Include="Icon\abl5.PNG" />
-    <EmbeddedResource Include="Icon\abl6.PNG" />
-    <EmbeddedResource Include="Icon\abl7.PNG" />
-    <EmbeddedResource Include="Icon\abl8.PNG" />
-    <EmbeddedResource Include="Icon\abl9.PNG" />
-    <EmbeddedResource Include="Icon\atd1.PNG" />
-    <EmbeddedResource Include="Icon\atd2.PNG" />
-    <EmbeddedResource Include="Icon\atd3.PNG" />
-    <EmbeddedResource Include="Icon\atd4.PNG" />
-    <EmbeddedResource Include="Icon\atd5.PNG" />
-    <EmbeddedResource Include="Icon\atd6.PNG" />
-    <EmbeddedResource Include="Icon\atd7.PNG" />
-    <EmbeddedResource Include="Icon\atd8.PNG" />
     <EmbeddedResource Include="Icon\atr0.PNG" />
     <EmbeddedResource Include="Icon\atr1.PNG" />
     <EmbeddedResource Include="Icon\atr2.PNG" />
@@ -96,12 +79,6 @@
     <EmbeddedResource Include="Icon\cup1.PNG" />
     <EmbeddedResource Include="Icon\cup2.PNG" />
     <EmbeddedResource Include="Icon\cup3.PNG" />
-    <EmbeddedResource Include="Icon\npc1.PNG" />
-    <EmbeddedResource Include="Icon\npc2.PNG" />
-    <EmbeddedResource Include="Icon\npc3.PNG" />
-    <EmbeddedResource Include="Icon\npc4.PNG" />
-    <EmbeddedResource Include="Icon\npc5.PNG" />
-    <EmbeddedResource Include="Icon\npc6.PNG" />
     <EmbeddedResource Include="Icon\rac1.PNG" />
     <EmbeddedResource Include="Icon\rac10.PNG" />
     <EmbeddedResource Include="Icon\rac11.PNG" />
@@ -137,10 +114,6 @@
     <EmbeddedResource Include="Icon\tsk6.PNG" />
     <EmbeddedResource Include="Icon\tsk7.PNG" />
     <EmbeddedResource Include="Icon\tsk8.PNG" />
-    <EmbeddedResource Include="Icon\wed1.PNG" />
-    <EmbeddedResource Include="Icon\wed2.PNG" />
-    <EmbeddedResource Include="Icon\wed3.PNG" />
-    <EmbeddedResource Include="Icon\wed4.PNG" />
     <EmbeddedResource Include="Icon\wep1.PNG" />
     <EmbeddedResource Include="Icon\wep2.PNG" />
     <EmbeddedResource Include="Icon\wep3.PNG" />
@@ -148,9 +121,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon\rac0.PNG" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Icon\npc7.PNG" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon\hatt1.PNG" />
@@ -247,10 +217,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Icon\abl11.PNG" />
-    <EmbeddedResource Include="Icon\abl12.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

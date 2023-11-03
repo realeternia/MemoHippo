@@ -7,6 +7,10 @@ namespace MemoHippo.Model
         event MouseEventHandler NLMouseClick;
         event MouseEventHandler NLMouseDown;
 
-        void SetTitile(string str);
+        void SetTitle(string str);
+        void SetIcon(string icon);
+        int ItemId { get; set; }
+
+        void AfterInit();
     }
 }

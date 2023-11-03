@@ -33,13 +33,14 @@ namespace MemoHippo
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.ucMenuNew1 = new MemoHippo.UCCatalogNew();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.textBoxTitle = new System.Windows.Forms.TextBox();
-            this.panel1 = new DoubleBufferedPanel();
-            this.ucTipAdd1 = new MemoHippo.UCColumnAdd();
-            this.textBoxTitle2 = new System.Windows.Forms.TextBox();
+            this.textBoxCatalogTitle = new System.Windows.Forms.TextBox();
+            this.textBoxPaperTitle = new System.Windows.Forms.TextBox();
             this.dasayEditor1 = new Text_Editor.DasayEditor();
+            this.pictureBoxPaperIcon = new System.Windows.Forms.PictureBox();
+            this.ucMenuNew1 = new MemoHippo.UCCatalogNew();
+            this.panel1 = new MemoHippo.UIS.DoubleBufferedPanel();
+            this.ucTipAdd1 = new MemoHippo.UCColumnAdd();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -49,6 +50,7 @@ namespace MemoHippo
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPaperIcon)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,15 +84,6 @@ namespace MemoHippo
             this.flowLayoutPanel1.Size = new System.Drawing.Size(240, 1078);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
-            // ucMenuNew1
-            // 
-            this.ucMenuNew1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.ucMenuNew1.Location = new System.Drawing.Point(0, 0);
-            this.ucMenuNew1.Margin = new System.Windows.Forms.Padding(0);
-            this.ucMenuNew1.Name = "ucMenuNew1";
-            this.ucMenuNew1.Size = new System.Drawing.Size(240, 38);
-            this.ucMenuNew1.TabIndex = 0;
-            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -102,33 +95,78 @@ namespace MemoHippo
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.AutoScroll = true;
-            this.splitContainer2.Panel1.Controls.Add(this.textBoxTitle);
+            this.splitContainer2.Panel1.Controls.Add(this.textBoxCatalogTitle);
             this.splitContainer2.Panel1.Controls.Add(this.panel1);
             this.splitContainer2.Panel1.Click += new System.EventHandler(this.splitContainer2_Panel1_Click);
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.splitContainer2.Panel2.Controls.Add(this.textBoxTitle2);
+            this.splitContainer2.Panel2.Controls.Add(this.pictureBoxPaperIcon);
+            this.splitContainer2.Panel2.Controls.Add(this.textBoxPaperTitle);
             this.splitContainer2.Panel2.Controls.Add(this.dasayEditor1);
             this.splitContainer2.Panel2MinSize = 0;
             this.splitContainer2.Size = new System.Drawing.Size(1589, 1078);
             this.splitContainer2.SplitterDistance = 1094;
             this.splitContainer2.TabIndex = 0;
             // 
-            // textBoxTitle
+            // textBoxCatalogTitle
             // 
-            this.textBoxTitle.BackColor = System.Drawing.Color.Black;
-            this.textBoxTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBoxTitle.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.textBoxTitle.ForeColor = System.Drawing.Color.White;
-            this.textBoxTitle.Location = new System.Drawing.Point(24, 36);
-            this.textBoxTitle.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxTitle.Name = "textBoxTitle";
-            this.textBoxTitle.Size = new System.Drawing.Size(451, 40);
-            this.textBoxTitle.TabIndex = 1;
-            this.textBoxTitle.Text = "哈哈哈哈";
-            this.textBoxTitle.TextChanged += new System.EventHandler(this.textBoxTitle_TextChanged);
+            this.textBoxCatalogTitle.BackColor = System.Drawing.Color.Black;
+            this.textBoxCatalogTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxCatalogTitle.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textBoxCatalogTitle.ForeColor = System.Drawing.Color.White;
+            this.textBoxCatalogTitle.Location = new System.Drawing.Point(24, 36);
+            this.textBoxCatalogTitle.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxCatalogTitle.Name = "textBoxCatalogTitle";
+            this.textBoxCatalogTitle.Size = new System.Drawing.Size(451, 40);
+            this.textBoxCatalogTitle.TabIndex = 1;
+            this.textBoxCatalogTitle.Text = "哈哈哈哈";
+            this.textBoxCatalogTitle.TextChanged += new System.EventHandler(this.textBoxTitle_TextChanged);
+            // 
+            // textBoxPaperTitle
+            // 
+            this.textBoxPaperTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.textBoxPaperTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxPaperTitle.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textBoxPaperTitle.ForeColor = System.Drawing.Color.White;
+            this.textBoxPaperTitle.Location = new System.Drawing.Point(58, 25);
+            this.textBoxPaperTitle.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxPaperTitle.Name = "textBoxPaperTitle";
+            this.textBoxPaperTitle.Size = new System.Drawing.Size(318, 40);
+            this.textBoxPaperTitle.TabIndex = 2;
+            this.textBoxPaperTitle.Text = "哈哈哈哈";
+            this.textBoxPaperTitle.TextChanged += new System.EventHandler(this.textBoxTitle2_TextChanged);
+            // 
+            // dasayEditor1
+            // 
+            this.dasayEditor1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dasayEditor1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.dasayEditor1.Location = new System.Drawing.Point(0, 85);
+            this.dasayEditor1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.dasayEditor1.Name = "dasayEditor1";
+            this.dasayEditor1.Size = new System.Drawing.Size(491, 993);
+            this.dasayEditor1.TabIndex = 0;
+            // 
+            // pictureBoxPaperIcon
+            // 
+            this.pictureBoxPaperIcon.Location = new System.Drawing.Point(15, 29);
+            this.pictureBoxPaperIcon.Name = "pictureBoxPaperIcon";
+            this.pictureBoxPaperIcon.Size = new System.Drawing.Size(32, 32);
+            this.pictureBoxPaperIcon.TabIndex = 3;
+            this.pictureBoxPaperIcon.TabStop = false;
+            this.pictureBoxPaperIcon.Click += new System.EventHandler(this.pictureBoxPaperIcon_Click);
+            // 
+            // ucMenuNew1
+            // 
+            this.ucMenuNew1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.ucMenuNew1.Location = new System.Drawing.Point(0, 0);
+            this.ucMenuNew1.Margin = new System.Windows.Forms.Padding(0);
+            this.ucMenuNew1.Name = "ucMenuNew1";
+            this.ucMenuNew1.Size = new System.Drawing.Size(240, 38);
+            this.ucMenuNew1.TabIndex = 0;
             // 
             // panel1
             // 
@@ -149,32 +187,6 @@ namespace MemoHippo
             this.ucTipAdd1.Name = "ucTipAdd1";
             this.ucTipAdd1.Size = new System.Drawing.Size(60, 89);
             this.ucTipAdd1.TabIndex = 0;
-            // 
-            // textBoxTitle2
-            // 
-            this.textBoxTitle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.textBoxTitle2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBoxTitle2.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.textBoxTitle2.ForeColor = System.Drawing.Color.White;
-            this.textBoxTitle2.Location = new System.Drawing.Point(16, 25);
-            this.textBoxTitle2.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxTitle2.Name = "textBoxTitle2";
-            this.textBoxTitle2.Size = new System.Drawing.Size(327, 40);
-            this.textBoxTitle2.TabIndex = 2;
-            this.textBoxTitle2.Text = "哈哈哈哈";
-            this.textBoxTitle2.TextChanged += new System.EventHandler(this.textBoxTitle2_TextChanged);
-            // 
-            // dasayEditor1
-            // 
-            this.dasayEditor1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dasayEditor1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.dasayEditor1.Location = new System.Drawing.Point(0, 85);
-            this.dasayEditor1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.dasayEditor1.Name = "dasayEditor1";
-            this.dasayEditor1.Size = new System.Drawing.Size(491, 993);
-            this.dasayEditor1.TabIndex = 0;
             // 
             // Form1
             // 
@@ -200,6 +212,7 @@ namespace MemoHippo
             this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPaperIcon)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -209,12 +222,13 @@ namespace MemoHippo
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private Text_Editor.DasayEditor dasayEditor1;
-        public System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private UCCatalogNew ucMenuNew1;
-        private System.Windows.Forms.TextBox textBoxTitle;
+        private System.Windows.Forms.TextBox textBoxCatalogTitle;
         private UCColumnAdd ucTipAdd1;
-        private System.Windows.Forms.TextBox textBoxTitle2;
+        private System.Windows.Forms.TextBox textBoxPaperTitle;
+        private System.Windows.Forms.PictureBox pictureBoxPaperIcon;
+        public DoubleBufferedPanel panel1;
     }
 }
 

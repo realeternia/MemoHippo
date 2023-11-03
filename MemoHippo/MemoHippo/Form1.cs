@@ -1,7 +1,6 @@
 ﻿using MemoHippo.Model;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using YamlDotNet.Serialization;
@@ -25,7 +24,7 @@ namespace MemoHippo
             ucTipAdd1.button1.Click += Button1_Click;
 
             // 先隐藏面板
-            ShowNotePad(false);
+            ShowPaperPad(false);
         }
 
         private void Tbutton1_Click(object sender, System.EventArgs e)
@@ -66,7 +65,7 @@ namespace MemoHippo
             var mItem = sender as UCCatalogItem;
 
             textChangeLock = true;
-            textBoxTitle.Text = mItem.Title;
+            textBoxCatalogTitle.Text = mItem.Title;
             textChangeLock = false;
 
             if (lastSelect != null)
@@ -118,21 +117,22 @@ namespace MemoHippo
             {
                 nowRowCtr = null;
                 nowItem = null;
-                ShowNotePad(false);
+                ShowPaperPad(false);
                 return;
             }
 
             nowRowCtr = sender as IRowItem;
             nowItem = nowCatalog.GetColumn(args.ColumnId).GetItem(args.ItemId);
-            ShowNotePad(true);
+            ShowPaperPad(true);
         }
 
-        private void ShowNotePad(bool show)
+        private void ShowPaperPad(bool show)
         {
             if(show && nowItem != null)
             {
                 textChangeLock = true;
-                textBoxTitle2.Text = nowItem.Title;
+                textBoxPaperTitle.Text = nowItem.Title;
+                UpdatePaperIcon(nowItem.Icon);
                 textChangeLock = false;
                 dasayEditor1.LoadFile(nowItem.Id.ToString());
             }
@@ -142,9 +142,17 @@ namespace MemoHippo
                 splitContainer2.SplitterDistance = splitContainer2.Width;
         }
 
+        private void UpdatePaperIcon(string icon)
+        {
+            if (string.IsNullOrEmpty(icon))
+                pictureBoxPaperIcon.Image = ResLoader.Read("Icon/atr0.PNG");
+            else
+                pictureBoxPaperIcon.Image = ResLoader.Read(icon);
+        }
+
         private void splitContainer2_Panel1_Click(object sender, System.EventArgs e)
         {
-            ShowNotePad(false);
+            ShowPaperPad(false);
         }
 
         private void Form1_Load(object sender, System.EventArgs e)
@@ -171,9 +179,9 @@ namespace MemoHippo
             if (!textChangeLock)
             {
                 if (nowItem != null)
-                    nowItem.Title = textBoxTitle2.Text;
+                    nowItem.Title = textBoxPaperTitle.Text;
                 if (nowRowCtr != null)
-                    nowRowCtr.SetTitile(textBoxTitle2.Text);
+                    nowRowCtr.SetTitle(textBoxPaperTitle.Text);
             }
         }
 
@@ -182,9 +190,21 @@ namespace MemoHippo
             if (!textChangeLock)
             {
                 if (nowCatalog != null)
-                    nowCatalog.Name = textBoxTitle.Text;
+                    nowCatalog.Name = textBoxCatalogTitle.Text;
                 if (lastSelect != null)
-                    lastSelect.Title = textBoxTitle.Text;
+                    lastSelect.Title = textBoxCatalogTitle.Text;
+            }
+        }
+
+        private void pictureBoxPaperIcon_Click(object sender, System.EventArgs e)
+        {
+            if (!textChangeLock)
+            {
+                if (nowItem != null)
+                    nowItem.Icon = "Icon/atr3.PNG";
+                if (nowRowCtr != null)
+                    nowRowCtr.SetIcon(nowItem.Icon);
+                UpdatePaperIcon(nowItem.Icon);
             }
         }
     }

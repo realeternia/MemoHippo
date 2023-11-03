@@ -6,6 +6,7 @@ namespace MemoHippo
 {
     public partial class UCRowCommon : UserControl, IRowItem
     {
+        public int ItemId { get; set; }
         public event MouseEventHandler NLMouseClick;
         public event MouseEventHandler NLMouseDown;
 
@@ -22,10 +23,21 @@ namespace MemoHippo
             pictureBox1.MouseDown += UCRowCommon_MouseDown;
         }
 
+        public virtual void AfterInit()
+        {
+        }
 
-        public void SetTitile(string str)
+        public void SetTitle(string str)
         {
             label1.Text = str;
+        }
+
+        public void SetIcon(string icon)
+        {
+            if (string.IsNullOrEmpty(icon))
+                pictureBox1.Image = ResLoader.Read("Icon/atr0.PNG");
+            else
+                pictureBox1.Image = ResLoader.Read(icon);
         }
 
         private void UCRowCommon_MouseClick(object sender, MouseEventArgs e)
@@ -38,5 +50,11 @@ namespace MemoHippo
             if (NLMouseDown != null)
                 NLMouseDown(this, e);
         }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Image = ResLoader.Read("Icon/atr0.PNG");
+        }
+
     }
 }

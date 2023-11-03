@@ -87,6 +87,8 @@ namespace MemoHippo.Model
     public class MemoItemInfo
     {
         public int Id { get; set; }
+        public int Type { get; set; } //0 默认，1 背单词
         public string Title { get; set; }
+        public string Icon { get; set; }
     }
 }
