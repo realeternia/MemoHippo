@@ -13,7 +13,7 @@ namespace MemoHippo
 
         public UCRowNikon() : base()
         {
-            Height *= 2;
+            Height = 70;
 
             t = new Timer();
             t.Interval = 1000;
@@ -68,7 +68,7 @@ namespace MemoHippo
 
         private void UCRowNikon_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.DrawString(lines[tick % lines.Count], label1.Font, Brushes.Yellow, 35, 45);
+            e.Graphics.DrawString(lines[tick % lines.Count], label1.Font, Brushes.Yellow, 35, 35);
         }
     }
 }

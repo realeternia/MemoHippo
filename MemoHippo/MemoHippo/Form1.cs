@@ -54,9 +54,11 @@ namespace MemoHippo
                 newItem.Id = catalog.Id;
                 newItem.Title = catalog.Name;
                 newItem.OnClickItem += MenuItem_Click;
+                newItem.Width = flowLayoutPanel1.Width - 5;
                 flowLayoutPanel1.Controls.Add(newItem);
             }
             flowLayoutPanel1.Controls.Add(ucMenuNew1);
+            ucMenuNew1.Width = flowLayoutPanel1.Width - 5;
             lastSelect = null;
         }
 
@@ -88,8 +90,8 @@ namespace MemoHippo
                 ucIndex++;
             }
             panel1.Controls.Add(ucTipAdd1);
-            ucTipAdd1.Location = new System.Drawing.Point((ucIndex - 1) * 340, 0);
-            panel1.Width = (ucIndex - 1) * 340+ ucTipAdd1.Width;
+            ucTipAdd1.Location = new System.Drawing.Point((ucIndex - 1) * 270, 0);
+            panel1.Width = (ucIndex - 1) * 270 + ucTipAdd1.Width;
             panel1.Visible = true;
         }
 
@@ -100,15 +102,15 @@ namespace MemoHippo
             uctool.Height = panel1.Height - 1;
             uctool.Name = "UCTipGroup" + ucIndex;
             panel1.Controls.Add(uctool);
-            uctool.Location = new Point((ucIndex - 1) * 340, 0);
+            uctool.Location = new Point((ucIndex - 1) * 270, 0);
             uctool.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            uctool.Width = 340;
+            uctool.Width = 270;
             uctool.ParentC = this;
 
             uctool.Init(nowCatalog.Id, itid, title, c);
             uctool.OnClickItem += Uctool_OnClickItem;
 
-            panel1.Width = (ucIndex - 2) * 340;
+            panel1.Width = (ucIndex - 2) * 270;
         }
 
         private void Uctool_OnClickItem(object sender, EventItemClickArgs args)
@@ -137,7 +139,7 @@ namespace MemoHippo
                 dasayEditor1.LoadFile(nowItem.Id.ToString());
             }
             if (show)
-                splitContainer2.SplitterDistance = System.Math.Max(0, splitContainer2.Width - 1000);
+                splitContainer2.SplitterDistance = System.Math.Max(0, splitContainer2.Width - 700);
             else
                 splitContainer2.SplitterDistance = splitContainer2.Width;
         }

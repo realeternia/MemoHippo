@@ -37,22 +37,23 @@ namespace MemoHippo
             this.button1.BackColor = System.Drawing.Color.Black;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button1.Location = new System.Drawing.Point(13, 18);
+            this.button1.Location = new System.Drawing.Point(10, 14);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(35, 33);
+            this.button1.Size = new System.Drawing.Size(26, 26);
             this.button1.TabIndex = 0;
             this.button1.Text = "+";
             this.button1.UseVisualStyleBackColor = false;
             // 
-            // UCTipAdd
+            // UCColumnAdd
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
             this.Controls.Add(this.button1);
             this.ForeColor = System.Drawing.Color.White;
-            this.Name = "UCTipAdd";
-            this.Size = new System.Drawing.Size(60, 89);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Name = "UCColumnAdd";
+            this.Size = new System.Drawing.Size(45, 71);
             this.ResumeLayout(false);
 
         }

@@ -44,6 +44,7 @@ namespace MemoHippo
 
             rowAdd = new UCRowAdd();
             DecorateControl(rowAdd, 0);
+            rowAdd.Width = 270;
             rowAdd.label1.Click += button1_Click;
         }
 

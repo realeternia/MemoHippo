@@ -39,12 +39,11 @@ namespace MemoHippo
             // 
             this.textBoxTitle.BackColor = System.Drawing.Color.Black;
             this.textBoxTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBoxTitle.Font = new System.Drawing.Font("微软雅黑", 10.8F);
+            this.textBoxTitle.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.textBoxTitle.ForeColor = System.Drawing.Color.White;
-            this.textBoxTitle.Location = new System.Drawing.Point(8, 17);
-            this.textBoxTitle.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxTitle.Location = new System.Drawing.Point(6, 14);
             this.textBoxTitle.Name = "textBoxTitle";
-            this.textBoxTitle.Size = new System.Drawing.Size(154, 24);
+            this.textBoxTitle.Size = new System.Drawing.Size(116, 20);
             this.textBoxTitle.TabIndex = 2;
             this.textBoxTitle.Text = "work";
             this.textBoxTitle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -57,9 +56,10 @@ namespace MemoHippo
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(5, 54);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(4, 43);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(330, 685);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(248, 548);
             this.flowLayoutPanel1.TabIndex = 0;
             this.flowLayoutPanel1.Click += new System.EventHandler(this.flowLayoutPanel1_Click);
             this.flowLayoutPanel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.flowLayoutPanel1_DragDrop);
@@ -70,14 +70,14 @@ namespace MemoHippo
             // 
             // UCTipColumn
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
             this.Controls.Add(this.textBoxTitle);
             this.Controls.Add(this.flowLayoutPanel1);
             this.ForeColor = System.Drawing.Color.White;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "UCTipColumn";
-            this.Size = new System.Drawing.Size(340, 747);
+            this.Size = new System.Drawing.Size(255, 598);
             this.Click += new System.EventHandler(this.flowLayoutPanel1_Click);
             this.ResumeLayout(false);
             this.PerformLayout();

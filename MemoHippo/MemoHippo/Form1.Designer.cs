@@ -35,12 +35,12 @@ namespace MemoHippo
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.textBoxCatalogTitle = new System.Windows.Forms.TextBox();
-            this.textBoxPaperTitle = new System.Windows.Forms.TextBox();
-            this.dasayEditor1 = new Text_Editor.DasayEditor();
             this.pictureBoxPaperIcon = new System.Windows.Forms.PictureBox();
+            this.textBoxPaperTitle = new System.Windows.Forms.TextBox();
             this.ucMenuNew1 = new MemoHippo.UCCatalogNew();
             this.panel1 = new MemoHippo.UIS.DoubleBufferedPanel();
             this.ucTipAdd1 = new MemoHippo.UCColumnAdd();
+            this.dasayEditor1 = new Text_Editor.DasayEditor();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -59,7 +59,7 @@ namespace MemoHippo
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -69,8 +69,9 @@ namespace MemoHippo
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1833, 1078);
+            this.splitContainer1.Size = new System.Drawing.Size(1375, 862);
             this.splitContainer1.SplitterDistance = 240;
+            this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 3;
             // 
             // flowLayoutPanel1
@@ -78,10 +79,10 @@ namespace MemoHippo
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.flowLayoutPanel1.Controls.Add(this.ucMenuNew1);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(134)));
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(240, 1078);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(240, 862);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // splitContainer2
@@ -89,7 +90,7 @@ namespace MemoHippo
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(2);
             this.splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
@@ -106,58 +107,47 @@ namespace MemoHippo
             this.splitContainer2.Panel2.Controls.Add(this.textBoxPaperTitle);
             this.splitContainer2.Panel2.Controls.Add(this.dasayEditor1);
             this.splitContainer2.Panel2MinSize = 0;
-            this.splitContainer2.Size = new System.Drawing.Size(1589, 1078);
-            this.splitContainer2.SplitterDistance = 1094;
+            this.splitContainer2.Size = new System.Drawing.Size(1132, 862);
+            this.splitContainer2.SplitterDistance = 639;
+            this.splitContainer2.SplitterWidth = 3;
             this.splitContainer2.TabIndex = 0;
             // 
             // textBoxCatalogTitle
             // 
             this.textBoxCatalogTitle.BackColor = System.Drawing.Color.Black;
             this.textBoxCatalogTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBoxCatalogTitle.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textBoxCatalogTitle.Font = new System.Drawing.Font("微软雅黑", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(134)));
             this.textBoxCatalogTitle.ForeColor = System.Drawing.Color.White;
-            this.textBoxCatalogTitle.Location = new System.Drawing.Point(24, 36);
-            this.textBoxCatalogTitle.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxCatalogTitle.Location = new System.Drawing.Point(18, 29);
             this.textBoxCatalogTitle.Name = "textBoxCatalogTitle";
-            this.textBoxCatalogTitle.Size = new System.Drawing.Size(451, 40);
+            this.textBoxCatalogTitle.Size = new System.Drawing.Size(338, 32);
             this.textBoxCatalogTitle.TabIndex = 1;
             this.textBoxCatalogTitle.Text = "哈哈哈哈";
             this.textBoxCatalogTitle.TextChanged += new System.EventHandler(this.textBoxTitle_TextChanged);
+            // 
+            // pictureBoxPaperIcon
+            // 
+            this.pictureBoxPaperIcon.Location = new System.Drawing.Point(11, 23);
+            this.pictureBoxPaperIcon.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBoxPaperIcon.Name = "pictureBoxPaperIcon";
+            this.pictureBoxPaperIcon.Size = new System.Drawing.Size(24, 26);
+            this.pictureBoxPaperIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxPaperIcon.TabIndex = 3;
+            this.pictureBoxPaperIcon.TabStop = false;
+            this.pictureBoxPaperIcon.Click += new System.EventHandler(this.pictureBoxPaperIcon_Click);
             // 
             // textBoxPaperTitle
             // 
             this.textBoxPaperTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.textBoxPaperTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBoxPaperTitle.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textBoxPaperTitle.Font = new System.Drawing.Font("微软雅黑", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(134)));
             this.textBoxPaperTitle.ForeColor = System.Drawing.Color.White;
-            this.textBoxPaperTitle.Location = new System.Drawing.Point(58, 25);
-            this.textBoxPaperTitle.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxPaperTitle.Location = new System.Drawing.Point(44, 20);
             this.textBoxPaperTitle.Name = "textBoxPaperTitle";
-            this.textBoxPaperTitle.Size = new System.Drawing.Size(318, 40);
+            this.textBoxPaperTitle.Size = new System.Drawing.Size(238, 32);
             this.textBoxPaperTitle.TabIndex = 2;
             this.textBoxPaperTitle.Text = "哈哈哈哈";
             this.textBoxPaperTitle.TextChanged += new System.EventHandler(this.textBoxTitle2_TextChanged);
-            // 
-            // dasayEditor1
-            // 
-            this.dasayEditor1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dasayEditor1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.dasayEditor1.Location = new System.Drawing.Point(0, 85);
-            this.dasayEditor1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.dasayEditor1.Name = "dasayEditor1";
-            this.dasayEditor1.Size = new System.Drawing.Size(491, 993);
-            this.dasayEditor1.TabIndex = 0;
-            // 
-            // pictureBoxPaperIcon
-            // 
-            this.pictureBoxPaperIcon.Location = new System.Drawing.Point(15, 29);
-            this.pictureBoxPaperIcon.Name = "pictureBoxPaperIcon";
-            this.pictureBoxPaperIcon.Size = new System.Drawing.Size(32, 32);
-            this.pictureBoxPaperIcon.TabIndex = 3;
-            this.pictureBoxPaperIcon.TabStop = false;
-            this.pictureBoxPaperIcon.Click += new System.EventHandler(this.pictureBoxPaperIcon_Click);
             // 
             // ucMenuNew1
             // 
@@ -165,7 +155,7 @@ namespace MemoHippo
             this.ucMenuNew1.Location = new System.Drawing.Point(0, 0);
             this.ucMenuNew1.Margin = new System.Windows.Forms.Padding(0);
             this.ucMenuNew1.Name = "ucMenuNew1";
-            this.ucMenuNew1.Size = new System.Drawing.Size(240, 38);
+            this.ucMenuNew1.Size = new System.Drawing.Size(180, 30);
             this.ucMenuNew1.TabIndex = 0;
             // 
             // panel1
@@ -173,30 +163,44 @@ namespace MemoHippo
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.panel1.Controls.Add(this.ucTipAdd1);
-            this.panel1.Location = new System.Drawing.Point(0, 98);
-            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel1.Location = new System.Drawing.Point(0, 78);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(475, 978);
+            this.panel1.Size = new System.Drawing.Size(356, 782);
             this.panel1.TabIndex = 0;
             // 
             // ucTipAdd1
             // 
             this.ucTipAdd1.BackColor = System.Drawing.Color.Black;
             this.ucTipAdd1.ForeColor = System.Drawing.Color.White;
-            this.ucTipAdd1.Location = new System.Drawing.Point(3, 3);
+            this.ucTipAdd1.Location = new System.Drawing.Point(2, 2);
+            this.ucTipAdd1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ucTipAdd1.Name = "ucTipAdd1";
-            this.ucTipAdd1.Size = new System.Drawing.Size(60, 89);
+            this.ucTipAdd1.Size = new System.Drawing.Size(45, 71);
             this.ucTipAdd1.TabIndex = 0;
+            // 
+            // dasayEditor1
+            // 
+            this.dasayEditor1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dasayEditor1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.dasayEditor1.Font = new System.Drawing.Font("宋体", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(134)));
+            this.dasayEditor1.Location = new System.Drawing.Point(0, 68);
+            this.dasayEditor1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dasayEditor1.Name = "dasayEditor1";
+            this.dasayEditor1.Size = new System.Drawing.Size(491, 794);
+            this.dasayEditor1.TabIndex = 0;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(1833, 1078);
+            this.ClientSize = new System.Drawing.Size(1375, 862);
             this.Controls.Add(this.splitContainer1);
             this.ForeColor = System.Drawing.Color.White;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
