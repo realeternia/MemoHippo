@@ -1,4 +1,6 @@
 ﻿
+using MemoHippo.UIS;
+
 namespace MemoHippo
 {
     partial class Form1
@@ -31,11 +33,12 @@ namespace MemoHippo
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.ucMenuNew1 = new MemoHippo.UCMenuNew();
+            this.ucMenuNew1 = new MemoHippo.UCCatalogNew();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.ucTipAdd1 = new MemoHippo.UCTipAdd();
+            this.panel1 = new DoubleBufferedPanel();
+            this.ucTipAdd1 = new MemoHippo.UCColumnAdd();
+            this.textBoxTitle2 = new System.Windows.Forms.TextBox();
             this.dasayEditor1 = new Text_Editor.DasayEditor();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -101,9 +104,12 @@ namespace MemoHippo
             this.splitContainer2.Panel1.AutoScroll = true;
             this.splitContainer2.Panel1.Controls.Add(this.textBoxTitle);
             this.splitContainer2.Panel1.Controls.Add(this.panel1);
+            this.splitContainer2.Panel1.Click += new System.EventHandler(this.splitContainer2_Panel1_Click);
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.splitContainer2.Panel2.Controls.Add(this.textBoxTitle2);
             this.splitContainer2.Panel2.Controls.Add(this.dasayEditor1);
             this.splitContainer2.Panel2MinSize = 0;
             this.splitContainer2.Size = new System.Drawing.Size(1589, 1078);
@@ -119,9 +125,10 @@ namespace MemoHippo
             this.textBoxTitle.Location = new System.Drawing.Point(24, 36);
             this.textBoxTitle.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxTitle.Name = "textBoxTitle";
-            this.textBoxTitle.Size = new System.Drawing.Size(792, 40);
+            this.textBoxTitle.Size = new System.Drawing.Size(451, 40);
             this.textBoxTitle.TabIndex = 1;
             this.textBoxTitle.Text = "哈哈哈哈";
+            this.textBoxTitle.TextChanged += new System.EventHandler(this.textBoxTitle_TextChanged);
             // 
             // panel1
             // 
@@ -143,14 +150,30 @@ namespace MemoHippo
             this.ucTipAdd1.Size = new System.Drawing.Size(60, 89);
             this.ucTipAdd1.TabIndex = 0;
             // 
+            // textBoxTitle2
+            // 
+            this.textBoxTitle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.textBoxTitle2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxTitle2.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textBoxTitle2.ForeColor = System.Drawing.Color.White;
+            this.textBoxTitle2.Location = new System.Drawing.Point(16, 25);
+            this.textBoxTitle2.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxTitle2.Name = "textBoxTitle2";
+            this.textBoxTitle2.Size = new System.Drawing.Size(327, 40);
+            this.textBoxTitle2.TabIndex = 2;
+            this.textBoxTitle2.Text = "哈哈哈哈";
+            this.textBoxTitle2.TextChanged += new System.EventHandler(this.textBoxTitle2_TextChanged);
+            // 
             // dasayEditor1
             // 
+            this.dasayEditor1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dasayEditor1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.dasayEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dasayEditor1.Location = new System.Drawing.Point(0, 0);
+            this.dasayEditor1.Location = new System.Drawing.Point(0, 85);
             this.dasayEditor1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dasayEditor1.Name = "dasayEditor1";
-            this.dasayEditor1.Size = new System.Drawing.Size(491, 1078);
+            this.dasayEditor1.Size = new System.Drawing.Size(491, 993);
             this.dasayEditor1.TabIndex = 0;
             // 
             // Form1
@@ -164,6 +187,8 @@ namespace MemoHippo
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -172,6 +197,7 @@ namespace MemoHippo
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
@@ -185,9 +211,10 @@ namespace MemoHippo
         private Text_Editor.DasayEditor dasayEditor1;
         public System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private UCMenuNew ucMenuNew1;
+        private UCCatalogNew ucMenuNew1;
         private System.Windows.Forms.TextBox textBoxTitle;
-        private UCTipAdd ucTipAdd1;
+        private UCColumnAdd ucTipAdd1;
+        private System.Windows.Forms.TextBox textBoxTitle2;
     }
 }
 

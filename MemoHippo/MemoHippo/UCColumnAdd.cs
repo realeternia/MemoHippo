@@ -2,9 +2,11 @@
 
 namespace MemoHippo
 {
-    public partial class UCMenuNew : UserControl
+    public partial class UCColumnAdd : UserControl
     {
-        public UCMenuNew()
+        public Form1 ParentC;
+
+        public UCColumnAdd()
         {
             InitializeComponent();
         }

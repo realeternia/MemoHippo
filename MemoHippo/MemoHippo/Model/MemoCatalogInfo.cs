@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using YamlDotNet.Serialization;
 
 namespace MemoHippo.Model
 {
     class MemoCatalogInfo
     {
         //全局唯一id
-        public int Id { get; set; } 
+        public int Id { get; set; }
         public string Name { get; set; }
-        //全局唯一id
-        private int offset { get; set; }
+        public int Offset { get; set; }
 
-        private Color[] ColorTable = { 
+        private Color[] ColorTable = {
             Color.FromArgb(0x40, 0x33, 0x24),
             Color.FromArgb(0x1b, 0x2d, 0x38),
             Color.FromArgb(0x3e, 0x28, 0x25)
@@ -22,11 +22,11 @@ namespace MemoHippo.Model
         public void AddColumn(string title)
         {
             MemoBook.Instance.ColumnIndex++;
-            offset++;
+            Offset++;
             var cInfo = new MemoColumnInfo();
             cInfo.Id = MemoBook.Instance.ColumnIndex;
             cInfo.Title = title;
-            cInfo.BgColor = ColorTable[offset % ColorTable.Length];
+            cInfo.BgColor = ColorTable[Offset % ColorTable.Length].ToArgb();
             Columns.Add(cInfo);
         }
 
@@ -40,7 +40,7 @@ namespace MemoHippo.Model
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public Color BgColor { get; set; }
+        public int BgColor { get; set; }
 
         public List<MemoItemInfo> Items = new List<MemoItemInfo>();
 
@@ -52,6 +52,10 @@ namespace MemoHippo.Model
             itmInfo.Title = title;
             Items.Add(itmInfo);
         }
+        public MemoItemInfo GetItem(int id)
+        {
+            return Items.Find(a => a.Id == id);
+        }
 
         public MemoItemInfo RemoveItem(int id)
         {
@@ -60,9 +64,23 @@ namespace MemoHippo.Model
             return itm;
         }
 
-        public void AddItem(MemoItemInfo itm)
+        public void InsertItem(MemoItemInfo itm, int checkId, bool afterNode)
         {
-            Items.Add(itm);
+            int off = 0;
+            foreach(var pickItem in Items)
+            {
+                if(pickItem.Id == checkId)
+                    break;
+                off++;
+            }
+
+            if (afterNode)
+                off++;
+
+            if (off < Items.Count)
+                Items.Insert(off, itm);
+            else
+                Items.Add(itm);
         }
     }
 

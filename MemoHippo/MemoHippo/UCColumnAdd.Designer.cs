@@ -1,7 +1,7 @@
 ﻿
 namespace MemoHippo
 {
-    partial class UCTipAdd
+    partial class UCColumnAdd
     {
         /// <summary> 
         /// 必需的设计器变量。

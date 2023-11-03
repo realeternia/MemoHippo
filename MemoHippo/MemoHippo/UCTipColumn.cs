@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MemoHippo.Model;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -7,10 +8,16 @@ namespace MemoHippo
 {
     public partial class UCTipColumn : UserControl
     {
+        public class EventItemClickArgs : EventArgs
+        {
+            public int ItemId { get; set; }
+            public int ColumnId { get; set; }
+        }
+
         public Form1 ParentC;
         private Color itemColor;
 
-        public event System.EventHandler<int> OnClickItem;
+        public event System.EventHandler<EventItemClickArgs> OnClickItem;
         private Timer delayTimer;
         private Control delayControl;
 
@@ -19,9 +26,10 @@ namespace MemoHippo
 
         public Model.MemoColumnInfo ColumnInfo;
 
-        private UCTipRowAdd rowAdd;
+        private UCRowAdd rowAdd;
         private bool isDragging;
         private int lineY;
+        private bool textChangeLock;
 
         public UCTipColumn()
         {
@@ -34,8 +42,8 @@ namespace MemoHippo
             // 绑定定时器的 Tick 事件处理程序
             delayTimer.Tick += new EventHandler(OnDelayTimerTick);
 
-            rowAdd = new UCTipRowAdd();
-            DecorateControl(rowAdd);
+            rowAdd = new UCRowAdd();
+            DecorateControl(rowAdd, 0);
             rowAdd.label1.Click += button1_Click;
         }
 
@@ -48,8 +56,10 @@ namespace MemoHippo
         {
             catalogId = cid;
             columnId = itid;
-            labelTT.Text = title;
-            labelTT.BackColor = ColorPlus(cr, 2);
+            textChangeLock = true;
+            textBoxTitle.Text = title;
+            textChangeLock = false;
+            textBoxTitle.BackColor = ColorPlus(cr, 2);
           //  BackColor = ColorPlus(cr, 0.65f);
             flowLayoutPanel1.BackColor = ColorPlus(cr, 0.65f);
             itemColor = cr;
@@ -64,33 +74,37 @@ namespace MemoHippo
             flowLayoutPanel1.Controls.Clear();
             foreach (var item in ColumnInfo.Items)
             {
-                var label1 = new Label();
-
-                label1.Name = "dragctr" + item.Id;
-                label1.Text = item.Title;
-                label1.Height = 100;
-
-                DecorateControl(label1);
+                var label1 = new UCRowCommon();
+                label1.SetTitile(item.Title);
+              //  label1.Height = 100;
+                DecorateControl(label1, item.Id);
                 AddControl(label1);
             }
             AddControl(rowAdd);
         }
 
-        private void DecorateControl(Control c)
+        private void DecorateControl(Control c, int id)
         {
+            c.Name = "dragctr" + id;
             c.Width = flowLayoutPanel1.Width - 10;
             c.ForeColor = Color.White;
-            c.BackColor = itemColor;
-            c.Font = new Font("宋体", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
+            if (id > 0)
+                c.BackColor = itemColor;
+           // c.Font = new Font("宋体", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
             c.Margin = new Padding(5);
-            c.Padding = new Padding(3);
-            c.MouseDown += new MouseEventHandler(label_MouseDown);
-            c.MouseClick += Label1_MouseClick;
+            // c.Padding = new Padding(3);
+
+            var rowItem = c as IRowItem;
+            if (rowItem != null)
+            {
+                rowItem.NLMouseDown += new MouseEventHandler(label_MouseDown);
+                rowItem.NLMouseClick += Label1_MouseClick;
+            }
         }
 
         private void label_MouseDown(object sender, MouseEventArgs e)
         {
-            if (!((Control)sender).Name.StartsWith("dragctr"))
+            if (((Control)sender).Name == "dragctr0") // add 对象
                 return;
 
             delayTimer.Start();
@@ -100,7 +114,10 @@ namespace MemoHippo
         private void Label1_MouseClick(object sender, MouseEventArgs e)
         {
             if (OnClickItem != null)
-                OnClickItem(sender, 1);
+            {
+                var itemId = GetDragCtrItemId((sender as Control).Name);
+                OnClickItem(sender, new EventItemClickArgs { ItemId = itemId, ColumnId = columnId });
+            }
             delayTimer.Stop();
         }
 
@@ -127,69 +144,101 @@ namespace MemoHippo
             }
         }
 
+        private void flowLayoutPanel1_DragLeave(object sender, EventArgs e)
+        {
+            isDragging = false;
+            flowLayoutPanel1.Invalidate();
+        }
+
         private void flowLayoutPanel1_DragDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.Text))
             {
                 string[] names = ((string)e.Data.GetData(DataFormats.StringFormat)).Split('.');
 
-                var itemId = int.Parse(names[1].Replace("dragctr", ""));
+                var itemId = GetDragCtrItemId(names[1]);
 
                 // 根据 Name 查找 Label 控件
                 var beginColumn = ParentC.panel1.Controls[names[0]] as UCTipColumn;
 
-                var label = beginColumn.Controls["flowLayoutPanel1"].Controls[names[1]];
+                var movingControl = beginColumn.Controls["flowLayoutPanel1"].Controls[names[1]];
 
-                if (label != null)
+                var upCtr = GetUpControl(e, out var afterNode, out var lineOffY);
+                var upCtrId = GetDragCtrItemId(upCtr.Name);
+                lineY = lineOffY;
+
+                if (movingControl != null)
                 {
                     var itm = beginColumn.ColumnInfo.RemoveItem(itemId);
-                    ColumnInfo.AddItem(itm);
+                    ColumnInfo.InsertItem(itm, upCtrId, afterNode);
 
                     beginColumn.RefreshLabels();
                     RefreshLabels();
-                    // 从原始 FlowLayoutPanel 中移除 Label
-                    // label.Parent.Controls.Remove(label);
-
-                    // 添加 Label 到目标 FlowLayoutPanel
-                    // flowLayoutPanel1.Controls.Add(label);
-
-                    // label.BackColor = itemColor;
                 }
 
                 isDragging = false;
+                flowLayoutPanel1.Invalidate();
             }
         }
+
+        private int GetDragCtrItemId(string ctrName)
+        {
+            return int.Parse(ctrName.Replace("dragctr", ""));
+        }
+
         private void flowLayoutPanel1_DragOver(object sender, DragEventArgs e)
+        {
+            GetUpControl(e, out _, out var lineOffY);
+            if (lineOffY != lineY)
+            {
+                lineY = lineOffY;
+                // 刷新 FlowLayoutPanel，触发 Paint 事件
+                flowLayoutPanel1.Invalidate();
+            }
+        }
+
+        private Control GetUpControl(DragEventArgs e, out bool afterNode, out int lineY)
         {
             // 获取鼠标拖放的目标位置
             Point clientPoint = flowLayoutPanel1.PointToClient(new Point(e.X, e.Y));
 
-            // 更新线条的起点和终点
-            var dragMousePoint = clientPoint;
-
             // 查找鼠标位置下的控件
-            Control droppedControl = flowLayoutPanel1.GetChildAtPoint(dragMousePoint);
+            var upControl = flowLayoutPanel1.GetChildAtPoint(clientPoint);
 
-            if (droppedControl != null)
+            if (upControl == null)
             {
-                if (dragMousePoint.Y > droppedControl.Location.Y + droppedControl.Height / 2)
-                    lineY = droppedControl.Location.Y + droppedControl.Height + 5;
-                else
-                    lineY = droppedControl.Location.Y - 5;
-                Debug.Print(droppedControl.Name + lineY);
+                upControl = flowLayoutPanel1.GetChildAtPoint(new Point(clientPoint.X, clientPoint.Y + 15)); //先试着往下打超出一个margin
             }
 
-            // 标记正在拖动
-            isDragging = true;
+            if (upControl == null)
+                upControl = rowAdd;
 
-            // 刷新 FlowLayoutPanel，触发 Paint 事件
-            flowLayoutPanel1.Invalidate();
+            if (upControl == rowAdd)
+            {
+                lineY = rowAdd.Location.Y - 5;
+                afterNode = false;
+            }
+            else
+            {
+                if (clientPoint.Y > upControl.Location.Y + upControl.Height / 2)
+                {
+                    lineY = upControl.Location.Y + upControl.Height + 5;
+                    afterNode = true;
+                }
+                else
+                {
+                    lineY = upControl.Location.Y - 5;
+                    afterNode = false;
+                }
+            }
+
+            return upControl;
         }
 
         private void flowLayoutPanel1_Click(object sender, System.EventArgs e)
         {
             if (OnClickItem != null)
-                OnClickItem(sender, 0);
+                OnClickItem(sender, null);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -203,11 +252,17 @@ namespace MemoHippo
         {
             if (isDragging)
             {
-                using (Pen pen = new Pen(Color.Red, 2))
+                using (Pen pen = new Pen(Color.FromArgb(0x21, 0x49, 0x74), 3))
                 {
-                    e.Graphics.DrawLine(pen, new Point(0, lineY), new Point(200, lineY));
+                    e.Graphics.DrawLine(pen, new Point(0, lineY), new Point(flowLayoutPanel1.Width-2, lineY));
                 }
             }
+        }
+
+        private void textBoxTitle_TextChanged(object sender, EventArgs e)
+        {
+            if (ColumnInfo != null && !textChangeLock)
+                ColumnInfo.Title = textBoxTitle.Text;
         }
     }
 }

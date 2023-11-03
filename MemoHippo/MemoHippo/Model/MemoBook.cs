@@ -1,5 +1,6 @@
 ﻿using MemoHippo.Model;
 using System.Collections.Generic;
+using YamlDotNet.Serialization;
 
 namespace MemoHippo
 {
@@ -9,13 +10,13 @@ namespace MemoHippo
         public static MemoBook Instance = new MemoBook();
 
         public List<MemoCatalogInfo> CatalogInfos = new List<MemoCatalogInfo>();
-        private int catalogIndex = 1;
+        public int CatalogIndex = 1;
         public int ColumnIndex = 100001;
         public int ItemIndex = 200001;
 
         public void AddCatalog()
         {
-            var newCatalog = new MemoCatalogInfo { Id = catalogIndex, Name = "新目录" + catalogIndex++ };
+            var newCatalog = new MemoCatalogInfo { Id = CatalogIndex, Name = "新目录" + CatalogIndex++ };
             newCatalog.AddColumn("默认");
             CatalogInfos.Add(newCatalog);
         }

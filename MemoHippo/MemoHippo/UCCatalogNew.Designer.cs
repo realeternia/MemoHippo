@@ -1,7 +1,7 @@
 ﻿
 namespace MemoHippo
 {
-    partial class UCMenuNew
+    partial class UCCatalogNew
     {
         /// <summary> 
         /// 必需的设计器变量。

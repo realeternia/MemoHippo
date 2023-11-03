@@ -1,4 +1,6 @@
 ﻿
+using MemoHippo.UIS;
+
 namespace MemoHippo
 {
     partial class UCTipColumn
@@ -29,9 +31,24 @@ namespace MemoHippo
         /// </summary>
         private void InitializeComponent()
         {
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.labelTT = new System.Windows.Forms.Label();
+            this.textBoxTitle = new System.Windows.Forms.TextBox();
+            this.flowLayoutPanel1 = new MemoHippo.UIS.DoubleBufferedFlowLayoutPanel();
             this.SuspendLayout();
+            // 
+            // textBoxTitle
+            // 
+            this.textBoxTitle.BackColor = System.Drawing.Color.Black;
+            this.textBoxTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxTitle.Font = new System.Drawing.Font("微软雅黑", 10.8F);
+            this.textBoxTitle.ForeColor = System.Drawing.Color.White;
+            this.textBoxTitle.Location = new System.Drawing.Point(8, 17);
+            this.textBoxTitle.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxTitle.Name = "textBoxTitle";
+            this.textBoxTitle.Size = new System.Drawing.Size(154, 24);
+            this.textBoxTitle.TabIndex = 2;
+            this.textBoxTitle.Text = "work";
+            this.textBoxTitle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBoxTitle.TextChanged += new System.EventHandler(this.textBoxTitle_TextChanged);
             // 
             // flowLayoutPanel1
             // 
@@ -48,38 +65,28 @@ namespace MemoHippo
             this.flowLayoutPanel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.flowLayoutPanel1_DragDrop);
             this.flowLayoutPanel1.DragEnter += new System.Windows.Forms.DragEventHandler(this.flowLayoutPanel1_DragEnter);
             this.flowLayoutPanel1.DragOver += new System.Windows.Forms.DragEventHandler(this.flowLayoutPanel1_DragOver);
+            this.flowLayoutPanel1.DragLeave += new System.EventHandler(this.flowLayoutPanel1_DragLeave);
             this.flowLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel1_Paint);
-            // 
-            // labelTT
-            // 
-            this.labelTT.BackColor = System.Drawing.Color.LightSalmon;
-            this.labelTT.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.labelTT.ForeColor = System.Drawing.Color.White;
-            this.labelTT.Location = new System.Drawing.Point(14, 17);
-            this.labelTT.Name = "labelTT";
-            this.labelTT.Size = new System.Drawing.Size(100, 23);
-            this.labelTT.TabIndex = 1;
-            this.labelTT.Text = "Work";
-            this.labelTT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // UCTipColumn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.Controls.Add(this.labelTT);
+            this.Controls.Add(this.textBoxTitle);
             this.Controls.Add(this.flowLayoutPanel1);
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "UCTipColumn";
             this.Size = new System.Drawing.Size(340, 747);
             this.Click += new System.EventHandler(this.flowLayoutPanel1_Click);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Label labelTT;
+        private System.Windows.Forms.TextBox textBoxTitle;
+        private DoubleBufferedFlowLayoutPanel flowLayoutPanel1;
     }
 }

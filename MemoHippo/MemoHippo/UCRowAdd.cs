@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace MemoHippo
 {
-    public partial class UCTipRowAdd : UserControl
+    public partial class UCRowAdd : UserControl
     {
-        public UCTipRowAdd()
+        public UCRowAdd()
         {
             InitializeComponent();
         }

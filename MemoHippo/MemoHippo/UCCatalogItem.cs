@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace MemoHippo
 {
-    public partial class UCMenuItem : UserControl
+    public partial class UCCatalogItem : UserControl
     {
         public event System.EventHandler<int> OnClickItem;
 
@@ -12,7 +12,7 @@ namespace MemoHippo
         public int Id { get; set; }
         public string Title { get { return title; } set { title = value; label1.Text = value; } }
 
-        public UCMenuItem()
+        public UCCatalogItem()
         {
             InitializeComponent();
         }

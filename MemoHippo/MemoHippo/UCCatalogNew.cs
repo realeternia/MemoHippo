@@ -2,11 +2,9 @@
 
 namespace MemoHippo
 {
-    public partial class UCTipAdd : UserControl
+    public partial class UCCatalogNew : UserControl
     {
-        public Form1 ParentC;
-
-        public UCTipAdd()
+        public UCCatalogNew()
         {
             InitializeComponent();
         }
