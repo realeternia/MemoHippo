@@ -33,10 +33,6 @@ namespace Text_Editor
             fontDialog1.ShowColor = true;
             fontDialog1.ShowApply = true;
             fontDialog1.ShowHelp = true;
-            leftAlignStripButton.Checked = true;
-            centerAlignStripButton.Checked = false;
-            rightAlignStripButton.Checked = false;
-            rightAlignStripButton.Checked = false;
 
             // fill zoomDropDownButton item list
             zoomDropDownButton.DropDown.Items.Add("20%");
@@ -224,55 +220,6 @@ namespace Text_Editor
             }
         }
 
-        private void leftAlignStripButton_Click(object sender, EventArgs e)
-        {
-            // set properties
-            centerAlignStripButton.Checked = false;
-            rightAlignStripButton.Checked = false;
-            if(leftAlignStripButton.Checked == false)
-            {
-                leftAlignStripButton.Checked = true;    // LEFT ALIGN is active
-            }
-            else if(leftAlignStripButton.Checked == true)
-            {
-                leftAlignStripButton.Checked = false;    // LEFT ALIGN is not active
-            }
-            richTextBox1.SelectionAlignment = HorizontalAlignment.Left;    // selects left alignment
-        }
-
-        private void centerAlignStripButton_Click(object sender, EventArgs e)
-        {
-            // set properties
-            leftAlignStripButton.Checked = false;
-            rightAlignStripButton.Checked = false;
-            if (centerAlignStripButton.Checked == false)
-            {
-                centerAlignStripButton.Checked = true;    // CENTER ALIGN is active
-            }
-            else if (centerAlignStripButton.Checked == true)
-            {
-                centerAlignStripButton.Checked = false;    // CENTER ALIGN is not active
-            }
-            richTextBox1.SelectionAlignment = HorizontalAlignment.Center;     // selects center alignment
-        }
-
-        private void rightAlignStripButton_Click(object sender, EventArgs e)
-        { 
-            // set properties
-            leftAlignStripButton.Checked = false;
-            centerAlignStripButton.Checked = false;
-
-            if (rightAlignStripButton.Checked == false)
-            {
-                rightAlignStripButton.Checked = true;    // RIGHT ALIGN is active
-            }
-            else if (rightAlignStripButton.Checked == true)
-            {
-                rightAlignStripButton.Checked = false;    // RIGHT ALIGN is not active
-            }
-            richTextBox1.SelectionAlignment = HorizontalAlignment.Right;    // selects right alignment
-        }
-
         private void bulletListStripButton_Click(object sender, EventArgs e)
         {
             // 判断当前行的第一个字符是否是 "x"
@@ -455,13 +402,13 @@ namespace Text_Editor
         }
 
         string bulletMarker = "●◆◇▷▪";
-        private bool IsLineMyBullet(out int currentLineIndex)
+        private bool IsLineMyBullet(out int currentLineIndex, int lineOff = 0)
         {
             // 获取当前行的索引
             currentLineIndex = richTextBox1.GetLineFromCharIndex(richTextBox1.SelectionStart);
 
             // 获取当前行的文本
-            string currentLineText = richTextBox1.Lines[currentLineIndex];
+            string currentLineText = richTextBox1.Lines[currentLineIndex + lineOff];
 
             // 判断当前行的第一个字符是否是 "x"
             if (currentLineText.Length == 0 || bulletMarker.Contains(currentLineText[0]))
@@ -478,7 +425,7 @@ namespace Text_Editor
             switch (e.KeyCode)
             {
                 case Keys.Enter:
-                    if (IsLineMyBullet(out int currentLineIndex))
+                    if (IsLineMyBullet(out int currentLineIndex, -1))
                     {
                         richTextBox1.SelectionStart = richTextBox1.GetFirstCharIndexFromLine(currentLineIndex);
                         richTextBox1.SelectionLength = 0;

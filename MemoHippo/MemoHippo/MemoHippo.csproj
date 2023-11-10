@@ -64,6 +64,15 @@
     <Compile Include="UCRowCommon.Designer.cs">
       <DependentUpon>UCRowCommon.cs</DependentUpon>
     </Compile>
+    <Compile Include="UCSearch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCSearch.Designer.cs">
+      <DependentUpon>UCSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\TransparentPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UIS\DoubleBufferedFlowLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -139,11 +148,17 @@
     <EmbeddedResource Include="UCRowNikon.resx">
       <DependentUpon>UCRowNikon.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UCSearch.resx">
+      <DependentUpon>UCSearch.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UCTipColumn.resx">
       <DependentUpon>UCTipColumn.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UCRowAdd.resx">
       <DependentUpon>UCRowAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\TransparentPanel.resx">
+      <DependentUpon>TransparentPanel.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="packages.config" />
@@ -169,6 +184,9 @@
       <Project>{4272f390-d4c6-4663-98bc-f29dad158162}</Project>
       <Name>Text Editor</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\119271862_0_final.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

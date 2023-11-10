@@ -5,12 +5,12 @@ namespace MemoHippo
 {
     public partial class UCCatalogItem : UserControl
     {
-        public event System.EventHandler<int> OnClickItem;
-
-        private string title;
-
         public int Id { get; set; }
-        public string Title { get { return title; } set { title = value; label1.Text = value; } }
+        public string Title { get; set; }
+
+        private bool isSelected;
+        private bool isMouseOn;
+
 
         public UCCatalogItem()
         {
@@ -19,19 +19,40 @@ namespace MemoHippo
 
         public void SetSelect(bool sel)
         {
-            BackColor = sel ? Color.FromArgb(70, 20, 20) : Color.FromArgb(24, 24, 24);
+            isSelected = sel;
+            UpdateBG();
         }
 
-        private void UCMenuItem_Click(object sender, System.EventArgs e)
+        private void UCCatalogItem_Paint(object sender, PaintEventArgs e)
         {
-            if (OnClickItem != null)
-                OnClickItem(this, 0);
+            if (!string.IsNullOrWhiteSpace(Title))
+                e.Graphics.DrawString(Title, Font, System.Drawing.Brushes.White, 34, 5);
+
+            e.Graphics.DrawImage(ResLoader.Read("Icon/res6.PNG"), 5, 7, 24, 24);
         }
 
-        private void label1_Click(object sender, System.EventArgs e)
+        private void UCCatalogItem_MouseEnter(object sender, System.EventArgs e)
         {
-            if (OnClickItem != null)
-                OnClickItem(this, 1);
+            isMouseOn = true;
+            UpdateBG();
+        }
+
+        private void UCCatalogItem_MouseLeave(object sender, System.EventArgs e)
+        {
+            isMouseOn = false;
+            UpdateBG();
+        }
+
+        private void UpdateBG()
+        {
+            if (isMouseOn)
+            {
+                BackColor = isSelected ? Color.FromArgb(90, 40, 40) : Color.FromArgb(64, 64, 64);
+            }
+            else
+            {
+                BackColor = isSelected ? Color.FromArgb(70, 20, 20) : Color.FromArgb(24, 24, 24);
+            }
         }
     }
 }

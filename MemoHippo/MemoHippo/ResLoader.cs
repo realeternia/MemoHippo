@@ -19,7 +19,7 @@ namespace MemoHippo
             }
             catch
             {
-                bmp = null;
+                bmp = Properties.Resources.dicon;
             }
             return bmp;
         }

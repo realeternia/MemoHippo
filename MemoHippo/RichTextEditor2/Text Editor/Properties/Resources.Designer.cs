@@ -63,6 +63,16 @@ namespace Text_Editor.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap _119271862_0_final {
+            get {
+                object obj = ResourceManager.GetObject("119271862_0_final", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap _2023_10_25_194154 {
             get {
                 object obj = ResourceManager.GetObject("2023-10-25_194154", resourceCulture);

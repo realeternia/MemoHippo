@@ -1,4 +1,5 @@
 ﻿using MemoHippo.Model;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -20,14 +21,15 @@ namespace MemoHippo
         {
             InitializeComponent();
 
-            ucMenuNew1.tbutton1.Click += Tbutton1_Click;
             ucTipAdd1.button1.Click += Button1_Click;
 
             // 先隐藏面板
             ShowPaperPad(false);
+
+            panelBlack.BackColor = Color.FromArgb(128, Color.Black);
         }
 
-        private void Tbutton1_Click(object sender, System.EventArgs e)
+        private void ucCatalogNew1_Click(object sender, System.EventArgs e)
         {
             MemoBook.Instance.AddCatalog();
 
@@ -46,23 +48,20 @@ namespace MemoHippo
         private void RefreshMenu()
         {
             flowLayoutPanel1.Controls.Clear();
-            flowLayoutPanel1.Controls.Remove(ucMenuNew1);
          
             foreach(var catalog in MemoBook.Instance.CatalogInfos)
             {
                 var newItem = new UCCatalogItem();
                 newItem.Id = catalog.Id;
                 newItem.Title = catalog.Name;
-                newItem.OnClickItem += MenuItem_Click;
+                newItem.Click += MenuItem_Click;
                 newItem.Width = flowLayoutPanel1.Width - 5;
                 flowLayoutPanel1.Controls.Add(newItem);
             }
-            flowLayoutPanel1.Controls.Add(ucMenuNew1);
-            ucMenuNew1.Width = flowLayoutPanel1.Width - 5;
             lastSelect = null;
         }
 
-        private void MenuItem_Click(object sender, int type)
+        private void MenuItem_Click(object sender, System.EventArgs e)
         {
             var mItem = sender as UCCatalogItem;
 
@@ -208,6 +207,42 @@ namespace MemoHippo
                     nowRowCtr.SetIcon(nowItem.Icon);
                 UpdatePaperIcon(nowItem.Icon);
             }
+        }
+        private void ucCatalogSearch_Click(object sender, System.EventArgs e)
+        {
+            //var niu = DateTime.Now;
+
+            //for (int i = 0; i < 10000; i++)
+            //{
+            //    string rtfContent = File.ReadAllText(@"F:\MemoHippo\MemoHippo\MemoHippo\bin\Debug\save\200002.rtf");
+            //    string plainText = GetPlainTextFromRtf(rtfContent);
+            //}
+            //var past = DateTime.Now - niu;
+
+            Bitmap bitmap = new Bitmap(splitContainer1.Width, splitContainer1.Height);
+
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.CopyFromScreen(splitContainer1.PointToScreen(Point.Empty), Point.Empty, splitContainer1.Size);
+            }
+
+            panelBlack.BG = bitmap;
+            panelBlack.AddControl(new UCSearch());
+            panelBlack.BringToFront();
+
+        }
+
+        private RichTextBox richTextBox = new RichTextBox();
+        private string GetPlainTextFromRtf(string rtfContent)
+        {
+          
+            richTextBox.Rtf = rtfContent;
+            return richTextBox.Text;
+        }
+
+        private void ucCatalogSearch_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
