@@ -9,6 +9,9 @@ namespace MemoHippo
     {
         static public Image Read(string path)
         {
+            if(string.IsNullOrWhiteSpace(path))
+                return Properties.Resources.dicon;
+
             Bitmap bmp = null;
             try
             {

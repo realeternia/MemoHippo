@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\IRowItem.cs" />
+    <Compile Include="Model\RTItemData.cs" />
     <Compile Include="UCRowNikon.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -69,6 +70,9 @@
     </Compile>
     <Compile Include="UCSearch.Designer.cs">
       <DependentUpon>UCSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\DoubleBufferedListView.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UIS\TransparentPanel.cs">
       <SubType>Component</SubType>
@@ -187,6 +191,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\119271862_0_final.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -25,5 +25,27 @@ namespace MemoHippo
         {
             return CatalogInfos.Find(i => i.Id == id);
         }
+
+        public RTItemData FindItemInfo(int id)
+        {
+            foreach(var ct in CatalogInfos)
+            {
+                foreach (var col in ct.Columns)
+                {
+                    foreach (var item in col.Items)
+                    {
+                        if(item.Id == id)
+                        {
+                            RTItemData itemData = new RTItemData();
+                            itemData.Catalog = ct.Name;
+                            itemData.Column = col.Title;
+                            itemData.ItemInfo = item;
+                            return itemData;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
     }
 }

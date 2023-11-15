@@ -19,10 +19,7 @@ namespace MemoHippo
             if (!string.IsNullOrWhiteSpace(Title))
                 e.Graphics.DrawString(Title, Font, System.Drawing.Brushes.White, 34, 5);
 
-            if (!string.IsNullOrWhiteSpace(PicPath))
-                e.Graphics.DrawImage(ResLoader.Read(PicPath), 5, 7, 24, 24);
-            else
-                e.Graphics.DrawImage(Resources.dicon, 5, 7, 24, 24);
+            e.Graphics.DrawImage(ResLoader.Read(PicPath), 5, 7, 24, 24);
         }
 
         private void UCCatalogNew_MouseEnter(object sender, System.EventArgs e)
