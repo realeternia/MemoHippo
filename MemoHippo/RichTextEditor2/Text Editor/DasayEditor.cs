@@ -59,16 +59,6 @@ namespace Text_Editor
             toolStripMenuItemBullet.Click += bulletListStripButton_Click;
         }
 
-        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            richTextBox1.SelectAll();     // select all text
-        }
-
-        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // clear
-            richTextBox1.Clear();
-        }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -408,7 +398,7 @@ namespace Text_Editor
             currentLineIndex = richTextBox1.GetLineFromCharIndex(richTextBox1.SelectionStart);
 
             // 获取当前行的文本
-            string currentLineText = richTextBox1.Lines[currentLineIndex + lineOff];
+            string currentLineText = richTextBox1.Lines[Math.Max(0, currentLineIndex + lineOff)];
 
             // 判断当前行的第一个字符是否是 "x"
             if (currentLineText.Length == 0 || bulletMarker.Contains(currentLineText[0]))
@@ -446,6 +436,51 @@ namespace Text_Editor
                     }
                     break;
             }
+        }
+
+        private void HighlightKeywords()
+        {
+            // 定义关键词和相应的颜色
+            var keywords = new string[] { "todo", "done" };
+            var highlightColor = Color.Lime;
+
+            // 保存原始光标位置和选择范围
+            int originalSelectionStart = richTextBox1.SelectionStart;
+            int originalSelectionLength = richTextBox1.SelectionLength;
+            var oldColor = richTextBox1.SelectionBackColor;
+
+            richTextBox1.SuspendPainting();
+
+            // 移动光标到文本开始
+            richTextBox1.SelectionStart = 0;
+            richTextBox1.SelectionBackColor = Color.Black;
+            richTextBox1.SelectionLength = richTextBox1.TextLength;
+            richTextBox1.SelectionColor = richTextBox1.ForeColor; // 恢复默认颜色
+
+            // 遍历关键词并高亮
+            foreach (var keyword in keywords)
+            {
+                int index = 0;
+                while (index < richTextBox1.TextLength)
+                {
+                    index = richTextBox1.Find(keyword, index, RichTextBoxFinds.None);
+                    if (index == -1)
+                        break;
+
+                    richTextBox1.SelectionStart = index;
+                    richTextBox1.SelectionLength = keyword.Length;
+                    richTextBox1.SelectionColor = highlightColor;
+
+                    index += keyword.Length;
+                }
+            }
+
+            // 还原光标位置和选择范围
+            richTextBox1.SelectionStart = originalSelectionStart;
+            richTextBox1.SelectionLength = originalSelectionLength;
+            richTextBox1.SelectionBackColor = oldColor;
+
+            richTextBox1.ResumePainting();
         }
 
         private void richTextBox1_KeyDown(object sender, KeyEventArgs e)
@@ -493,6 +528,11 @@ namespace Text_Editor
         {
             var p = PointToScreen(pictureBoxLeftS.Location);
             customMenuStripRow.Show(p.X - 200, p.Y );
+        }
+
+        private void toolStripLabelSyntax_Click(object sender, EventArgs e)
+        {
+            HighlightKeywords();
         }
     }
 }

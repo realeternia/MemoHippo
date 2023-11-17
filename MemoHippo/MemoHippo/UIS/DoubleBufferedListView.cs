@@ -192,7 +192,6 @@ namespace MemoHippo.UIS
         /// <returns>比较的结果.如果相等返回0，如果x大于y返回1，如果x小于y返回-1</returns>
         public int Compare(object x, object y)
         {
-            int compareResult;
             ListViewItem listviewX, listviewY;
             // 将比较对象转换为ListViewItem对象
             listviewX = (ListViewItem)x;

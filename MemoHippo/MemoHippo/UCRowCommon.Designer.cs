@@ -29,50 +29,25 @@ namespace MemoHippo
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 10.8F);
-            this.label1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label1.Location = new System.Drawing.Point(35, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(173, 27);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "计划";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(1, 5);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // UCRowCommon
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.label1);
+            this.DoubleBuffered = true;
+            this.Font = new System.Drawing.Font("微软雅黑", 10.5F);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "UCRowCommon";
-            this.Size = new System.Drawing.Size(208, 43);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.Size = new System.Drawing.Size(260, 50);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.UCRowCommon_Paint);
+            this.MouseEnter += new System.EventHandler(this.UCRowCommon_MouseEnter);
+            this.MouseLeave += new System.EventHandler(this.UCRowCommon_MouseLeave);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        public System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

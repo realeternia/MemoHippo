@@ -11,7 +11,8 @@ namespace MemoHippo
         private Timer t;
         private int tick;
 
-        public UCRowNikon() : base()
+        public UCRowNikon() 
+            : base()
         {
             Height = 70;
 
@@ -25,10 +26,6 @@ namespace MemoHippo
         private void InitializeComponent()
         {
             this.SuspendLayout();
-            // 
-            // UCRowNikon
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.Name = "UCRowNikon";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.UCRowNikon_Paint);
             this.ResumeLayout(false);
@@ -68,7 +65,7 @@ namespace MemoHippo
 
         private void UCRowNikon_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.DrawString(lines[tick % lines.Count], label1.Font, Brushes.Yellow, 35, 35);
+            e.Graphics.DrawString(lines[tick % lines.Count], Font, Brushes.Yellow, 35, 35);
         }
     }
 }

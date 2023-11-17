@@ -34,6 +34,11 @@ namespace MemoHippo.UIS
 
         private void TransparentPanel_Click(object sender, System.EventArgs e)
         {
+            HideAll();
+        }
+
+        public void HideAll()
+        {
             Controls.Clear();
 
             SendToBack();

@@ -1,5 +1,6 @@
 ﻿using MemoHippo.Model;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -11,81 +12,111 @@ namespace MemoHippo
 {
     public partial class Form1 : Form
     {
-        private UCCatalogItem lastSelect = null;
-        private Model.MemoCatalogInfo nowCatalog = null;
-        private Model.MemoItemInfo nowItem = null;
-        private IRowItem nowRowCtr = null;
+        private UCCatalogItem nowCatalogCtr = null;
+        private MemoCatalogInfo nowCatalog = null;
+
+        private List<UCTipColumn> columnCtrs = new List<UCTipColumn>();
+
+        private IRowItem nowRowItemCtr = null; //当前选择row
+        private MemoItemInfo nowRowItem = null;
+        
         private bool textChangeLock;
+        
 
         public Form1()
         {
             InitializeComponent();
 
-            ucTipAdd1.button1.Click += Button1_Click;
+            ucTipAdd1.button1.Click += columnNew_Click;
 
             // 先隐藏面板
-            ShowPaperPad(false);
+            HidePaperPad();
 
             panelBlack.BackColor = Color.FromArgb(128, Color.Black);
         }
 
-        private void ucCatalogNew1_Click(object sender, System.EventArgs e)
+        private void Form1_Load(object sender, System.EventArgs e)
+        {
+            if (File.Exists("a.yaml"))
+            {
+                var yaml = File.ReadAllText("a.yaml", Encoding.UTF8);
+
+                var deserializer = new DeserializerBuilder().Build();
+                MemoBook.Instance = deserializer.Deserialize<MemoBook>(yaml);
+                var itm = RefreshCatalogs();
+                if (itm != null)
+                    SelectCatalogItem(itm);
+            }
+        }
+
+        private void ucCatalogNew_Click(object sender, System.EventArgs e)
         {
             MemoBook.Instance.AddCatalog();
 
-            RefreshMenu();
+            RefreshCatalogs();
         }
 
-        private void Button1_Click(object sender, System.EventArgs e)
+        private void columnNew_Click(object sender, System.EventArgs e)
         {
             if (nowCatalog == null)
                 return;
 
             nowCatalog.AddColumn("新项");
-            RefreshCatalog(nowCatalog.Id);
+            RefreshColumns(nowCatalog.Id);
         }
 
-        private void RefreshMenu()
+        private UCCatalogItem RefreshCatalogs()
         {
             flowLayoutPanel1.Controls.Clear();
-         
+
+            UCCatalogItem firstMenu = null;
             foreach(var catalog in MemoBook.Instance.CatalogInfos)
             {
-                var newItem = new UCCatalogItem();
+                var newItem = new UCCatalogItem(); 
                 newItem.Id = catalog.Id;
                 newItem.Title = catalog.Name;
-                newItem.Click += MenuItem_Click;
+                newItem.Click += CatalogItem_Click;
                 newItem.Width = flowLayoutPanel1.Width - 5;
                 flowLayoutPanel1.Controls.Add(newItem);
+
+                if(firstMenu == null)
+                    firstMenu = newItem;
             }
-            lastSelect = null;
+            nowCatalogCtr = null;
+            return firstMenu;
         }
 
-        private void MenuItem_Click(object sender, System.EventArgs e)
+        private void CatalogItem_Click(object sender, System.EventArgs e)
         {
             var mItem = sender as UCCatalogItem;
 
+            SelectCatalogItem(mItem);
+        }
+
+        private void SelectCatalogItem(UCCatalogItem mItem)
+        {
             textChangeLock = true;
             textBoxCatalogTitle.Text = mItem.Title;
             textChangeLock = false;
 
-            if (lastSelect != null)
-                lastSelect.SetSelect(false);
-            lastSelect = mItem;
+            if (nowCatalogCtr != null)
+                nowCatalogCtr.SetSelect(false);
+            nowCatalogCtr = mItem;
             mItem.SetSelect(true);
 
-            RefreshCatalog(mItem.Id);
+            RefreshColumns(mItem.Id);
         }
 
-        private void RefreshCatalog(int cid)
+        private void RefreshColumns(int cid)
         {
             var ucIndex = 1;
             panel1.Visible = false;
             panel1.Controls.Clear();
+            columnCtrs.Clear();
             nowCatalog = MemoBook.Instance.GetCatalog(cid);
-            foreach(var item in nowCatalog.Columns)
+            foreach(var column in nowCatalog.Columns)
             {
-                AddUCColumn(item.Id, ucIndex, item.Title, Color.FromArgb(item.BgColor));
+                columnCtrs.Add(AddUCColumn(column.Id, ucIndex, column.Title, Color.FromArgb(column.BgColor)));
                 ucIndex++;
             }
             panel1.Controls.Add(ucTipAdd1);
@@ -94,53 +125,97 @@ namespace MemoHippo
             panel1.Visible = true;
         }
 
-        private void AddUCColumn(int itid, int ucIndex, string title, Color c)
+        private UCTipColumn AddUCColumn(int itid, int ucIndex, string title, Color c)
         {
-            var uctool = new UCTipColumn();
+            var columnUC = new UCTipColumn();
 
-            uctool.Height = panel1.Height - 1;
-            uctool.Name = "UCTipGroup" + ucIndex;
-            panel1.Controls.Add(uctool);
-            uctool.Location = new Point((ucIndex - 1) * 270, 0);
-            uctool.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            uctool.Width = 270;
-            uctool.ParentC = this;
+            columnUC.Height = panel1.Height - 1;
+            columnUC.Name = "UCTipGroup" + ucIndex;
+            panel1.Controls.Add(columnUC);
+            columnUC.Location = new Point((ucIndex - 1) * 270, 0);
+            columnUC.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            columnUC.Width = 270;
+            columnUC.ParentC = this;
 
-            uctool.Init(nowCatalog.Id, itid, title, c);
-            uctool.OnClickItem += Uctool_OnClickItem;
+            columnUC.Init(nowCatalog.Id, itid, title, c);
+            columnUC.OnClickItem += OnRowItemClick;
 
             panel1.Width = (ucIndex - 2) * 270;
+
+            return columnUC;
         }
 
-        private void Uctool_OnClickItem(object sender, EventItemClickArgs args)
+        private void OnRowItemClick(object sender, EventItemClickArgs args)
         {
             if(args == null)
             {
-                nowRowCtr = null;
-                nowItem = null;
-                ShowPaperPad(false);
+                HidePaperPad();
                 return;
             }
 
-            nowRowCtr = sender as IRowItem;
-            nowItem = nowCatalog.GetColumn(args.ColumnId).GetItem(args.ItemId);
-            ShowPaperPad(true);
+            ShowPaperPad(sender as IRowItem, nowCatalog.GetColumn(args.ColumnId).GetItem(args.ItemId));
         }
 
-        private void ShowPaperPad(bool show)
+        //外部调用展示面板
+        public void ShowPaperPadEx(int catalogId, MemoItemInfo item)
         {
-            if(show && nowItem != null)
+            foreach(UCCatalogItem ctr in flowLayoutPanel1.Controls)
             {
-                textChangeLock = true;
-                textBoxPaperTitle.Text = nowItem.Title;
-                UpdatePaperIcon(nowItem.Icon);
-                textChangeLock = false;
-                dasayEditor1.LoadFile(nowItem.Id.ToString());
+                if(ctr != null && ctr.Id == catalogId)
+                    SelectCatalogItem(ctr);
             }
-            if (show)
-                splitContainer2.SplitterDistance = System.Math.Max(0, splitContainer2.Width - 700);
-            else
-                splitContainer2.SplitterDistance = splitContainer2.Width;
+
+            IRowItem showRow = null;
+            foreach(var column in columnCtrs)
+            {
+                var result = column.FindItemControl(item.Id);
+                if (result != null)
+                    showRow = result;
+            }
+
+            ShowPaperPad(showRow, item);
+        }
+
+        private void ShowPaperPad(IRowItem showItem, MemoItemInfo itemInfo)
+        {
+            if(showItem == null)
+            {
+                HidePaperPad();
+                return;
+            }
+
+            //更新选中
+            if (nowRowItemCtr != null)
+                nowRowItemCtr.SetSelect(false);
+            nowRowItemCtr = showItem;
+            nowRowItemCtr.SetSelect(true);
+            nowRowItem = itemInfo;
+
+            //更新显示文件内容
+            textChangeLock = true;
+            textBoxPaperTitle.Text = nowRowItem.Title;
+            UpdatePaperIcon(nowRowItem.Icon);
+            textChangeLock = false;
+            uckvList1.Init(itemInfo);
+            dasayEditor1.Location = new Point(uckvList1.Location.X, uckvList1.Location.Y + uckvList1.Height);
+            dasayEditor1.Height = splitContainer2.Panel2.Height - uckvList1.Location.Y - uckvList1.Height;
+            dasayEditor1.LoadFile(nowRowItem.Id.ToString());
+
+            //调整pad显示
+            splitContainer2.SplitterDistance = System.Math.Max(0, splitContainer2.Width - 700);
+
+        }
+
+        private void HidePaperPad()
+        {
+            //更新选中
+            if (nowRowItemCtr != null)
+                nowRowItemCtr.SetSelect(false);
+            nowRowItemCtr = null;
+            nowRowItem = null;
+
+            //调整pad隐藏
+            splitContainer2.SplitterDistance = splitContainer2.Width;
         }
 
         private void UpdatePaperIcon(string icon)
@@ -153,20 +228,9 @@ namespace MemoHippo
 
         private void splitContainer2_Panel1_Click(object sender, System.EventArgs e)
         {
-            ShowPaperPad(false);
+            HidePaperPad();
         }
 
-        private void Form1_Load(object sender, System.EventArgs e)
-        {
-            if (File.Exists("a.yaml"))
-            {
-                var yaml = File.ReadAllText("a.yaml", Encoding.UTF8);
-
-                var deserializer = new DeserializerBuilder().Build();
-                MemoBook.Instance = deserializer.Deserialize<MemoBook>(yaml);
-                RefreshMenu();
-            }
-        }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -179,11 +243,16 @@ namespace MemoHippo
         {
             if (!textChangeLock)
             {
-                if (nowItem != null)
-                    nowItem.Title = textBoxPaperTitle.Text;
-                if (nowRowCtr != null)
-                    nowRowCtr.SetTitle(textBoxPaperTitle.Text);
+                if (nowRowItem != null)
+                    nowRowItem.Title = textBoxPaperTitle.Text;
+                if (nowRowItemCtr != null)
+                    nowRowItemCtr.SetTitle(textBoxPaperTitle.Text);
             }
+        }
+
+        public void HideAll()
+        {
+            panelBlack.HideAll();
         }
 
         private void textBoxTitle_TextChanged(object sender, System.EventArgs e)
@@ -192,8 +261,8 @@ namespace MemoHippo
             {
                 if (nowCatalog != null)
                     nowCatalog.Name = textBoxCatalogTitle.Text;
-                if (lastSelect != null)
-                    lastSelect.Title = textBoxCatalogTitle.Text;
+                if (nowCatalogCtr != null)
+                    nowCatalogCtr.Title = textBoxCatalogTitle.Text;
             }
         }
 
@@ -201,24 +270,15 @@ namespace MemoHippo
         {
             if (!textChangeLock)
             {
-                if (nowItem != null)
-                    nowItem.Icon = "Icon/atr3.PNG";
-                if (nowRowCtr != null)
-                    nowRowCtr.SetIcon(nowItem.Icon);
-                UpdatePaperIcon(nowItem.Icon);
+                if (nowRowItem != null)
+                    nowRowItem.Icon = "Icon/atr3.PNG";
+                if (nowRowItemCtr != null)
+                    nowRowItemCtr.SetIcon(nowRowItem.Icon);
+                UpdatePaperIcon(nowRowItem.Icon);
             }
         }
         private void ucCatalogSearch_Click(object sender, System.EventArgs e)
         {
-            //var niu = DateTime.Now;
-
-            //for (int i = 0; i < 10000; i++)
-            //{
-            //    string rtfContent = File.ReadAllText(@"F:\MemoHippo\MemoHippo\MemoHippo\bin\Debug\save\200002.rtf");
-            //    string plainText = GetPlainTextFromRtf(rtfContent);
-            //}
-            //var past = DateTime.Now - niu;
-
             Bitmap bitmap = new Bitmap(splitContainer1.Width, splitContainer1.Height);
 
             using (Graphics graphics = Graphics.FromImage(bitmap))
@@ -227,17 +287,11 @@ namespace MemoHippo
             }
 
             panelBlack.BG = bitmap;
-            panelBlack.AddControl(new UCSearch());
+            var search = new UCSearch();
+            search.Form1 = this;
+            panelBlack.AddControl(search);
             panelBlack.BringToFront();
 
-        }
-
-        private RichTextBox richTextBox = new RichTextBox();
-        private string GetPlainTextFromRtf(string rtfContent)
-        {
-          
-            richTextBox.Rtf = rtfContent;
-            return richTextBox.Text;
         }
 
         private void ucCatalogSearch_Load(object sender, EventArgs e)

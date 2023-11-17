@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Text_Editor
+namespace MemoHippo.UIS
 {
     public class CustomMenuStrip : ContextMenuStrip
     {
@@ -31,7 +31,7 @@ namespace Text_Editor
     {
         public override Color ImageMarginGradientMiddle
         {
-            get { return Color.FromArgb(24,24,24); } // 设置选中菜单项的背景色
+            get { return Color.FromArgb(24, 24, 24); } // 设置选中菜单项的背景色
         }
         public override Color ImageMarginGradientBegin
         {

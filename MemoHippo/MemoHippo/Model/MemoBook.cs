@@ -38,6 +38,7 @@ namespace MemoHippo
                         {
                             RTItemData itemData = new RTItemData();
                             itemData.Catalog = ct.Name;
+                            itemData.CatalogId = ct.Id;
                             itemData.Column = col.Title;
                             itemData.ItemInfo = item;
                             return itemData;

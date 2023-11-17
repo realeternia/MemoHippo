@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MemoHippo.UIS;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -18,12 +19,14 @@ namespace MemoHippo
 
         private ListViewItem selectLine;
         private List<SearchData> searchResults = new List<SearchData>();
+        public Form1 Form1 { get; set; }
 
         public UCSearch()
         {
             InitializeComponent();
 
-            textBox1.Text = "多";
+            textBox1.OnLoad();
+          //  textBox1.Text = "多";
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -153,6 +156,17 @@ namespace MemoHippo
                 // 在这里你可以处理鼠标悬停在项目上的逻辑
                 // 例如获取项目的信息，更新UI等
             }
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var lineInfo = searchResults[selectLine.Index];
+            var itemInfo = MemoBook.Instance.FindItemInfo(int.Parse(lineInfo.Title.Replace(".rtf", "")));
+
+            Form1.ShowPaperPadEx(itemInfo.CatalogId, itemInfo.ItemInfo);
+
+            if (Form1 != null)
+                Form1.HideAll();
         }
     }
 }

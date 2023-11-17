@@ -14,6 +14,13 @@ namespace MemoHippo
             public int ColumnId { get; set; }
         }
 
+        enum RowItemType
+        {
+            Common=1,
+            Nikon
+        }
+
+
         public Form1 ParentC;
         private Color itemColor;
 
@@ -24,7 +31,7 @@ namespace MemoHippo
         private int catalogId;
         private int columnId;
 
-        public Model.MemoColumnInfo ColumnInfo;
+        public MemoColumnInfo ColumnInfo;
 
         private UCRowAdd rowAdd;
         private bool isDragging;
@@ -75,11 +82,12 @@ namespace MemoHippo
             flowLayoutPanel1.Controls.Clear();
             foreach (var memoItem in ColumnInfo.Items)
             {
-                Control labelCtr;
-                if (memoItem.Type == 1)
+                UCRowCommon labelCtr;
+                if (memoItem.Type == (int)RowItemType.Nikon)
                     labelCtr = new UCRowNikon();
                 else
                     labelCtr = new UCRowCommon();
+                labelCtr.Menu = customMenuStrip1;
 
                 var rowItem = labelCtr as IRowItem;
                 rowItem.ItemId = memoItem.Id;
@@ -108,17 +116,27 @@ namespace MemoHippo
             if (rowItem != null)
             {
                 rowItem.NLMouseDown += new MouseEventHandler(label_MouseDown);
+                rowItem.NLMouseUp += new MouseEventHandler(label_MouseUp);
                 rowItem.NLMouseClick += Label1_MouseClick;
             }
         }
 
+        private void label_MouseUp(object sender, MouseEventArgs e)
+        {
+          //  (sender as Control).BackColor = Color.Blue;
+            delayTimer.Stop();
+        }
+
         private void label_MouseDown(object sender, MouseEventArgs e)
         {
-            if (((Control)sender).Name == "dragctr0") // add 对象
+            var ctr = (Control)sender;
+            if (ctr.Name == "dragctr0") // add 对象
                 return;
 
+          //  ctr.BackColor = Color.Red;
+
             delayTimer.Start();
-            delayControl = (Control)sender;
+            delayControl = ctr;
         }
 
         private void Label1_MouseClick(object sender, MouseEventArgs e)
@@ -128,15 +146,17 @@ namespace MemoHippo
                 var itemId = GetDragCtrItemId((sender as Control).Name);
                 OnClickItem(sender, new EventItemClickArgs { ItemId = itemId, ColumnId = columnId });
             }
-            delayTimer.Stop();
         }
 
         private void OnDelayTimerTick(object sender, EventArgs e)
         {
+        //    delayControl.BackColor = Color.Blue;
             delayTimer.Stop();
 
             var label = delayControl;
             label.DoDragDrop(label.Parent.Parent.Name + "." + delayControl.Name, DragDropEffects.Move);
+
+            delayControl = null;
         }
 
 
@@ -245,6 +265,16 @@ namespace MemoHippo
             return upControl;
         }
 
+        public IRowItem FindItemControl(int id)
+        {
+            foreach (Control flowItem in flowLayoutPanel1.Controls)
+            {
+                if (flowItem.Name == "dragctr" + id)
+                    return flowItem as IRowItem;
+            }
+            return null;
+        }
+
         private void flowLayoutPanel1_Click(object sender, System.EventArgs e)
         {
             if (OnClickItem != null)
@@ -273,6 +303,27 @@ namespace MemoHippo
         {
             if (ColumnInfo != null && !textChangeLock)
                 ColumnInfo.Title = textBoxTitle.Text;
+        }
+
+        private void commonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeType((int)RowItemType.Common);
+        }
+
+        private void nikonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeType((int)RowItemType.Nikon);
+        }
+
+        private void ChangeType(int type)
+        {
+            var itemId = int.Parse(customMenuStrip1.Tag.ToString());
+
+            var itemInfo = ColumnInfo.GetItem(itemId);
+            if (itemInfo != null)
+                itemInfo.Type = type;
+
+            RefreshLabels();
         }
     }
 }

@@ -31,8 +31,15 @@ namespace MemoHippo
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new MemoHippo.UIS.DoubleBufferedFlowLayoutPanel();
+            this.customMenuStrip1 = new MemoHippo.UIS.CustomMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.convertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.commonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nikonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.customMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxTitle
@@ -68,6 +75,50 @@ namespace MemoHippo
             this.flowLayoutPanel1.DragLeave += new System.EventHandler(this.flowLayoutPanel1_DragLeave);
             this.flowLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel1_Paint);
             // 
+            // customMenuStrip1
+            // 
+            this.customMenuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.customMenuStrip1.ForeColor = System.Drawing.Color.White;
+            this.customMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.customMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem,
+            this.convertToolStripMenuItem});
+            this.customMenuStrip1.Name = "customMenuStrip1";
+            this.customMenuStrip1.Size = new System.Drawing.Size(211, 80);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.deleteToolStripMenuItem.Text = "delete";
+            // 
+            // convertToolStripMenuItem
+            // 
+            this.convertToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.commonToolStripMenuItem,
+            this.nikonToolStripMenuItem});
+            this.convertToolStripMenuItem.Name = "convertToolStripMenuItem";
+            this.convertToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.convertToolStripMenuItem.Text = "convert";
+            // 
+            // commonToolStripMenuItem
+            // 
+            this.commonToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.commonToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.commonToolStripMenuItem.Name = "commonToolStripMenuItem";
+            this.commonToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.commonToolStripMenuItem.Text = "common";
+            this.commonToolStripMenuItem.Click += new System.EventHandler(this.commonToolStripMenuItem_Click);
+            // 
+            // nikonToolStripMenuItem
+            // 
+            this.nikonToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.nikonToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.nikonToolStripMenuItem.Name = "nikonToolStripMenuItem";
+            this.nikonToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.nikonToolStripMenuItem.Text = "nikon";
+            this.nikonToolStripMenuItem.Click += new System.EventHandler(this.nikonToolStripMenuItem_Click);
+            // 
             // UCTipColumn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -79,6 +130,7 @@ namespace MemoHippo
             this.Name = "UCTipColumn";
             this.Size = new System.Drawing.Size(340, 747);
             this.Click += new System.EventHandler(this.flowLayoutPanel1_Click);
+            this.customMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -88,5 +140,10 @@ namespace MemoHippo
 
         private System.Windows.Forms.TextBox textBoxTitle;
         private DoubleBufferedFlowLayoutPanel flowLayoutPanel1;
+        private CustomMenuStrip customMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem convertToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem commonToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nikonToolStripMenuItem;
     }
 }

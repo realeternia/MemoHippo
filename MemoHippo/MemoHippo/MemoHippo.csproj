@@ -74,6 +74,12 @@
     <Compile Include="UIS\DoubleBufferedListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UIS\HintTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UIS\CustomMenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UIS\TransparentPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -124,6 +130,18 @@
     <Compile Include="UIS\DoubleBufferedPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UIS\UCKVList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\UCKVList.Designer.cs">
+      <DependentUpon>UCKVList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\UCKVListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\UCKVListItem.Designer.cs">
+      <DependentUpon>UCKVListItem.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -161,8 +179,17 @@
     <EmbeddedResource Include="UCRowAdd.resx">
       <DependentUpon>UCRowAdd.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UIS\HintTextBox.resx">
+      <DependentUpon>HintTextBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UIS\TransparentPanel.resx">
       <DependentUpon>TransparentPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\UCKVList.resx">
+      <DependentUpon>UCKVList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\UCKVListItem.resx">
+      <DependentUpon>UCKVListItem.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="packages.config" />
@@ -194,6 +221,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

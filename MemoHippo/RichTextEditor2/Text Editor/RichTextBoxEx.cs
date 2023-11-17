@@ -37,5 +37,22 @@ namespace Text_Editor
 
             base.WndProc(ref m);
         }
+
+        private const int WM_SETREDRAW = 0x0B;
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern int SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
+
+        public void SuspendPainting()
+        {
+            SendMessage(this.Handle, WM_SETREDRAW, 0, 0);
+        }
+
+        public void ResumePainting()
+        {
+            SendMessage(this.Handle, WM_SETREDRAW, 1, 0);
+
+           // this.Invalidate();
+        }
     }
 }
