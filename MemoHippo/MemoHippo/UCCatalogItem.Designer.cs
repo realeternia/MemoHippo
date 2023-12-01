@@ -41,6 +41,7 @@ namespace MemoHippo
             this.Name = "UCCatalogItem";
             this.Size = new System.Drawing.Size(255, 38);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.UCCatalogItem_Paint);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.UCCatalogItem_MouseClick);
             this.MouseEnter += new System.EventHandler(this.UCCatalogItem_MouseEnter);
             this.MouseLeave += new System.EventHandler(this.UCCatalogItem_MouseLeave);
             this.ResumeLayout(false);

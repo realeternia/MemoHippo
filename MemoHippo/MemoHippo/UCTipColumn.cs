@@ -1,6 +1,7 @@
 ﻿using MemoHippo.Model;
+using MemoHippo.UIS;
+using MemoHippo.Utils;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -12,6 +13,8 @@ namespace MemoHippo
         {
             public int ItemId { get; set; }
             public int ColumnId { get; set; }
+
+            public bool FocusTitle { get; set; }
         }
 
         enum RowItemType
@@ -27,6 +30,8 @@ namespace MemoHippo
         public event System.EventHandler<EventItemClickArgs> OnClickItem;
         private Timer delayTimer;
         private Control delayControl;
+        private bool isDragging;
+        private Point dragStartPos;
 
         private int catalogId;
         private int columnId;
@@ -34,9 +39,13 @@ namespace MemoHippo
         public MemoColumnInfo ColumnInfo;
 
         private UCRowAdd rowAdd;
-        private bool isDragging;
+        
         private int lineY;
         private bool textChangeLock;
+
+        private InputTextBox2 inputBox;
+        private Rectangle menuRegion;
+        private bool isMouseOn;
 
         public UCTipColumn()
         {
@@ -52,7 +61,7 @@ namespace MemoHippo
             rowAdd = new UCRowAdd();
             DecorateControl(rowAdd, 0);
             rowAdd.Width = 270;
-            rowAdd.label1.Click += button1_Click;
+            rowAdd.label1.Click += buttonAdd_Click;
         }
 
         public Color ColorPlus(Color c, float exp)
@@ -65,17 +74,25 @@ namespace MemoHippo
             catalogId = cid;
             columnId = itid;
             textChangeLock = true;
-            textBoxTitle.Text = title;
+            labelTitle.Text = title;
             textChangeLock = false;
-            textBoxTitle.BackColor = ColorPlus(cr, 2);
+            labelTitle.BackColor = ColorPlus(cr, 2);
           //  BackColor = ColorPlus(cr, 0.65f);
             flowLayoutPanel1.BackColor = ColorPlus(cr, 0.65f);
             itemColor = cr;
 
             ColumnInfo = MemoBook.Instance.GetCatalog(catalogId).GetColumn(columnId);
 
+            inputBox = new InputTextBox2();
+            inputBox.Form1 = ParentC;
+            inputBox.Text = labelTitle.Text;
+            inputBox.OnCustomTextChanged += Hintbox_OnCustomTextChanged;
+
+            menuRegion = new Rectangle(Width - 50, 13, 40, 30);
+
             RefreshLabels();
         }
+
 
         private void RefreshLabels()
         {
@@ -87,7 +104,7 @@ namespace MemoHippo
                     labelCtr = new UCRowNikon();
                 else
                     labelCtr = new UCRowCommon();
-                labelCtr.Menu = customMenuStrip1;
+                labelCtr.Menu = customMenuStripRow;
 
                 var rowItem = labelCtr as IRowItem;
                 rowItem.ItemId = memoItem.Id;
@@ -99,6 +116,7 @@ namespace MemoHippo
                 rowItem.AfterInit();
             }
             AddControl(rowAdd);
+            isDragging = false;
         }
 
         private void DecorateControl(Control c, int id)
@@ -123,8 +141,11 @@ namespace MemoHippo
 
         private void label_MouseUp(object sender, MouseEventArgs e)
         {
-          //  (sender as Control).BackColor = Color.Blue;
+            var ctr = (Control)sender;
+            //  (sender as Control).BackColor = Color.Blue;
             delayTimer.Stop();
+
+            HLog.Info("UCTipColumn mouse up {0}", ctr.Name);
         }
 
         private void label_MouseDown(object sender, MouseEventArgs e)
@@ -133,7 +154,7 @@ namespace MemoHippo
             if (ctr.Name == "dragctr0") // add 对象
                 return;
 
-          //  ctr.BackColor = Color.Red;
+            HLog.Info("UCTipColumn mouse down {0}", ctr.Name);
 
             delayTimer.Start();
             delayControl = ctr;
@@ -141,26 +162,35 @@ namespace MemoHippo
 
         private void Label1_MouseClick(object sender, MouseEventArgs e)
         {
+            var senderName = (sender as Control).Name;
             if (OnClickItem != null)
             {
-                var itemId = GetDragCtrItemId((sender as Control).Name);
+                var itemId = GetDragCtrItemId(senderName);
                 OnClickItem(sender, new EventItemClickArgs { ItemId = itemId, ColumnId = columnId });
             }
+            delayTimer.Stop();
+
+            HLog.Info("UCTipColumn mouse click {0}", senderName);
         }
 
         private void OnDelayTimerTick(object sender, EventArgs e)
         {
-        //    delayControl.BackColor = Color.Blue;
+            //    delayControl.BackColor = Color.Blue;
+            HLog.Info("UCTipColumn OnDelayTimerTick DoDragDrop {0}", delayControl.Name);
+
             delayTimer.Stop();
 
             var label = delayControl;
+
             label.DoDragDrop(label.Parent.Parent.Name + "." + delayControl.Name, DragDropEffects.Move);
+
+            HLog.Info("UCTipColumn OnDelayTimerTick DoDragDrop end {0}", delayControl.Name);
 
             delayControl = null;
         }
 
 
-        public void AddControl(Control c)
+        private void AddControl(Control c)
         {
             flowLayoutPanel1.Controls.Add(c);
         }
@@ -171,6 +201,9 @@ namespace MemoHippo
             {
                 e.Effect = DragDropEffects.Move;
                 isDragging = true;
+
+                dragStartPos = MousePosition;
+                HLog.Info("UCTipColumn DragEnter data={0} mp={1}", e.Data.GetData(DataFormats.StringFormat), MousePosition);
             }
         }
 
@@ -178,36 +211,43 @@ namespace MemoHippo
         {
             isDragging = false;
             flowLayoutPanel1.Invalidate();
+
+            HLog.Info("UCTipColumn DragLeave");
         }
 
         private void flowLayoutPanel1_DragDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.Text))
             {
-                string[] names = ((string)e.Data.GetData(DataFormats.StringFormat)).Split('.');
+                HLog.Info("UCTipColumn DragDrop data={0} mp={1}", e.Data.GetData(DataFormats.StringFormat), MousePosition);
 
-                var itemId = GetDragCtrItemId(names[1]);
-
-                // 根据 Name 查找 Label 控件
-                var beginColumn = ParentC.panel1.Controls[names[0]] as UCTipColumn;
-
-                var movingControl = beginColumn.Controls["flowLayoutPanel1"].Controls[names[1]];
-
-                var upCtr = GetUpControl(e, out var afterNode, out var lineOffY);
-                var upCtrId = GetDragCtrItemId(upCtr.Name);
-                lineY = lineOffY;
-
-                if (movingControl != null)
+                if(Math.Abs(dragStartPos.X - MousePosition.X) + Math.Abs(dragStartPos.Y - MousePosition.Y) > 10)
                 {
-                    var itm = beginColumn.ColumnInfo.RemoveItem(itemId);
-                    ColumnInfo.InsertItem(itm, upCtrId, afterNode);
+                    string[] names = ((string)e.Data.GetData(DataFormats.StringFormat)).Split('.');
 
-                    beginColumn.RefreshLabels();
-                    RefreshLabels();
+                    var itemId = GetDragCtrItemId(names[1]);
+
+                    // 根据 Name 查找 Label 控件
+                    var beginColumn = ParentC.panel1.Controls[names[0]] as UCTipColumn;
+
+                    var movingControl = beginColumn.Controls["flowLayoutPanel1"].Controls[names[1]];
+
+                    var upCtr = GetUpControl(e, out var afterNode, out var lineOffY);
+                    var upCtrId = GetDragCtrItemId(upCtr.Name);
+                    lineY = lineOffY;
+
+                    if (movingControl != null)
+                    {
+                        var itm = beginColumn.ColumnInfo.RemoveItem(itemId);
+                        ColumnInfo.InsertItem(itm, upCtrId, afterNode);
+
+                        beginColumn.RefreshLabels();
+                        RefreshLabels();
+                        flowLayoutPanel1.Invalidate();
+                    }
                 }
 
                 isDragging = false;
-                flowLayoutPanel1.Invalidate();
             }
         }
 
@@ -275,17 +315,32 @@ namespace MemoHippo
             return null;
         }
 
-        private void flowLayoutPanel1_Click(object sender, System.EventArgs e)
+        private void UCTipColumn_MouseClick(object sender, MouseEventArgs e)
         {
+            if (sender == this && menuRegion.Contains(new Point(e.X, e.Y)))
+            {
+                ParentC.CustomMenuStripCol.Tag = columnId;
+                ParentC.CustomMenuStripCol.Show(this, menuRegion.X, menuRegion.Y + menuRegion.Height + 5);
+                return;
+            }
+
             if (OnClickItem != null)
                 OnClickItem(sender, null);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        //新增加一个页面
+        private void buttonAdd_Click(object sender, EventArgs e)
         {
-            ColumnInfo.AddItem("新数据" + MemoBook.Instance.ItemIndex);
+            var newItem = ColumnInfo.AddItem("");
 
             RefreshLabels();
+
+            if (OnClickItem != null)
+            {
+                var ctrs = flowLayoutPanel1.Controls.Find("dragctr" + newItem.Id, false);
+                if (ctrs.Length > 0)
+                    OnClickItem(ctrs[0], new EventItemClickArgs { ItemId = newItem.Id, ColumnId = columnId, FocusTitle = true });
+            }
         }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -299,10 +354,20 @@ namespace MemoHippo
             }
         }
 
-        private void textBoxTitle_TextChanged(object sender, EventArgs e)
+        private void labelTitle_MouseClick(object sender, MouseEventArgs e)
         {
+            Point absoluteLocation = labelTitle.PointToScreen(new Point(0, 0));
+
+            ParentC.ShowBlackPanel(inputBox, absoluteLocation.X - ParentC.Location.X, absoluteLocation.Y - ParentC.Location.Y, 1);
+            inputBox.Focus();
+        }
+
+        private void Hintbox_OnCustomTextChanged(object sender, EventArgs e)
+        {
+            labelTitle.Text = inputBox.Text;
+
             if (ColumnInfo != null && !textChangeLock)
-                ColumnInfo.Title = textBoxTitle.Text;
+                ColumnInfo.Title = inputBox.Text;
         }
 
         private void commonToolStripMenuItem_Click(object sender, EventArgs e)
@@ -317,7 +382,7 @@ namespace MemoHippo
 
         private void ChangeType(int type)
         {
-            var itemId = int.Parse(customMenuStrip1.Tag.ToString());
+            var itemId = int.Parse(customMenuStripRow.Tag.ToString());
 
             var itemInfo = ColumnInfo.GetItem(itemId);
             if (itemInfo != null)
@@ -325,5 +390,35 @@ namespace MemoHippo
 
             RefreshLabels();
         }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var itemId = int.Parse(customMenuStripRow.Tag.ToString());
+            ColumnInfo.RemoveItem(itemId);
+
+            RefreshLabels();
+        }
+
+        private void UCTipColumn_MouseEnter(object sender, EventArgs e)
+        {
+            isMouseOn = true;
+            Invalidate(new Rectangle(menuRegion.X-1, menuRegion.Y-1, menuRegion.Width+2, menuRegion.Height+2));
+        }
+
+        private void UCTipColumn_MouseLeave(object sender, EventArgs e)
+        {
+            isMouseOn = false;
+            Invalidate(new Rectangle(menuRegion.X - 1, menuRegion.Y - 1, menuRegion.Width + 2, menuRegion.Height + 2));
+        }
+
+        private void UCTipColumn_Paint(object sender, PaintEventArgs e)
+        {
+            if (isMouseOn)
+            {
+                e.Graphics.DrawRectangle(Pens.Gray, menuRegion);
+                e.Graphics.DrawString("...", Font, Brushes.White, menuRegion.X+5, menuRegion.Y+5);
+            }
+        }
+
     }
 }

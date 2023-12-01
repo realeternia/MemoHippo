@@ -17,7 +17,7 @@ namespace MemoHippo
             Height = 70;
 
             t = new Timer();
-            t.Interval = 1000;
+            t.Interval = 30000;
             t.Tick += T_Tick;
 
             InitializeComponent();
@@ -42,7 +42,7 @@ namespace MemoHippo
         {
             base.AfterInit();
 
-            var fullPath = string.Format("save/{0}.rtf", ItemId);
+            var fullPath = string.Format("F:/MemoHippo/file/save/{0}.rtf", ItemId);
             var infos = ConvertRtfToPlainText(File.ReadAllText(fullPath));
             foreach(var info in infos.Split('\n'))
             {
@@ -65,7 +65,8 @@ namespace MemoHippo
 
         private void UCRowNikon_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.DrawString(lines[tick % lines.Count], Font, Brushes.Yellow, 35, 35);
+            if (lines.Count > 0)
+                e.Graphics.DrawString(lines[tick % lines.Count], Font, Brushes.Yellow, 35, 35);
         }
     }
 }

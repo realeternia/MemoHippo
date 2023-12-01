@@ -14,11 +14,37 @@ namespace MemoHippo.UIS
             set { defaultText = value; }
         }
 
+        public string TrueText
+        {
+            get
+            {
+                if (Text == defaultText)
+                    return "";
+                return Text;
+            }
+            set { 
+
+                if(string.IsNullOrEmpty(value))
+                {
+                    Text = defaultText;
+                    ForeColor = SystemColors.GrayText;
+                }
+                else
+                {
+                    Text = value;
+                    ForeColor = ForeColorDE;
+                }
+            }
+        }
+
+        public Color ForeColorDE { get; set; } = Color.White;
+
         public void OnLoad()
         {
-            Text = defaultText; ForeColor = SystemColors.GrayText;
-            this.Enter += new System.EventHandler(this.HintTextBox_Enter);
-            this.Leave += new System.EventHandler(this.HintTextBox_Leave);
+            Text = defaultText;
+            ForeColor = SystemColors.GrayText;
+            this.Enter += new EventHandler(this.HintTextBox_Enter);
+            this.Leave += new EventHandler(this.HintTextBox_Leave);
         }
 
         private void HintTextBox_Enter(object sender, EventArgs e)
@@ -26,7 +52,7 @@ namespace MemoHippo.UIS
             if (Text == defaultText)
             {
                 Text = "";
-                ForeColor = Color.White;
+                ForeColor = ForeColorDE;
             }
         }
 

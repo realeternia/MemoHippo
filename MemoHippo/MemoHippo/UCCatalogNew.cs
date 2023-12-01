@@ -12,6 +12,8 @@ namespace MemoHippo
         public UCCatalogNew()
         {
             InitializeComponent();
+
+            DoubleBuffered = true;
         }
 
         private void UCCatalogNew_Paint(object sender, PaintEventArgs e)

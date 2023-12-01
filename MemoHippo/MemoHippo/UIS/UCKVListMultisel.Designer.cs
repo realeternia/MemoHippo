@@ -1,7 +1,9 @@
 ﻿
+using System.Windows.Forms;
+
 namespace MemoHippo.UIS
 {
-    partial class UCKVListItem
+    partial class UCKVListMultisel
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -30,7 +32,7 @@ namespace MemoHippo.UIS
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.hintTextBox1 = new MemoHippo.UIS.HintTextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -44,30 +46,33 @@ namespace MemoHippo.UIS
             this.label1.TabIndex = 0;
             this.label1.Text = "label1";
             // 
-            // hintTextBox1
+            // textBox1
             // 
-            this.hintTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.hintTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.hintTextBox1.DefaultText = "Empty";
-            this.hintTextBox1.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.hintTextBox1.ForeColor = System.Drawing.Color.White;
-            this.hintTextBox1.ForeColorDE = System.Drawing.Color.White;
-            this.hintTextBox1.Location = new System.Drawing.Point(210, 9);
-            this.hintTextBox1.Name = "hintTextBox1";
-            this.hintTextBox1.Size = new System.Drawing.Size(424, 22);
-            this.hintTextBox1.TabIndex = 1;
-            this.hintTextBox1.TrueText = "";
+            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.textBox1.ForeColor = System.Drawing.Color.Gainsboro;
+            this.textBox1.Location = new System.Drawing.Point(210, 9);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(530, 22);
+            this.textBox1.TabIndex = 3;
+            this.textBox1.Visible = false;
+            this.textBox1.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
-            // UCKVListItem
+            // UCKVListMultisel
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.Controls.Add(this.hintTextBox1);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.textBox1);
+            this.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.Margin = new System.Windows.Forms.Padding(0);
-            this.Name = "UCKVListItem";
+            this.Name = "UCKVListMultisel";
             this.Size = new System.Drawing.Size(700, 39);
+            this.Click += new System.EventHandler(this.UCKVListMultisel_Click);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.UCKVListMultisel_Paint);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -76,6 +81,6 @@ namespace MemoHippo.UIS
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private HintTextBox hintTextBox1;
+        private TextBox textBox1;
     }
 }

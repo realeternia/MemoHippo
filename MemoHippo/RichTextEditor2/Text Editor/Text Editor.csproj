@@ -99,7 +99,22 @@
     <None Include="Resources\2023-10-25_194154.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\119271862_0_final.png" />
+    <None Include="Resources\del2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copy.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\del.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\convert.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pictureadd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\picturepaste.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

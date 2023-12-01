@@ -37,9 +37,14 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -79,6 +84,12 @@
     </Compile>
     <Compile Include="UIS\CustomMenuStrip.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UIS\InputTextBox2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\InputTextBox2.Designer.cs">
+      <DependentUpon>InputTextBox2.cs</DependentUpon>
     </Compile>
     <Compile Include="UIS\TransparentPanel.cs">
       <SubType>Component</SubType>
@@ -136,12 +147,20 @@
     <Compile Include="UIS\UCKVList.Designer.cs">
       <DependentUpon>UCKVList.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIS\UCKVListMultisel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\UCKVListMultisel.Designer.cs">
+      <DependentUpon>UCKVListMultisel.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIS\UCKVListItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UIS\UCKVListItem.Designer.cs">
       <DependentUpon>UCKVListItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\HLog.cs" />
+    <Compile Include="Utils\ImageTool.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -182,11 +201,17 @@
     <EmbeddedResource Include="UIS\HintTextBox.resx">
       <DependentUpon>HintTextBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UIS\InputTextBox2.resx">
+      <DependentUpon>InputTextBox2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UIS\TransparentPanel.resx">
       <DependentUpon>TransparentPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\UCKVList.resx">
       <DependentUpon>UCKVList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\UCKVListMultisel.resx">
+      <DependentUpon>UCKVListMultisel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\UCKVListItem.resx">
       <DependentUpon>UCKVListItem.cs</DependentUpon>
@@ -225,5 +250,9 @@
   <ItemGroup>
     <None Include="Resources\menu.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\done.jpg" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

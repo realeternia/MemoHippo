@@ -17,10 +17,12 @@ namespace MemoHippo.UIS
             BackColor = Color.DarkBlue;
             doubleBufferedFlowLayoutPanel1.Controls.Clear();
 
-            AddData("类型", itemInfo.Type.ToString());
-            AddData("创建时间", new FileInfo("save/"+itemInfo.Id+".rtf").CreationTime.ToString());
+          //  AddData("类型", itemInfo.Type.ToString());
+            AddData("创建时间", new FileInfo("F:/MemoHippo/file/save/" + itemInfo.Id + ".rtf").CreationTime.ToString());
+            AddMulData("标签", itemInfo);
 
-            Height = doubleBufferedFlowLayoutPanel1.Controls.Count * 37+10;
+            Width = 700 - 5;
+            Height = doubleBufferedFlowLayoutPanel1.Controls.Count * 37 + 10;
         }
 
         public void AddData(string k, string v)
@@ -29,6 +31,15 @@ namespace MemoHippo.UIS
             item.Width = 700 - 5;
             item.Height = 37;
             item.SetData(k, v);
+            doubleBufferedFlowLayoutPanel1.Controls.Add(item);
+        }
+
+        public void AddMulData(string k, MemoItemInfo itemInfo)
+        {
+            var item = new UCKVListMultisel();
+            item.Width = 700 - 5;
+            item.Height = 37;
+            item.SetData(k, itemInfo);
             doubleBufferedFlowLayoutPanel1.Controls.Add(item);
         }
     }

@@ -14,11 +14,24 @@ namespace MemoHippo
         public int ColumnIndex = 100001;
         public int ItemIndex = 200001;
 
-        public void AddCatalog()
+        public MemoCatalogInfo AddCatalog()
         {
-            var newCatalog = new MemoCatalogInfo { Id = CatalogIndex, Name = "新目录" + CatalogIndex++ };
-            newCatalog.AddColumn("默认");
+            var newCatalog = new MemoCatalogInfo { Id = CatalogIndex, Name = "" };
+            CatalogIndex++;
+            newCatalog.AddColumn("");
             CatalogInfos.Add(newCatalog);
+
+            return newCatalog;
+        }
+
+        public MemoCatalogInfo DeleteCatalog(int id)
+        {
+            var target = CatalogInfos.Find(a => a.Id == id);
+            if (target == null)
+                return null;
+            CatalogInfos.Remove(target);
+
+            return target;
         }
 
         public MemoCatalogInfo GetCatalog(int id)

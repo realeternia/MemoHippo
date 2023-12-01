@@ -1,4 +1,5 @@
 ﻿using MemoHippo.UIS;
+using MemoHippo.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -29,17 +30,31 @@ namespace MemoHippo
           //  textBox1.Text = "多";
         }
 
+        public void OnInit()
+        {
+            textBox1.Focus();
+        }
+
+        private bool textChangeLock;
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            if (textChangeLock)
+                return;
+
+            //todo 搞一个延时绘制
+
+            listView1.Visible = false; //防止中途绘制出现奇怪问题
+            textChangeLock = true;
             searchResults.Clear();
             var searchTxt = textBox1.Text;
             if (string.IsNullOrWhiteSpace(searchTxt))
             {
+                textChangeLock = false;
                 listView1.VirtualListSize = 0;
                 return;
             }
 
-            foreach (var file in Directory.GetFiles("save"))
+            foreach (var file in Directory.GetFiles("F:/MemoHippo/file/save"))
             {
                 var fi = new FileInfo(file);
                 var itemId = fi.Name;
@@ -55,20 +70,22 @@ namespace MemoHippo
                     lineid++;
                 }
             }
+
             listView1.VirtualListSize = searchResults.Count;
+            listView1.Visible = true;
+            textChangeLock = false;
+         
         }
 
         private RichTextBox richTextBox = new RichTextBox();
         private string GetPlainTextFromRtf(string rtfContent)
         {
-
             richTextBox.Rtf = rtfContent;
             return richTextBox.Text;
         }
 
         private void listView1_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
-
             if (e.ItemIndex >= 0 && e.ItemIndex < searchResults.Count)
             {
                 ListViewItem item = new ListViewItem(searchResults[e.ItemIndex].Line);
@@ -124,9 +141,13 @@ namespace MemoHippo
         {
             var lineInfo = searchResults[e.ItemIndex];
             var itemInfo = MemoBook.Instance.FindItemInfo(int.Parse(lineInfo.Title.Replace(".rtf", "")));
-            e.Graphics.DrawImage(ResLoader.Read(itemInfo.ItemInfo.Icon), e.Bounds.X + 8, e.Bounds.Y + 10, 24, 24);
-            e.Graphics.DrawString(string.Format("{2} ({0}/{1} Ln:{3})", itemInfo.Catalog, itemInfo.Column, itemInfo.ItemInfo.Title, lineInfo.LineIndex),
-                e.Item.Font, Brushes.White, e.Bounds.X + 8 + 30, e.Bounds.Y + 10, StringFormat.GenericDefault);
+            if (itemInfo != null)
+            {
+                e.Graphics.DrawImage(ResLoader.Read(itemInfo.ItemInfo.Icon), e.Bounds.X + 8, e.Bounds.Y + 10, 24, 24);
+                e.Graphics.DrawString(string.Format("{2} ({0}/{1} Ln:{3})", itemInfo.Catalog, itemInfo.Column, itemInfo.ItemInfo.Title, lineInfo.LineIndex),
+                    e.Item.Font, Brushes.White, e.Bounds.X + 8 + 30, e.Bounds.Y + 10, StringFormat.GenericDefault);
+            }
+
             using (var ft = new Font("微软雅黑", 9.5f))
                 DrawLine(e, e.SubItem.Text, textBox1.Text, ft);
         }
@@ -166,7 +187,7 @@ namespace MemoHippo
             Form1.ShowPaperPadEx(itemInfo.CatalogId, itemInfo.ItemInfo);
 
             if (Form1 != null)
-                Form1.HideAll();
+                Form1.HideBlackPanel();
         }
     }
 }

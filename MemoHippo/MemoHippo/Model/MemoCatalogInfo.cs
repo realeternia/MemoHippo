@@ -11,28 +11,53 @@ namespace MemoHippo.Model
         public string Name { get; set; }
         public int Offset { get; set; }
 
-        private Color[] ColorTable = {
-            Color.FromArgb(0x40, 0x33, 0x24),
-            Color.FromArgb(0x1b, 0x2d, 0x38),
-            Color.FromArgb(0x3e, 0x28, 0x25)
+        public static Dictionary<string, Color> ColorTable = new Dictionary<string, Color>
+        {
+            ["深黄"] = Color.FromArgb(0x40, 0x33, 0x24),
+            ["深蓝"] = Color.FromArgb(0x1b, 0x2d, 0x38),
+            ["深红"] = Color.FromArgb(0x3e, 0x28, 0x25),
+            ["深绿"] = Color.FromArgb(0x00, 0x33, 0x00),  // 深绿
+            ["浅紫"] = Color.FromArgb(0x33, 0x19, 0x33),  // 浅紫
+            ["橙色"] = Color.FromArgb(0x4C, 0x33, 0x00),  // 橙色
+            ["橄榄绿"] = Color.FromArgb(0x26, 0x26, 0x00),  // 橄榄绿
+            ["靛青"] = Color.FromArgb(0x00, 0x33, 0x33),  // 靛青
+            ["玫瑰红"] = Color.FromArgb(0x4C, 0x00, 0x19),  // 玫瑰红
+            ["湖蓝"] = Color.FromArgb(0x00, 0x4C, 0x4C),  // 湖蓝
+            ["深灰"] = Color.FromArgb(0x19, 0x19, 0x19),  // 深灰
         };
+        private static Color[] ColorArray;
 
         public List<MemoColumnInfo> Columns = new List<MemoColumnInfo>();
 
-        public void AddColumn(string title)
+        static MemoCatalogInfo()
+        {
+            ColorArray = new Color[ColorTable.Count];
+            ColorTable.Values.CopyTo(ColorArray, 0);
+        }
+
+        public int AddColumn(string title)
         {
             MemoBook.Instance.ColumnIndex++;
             Offset++;
             var cInfo = new MemoColumnInfo();
             cInfo.Id = MemoBook.Instance.ColumnIndex;
             cInfo.Title = title;
-            cInfo.BgColor = ColorTable[Offset % ColorTable.Length].ToArgb();
+            cInfo.BgColor = ColorArray[Offset % ColorArray.Length].ToArgb();
             Columns.Add(cInfo);
+
+            return cInfo.Id;
         }
 
         public MemoColumnInfo GetColumn(int id)
         {
             return Columns.Find(a => a.Id == id);
+        }
+
+        public MemoColumnInfo RemoveColumn(int id)
+        {
+            var itm = Columns.Find(a => a.Id == id);
+            Columns.Remove(itm);
+            return itm;
         }
     }
 
@@ -44,13 +69,15 @@ namespace MemoHippo.Model
 
         public List<MemoItemInfo> Items = new List<MemoItemInfo>();
 
-        public void AddItem(string title)
+        public MemoItemInfo AddItem(string title)
         {
             MemoBook.Instance.ItemIndex++;
             var itmInfo = new MemoItemInfo();
             itmInfo.Id = MemoBook.Instance.ItemIndex;
             itmInfo.Title = title;
             Items.Add(itmInfo);
+
+            return itmInfo;
         }
         public MemoItemInfo GetItem(int id)
         {
@@ -89,6 +116,7 @@ namespace MemoHippo.Model
         public int Id { get; set; } //同文件存储路径
         public int Type { get; set; } //0 默认，1 背单词
         public string Title { get; set; }
+        public string Tag { get; set; }
         public string Icon { get; set; }
     }
 }

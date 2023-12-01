@@ -7,6 +7,7 @@ namespace MemoHippo.UIS
     public class TransparentPanel : Panel
     {
         public Bitmap BG { get; set; }
+        public float Brightness { get; set; } = 0.5f; // 控制亮度，1 为不变，大于 1 变亮，小于 1 变暗
 
         public TransparentPanel()
         {
@@ -17,11 +18,10 @@ namespace MemoHippo.UIS
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            float brightness = 0.5f; // 控制亮度，1 为不变，大于 1 变亮，小于 1 变暗
             float[][] matrixItems ={
-                    new float[] {brightness, 0, 0, 0, 0},
-                    new float[] {0, brightness, 0, 0, 0},
-                    new float[] {0, 0, brightness, 0, 0},
+                    new float[] { Brightness, 0, 0, 0, 0},
+                    new float[] {0, Brightness, 0, 0, 0},
+                    new float[] {0, 0, Brightness, 0, 0},
                     new float[] {0, 0, 0, 1, 0}, // 不影响 Alpha 通道（透明度）
                     new float[] {0, 0, 0, 0, 1}
                 };
@@ -29,7 +29,7 @@ namespace MemoHippo.UIS
             ImageAttributes imageAttr = new ImageAttributes();
             imageAttr.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
-            e.Graphics.DrawImage(BG, new Rectangle(0, 0, Width, Height), 0, 0, BG.Width, BG.Height, GraphicsUnit.Pixel, imageAttr);
+            e.Graphics.DrawImage(BG, new Rectangle(0, 0, Width, Height), 0, 0, Width, Height, GraphicsUnit.Pixel, imageAttr);
         }
 
         private void TransparentPanel_Click(object sender, System.EventArgs e)
@@ -44,14 +44,16 @@ namespace MemoHippo.UIS
             SendToBack();
         }
 
-        public void AddControl(Control c)
+        public void AddControl(Control c, int rx, int ry)
         {
-            int x = (Width - c.Width) / 2;
-            int y = (Height - c.Height) / 2;
+            if (rx + ry == 0)
+            {//自动居中
+                rx = (Width - c.Width) / 2;
+                ry = (Height - c.Height) / 2;
+            }
 
             // 设置 labelControl 的位置
-             c.Location = new Point(x, y);
-
+            c.Location = new Point(rx, ry);
             Controls.Add(c);
         }
     }

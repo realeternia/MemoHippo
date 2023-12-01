@@ -39,7 +39,7 @@ namespace MemoHippo.UIS
             this.doubleBufferedFlowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.doubleBufferedFlowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.doubleBufferedFlowLayoutPanel1.Name = "doubleBufferedFlowLayoutPanel1";
-            this.doubleBufferedFlowLayoutPanel1.Size = new System.Drawing.Size(453, 487);
+            this.doubleBufferedFlowLayoutPanel1.Size = new System.Drawing.Size(700, 487);
             this.doubleBufferedFlowLayoutPanel1.TabIndex = 0;
             // 
             // UCKVList
@@ -48,7 +48,7 @@ namespace MemoHippo.UIS
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.doubleBufferedFlowLayoutPanel1);
             this.Name = "UCKVList";
-            this.Size = new System.Drawing.Size(453, 487);
+            this.Size = new System.Drawing.Size(700, 487);
             this.ResumeLayout(false);
 
         }

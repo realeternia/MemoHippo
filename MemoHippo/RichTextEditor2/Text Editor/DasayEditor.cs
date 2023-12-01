@@ -9,6 +9,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Text_Editor
 {
@@ -26,13 +27,9 @@ namespace Text_Editor
         private void frmEditor_Load(object sender, EventArgs e)
         {
             this.SuspendLayout();
-            richTextBox1.AllowDrop = true;     // to allow drag and drop to the RichTextBox
             richTextBox1.AcceptsTab = true;    // allow tab
             richTextBox1.ShortcutsEnabled = true;    // allow shortcuts
             richTextBox1.DetectUrls = true;    // allow detect url
-            fontDialog1.ShowColor = true;
-            fontDialog1.ShowApply = true;
-            fontDialog1.ShowHelp = true;
 
             // fill zoomDropDownButton item list
             zoomDropDownButton.DropDown.Items.Add("20%");
@@ -50,13 +47,20 @@ namespace Text_Editor
             this.ucToolbar1.boldStripButton.Click += new System.EventHandler(this.boldStripButton3_Click);
             this.ucToolbar1.italicStripButton.Click += new System.EventHandler(this.italicStripButton_Click);
             this.ucToolbar1.underlineStripButton.Click += new System.EventHandler(this.underlineStripButton_Click);
+            this.ucToolbar1.toolStripButtonDel.Click += new System.EventHandler(this.delStripButton_Click);
             this.ucToolbar1.colorStripDropDownButton.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.colorStripDropDownButton_DropDownItemClicked);
             this.ucToolbar1.clearFormattingStripButton.Click += new System.EventHandler(this.clearFormattingStripButton_Click);
             this.ucToolbar1.blistToolStripMenuItem.Click += bulletListStripButton_Click;
             this.ucToolbar1.textToolStripMenuItem.Click += textListStripButton_Click;
+            this.ucToolbar1.head1ToolStripMenuItem.Click += head1ToolStripMenuItem_Click;
+            this.ucToolbar1.head2ToolStripMenuItem.Click += head2ToolStripMenuItem_Click;
+            this.ucToolbar1.head3ToolStripMenuItem.Click += head3ToolStripMenuItem_Click;
 
             textToolStripMenuItem.Click += textListStripButton_Click;
             toolStripMenuItemBullet.Click += bulletListStripButton_Click;
+            head1ToolStripMenuItem.Click += head1ToolStripMenuItem_Click;
+            head2ToolStripMenuItem.Click += head2ToolStripMenuItem_Click;
+            head3ToolStripMenuItem.Click += head3ToolStripMenuItem_Click;
         }
 
 
@@ -74,103 +78,52 @@ namespace Text_Editor
         {
             richTextBox1.Cut();     // cut text
         }
-
-        private void boldStripButton3_Click(object sender, EventArgs e)
+        private void ModifyFontStyle(FontStyle flag)
         {
             if (richTextBox1.SelectionFont == null)
-            {
                 return;
-            }
 
             // create fontStyle object
             FontStyle style = richTextBox1.SelectionFont.Style;
 
             // determines the font style
-            if (richTextBox1.SelectionFont.Bold)
-            {
-                style &= ~FontStyle.Bold; 
-            }
+            if ((style & flag) == flag)
+                style &= ~flag;
             else
-            {
-                style |= FontStyle.Bold;
+                style |= flag;
 
-            }
-            richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont, style);     // sets the font style
+            richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont, style); // sets the font style
+        }
+
+        private void boldStripButton3_Click(object sender, EventArgs e)
+        {
+            ModifyFontStyle(FontStyle.Bold);
         }
 
         private void underlineStripButton_Click(object sender, EventArgs e)
         {
-            if (richTextBox1.SelectionFont == null)
-            {
-                return;
-            }
-
-            // create fontStyle object
-            FontStyle style = richTextBox1.SelectionFont.Style;
-
-            // determines the font style
-            if (richTextBox1.SelectionFont.Underline)
-            {
-                style &= ~FontStyle.Underline;
-            }
-            else
-            {
-                style |= FontStyle.Underline;
-            }
-            richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont, style);    // sets the font style
+            ModifyFontStyle(FontStyle.Underline);
         }
 
         private void italicStripButton_Click(object sender, EventArgs e)
         {
-            if (richTextBox1.SelectionFont == null)
-            {
-                return;
-            }
-            // create fontStyle object
-            FontStyle style = richTextBox1.SelectionFont.Style;
-
-            // determines font style
-            if (richTextBox1.SelectionFont.Italic)
-            {
-                style &= ~FontStyle.Italic;
-            }
-            else
-            {
-                style |= FontStyle.Italic;
-            }
-            richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont, style);    // sets the font style
+            ModifyFontStyle(FontStyle.Italic);
         }
 
-        private void saveStripButton_Click(object sender, EventArgs e)
+        private void delStripButton_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string filename = filenamee;
-                // save the contents of the rich text box
-                richTextBox1.SaveFile(filename, RichTextBoxStreamType.RichText);
-                var file = Path.GetFileName(filename);    // get name of file
-                MessageBox.Show("File " + file + " was saved successfully.", "Save Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        private void openFileStripButton_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                filenamee = openFileDialog1.FileName;
-                // load the file into the richTextBox
-                richTextBox1.LoadFile(filenamee, RichTextBoxStreamType.RichText);    // loads it in regular text format
-                // richTextBox1.LoadFile(filename, RichTextBoxStreamType.RichText);    // loads it in RTB format
-            }
+            ModifyFontStyle(FontStyle.Strikeout);
         }
 
         public void LoadFile(string path)
         {
-            var fullPath = string.Format("save/{0}.rtf", path);
+            if(!string.IsNullOrEmpty(filenamee))
+            { //当前打开的文件保存
+                HighlightKeywords();
+                richTextBox1.SaveFile(filenamee, RichTextBoxStreamType.RichText);
+            }
+
+            var fullPath = string.Format("F:/MemoHippo/file/save/{0}.rtf", path);
             filenamee = fullPath;
             if (File.Exists(fullPath))
             {
@@ -193,6 +146,9 @@ namespace Text_Editor
 
         private void richTextBox1_SelectionChanged(object sender, EventArgs e)
         {
+            if (richTextBox1.IsSuspendPainting)
+                return;
+
             if (!string.IsNullOrEmpty(richTextBox1.SelectedText))
             {
                 var charPos = richTextBox1.GetPositionFromCharIndex(richTextBox1.SelectionStart);
@@ -206,66 +162,90 @@ namespace Text_Editor
             }
             else
             {
-                ucToolbar1.DelayVisible(false, 1000);
+                ucToolbar1.DelayVisible(false, 500);
             }
+        }
+
+ #region 行格式
+
+        private void SetBulletState(bool isOn)
+        {
+            if (richTextBox1.Text.Length == 0)
+                return;
+
+            if(isOn)
+            {
+                // 判断当前行的第一个字符是否是 "x"
+                if (!IsLineMyBullet(out int currentLineIndex))
+                {
+                    // 如果不是 "x"，在当前行的开头插入 "x"
+                    richTextBox1.SelectionStart = richTextBox1.GetFirstCharIndexFromLine(currentLineIndex);
+                    richTextBox1.SelectionLength = 0;
+                    richTextBox1.SelectedText = bulletMarker[richTextBox1.SelectionIndent / 30].ToString() + " ";
+                }
+            }
+            else
+            {
+                // 判断当前行的第一个字符是否是 "x"
+                if (IsLineMyBullet(out int currentLineIndex))
+                {
+                    // 如果是 "x"，选中并删除它
+                    richTextBox1.Select(richTextBox1.GetFirstCharIndexFromLine(currentLineIndex), 1);
+                    richTextBox1.SelectedText = "";
+
+                    richTextBox1.Select(richTextBox1.GetFirstCharIndexFromLine(currentLineIndex), 1);
+                    if (string.IsNullOrWhiteSpace(richTextBox1.SelectedText))
+                        richTextBox1.SelectedText = "";
+                }
+            }
+        }
+
+        private void SetLineFormat(float size, bool bold)
+        {
+            if (richTextBox1.Text.Length == 0)
+                return;
+
+            int rowIndex = richTextBox1.GetLineFromCharIndex(richTextBox1.SelectionStart);
+            int firstCharIndex = richTextBox1.GetFirstCharIndexFromLine(rowIndex);
+            int lineLength = richTextBox1.Lines[rowIndex].Length;
+
+            richTextBox1.Select(firstCharIndex, lineLength);
+
+            richTextBox1.SelectionFont = new Font(bold ? "黑体" : "微软雅黑", size, bold? FontStyle.Bold: FontStyle.Regular);
+
+            richTextBox1.SelectionLength = 0;
         }
 
         private void bulletListStripButton_Click(object sender, EventArgs e)
         {
-            // 判断当前行的第一个字符是否是 "x"
-            if (!IsLineMyBullet(out int currentLineIndex))
-            {
-                // 如果不是 "x"，在当前行的开头插入 "x"
-                richTextBox1.SelectionStart = richTextBox1.GetFirstCharIndexFromLine(currentLineIndex);
-                richTextBox1.SelectionLength = 0;
-                richTextBox1.SelectedText = bulletMarker[richTextBox1.SelectionIndent / 30].ToString() + " ";
-            }
+            SetBulletState(true);
+            SetLineFormat(12, false);
         }
 
         private void textListStripButton_Click(object sender, EventArgs e)
         {
-            // 判断当前行的第一个字符是否是 "x"
-            if (IsLineMyBullet(out int currentLineIndex))
-            {
-                // 如果是 "x"，选中并删除它
-                richTextBox1.Select(richTextBox1.GetFirstCharIndexFromLine(currentLineIndex), 1);
-                richTextBox1.SelectedText = "";
-
-                richTextBox1.Select(richTextBox1.GetFirstCharIndexFromLine(currentLineIndex), 1);
-                if(string.IsNullOrWhiteSpace(richTextBox1.SelectedText))
-                    richTextBox1.SelectedText = "";
-            }
+            SetBulletState(false);
+            SetLineFormat(12, false);
         }
 
-
-        //*********************************************************************************************
-        // richTextBox1_DragEnter - Custom Event. Copies text being dragged into the richTextBox      *
-        //*********************************************************************************************
-        private void richTextBox1_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
+        private void head1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.Text))
-                e.Effect = DragDropEffects.Copy;    // copies data to the RTB
-            else
-                e.Effect = DragDropEffects.None;    // doesn't accept data into RTB
+            SetBulletState(false);
+            SetLineFormat(22, true);
         }
-        //***************************************************************************************************
-        // richTextBox1_DragEnter - Custom Event. Drops the copied text being dragged onto the richTextBox  *
-        //***************************************************************************************************
-        private void richTextBox1_DragDrop(object sender,System.Windows.Forms.DragEventArgs e)
+
+        private void head2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // variables
-            int i;
-            String s;
-
-            // Get start position to drop the text.
-            i = richTextBox1.SelectionStart;
-            s = richTextBox1.Text.Substring(i);
-            richTextBox1.Text = richTextBox1.Text.Substring(0, i);
-
-            // Drop the text on to the RichTextBox.
-            richTextBox1.Text += e.Data.GetData(DataFormats.Text).ToString();
-            richTextBox1.Text += s;
+            SetBulletState(false);
+            SetLineFormat(18, true);
         }
+
+        private void head3ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetBulletState(false);
+            SetLineFormat(16, true);
+        }
+#endregion
 
         private void undoStripButton_Click(object sender, EventArgs e)
         {           
@@ -317,26 +297,6 @@ namespace Text_Editor
             }
         }
 
-        private void fontDialog1_HelpRequest(object sender, EventArgs e)
-        {
-            // display HelpRequest message
-            MessageBox.Show("Please choose a font and any other attributes; then hit Apply and OK.", "Font Dialog Help Request", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void fontDialog1_Apply(object sender, EventArgs e)
-        {
-            fontDialog1.FontMustExist = true;    // error if font doesn't exist
-            
-            richTextBox1.Font = fontDialog1.Font;    // set selected font (Includes: FontFamily, Size, and, Effect. No need to set them separately)
-            richTextBox1.ForeColor = fontDialog1.Color;    // set selected font color
-            
-            // sets the font for the controls inside richTextBox1
-            foreach (Control containedControl in richTextBox1.Controls)
-            {
-                containedControl.Font = fontDialog1.Font;
-            }
-        }
-
         private void deleteStripMenuItem_Click(object sender, EventArgs e)
         {
             richTextBox1.SelectedText = ""; // delete selected text
@@ -350,17 +310,9 @@ namespace Text_Editor
         private void ClearFormat()
         {
             if (richTextBox1.SelectionFont == null)
-            {
                 return;
-            }
-            // create fontStyle object
-            FontStyle style = richTextBox1.SelectionFont.Style;
 
-            style &= ~FontStyle.Underline;
-            style &= ~FontStyle.Bold;
-            style &= ~FontStyle.Italic;
-
-            richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont, style);
+            richTextBox1.SelectionFont = new Font("微软雅黑", 12);
         }
 
         private void imgStripButton_Click(object sender, EventArgs e)
@@ -378,16 +330,22 @@ namespace Text_Editor
                 {
                     bmp = new Bitmap(fileName);
                     Clipboard.SetDataObject(bmp);
-                    DataFormats.Format dataFormat =
-                        DataFormats.GetFormat(DataFormats.Bitmap);
+                    DataFormats.Format dataFormat = DataFormats.GetFormat(DataFormats.Bitmap);
                     if (richTextBox1.CanPaste(dataFormat))
                         richTextBox1.Paste(dataFormat);
                 }
                 catch (Exception exc)
                 {
-                    MessageBox.Show("图片插入失败。" + exc.Message, "提示",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("图片插入失败。" + exc.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+            }
+        }
+
+        private void toolStripButtonScreen_Click(object sender, EventArgs e)
+        {
+            if (Clipboard.ContainsImage())
+            {
+                richTextBox1.Paste();
             }
         }
 
@@ -440,25 +398,28 @@ namespace Text_Editor
 
         private void HighlightKeywords()
         {
+
             // 定义关键词和相应的颜色
-            var keywords = new string[] { "todo", "done" };
-            var highlightColor = Color.Lime;
+            var keywords = new Dictionary<string, Color>
+            {
+                ["todo"] = Color.Yellow,
+                ["done"] = Color.Cyan,
+            };
 
             // 保存原始光标位置和选择范围
             int originalSelectionStart = richTextBox1.SelectionStart;
             int originalSelectionLength = richTextBox1.SelectionLength;
-            var oldColor = richTextBox1.SelectionBackColor;
 
             richTextBox1.SuspendPainting();
 
             // 移动光标到文本开始
-            richTextBox1.SelectionStart = 0;
-            richTextBox1.SelectionBackColor = Color.Black;
-            richTextBox1.SelectionLength = richTextBox1.TextLength;
-            richTextBox1.SelectionColor = richTextBox1.ForeColor; // 恢复默认颜色
+            //richTextBox1.SelectionStart = 0;
+            //richTextBox1.SelectionBackColor = Color.Black;
+            //richTextBox1.SelectionLength = richTextBox1.TextLength;
+            //richTextBox1.SelectionColor = richTextBox1.ForeColor; // 恢复默认颜色
 
             // 遍历关键词并高亮
-            foreach (var keyword in keywords)
+            foreach (var keyword in keywords.Keys)
             {
                 int index = 0;
                 while (index < richTextBox1.TextLength)
@@ -469,7 +430,7 @@ namespace Text_Editor
 
                     richTextBox1.SelectionStart = index;
                     richTextBox1.SelectionLength = keyword.Length;
-                    richTextBox1.SelectionColor = highlightColor;
+                    richTextBox1.SelectionColor = keywords[keyword];
 
                     index += keyword.Length;
                 }
@@ -478,7 +439,6 @@ namespace Text_Editor
             // 还原光标位置和选择范围
             richTextBox1.SelectionStart = originalSelectionStart;
             richTextBox1.SelectionLength = originalSelectionLength;
-            richTextBox1.SelectionBackColor = oldColor;
 
             richTextBox1.ResumePainting();
         }
@@ -519,7 +479,7 @@ namespace Text_Editor
                 pictureBoxLeftS.Visible = true;
 
                 var charPos = richTextBox1.GetPositionFromCharIndex(charIndex);
-                pictureBoxLeftS.Location = new Point(20, charPos.Y + richTextBox1.Location.Y);
+                pictureBoxLeftS.Location = new Point(12, charPos.Y + richTextBox1.Location.Y);
                 lastRowId = rowIndex;
             }
         }
@@ -530,9 +490,5 @@ namespace Text_Editor
             customMenuStripRow.Show(p.X - 200, p.Y );
         }
 
-        private void toolStripLabelSyntax_Click(object sender, EventArgs e)
-        {
-            HighlightKeywords();
-        }
     }
 }
