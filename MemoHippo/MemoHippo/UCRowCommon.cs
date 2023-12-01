@@ -46,9 +46,6 @@ namespace MemoHippo
 
         public void SetIcon(string icon1)
         {
-            if (string.IsNullOrEmpty(icon1))
-                icon = ResLoader.Read("Icon/atr0.PNG");
-            else
                 icon = ResLoader.Read(icon1);
         }
 

@@ -49,6 +49,8 @@ namespace Text_Editor
             this.ucToolbar1.underlineStripButton.Click += new System.EventHandler(this.underlineStripButton_Click);
             this.ucToolbar1.toolStripButtonDel.Click += new System.EventHandler(this.delStripButton_Click);
             this.ucToolbar1.colorStripDropDownButton.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.colorStripDropDownButton_DropDownItemClicked);
+            foreach(var sub in ucToolbar1.colorStripDropDownButton.DropDownItems)
+                (sub as ToolStripMenuItem).DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.colorStripDropDownButton_DropDownItemClicked);
             this.ucToolbar1.clearFormattingStripButton.Click += new System.EventHandler(this.clearFormattingStripButton_Click);
             this.ucToolbar1.blistToolStripMenuItem.Click += bulletListStripButton_Click;
             this.ucToolbar1.textToolStripMenuItem.Click += textListStripButton_Click;
@@ -138,10 +140,8 @@ namespace Text_Editor
 
         private void colorStripDropDownButton_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            // creates a KnownColor object
-            KnownColor selectedColor;
-            selectedColor = (KnownColor)System.Enum.Parse(typeof(KnownColor), e.ClickedItem.Text);    // converts it to a Color Structure
-            richTextBox1.SelectionColor = Color.FromKnownColor(selectedColor);    // sets the selected color
+            richTextBox1.SelectionColor = (Color)e.ClickedItem.Tag;
+            ucToolbar1.colorStripDropDownButton.HideDropDown();
         }
 
         private void richTextBox1_SelectionChanged(object sender, EventArgs e)

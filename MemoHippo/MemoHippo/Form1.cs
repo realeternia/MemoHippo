@@ -266,10 +266,7 @@ namespace MemoHippo
 
         private void UpdatePaperIcon(string icon)
         {
-            if (string.IsNullOrEmpty(icon))
-                pictureBoxPaperIcon.Image = ResLoader.Read("Icon/atr0.PNG");
-            else
-                pictureBoxPaperIcon.Image = ResLoader.Read(icon);
+            pictureBoxPaperIcon.Image = ResLoader.Read(icon);
         }
 
         private void splitContainer2_Panel1_Click(object sender, System.EventArgs e)
@@ -358,10 +355,9 @@ namespace MemoHippo
         #region column的菜单支持
         private void InitMenu()
         {
-            foreach (var cr in MemoCatalogInfo.ColorTable)
+            foreach (var cr in ColorTool.DarkColorTable)
             {
                 ToolStripMenuItem blueMenuItem = new ToolStripMenuItem(cr.Key);
-                //    blueMenuItem.BackColor = Color.Blue;
                 blueMenuItem.BackColor = Color.FromArgb(24, 24, 24);
                 blueMenuItem.ForeColor = Color.White;
                 blueMenuItem.Image = ImageTool.CreateSolidColorBitmap(Color.FromArgb(cr.Value.R+40, cr.Value.G+40, cr.Value.B+40), 32, 32);
@@ -373,7 +369,7 @@ namespace MemoHippo
         private void ColorMenuItem_Click(object sender, EventArgs e)
         {
             var columnId = int.Parse(customMenuStripCol.Tag.ToString());
-            nowCatalog.GetColumn(columnId).BgColor = MemoCatalogInfo.ColorTable[(sender as ToolStripMenuItem).Text].ToArgb();
+            nowCatalog.GetColumn(columnId).BgColor = ColorTool.DarkColorTable[(sender as ToolStripMenuItem).Text].ToArgb();
 
             //todo 可以精细处理，就刷一列
             RefreshColumns(catalogId);

@@ -159,7 +159,7 @@
             // pictureBoxLeftS
             // 
             this.pictureBoxLeftS.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxLeftS.Image = global::Text_Editor.Properties.Resources._2023_10_25_194154;
+            this.pictureBoxLeftS.Image = MemoHippo.Properties.Resources.selector;
             this.pictureBoxLeftS.Location = new System.Drawing.Point(19, 290);
             this.pictureBoxLeftS.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBoxLeftS.Name = "pictureBoxLeftS";
@@ -192,7 +192,7 @@
             // imgStripButton
             // 
             this.imgStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.imgStripButton.Image = global::Text_Editor.Properties.Resources.pictureadd;
+            this.imgStripButton.Image = MemoHippo.Properties.Resources.pictureadd;
             this.imgStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.imgStripButton.Name = "imgStripButton";
             this.imgStripButton.Size = new System.Drawing.Size(29, 28);
@@ -202,7 +202,7 @@
             // toolStripButtonScreen
             // 
             this.toolStripButtonScreen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonScreen.Image = global::Text_Editor.Properties.Resources.picturepaste;
+            this.toolStripButtonScreen.Image = MemoHippo.Properties.Resources.picturepaste;
             this.toolStripButtonScreen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonScreen.Name = "toolStripButtonScreen";
             this.toolStripButtonScreen.Size = new System.Drawing.Size(29, 28);
@@ -275,7 +275,7 @@
             // 
             this.toolStripMenuItem2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
             this.toolStripMenuItem2.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F);
-            this.toolStripMenuItem2.Image = global::Text_Editor.Properties.Resources.copy;
+            this.toolStripMenuItem2.Image = MemoHippo.Properties.Resources.copy;
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             this.toolStripMenuItem2.Size = new System.Drawing.Size(185, 30);
@@ -285,7 +285,7 @@
             // 
             this.toolStripMenuItem4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
             this.toolStripMenuItem4.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F);
-            this.toolStripMenuItem4.Image = global::Text_Editor.Properties.Resources.del;
+            this.toolStripMenuItem4.Image = MemoHippo.Properties.Resources.del;
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
             this.toolStripMenuItem4.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             this.toolStripMenuItem4.Size = new System.Drawing.Size(185, 30);
@@ -301,7 +301,7 @@
             this.head2ToolStripMenuItem,
             this.head3ToolStripMenuItem});
             this.styleToolStripMenuItem.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F);
-            this.styleToolStripMenuItem.Image = global::Text_Editor.Properties.Resources.convert;
+            this.styleToolStripMenuItem.Image = MemoHippo.Properties.Resources.convert;
             this.styleToolStripMenuItem.Name = "styleToolStripMenuItem";
             this.styleToolStripMenuItem.Size = new System.Drawing.Size(185, 30);
             this.styleToolStripMenuItem.Text = "转换格式";

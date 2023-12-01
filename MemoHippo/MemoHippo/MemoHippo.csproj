@@ -61,6 +61,30 @@
   <ItemGroup>
     <Compile Include="Model\IRowItem.cs" />
     <Compile Include="Model\RTItemData.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ColorClassifier.cs" />
+    <Compile Include="Text Editor\DasayEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Text Editor\DasayEditor.designer.cs">
+      <DependentUpon>DasayEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Text Editor\MyMenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Text Editor\RichTextBoxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Text Editor\UCToolbar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Text Editor\UCToolbar.Designer.cs">
+      <DependentUpon>UCToolbar.cs</DependentUpon>
+    </Compile>
     <Compile Include="UCRowNikon.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -159,6 +183,7 @@
     <Compile Include="UIS\UCKVListItem.Designer.cs">
       <DependentUpon>UCKVListItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\ColorTool.cs" />
     <Compile Include="Utils\HLog.cs" />
     <Compile Include="Utils\ImageTool.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -166,14 +191,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
+    <EmbeddedResource Include="Text Editor\DasayEditor.resx">
+      <DependentUpon>DasayEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Text Editor\UCToolbar.resx">
+      <DependentUpon>UCToolbar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UCCatalogNew.resx">
       <DependentUpon>UCCatalogNew.cs</DependentUpon>
     </EmbeddedResource>
@@ -227,6 +253,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\colorf.png" />
+    <None Include="Resources\done.jpg" />
+    <None Include="Resources\menu.jpg" />
+    <None Include="Resources\search.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -236,23 +266,20 @@
       <Project>{dc2272a3-3148-4d36-a898-57b7cda658fd}</Project>
       <Name>PicResource</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RichTextEditor2\Text Editor\Text Editor.csproj">
-      <Project>{4272f390-d4c6-4663-98bc-f29dad158162}</Project>
-      <Name>Text Editor</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\119271862_0_final.png" />
+    <None Include="Resources\null.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\search.png" />
+    <None Include="Resources\noteadd.png" />
+    <None Include="Resources\note.png" />
+    <Content Include="Resources\convert.jpg" />
+    <Content Include="Resources\copy.jpg" />
+    <Content Include="Resources\del.jpg" />
+    <Content Include="Resources\del2.jpg" />
+    <Content Include="Resources\pictureadd.png" />
+    <Content Include="Resources\picturepaste.png" />
+    <Content Include="Resources\selector.jpg" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\menu.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\done.jpg" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

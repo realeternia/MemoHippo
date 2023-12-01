@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using MemoHippo.Utils;
+using System.Collections.Generic;
 using System.Drawing;
-using YamlDotNet.Serialization;
 
 namespace MemoHippo.Model
 {
@@ -11,28 +11,14 @@ namespace MemoHippo.Model
         public string Name { get; set; }
         public int Offset { get; set; }
 
-        public static Dictionary<string, Color> ColorTable = new Dictionary<string, Color>
-        {
-            ["深黄"] = Color.FromArgb(0x40, 0x33, 0x24),
-            ["深蓝"] = Color.FromArgb(0x1b, 0x2d, 0x38),
-            ["深红"] = Color.FromArgb(0x3e, 0x28, 0x25),
-            ["深绿"] = Color.FromArgb(0x00, 0x33, 0x00),  // 深绿
-            ["浅紫"] = Color.FromArgb(0x33, 0x19, 0x33),  // 浅紫
-            ["橙色"] = Color.FromArgb(0x4C, 0x33, 0x00),  // 橙色
-            ["橄榄绿"] = Color.FromArgb(0x26, 0x26, 0x00),  // 橄榄绿
-            ["靛青"] = Color.FromArgb(0x00, 0x33, 0x33),  // 靛青
-            ["玫瑰红"] = Color.FromArgb(0x4C, 0x00, 0x19),  // 玫瑰红
-            ["湖蓝"] = Color.FromArgb(0x00, 0x4C, 0x4C),  // 湖蓝
-            ["深灰"] = Color.FromArgb(0x19, 0x19, 0x19),  // 深灰
-        };
         private static Color[] ColorArray;
 
         public List<MemoColumnInfo> Columns = new List<MemoColumnInfo>();
 
         static MemoCatalogInfo()
         {
-            ColorArray = new Color[ColorTable.Count];
-            ColorTable.Values.CopyTo(ColorArray, 0);
+            ColorArray = new Color[ColorTool.DarkColorTable.Count];
+            ColorTool.DarkColorTable.Values.CopyTo(ColorArray, 0);
         }
 
         public int AddColumn(string title)

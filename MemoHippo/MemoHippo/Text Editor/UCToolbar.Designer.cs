@@ -34,6 +34,9 @@ namespace Text_Editor
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.textToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.blistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.head1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.head2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.head3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.changeCaseDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.lowercaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,9 +48,6 @@ namespace Text_Editor
             this.italicStripButton = new System.Windows.Forms.ToolStripButton();
             this.underlineStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonDel = new System.Windows.Forms.ToolStripButton();
-            this.head1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.head2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.head3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -101,10 +101,28 @@ namespace Text_Editor
             this.blistToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.blistToolStripMenuItem.Text = "条目";
             // 
+            // head1ToolStripMenuItem
+            // 
+            this.head1ToolStripMenuItem.Name = "head1ToolStripMenuItem";
+            this.head1ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.head1ToolStripMenuItem.Text = "一级标题";
+            // 
+            // head2ToolStripMenuItem
+            // 
+            this.head2ToolStripMenuItem.Name = "head2ToolStripMenuItem";
+            this.head2ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.head2ToolStripMenuItem.Text = "二级标题";
+            // 
+            // head3ToolStripMenuItem
+            // 
+            this.head3ToolStripMenuItem.Name = "head3ToolStripMenuItem";
+            this.head3ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.head3ToolStripMenuItem.Text = "三级标题";
+            // 
             // colorStripDropDownButton
             // 
             this.colorStripDropDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.colorStripDropDownButton.Image = ((System.Drawing.Image)(resources.GetObject("colorStripDropDownButton.Image")));
+            this.colorStripDropDownButton.Image = global::MemoHippo.Properties.Resources.colorf;
             this.colorStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.colorStripDropDownButton.Name = "colorStripDropDownButton";
             this.colorStripDropDownButton.Size = new System.Drawing.Size(38, 28);
@@ -125,13 +143,13 @@ namespace Text_Editor
             // lowercaseToolStripMenuItem
             // 
             this.lowercaseToolStripMenuItem.Name = "lowercaseToolStripMenuItem";
-            this.lowercaseToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.lowercaseToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.lowercaseToolStripMenuItem.Text = "&lowercase";
             // 
             // uppercaseToolStripMenuItem
             // 
             this.uppercaseToolStripMenuItem.Name = "uppercaseToolStripMenuItem";
-            this.uppercaseToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.uppercaseToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.uppercaseToolStripMenuItem.Text = "&UPPERCASE";
             // 
             // toolStripSeparator9
@@ -183,29 +201,11 @@ namespace Text_Editor
             // toolStripButtonDel
             // 
             this.toolStripButtonDel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonDel.Image = global::Text_Editor.Properties.Resources.del2;
+            this.toolStripButtonDel.Image = global::MemoHippo.Properties.Resources.del2;
             this.toolStripButtonDel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonDel.Name = "toolStripButtonDel";
             this.toolStripButtonDel.Size = new System.Drawing.Size(29, 28);
             this.toolStripButtonDel.Text = "toolStripButtonDel";
-            // 
-            // head1ToolStripMenuItem
-            // 
-            this.head1ToolStripMenuItem.Name = "head1ToolStripMenuItem";
-            this.head1ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.head1ToolStripMenuItem.Text = "一级标题";
-            // 
-            // head2ToolStripMenuItem
-            // 
-            this.head2ToolStripMenuItem.Name = "head2ToolStripMenuItem";
-            this.head2ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.head2ToolStripMenuItem.Text = "二级标题";
-            // 
-            // head3ToolStripMenuItem
-            // 
-            this.head3ToolStripMenuItem.Name = "head3ToolStripMenuItem";
-            this.head3ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.head3ToolStripMenuItem.Text = "三级标题";
             // 
             // UCToolbar
             // 

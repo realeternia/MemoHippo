@@ -33,16 +33,17 @@ namespace MemoHippo
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.ucCatalogSearch = new MemoHippo.UCCatalogNew();
             this.ucCatalogNew1 = new MemoHippo.UCCatalogNew();
             this.flowLayoutPanel1 = new MemoHippo.UIS.DoubleBufferedFlowLayoutPanel();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.textBoxCatalogTitle = new MemoHippo.UIS.HintTextBox();
             this.panel1 = new MemoHippo.UIS.DoubleBufferedPanel();
             this.ucTipAdd1 = new MemoHippo.UCColumnAdd();
-            this.uckvList1 = new MemoHippo.UIS.UCKVList();
+            this.doubleBufferedFlowLayoutPanel1 = new MemoHippo.UIS.DoubleBufferedFlowLayoutPanel();
             this.pictureBoxPaperIcon = new System.Windows.Forms.PictureBox();
             this.textBoxRowItemTitle = new MemoHippo.UIS.HintTextBox();
+            this.uckvList1 = new MemoHippo.UIS.UCKVList();
             this.dasayEditor1 = new Text_Editor.DasayEditor();
             this.panelBlack = new MemoHippo.UIS.TransparentPanel();
             this.customMenuStrip1 = new MemoHippo.UIS.CustomMenuStrip(this.components);
@@ -50,7 +51,6 @@ namespace MemoHippo
             this.customMenuStripCol = new MemoHippo.UIS.CustomMenuStrip(this.components);
             this.toolStripMenuItemDelCol = new System.Windows.Forms.ToolStripMenuItem();
             this.colorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.doubleBufferedFlowLayoutPanel1 = new MemoHippo.UIS.DoubleBufferedFlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -60,10 +60,10 @@ namespace MemoHippo
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.doubleBufferedFlowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPaperIcon)).BeginInit();
             this.customMenuStrip1.SuspendLayout();
             this.customMenuStripCol.SuspendLayout();
-            this.doubleBufferedFlowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -86,41 +86,6 @@ namespace MemoHippo
             this.splitContainer1.Size = new System.Drawing.Size(1833, 1078);
             this.splitContainer1.SplitterDistance = 240;
             this.splitContainer1.TabIndex = 3;
-            // 
-            // ucCatalogSearch
-            // 
-            this.ucCatalogSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.ucCatalogSearch.Font = new System.Drawing.Font("微软雅黑", 10.5F);
-            this.ucCatalogSearch.Location = new System.Drawing.Point(0, 2);
-            this.ucCatalogSearch.Margin = new System.Windows.Forms.Padding(0);
-            this.ucCatalogSearch.Name = "ucCatalogSearch";
-            this.ucCatalogSearch.PicPath = "Icon/rac4.PNG";
-            this.ucCatalogSearch.Size = new System.Drawing.Size(240, 38);
-            this.ucCatalogSearch.TabIndex = 2;
-            this.ucCatalogSearch.Title = "搜索";
-            this.ucCatalogSearch.Click += new System.EventHandler(this.ucCatalogSearch_Click);
-            // 
-            // ucCatalogNew1
-            // 
-            this.ucCatalogNew1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.ucCatalogNew1.Font = new System.Drawing.Font("微软雅黑", 10.5F);
-            this.ucCatalogNew1.Location = new System.Drawing.Point(0, 41);
-            this.ucCatalogNew1.Margin = new System.Windows.Forms.Padding(0);
-            this.ucCatalogNew1.Name = "ucCatalogNew1";
-            this.ucCatalogNew1.PicPath = "Icon/rac3.PNG";
-            this.ucCatalogNew1.Size = new System.Drawing.Size(240, 38);
-            this.ucCatalogNew1.TabIndex = 1;
-            this.ucCatalogNew1.Title = "新项目";
-            this.ucCatalogNew1.Click += new System.EventHandler(this.ucCatalogNew_Click);
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 85);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(240, 993);
-            this.flowLayoutPanel1.TabIndex = 0;
             // 
             // splitContainer2
             // 
@@ -145,6 +110,41 @@ namespace MemoHippo
             this.splitContainer2.Size = new System.Drawing.Size(1589, 1078);
             this.splitContainer2.SplitterDistance = 1094;
             this.splitContainer2.TabIndex = 0;
+            // 
+            // ucCatalogSearch
+            // 
+            this.ucCatalogSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.ucCatalogSearch.Font = new System.Drawing.Font("微软雅黑", 10.5F);
+            this.ucCatalogSearch.Location = new System.Drawing.Point(0, 2);
+            this.ucCatalogSearch.Margin = new System.Windows.Forms.Padding(0);
+            this.ucCatalogSearch.Name = "ucCatalogSearch";
+            this.ucCatalogSearch.PicImg = global::MemoHippo.Properties.Resources.search;
+            this.ucCatalogSearch.Size = new System.Drawing.Size(240, 38);
+            this.ucCatalogSearch.TabIndex = 2;
+            this.ucCatalogSearch.Title = "搜索";
+            this.ucCatalogSearch.Click += new System.EventHandler(this.ucCatalogSearch_Click);
+            // 
+            // ucCatalogNew1
+            // 
+            this.ucCatalogNew1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.ucCatalogNew1.Font = new System.Drawing.Font("微软雅黑", 10.5F);
+            this.ucCatalogNew1.Location = new System.Drawing.Point(0, 41);
+            this.ucCatalogNew1.Margin = new System.Windows.Forms.Padding(0);
+            this.ucCatalogNew1.Name = "ucCatalogNew1";
+            this.ucCatalogNew1.PicImg = global::MemoHippo.Properties.Resources.noteadd;
+            this.ucCatalogNew1.Size = new System.Drawing.Size(240, 38);
+            this.ucCatalogNew1.TabIndex = 1;
+            this.ucCatalogNew1.Title = "新项目";
+            this.ucCatalogNew1.Click += new System.EventHandler(this.ucCatalogNew_Click);
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 85);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(240, 993);
+            this.flowLayoutPanel1.TabIndex = 0;
             // 
             // textBoxCatalogTitle
             // 
@@ -185,13 +185,18 @@ namespace MemoHippo
             this.ucTipAdd1.Size = new System.Drawing.Size(60, 60);
             this.ucTipAdd1.TabIndex = 0;
             // 
-            // uckvList1
+            // doubleBufferedFlowLayoutPanel1
             // 
-            this.uckvList1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.uckvList1.Location = new System.Drawing.Point(3, 103);
-            this.uckvList1.Name = "uckvList1";
-            this.uckvList1.Size = new System.Drawing.Size(491, 165);
-            this.uckvList1.TabIndex = 5;
+            this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.pictureBoxPaperIcon);
+            this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.textBoxRowItemTitle);
+            this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.uckvList1);
+            this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.dasayEditor1);
+            this.doubleBufferedFlowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.doubleBufferedFlowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.doubleBufferedFlowLayoutPanel1.Name = "doubleBufferedFlowLayoutPanel1";
+            this.doubleBufferedFlowLayoutPanel1.Size = new System.Drawing.Size(491, 1078);
+            this.doubleBufferedFlowLayoutPanel1.TabIndex = 6;
+            this.doubleBufferedFlowLayoutPanel1.SizeChanged += new System.EventHandler(this.doubleBufferedFlowLayoutPanel1_SizeChanged);
             // 
             // pictureBoxPaperIcon
             // 
@@ -219,6 +224,14 @@ namespace MemoHippo
             this.textBoxRowItemTitle.Text = "点击输入标题";
             this.textBoxRowItemTitle.TrueText = "";
             this.textBoxRowItemTitle.TextChanged += new System.EventHandler(this.textBoxRowItemTitle_TextChanged);
+            // 
+            // uckvList1
+            // 
+            this.uckvList1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.uckvList1.Location = new System.Drawing.Point(3, 103);
+            this.uckvList1.Name = "uckvList1";
+            this.uckvList1.Size = new System.Drawing.Size(491, 165);
+            this.uckvList1.TabIndex = 5;
             // 
             // dasayEditor1
             // 
@@ -283,19 +296,6 @@ namespace MemoHippo
             this.colorToolStripMenuItem.Size = new System.Drawing.Size(125, 24);
             this.colorToolStripMenuItem.Text = "color";
             // 
-            // doubleBufferedFlowLayoutPanel1
-            // 
-            this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.pictureBoxPaperIcon);
-            this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.textBoxRowItemTitle);
-            this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.uckvList1);
-            this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.dasayEditor1);
-            this.doubleBufferedFlowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.doubleBufferedFlowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.doubleBufferedFlowLayoutPanel1.Name = "doubleBufferedFlowLayoutPanel1";
-            this.doubleBufferedFlowLayoutPanel1.Size = new System.Drawing.Size(491, 1078);
-            this.doubleBufferedFlowLayoutPanel1.TabIndex = 6;
-            this.doubleBufferedFlowLayoutPanel1.SizeChanged += new System.EventHandler(this.doubleBufferedFlowLayoutPanel1_SizeChanged);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -320,11 +320,11 @@ namespace MemoHippo
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.doubleBufferedFlowLayoutPanel1.ResumeLayout(false);
+            this.doubleBufferedFlowLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPaperIcon)).EndInit();
             this.customMenuStrip1.ResumeLayout(false);
             this.customMenuStripCol.ResumeLayout(false);
-            this.doubleBufferedFlowLayoutPanel1.ResumeLayout(false);
-            this.doubleBufferedFlowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }

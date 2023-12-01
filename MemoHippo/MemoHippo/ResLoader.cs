@@ -10,7 +10,7 @@ namespace MemoHippo
         static public Image Read(string path)
         {
             if(string.IsNullOrWhiteSpace(path))
-                return Properties.Resources.dicon;
+                return Properties.Resources._null;
 
             Bitmap bmp = null;
             try
@@ -22,7 +22,7 @@ namespace MemoHippo
             }
             catch
             {
-                bmp = Properties.Resources.dicon;
+                bmp = Properties.Resources._null;
             }
             return bmp;
         }
