@@ -1,5 +1,4 @@
-﻿using MemoHippo.UIS;
-using MemoHippo.Utils;
+﻿using MemoHippo.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -35,46 +34,39 @@ namespace MemoHippo
             textBox1.Focus();
         }
 
-        private bool textChangeLock;
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if (textChangeLock)
-                return;
-
-            //todo 搞一个延时绘制
-
-            listView1.Visible = false; //防止中途绘制出现奇怪问题
-            textChangeLock = true;
-            searchResults.Clear();
-            var searchTxt = textBox1.Text;
-            if (string.IsNullOrWhiteSpace(searchTxt))
+            DelayedActionExecutor.Trigger("ucsearch", 0.3f, () =>
             {
-                textChangeLock = false;
-                listView1.VirtualListSize = 0;
-                return;
-            }
-
-            foreach (var file in Directory.GetFiles("F:/MemoHippo/file/save"))
-            {
-                var fi = new FileInfo(file);
-                var itemId = fi.Name;
-
-                string rtfContent = File.ReadAllText(file);
-                string plainText = GetPlainTextFromRtf(rtfContent);
-
-                int lineid = 0;
-                foreach(var line in plainText.Split('\n'))
+                listView1.Visible = false; //防止中途绘制出现奇怪问题
+                searchResults.Clear();
+                var searchTxt = textBox1.Text;
+                if (string.IsNullOrWhiteSpace(searchTxt))
                 {
-                    if (line.IndexOf(searchTxt) >= 0)
-                        searchResults.Add(new SearchData { Line = line, Title = itemId, LineIndex = lineid + 1 });
-                    lineid++;
+                    listView1.VirtualListSize = 0;
+                    return;
                 }
-            }
 
-            listView1.VirtualListSize = searchResults.Count;
-            listView1.Visible = true;
-            textChangeLock = false;
-         
+                foreach (var file in Directory.GetFiles("F:/MemoHippo/file/save"))
+                {
+                    var fi = new FileInfo(file);
+                    var itemId = fi.Name;
+
+                    string rtfContent = File.ReadAllText(file);
+                    string plainText = GetPlainTextFromRtf(rtfContent);
+
+                    int lineid = 0;
+                    foreach (var line in plainText.Split('\n'))
+                    {
+                        if (line.IndexOf(searchTxt) >= 0)
+                            searchResults.Add(new SearchData { Line = line, Title = itemId, LineIndex = lineid + 1 });
+                        lineid++;
+                    }
+                }
+
+                listView1.VirtualListSize = searchResults.Count;
+                listView1.Visible = true;
+            });
         }
 
         private RichTextBox richTextBox = new RichTextBox();

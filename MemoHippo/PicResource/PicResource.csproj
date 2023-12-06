@@ -72,10 +72,6 @@
     <EmbeddedResource Include="Icon\atr6.PNG" />
     <EmbeddedResource Include="Icon\atr7.PNG" />
     <EmbeddedResource Include="Icon\atr8.PNG" />
-    <EmbeddedResource Include="Icon\cad1.PNG" />
-    <EmbeddedResource Include="Icon\cad2.PNG" />
-    <EmbeddedResource Include="Icon\cad3.PNG" />
-    <EmbeddedResource Include="Icon\cad4.PNG" />
     <EmbeddedResource Include="Icon\cup1.PNG" />
     <EmbeddedResource Include="Icon\cup2.PNG" />
     <EmbeddedResource Include="Icon\cup3.PNG" />
@@ -138,12 +134,6 @@
     <EmbeddedResource Include="Icon\mix3.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Icon\mth1.PNG" />
-    <EmbeddedResource Include="Icon\mth2.PNG" />
-    <EmbeddedResource Include="Icon\mth3.PNG" />
-    <EmbeddedResource Include="Icon\mth4.PNG" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Icon\oth1.PNG" />
     <EmbeddedResource Include="Icon\oth2.PNG" />
   </ItemGroup>
@@ -162,13 +152,6 @@
     <EmbeddedResource Include="Icon\job6.PNG" />
     <EmbeddedResource Include="Icon\job7.PNG" />
     <EmbeddedResource Include="Icon\job8.PNG" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Icon\sym1.PNG" />
-    <EmbeddedResource Include="Icon\sym2.PNG" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Icon\sym3.PNG" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon\oth5.PNG" />
@@ -217,6 +200,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="menu.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

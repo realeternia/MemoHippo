@@ -1,4 +1,5 @@
 ﻿using MemoHippo.Model;
+using MemoHippo.Panels;
 using MemoHippo.UIS;
 using MemoHippo.Utils;
 using System;
@@ -55,6 +56,8 @@ namespace MemoHippo
 
                 var deserializer = new DeserializerBuilder().Build();
                 MemoBook.Instance = deserializer.Deserialize<MemoBook>(yaml);
+                if (MemoBook.Instance.Cfg == null)
+                    MemoBook.Instance.Cfg = new MemoBookCfg();
                 var itm = RefreshCatalogs();
                 if (itm != null)
                     SelectCatalogItem(itm);
@@ -307,15 +310,32 @@ namespace MemoHippo
 
         private void pictureBoxPaperIcon_Click(object sender, System.EventArgs e)
         {
-            if (!textChangeLock)
-            {
-                if (nowRowItem != null)
-                    nowRowItem.Icon = "Icon/atr3.PNG";
-                if (nowRowItemCtr != null)
-                    nowRowItemCtr.SetIcon(nowRowItem.Icon);
-                UpdatePaperIcon(nowRowItem.Icon);
-            }
+            var iconPanel = new UCIconPicker();
+            iconPanel.Form1 = this;
+
+            Point absoluteLocation = pictureBoxPaperIcon.PointToScreen(new Point(0, 0));
+            ShowBlackPanel(iconPanel, absoluteLocation.X - Location.X - iconPanel.Width / 2, absoluteLocation.Y - Location.Y+5, 1);
+            iconPanel.OnInit();
+
+            //if (!textChangeLock)
+            //{
+            //    if (nowRowItem != null)
+            //        nowRowItem.Icon = "Icon/atr3.PNG";
+            //    if (nowRowItemCtr != null)
+            //        nowRowItemCtr.SetIcon(nowRowItem.Icon);
+            //    UpdatePaperIcon(nowRowItem.Icon);
+            //}
         }
+
+        public void PickIconFinish(string iconPath)
+        {
+            if (nowRowItem != null)
+                nowRowItem.Icon = iconPath;
+            if (nowRowItemCtr != null)
+                nowRowItemCtr.SetIcon(iconPath);
+            UpdatePaperIcon(iconPath);
+        }
+
         private void ucCatalogSearch_Click(object sender, System.EventArgs e)
         {
             var search = new UCSearch();
@@ -392,6 +412,16 @@ namespace MemoHippo
         {
             dasayEditor1.Width = doubleBufferedFlowLayoutPanel1.Width;
             dasayEditor1.Height = doubleBufferedFlowLayoutPanel1.Height - uckvList1.Location.Y - uckvList1.Height;
+        }
+
+        private void pictureBoxPaperIcon_MouseEnter(object sender, EventArgs e)
+        {
+            pictureBoxPaperIcon.BackColor = Color.FromArgb(96, 96, 96);
+        }
+
+        private void pictureBoxPaperIcon_MouseLeave(object sender, EventArgs e)
+        {
+            pictureBoxPaperIcon.BackColor = Color.FromArgb(32, 32, 32);
         }
     }
 }

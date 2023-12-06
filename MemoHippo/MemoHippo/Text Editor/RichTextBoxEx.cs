@@ -57,5 +57,6 @@ namespace Text_Editor
 
            // this.Invalidate();
         }
+
     }
 }

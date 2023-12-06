@@ -32,11 +32,12 @@ namespace MemoHippo
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.ucCatalogSearch = new MemoHippo.UCCatalogNew();
             this.ucCatalogNew1 = new MemoHippo.UCCatalogNew();
             this.flowLayoutPanel1 = new MemoHippo.UIS.DoubleBufferedFlowLayoutPanel();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.textBoxCatalogTitle = new MemoHippo.UIS.HintTextBox();
             this.panel1 = new MemoHippo.UIS.DoubleBufferedPanel();
             this.ucTipAdd1 = new MemoHippo.UCColumnAdd();
@@ -87,30 +88,6 @@ namespace MemoHippo
             this.splitContainer1.SplitterDistance = 240;
             this.splitContainer1.TabIndex = 3;
             // 
-            // splitContainer2
-            // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.splitContainer2.Name = "splitContainer2";
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.AutoScroll = true;
-            this.splitContainer2.Panel1.Controls.Add(this.textBoxCatalogTitle);
-            this.splitContainer2.Panel1.Controls.Add(this.panel1);
-            this.splitContainer2.Panel1.Click += new System.EventHandler(this.splitContainer2_Panel1_Click);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.splitContainer2.Panel2.Controls.Add(this.doubleBufferedFlowLayoutPanel1);
-            this.splitContainer2.Panel2MinSize = 0;
-            this.splitContainer2.Size = new System.Drawing.Size(1589, 1078);
-            this.splitContainer2.SplitterDistance = 1094;
-            this.splitContainer2.TabIndex = 0;
-            // 
             // ucCatalogSearch
             // 
             this.ucCatalogSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
@@ -145,6 +122,30 @@ namespace MemoHippo
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(240, 993);
             this.flowLayoutPanel1.TabIndex = 0;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.AutoScroll = true;
+            this.splitContainer2.Panel1.Controls.Add(this.textBoxCatalogTitle);
+            this.splitContainer2.Panel1.Controls.Add(this.panel1);
+            this.splitContainer2.Panel1.Click += new System.EventHandler(this.splitContainer2_Panel1_Click);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.splitContainer2.Panel2.Controls.Add(this.doubleBufferedFlowLayoutPanel1);
+            this.splitContainer2.Panel2MinSize = 0;
+            this.splitContainer2.Size = new System.Drawing.Size(1589, 1078);
+            this.splitContainer2.SplitterDistance = 1094;
+            this.splitContainer2.TabIndex = 0;
             // 
             // textBoxCatalogTitle
             // 
@@ -207,6 +208,8 @@ namespace MemoHippo
             this.pictureBoxPaperIcon.TabIndex = 3;
             this.pictureBoxPaperIcon.TabStop = false;
             this.pictureBoxPaperIcon.Click += new System.EventHandler(this.pictureBoxPaperIcon_Click);
+            this.pictureBoxPaperIcon.MouseEnter += new System.EventHandler(this.pictureBoxPaperIcon_MouseEnter);
+            this.pictureBoxPaperIcon.MouseLeave += new System.EventHandler(this.pictureBoxPaperIcon_MouseLeave);
             // 
             // textBoxRowItemTitle
             // 
@@ -305,6 +308,7 @@ namespace MemoHippo
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.panelBlack);
             this.ForeColor = System.Drawing.Color.White;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
             this.Text = "Form1";

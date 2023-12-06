@@ -47,10 +47,12 @@ namespace MemoHippo
             this.textBox1.DefaultText = "输入搜索";
             this.textBox1.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.textBox1.ForeColor = System.Drawing.Color.White;
+            this.textBox1.ForeColorDE = System.Drawing.Color.White;
             this.textBox1.Location = new System.Drawing.Point(53, 12);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(631, 33);
             this.textBox1.TabIndex = 0;
+            this.textBox1.TrueText = "";
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // listView1

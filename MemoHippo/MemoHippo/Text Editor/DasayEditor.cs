@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
+using MemoHippo.Utils;
 
 namespace Text_Editor
 {
@@ -359,7 +360,7 @@ namespace Text_Editor
             string currentLineText = richTextBox1.Lines[Math.Max(0, currentLineIndex + lineOff)];
 
             // 判断当前行的第一个字符是否是 "x"
-            if (currentLineText.Length == 0 || bulletMarker.Contains(currentLineText[0]))
+            if (currentLineText.Length > 0 && bulletMarker.Contains(currentLineText[0]))
                 return true;
             return false;
         }
@@ -386,13 +387,21 @@ namespace Text_Editor
                         richTextBox1.SelectionIndent = Math.Max(0, richTextBox1.SelectionIndent - 30);
                     else
                         richTextBox1.SelectionIndent = Math.Min(240, richTextBox1.SelectionIndent + 30);
-                    if(IsLineMyBullet(out int lineIndex))
+                    if (IsLineMyBullet(out int lineIndex))
                     {
                         richTextBox1.SelectionStart = richTextBox1.GetFirstCharIndexFromLine(lineIndex);
                         richTextBox1.SelectionLength = 2;
                         richTextBox1.SelectedText = bulletMarker[richTextBox1.SelectionIndent / 30].ToString() + " ";
                     }
                     break;
+            }
+        }
+
+        private void richTextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab)
+            {
+                e.SuppressKeyPress = true;// 阻止 Tab 键的默认行为
             }
         }
 
@@ -443,13 +452,6 @@ namespace Text_Editor
             richTextBox1.ResumePainting();
         }
 
-        private void richTextBox1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Tab)
-            {
-                e.SuppressKeyPress = true;// 阻止 Tab 键的默认行为
-            }
-        }
 
         //****************************************************************************************************************************
         // richTextBox1_MouseDown - Gets the line and column numbers of the cursor position in the RTB when the mouse clicks an area *
@@ -490,5 +492,16 @@ namespace Text_Editor
             customMenuStripRow.Show(p.X - 200, p.Y );
         }
 
+        private void richTextBox1_MouseEnter(object sender, EventArgs e)
+        {
+            // 鼠标进入时，清除掉粘贴板的格式
+            IDataObject dataObj = Clipboard.GetDataObject();
+            if (dataObj.GetDataPresent(DataFormats.StringFormat))
+            {
+                var txt = (string)Clipboard.GetData(DataFormats.StringFormat);
+                Clipboard.Clear();
+                Clipboard.SetData(DataFormats.StringFormat, txt);
+            }
+        }
     }
 }
