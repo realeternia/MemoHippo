@@ -53,7 +53,7 @@ namespace MemoHippo.Panels
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.doubleBufferedPanel1);
             this.Name = "UCIconPicker";
-            this.Size = new System.Drawing.Size(473, 520);
+            this.Size = new System.Drawing.Size(485, 520);
             this.ResumeLayout(false);
 
         }

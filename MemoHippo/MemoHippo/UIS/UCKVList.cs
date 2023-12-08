@@ -18,7 +18,7 @@ namespace MemoHippo.UIS
             doubleBufferedFlowLayoutPanel1.Controls.Clear();
 
           //  AddData("类型", itemInfo.Type.ToString());
-            AddData("创建时间", new FileInfo("F:/MemoHippo/file/save/" + itemInfo.Id + ".rtf").CreationTime.ToString());
+            AddData("创建时间", new FileInfo(string.Format("{0}/{1}.rtf", ENV.SaveDir, itemInfo.Id)).CreationTime.ToString());
             AddMulData("标签", itemInfo);
 
             Width = 700 - 5;

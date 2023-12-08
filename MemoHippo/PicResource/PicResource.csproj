@@ -204,6 +204,59 @@
   <ItemGroup>
     <EmbeddedResource Include="menu.txt" />
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Work\285633_image_image.png" />
+    <EmbeddedResource Include="Work\285638_pencil_pencil.png" />
+    <EmbeddedResource Include="Work\285639_heart_heart.png" />
+    <EmbeddedResource Include="Work\285642_monitor_monitor.png" />
+    <EmbeddedResource Include="Work\285647_globe_globe.png" />
+    <EmbeddedResource Include="Work\285649_camera_camera.png" />
+    <EmbeddedResource Include="Work\285651_search_search.png" />
+    <EmbeddedResource Include="Work\285652_vinyl_vinyl_disc_disc.png" />
+    <EmbeddedResource Include="Work\285657_floppy_save_guardar.png" />
+    <EmbeddedResource Include="Work\285659_marker_map_marker_map.png" />
+    <EmbeddedResource Include="Work\285661_star_star.png" />
+    <EmbeddedResource Include="Work\285665_calendar_calendar.png" />
+    <EmbeddedResource Include="Work\285667_bubbles_bubbles.png" />
+    <EmbeddedResource Include="Work\285670_calendar_calendar.png" />
+    <EmbeddedResource Include="Work\285673_clock_clock.png" />
+    <EmbeddedResource Include="Work\285682_enveloppe_enveloppe.png" />
+    <EmbeddedResource Include="Work\285687_bubbles_bubbles.png" />
+    <EmbeddedResource Include="Work\285689_wrench_wrench.png" />
+    <EmbeddedResource Include="Work\285692_bubble_bubble.png" />
+    <EmbeddedResource Include="Work\299035_marker_marker.png" />
+    <EmbeddedResource Include="Work\299039_beer_beer.png" />
+    <EmbeddedResource Include="Work\299040_star_star.png" />
+    <EmbeddedResource Include="Work\299045_error_error_sign_sign.png" />
+    <EmbeddedResource Include="Work\299050_map_map.png" />
+    <EmbeddedResource Include="Work\299051_ban_sign_sign_ban.png" />
+    <EmbeddedResource Include="Work\299052_flask_flask.png" />
+    <EmbeddedResource Include="Work\299054_bulb_bulb_light_light.png" />
+    <EmbeddedResource Include="Work\299056_shield_error_error_shield.png" />
+    <EmbeddedResource Include="Work\299057_buoy_buoy_life_life.png" />
+    <EmbeddedResource Include="Work\299058_tag_tag.png" />
+    <EmbeddedResource Include="Work\299061_house_house.png" />
+    <EmbeddedResource Include="Work\299062_institution_institution.png" />
+    <EmbeddedResource Include="Work\299063_heart_heart.png" />
+    <EmbeddedResource Include="Work\299065_component_component.png" />
+    <EmbeddedResource Include="Work\299068_sign_add_sign_add.png" />
+    <EmbeddedResource Include="Work\299070_shield_shield.png" />
+    <EmbeddedResource Include="Work\299071_trashcan_trashcan.png" />
+    <EmbeddedResource Include="Work\299077_cone_cone.png" />
+    <EmbeddedResource Include="Work\299078_cog_cog.png" />
+    <EmbeddedResource Include="Work\299083_paperclip_paperclip.png" />
+    <EmbeddedResource Include="Work\299086_sign_info_sign_info.png" />
+    <EmbeddedResource Include="Work\299091_lock_open_open_lock.png" />
+    <EmbeddedResource Include="Work\299097_sync_sync_cloud_cloud.png" />
+    <EmbeddedResource Include="Work\299100_wrench_wrench_screwdriver_screwdriver.png" />
+    <EmbeddedResource Include="Work\299102_box_box_in_in.png" />
+    <EmbeddedResource Include="Work\299103_down_cloud_cloud_down.png" />
+    <EmbeddedResource Include="Work\299105_lock_lock.png" />
+    <EmbeddedResource Include="Work\299108_gift_gift.png" />
+    <EmbeddedResource Include="Work\299110_check_sign_check_sign.png" />
+    <EmbeddedResource Include="Work\299112_warning_shield_shield_warning.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

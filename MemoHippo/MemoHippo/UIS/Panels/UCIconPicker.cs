@@ -30,6 +30,8 @@ namespace MemoHippo.Panels
         private List<IconRect> toDrawIcons;
         private List<IconGroupTitle> titles;
 
+        public Action<string> AfterSelect;
+
         public UCIconPicker()
         {
             InitializeComponent();
@@ -39,20 +41,27 @@ namespace MemoHippo.Panels
 
             if (MemoBook.Instance.Cfg.RecentIcons.Count == 0)
             {
-                var rowCount = InitIconRegion(ResLoader.GetFileList(), 0, 0);
+                titles.Add(new IconGroupTitle { Name = "任务", Location = new Point(0, 0) });
+                var rowCount = InitIconRegion(ResLoader.GetFileList("Work"), 0, wordHeight);
 
-                doubleBufferedPanel1.Height = rowCount * (iconSize + iconPadding) + 20;
+                titles.Add(new IconGroupTitle { Name = "幻兽", Location = new Point(0, rowCount * (iconSize + iconPadding) + wordHeight) });
+                rowCount += InitIconRegion(ResLoader.GetFileList("Icon"), rowCount, rowCount * (iconSize + iconPadding) + wordHeight * 2);
+
+                doubleBufferedPanel1.Height = rowCount * (iconSize + iconPadding) + wordHeight * 2;
             }
             else
             {
                 titles.Add(new IconGroupTitle { Name = "最近", Location = new Point(0, 0) });
-                var rowCount = InitIconRegion(MemoBook.Instance.Cfg.RecentIcons.ToArray(), 0, 0 + wordHeight);
-                titles.Add(new IconGroupTitle { Name = "默认", Location = new Point(0, rowCount * (iconSize + iconPadding) + wordHeight) });
-                rowCount += InitIconRegion(ResLoader.GetFileList(), rowCount, rowCount * (iconSize + iconPadding) + wordHeight * 2);
+                var rowCount = InitIconRegion(MemoBook.Instance.Cfg.RecentIcons, 0, wordHeight);
 
-                doubleBufferedPanel1.Height = rowCount * (iconSize + iconPadding) + wordHeight * 2;
+                titles.Add(new IconGroupTitle { Name = "任务", Location = new Point(0, rowCount * (iconSize + iconPadding) + wordHeight) });
+                rowCount += InitIconRegion(ResLoader.GetFileList("Work"), rowCount, rowCount * (iconSize + iconPadding) + wordHeight * 2);
+
+                titles.Add(new IconGroupTitle { Name = "幻兽", Location = new Point(0, rowCount * (iconSize + iconPadding) + wordHeight * 2) });
+                rowCount += InitIconRegion(ResLoader.GetFileList("Icon"), rowCount, rowCount * (iconSize + iconPadding) + wordHeight * 3);
+
+                doubleBufferedPanel1.Height = rowCount * (iconSize + iconPadding) + wordHeight * 4;
             }
-
         }
 
         public void OnInit()
@@ -61,7 +70,7 @@ namespace MemoHippo.Panels
             doubleBufferedPanel1.Focus();
         }
 
-        private int InitIconRegion(string[] imgList, int rowOff, int yOff)
+        private int InitIconRegion(List<string> imgList, int rowOff, int yOff)
         {
             int idx = 0;
             for (int row = 0; row < 99; row++)
@@ -72,7 +81,7 @@ namespace MemoHippo.Panels
                     int y = row * (iconSize + iconPadding) + iconPadding;
 
                     Rectangle iconRect = new Rectangle(x, y + yOff, iconSize, iconSize);
-                    if (idx < imgList.Length)
+                    if (idx < imgList.Count)
                         toDrawIcons.Add(new IconRect { Id= toDrawIcons.Count, Path = imgList[idx].Trim(), Row = new Point(col, row + rowOff), Rect = iconRect });
                     else
                         return row + 1;
@@ -156,7 +165,10 @@ namespace MemoHippo.Panels
             MemoBook.Instance.Cfg.RecentIcons.Insert(0, nowPath);
             if (MemoBook.Instance.Cfg.RecentIcons.Count > 10)
                 MemoBook.Instance.Cfg.RecentIcons.RemoveAt(MemoBook.Instance.Cfg.RecentIcons.Count - 1);
-            Form1.PickIconFinish(nowPath);
+
+            if(AfterSelect != null)
+                AfterSelect(nowPath);
+
             Form1.HideBlackPanel();
         }
 

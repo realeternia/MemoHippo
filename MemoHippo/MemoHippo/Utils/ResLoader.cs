@@ -26,7 +26,7 @@ namespace MemoHippo
             return Properties.Resources._null;
         }
 
-        static public string[] GetFileList()
+        static public List<string> GetFileList(string folder)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace MemoHippo
                 if (myStream != null)
                 {
                     var sr = new StreamReader(myStream);
-                    return sr.ReadToEnd().Split('\n');
+                    return new List<string>(sr.ReadToEnd().Split('\n')).FindAll(a => a.StartsWith(folder));
                 }
             }
             catch

@@ -42,7 +42,7 @@ namespace MemoHippo
         {
             base.AfterInit();
 
-            var fullPath = string.Format("F:/MemoHippo/file/save/{0}.rtf", ItemId);
+            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, ItemId);
             var infos = ConvertRtfToPlainText(File.ReadAllText(fullPath));
             foreach(var info in infos.Split('\n'))
             {

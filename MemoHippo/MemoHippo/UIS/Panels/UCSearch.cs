@@ -47,7 +47,7 @@ namespace MemoHippo
                     return;
                 }
 
-                foreach (var file in Directory.GetFiles("F:/MemoHippo/file/save"))
+                foreach (var file in Directory.GetFiles(ENV.SaveDir))
                 {
                     var fi = new FileInfo(file);
                     var itemId = fi.Name;

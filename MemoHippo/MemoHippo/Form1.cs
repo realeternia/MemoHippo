@@ -33,6 +33,8 @@ namespace MemoHippo
         {
             InitializeComponent();
 
+            dasayEditor1.ParentC = this;
+
             ucTipAdd1.button1.Click += columnNew_Click;
 
             // 先隐藏面板
@@ -43,6 +45,8 @@ namespace MemoHippo
 
         private void Form1_Load(object sender, System.EventArgs e)
         {
+            FontMgr.Init();
+
             textBoxCatalogTitle.OnLoad();
             textBoxRowItemTitle.OnLoad();
 
@@ -50,9 +54,9 @@ namespace MemoHippo
             colAddInputBox.Form1 = this;
             colAddInputBox.OnCustomTextChanged += Hintbox_OnCustomTextChanged;
 
-            if (File.Exists("F:/MemoHippo/file/memo.yaml"))
+            if (File.Exists(ENV.BaseDir+ "/memo.yaml"))
             {
-                var yaml = File.ReadAllText("F:/MemoHippo/file/memo.yaml", Encoding.UTF8);
+                var yaml = File.ReadAllText(ENV.BaseDir + "/memo.yaml", Encoding.UTF8);
 
                 var deserializer = new DeserializerBuilder().Build();
                 MemoBook.Instance = deserializer.Deserialize<MemoBook>(yaml);
@@ -282,7 +286,7 @@ namespace MemoHippo
         {
             var serializer = new SerializerBuilder().Build();
             var yaml = serializer.Serialize(MemoBook.Instance);
-            File.WriteAllText("F:/MemoHippo/file/memo.yaml", yaml, Encoding.UTF8);
+            File.WriteAllText(ENV.BaseDir + "/memo.yaml", yaml, Encoding.UTF8);
         }
 
         private void textBoxRowItemTitle_TextChanged(object sender, System.EventArgs e)
@@ -296,6 +300,11 @@ namespace MemoHippo
             }
         }
 
+        public void SetRowTitleInfo(string title, string iconPath)
+        {
+            textBoxRowItemTitle.TrueText = title;
+            UpdateIcon(iconPath);
+        }
 
         private void textBoxCatalogTitle_TextChanged(object sender, System.EventArgs e)
         {
@@ -308,32 +317,27 @@ namespace MemoHippo
             }
         }
 
-        private void pictureBoxPaperIcon_Click(object sender, System.EventArgs e)
-        {
-            var iconPanel = new UCIconPicker();
-            iconPanel.Form1 = this;
-
-            Point absoluteLocation = pictureBoxPaperIcon.PointToScreen(new Point(0, 0));
-            ShowBlackPanel(iconPanel, absoluteLocation.X - Location.X - iconPanel.Width / 2, absoluteLocation.Y - Location.Y+5, 1);
-            iconPanel.OnInit();
-
-            //if (!textChangeLock)
-            //{
-            //    if (nowRowItem != null)
-            //        nowRowItem.Icon = "Icon/atr3.PNG";
-            //    if (nowRowItemCtr != null)
-            //        nowRowItemCtr.SetIcon(nowRowItem.Icon);
-            //    UpdatePaperIcon(nowRowItem.Icon);
-            //}
-        }
-
-        public void PickIconFinish(string iconPath)
+        private void UpdateIcon(string iconPath)
         {
             if (nowRowItem != null)
                 nowRowItem.Icon = iconPath;
             if (nowRowItemCtr != null)
                 nowRowItemCtr.SetIcon(iconPath);
             UpdatePaperIcon(iconPath);
+        }
+
+        private void pictureBoxPaperIcon_Click(object sender, System.EventArgs e)
+        {
+            var iconPanel = new UCIconPicker();
+            iconPanel.Form1 = this;
+            iconPanel.AfterSelect = (iconPath) =>
+            {
+                UpdateIcon(iconPath);
+            };
+
+            Point absoluteLocation = pictureBoxPaperIcon.PointToScreen(new Point(0, 0));
+            ShowBlackPanel(iconPanel, absoluteLocation.X - Location.X - iconPanel.Width / 2, absoluteLocation.Y - Location.Y+5, 1);
+            iconPanel.OnInit();
         }
 
         private void ucCatalogSearch_Click(object sender, System.EventArgs e)

@@ -29,5 +29,17 @@ namespace MemoHippo.Utils
             imgMap[colorName] = bitmap;
             return bitmap;
         }
+
+        public static Bitmap Transparent2Color(Bitmap bmp1, Color bgColor, int width, int height)
+        {
+            Bitmap bmp2 = new Bitmap(width, height);
+            Rectangle rect = new Rectangle(Point.Empty, bmp2.Size);
+            using (Graphics G = Graphics.FromImage(bmp2))
+            {
+                G.Clear(bgColor);
+                G.DrawImage(bmp1, rect, new Rectangle(0, 0, bmp1.Width, bmp1.Height), GraphicsUnit.Pixel);
+            }
+            return bmp2;
+        }
     }
 }

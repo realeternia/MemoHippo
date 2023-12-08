@@ -36,9 +36,12 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.imgStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonScreen = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonEmo = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonWrap = new System.Windows.Forms.ToolStripButton();
             this.zoomDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.pictureBoxLeftS = new System.Windows.Forms.PictureBox();
+            this.toolStripDropDownButtonTemplate = new System.Windows.Forms.ToolStripDropDownButton();
             this.ucToolbar1 = new Text_Editor.UCToolbar();
             this.richTextBox1 = new Text_Editor.RichTextBoxEx();
             this.contextStripMouse = new Text_Editor.CustomMenuStrip(this.components);
@@ -56,11 +59,10 @@
             this.head1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.head2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.head3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pictureBoxLeftS = new System.Windows.Forms.PictureBox();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLeftS)).BeginInit();
             this.contextStripMouse.SuspendLayout();
             this.customMenuStripRow.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLeftS)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -73,8 +75,10 @@
             this.toolStripSeparator1,
             this.imgStripButton,
             this.toolStripButtonScreen,
+            this.toolStripButtonEmo,
             this.toolStripSeparator2,
-            this.toolStripButton1,
+            this.toolStripDropDownButtonTemplate,
+            this.toolStripButtonWrap,
             this.zoomDropDownButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -127,22 +131,32 @@
             this.toolStripButtonScreen.Text = "黏贴图片";
             this.toolStripButtonScreen.Click += new System.EventHandler(this.toolStripButtonScreen_Click);
             // 
+            // toolStripButtonEmo
+            // 
+            this.toolStripButtonEmo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonEmo.Image = global::MemoHippo.Properties.Resources.smile;
+            this.toolStripButtonEmo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonEmo.Name = "toolStripButtonEmo";
+            this.toolStripButtonEmo.Size = new System.Drawing.Size(29, 28);
+            this.toolStripButtonEmo.Text = "添加表情";
+            this.toolStripButtonEmo.Click += new System.EventHandler(this.toolStripButtonEmo_Click);
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
             // 
-            // toolStripButton1
+            // toolStripButtonWrap
             // 
-            this.toolStripButton1.BackColor = System.Drawing.SystemColors.Control;
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.ForeColor = System.Drawing.Color.Black;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(73, 28);
-            this.toolStripButton1.Text = "自动换行";
-            this.toolStripButton1.Click += new System.EventHandler(this.wordWrapToolStripMenuItem_Click);
+            this.toolStripButtonWrap.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStripButtonWrap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonWrap.ForeColor = System.Drawing.Color.Black;
+            this.toolStripButtonWrap.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonWrap.Image")));
+            this.toolStripButtonWrap.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonWrap.Name = "toolStripButtonWrap";
+            this.toolStripButtonWrap.Size = new System.Drawing.Size(73, 28);
+            this.toolStripButtonWrap.Text = "自动换行";
+            this.toolStripButtonWrap.Click += new System.EventHandler(this.wordWrapToolStripMenuItem_Click);
             // 
             // zoomDropDownButton
             // 
@@ -153,6 +167,30 @@
             this.zoomDropDownButton.Size = new System.Drawing.Size(38, 28);
             this.zoomDropDownButton.Text = "Zoom Factor";
             this.zoomDropDownButton.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.zoomDropDownButton_DropDownItemClicked);
+            // 
+            // pictureBoxLeftS
+            // 
+            this.pictureBoxLeftS.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBoxLeftS.Image = global::MemoHippo.Properties.Resources.selector;
+            this.pictureBoxLeftS.Location = new System.Drawing.Point(19, 290);
+            this.pictureBoxLeftS.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBoxLeftS.Name = "pictureBoxLeftS";
+            this.pictureBoxLeftS.Size = new System.Drawing.Size(18, 30);
+            this.pictureBoxLeftS.TabIndex = 21;
+            this.pictureBoxLeftS.TabStop = false;
+            this.pictureBoxLeftS.Visible = false;
+            this.pictureBoxLeftS.Click += new System.EventHandler(this.pictureBoxLeftS_Click);
+            // 
+            // toolStripDropDownButtonTemplate
+            // 
+            this.toolStripDropDownButtonTemplate.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStripDropDownButtonTemplate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButtonTemplate.ForeColor = System.Drawing.Color.Black;
+            this.toolStripDropDownButtonTemplate.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonTemplate.Image")));
+            this.toolStripDropDownButtonTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButtonTemplate.Name = "toolStripDropDownButtonTemplate";
+            this.toolStripDropDownButtonTemplate.Size = new System.Drawing.Size(53, 28);
+            this.toolStripDropDownButtonTemplate.Text = "模板";
             // 
             // ucToolbar1
             // 
@@ -337,19 +375,6 @@
             this.head3ToolStripMenuItem.Size = new System.Drawing.Size(162, 28);
             this.head3ToolStripMenuItem.Text = "三级标题";
             // 
-            // pictureBoxLeftS
-            // 
-            this.pictureBoxLeftS.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxLeftS.Image = global::MemoHippo.Properties.Resources.selector;
-            this.pictureBoxLeftS.Location = new System.Drawing.Point(19, 290);
-            this.pictureBoxLeftS.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBoxLeftS.Name = "pictureBoxLeftS";
-            this.pictureBoxLeftS.Size = new System.Drawing.Size(18, 30);
-            this.pictureBoxLeftS.TabIndex = 21;
-            this.pictureBoxLeftS.TabStop = false;
-            this.pictureBoxLeftS.Visible = false;
-            this.pictureBoxLeftS.Click += new System.EventHandler(this.pictureBoxLeftS_Click);
-            // 
             // DasayEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -365,9 +390,9 @@
             this.Load += new System.EventHandler(this.frmEditor_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLeftS)).EndInit();
             this.contextStripMouse.ResumeLayout(false);
             this.customMenuStripRow.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLeftS)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -390,7 +415,7 @@
         private System.Windows.Forms.ToolStripButton imgStripButton;
         private UCToolbar ucToolbar1;
         private System.Windows.Forms.PictureBox pictureBoxLeftS;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonWrap;
         private CustomMenuStrip customMenuStripRow;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
@@ -402,5 +427,7 @@
         private System.Windows.Forms.ToolStripMenuItem head1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem head2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem head3ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton toolStripButtonEmo;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonTemplate;
     }
 }
