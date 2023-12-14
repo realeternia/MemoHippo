@@ -38,10 +38,10 @@
             this.toolStripButtonScreen = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonEmo = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripDropDownButtonTemplate = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripButtonWrap = new System.Windows.Forms.ToolStripButton();
             this.zoomDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.pictureBoxLeftS = new System.Windows.Forms.PictureBox();
-            this.toolStripDropDownButtonTemplate = new System.Windows.Forms.ToolStripDropDownButton();
             this.ucToolbar1 = new Text_Editor.UCToolbar();
             this.richTextBox1 = new Text_Editor.RichTextBoxEx();
             this.contextStripMouse = new Text_Editor.CustomMenuStrip(this.components);
@@ -146,6 +146,17 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
             // 
+            // toolStripDropDownButtonTemplate
+            // 
+            this.toolStripDropDownButtonTemplate.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStripDropDownButtonTemplate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButtonTemplate.ForeColor = System.Drawing.Color.Black;
+            this.toolStripDropDownButtonTemplate.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonTemplate.Image")));
+            this.toolStripDropDownButtonTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButtonTemplate.Name = "toolStripDropDownButtonTemplate";
+            this.toolStripDropDownButtonTemplate.Size = new System.Drawing.Size(53, 28);
+            this.toolStripDropDownButtonTemplate.Text = "模板";
+            // 
             // toolStripButtonWrap
             // 
             this.toolStripButtonWrap.BackColor = System.Drawing.SystemColors.Control;
@@ -181,17 +192,6 @@
             this.pictureBoxLeftS.Visible = false;
             this.pictureBoxLeftS.Click += new System.EventHandler(this.pictureBoxLeftS_Click);
             // 
-            // toolStripDropDownButtonTemplate
-            // 
-            this.toolStripDropDownButtonTemplate.BackColor = System.Drawing.SystemColors.Control;
-            this.toolStripDropDownButtonTemplate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownButtonTemplate.ForeColor = System.Drawing.Color.Black;
-            this.toolStripDropDownButtonTemplate.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonTemplate.Image")));
-            this.toolStripDropDownButtonTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButtonTemplate.Name = "toolStripDropDownButtonTemplate";
-            this.toolStripDropDownButtonTemplate.Size = new System.Drawing.Size(53, 28);
-            this.toolStripDropDownButtonTemplate.Text = "模板";
-            // 
             // ucToolbar1
             // 
             this.ucToolbar1.BackColor = System.Drawing.Color.White;
@@ -220,9 +220,12 @@
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             this.richTextBox1.WordWrap = false;
+            this.richTextBox1.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox1_LinkClicked);
             this.richTextBox1.SelectionChanged += new System.EventHandler(this.richTextBox1_SelectionChanged);
             this.richTextBox1.VScroll += new System.EventHandler(this.richTextBox1_VScroll);
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             this.richTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.richTextBox1_KeyDown);
+            this.richTextBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.richTextBox1_KeyPress);
             this.richTextBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.richTextBox1_KeyUp);
             this.richTextBox1.MouseEnter += new System.EventHandler(this.richTextBox1_MouseEnter);
             this.richTextBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.richTextBox1_MouseMove);
@@ -238,7 +241,7 @@
             this.pasteToolStripMenuItem,
             this.deleteStripMenuItem});
             this.contextStripMouse.Name = "richContextStrip";
-            this.contextStripMouse.Size = new System.Drawing.Size(192, 124);
+            this.contextStripMouse.Size = new System.Drawing.Size(182, 124);
             // 
             // cutToolStripMenuItem
             // 
@@ -246,7 +249,7 @@
             this.cutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("cutToolStripMenuItem.Image")));
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(191, 30);
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(181, 30);
             this.cutToolStripMenuItem.Text = "Cut";
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
             // 
@@ -256,7 +259,7 @@
             this.copyToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyToolStripMenuItem.Image")));
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(191, 30);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(181, 30);
             this.copyToolStripMenuItem.Text = "Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
@@ -266,7 +269,7 @@
             this.pasteToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripMenuItem.Image")));
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(191, 30);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(181, 30);
             this.pasteToolStripMenuItem.Text = "Paste";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
@@ -275,8 +278,7 @@
             this.deleteStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
             this.deleteStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteStripMenuItem.Image")));
             this.deleteStripMenuItem.Name = "deleteStripMenuItem";
-            this.deleteStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.deleteStripMenuItem.Size = new System.Drawing.Size(191, 30);
+            this.deleteStripMenuItem.Size = new System.Drawing.Size(181, 30);
             this.deleteStripMenuItem.Text = "Delete";
             this.deleteStripMenuItem.Click += new System.EventHandler(this.deleteStripMenuItem_Click);
             // 
@@ -291,7 +293,7 @@
             this.toolStripSeparator3,
             this.styleToolStripMenuItem});
             this.customMenuStripRow.Name = "richContextStrip";
-            this.customMenuStripRow.Size = new System.Drawing.Size(186, 100);
+            this.customMenuStripRow.Size = new System.Drawing.Size(156, 100);
             // 
             // toolStripMenuItem2
             // 
@@ -299,8 +301,7 @@
             this.toolStripMenuItem2.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F);
             this.toolStripMenuItem2.Image = global::MemoHippo.Properties.Resources.copy;
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(185, 30);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(155, 30);
             this.toolStripMenuItem2.Text = "复制";
             // 
             // toolStripMenuItem4
@@ -309,14 +310,13 @@
             this.toolStripMenuItem4.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F);
             this.toolStripMenuItem4.Image = global::MemoHippo.Properties.Resources.del;
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(185, 30);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(155, 30);
             this.toolStripMenuItem4.Text = "删除";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(182, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(152, 6);
             // 
             // styleToolStripMenuItem
             // 
@@ -330,7 +330,7 @@
             this.styleToolStripMenuItem.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F);
             this.styleToolStripMenuItem.Image = global::MemoHippo.Properties.Resources.convert;
             this.styleToolStripMenuItem.Name = "styleToolStripMenuItem";
-            this.styleToolStripMenuItem.Size = new System.Drawing.Size(185, 30);
+            this.styleToolStripMenuItem.Size = new System.Drawing.Size(155, 30);
             this.styleToolStripMenuItem.Text = "转换格式";
             // 
             // textToolStripMenuItem

@@ -6,7 +6,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace MemoHippo
+namespace MemoHippo.UIS
 {
     public partial class UCSearch : UserControl
     {
@@ -15,26 +15,35 @@ namespace MemoHippo
             public string Title;
             public string Line;
             public int LineIndex;
+            public DateTime CreateTime;
         }
 
         private ListViewItem selectLine;
         private List<SearchData> searchResults = new List<SearchData>();
         public Form1 Form1 { get; set; }
+        private DateTime searchBegin;
 
         public UCSearch()
         {
             InitializeComponent();
 
             textBox1.OnLoad();
-          //  textBox1.Text = "多";
         }
 
         public void OnInit()
         {
+            textBox1.Clear();
             textBox1.Focus();
+            listView1.Hide();
+            rjComboBox1.SelectedIndex = 0;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            SearchAct();
+        }
+
+        private void SearchAct()
         {
             DelayedActionExecutor.Trigger("ucsearch", 0.3f, () =>
             {
@@ -52,6 +61,9 @@ namespace MemoHippo
                     var fi = new FileInfo(file);
                     var itemId = fi.Name;
 
+                    if (fi.LastWriteTime < searchBegin)
+                        continue;
+
                     string rtfContent = File.ReadAllText(file);
                     string plainText = GetPlainTextFromRtf(rtfContent);
 
@@ -59,11 +71,12 @@ namespace MemoHippo
                     foreach (var line in plainText.Split('\n'))
                     {
                         if (line.IndexOf(searchTxt) >= 0)
-                            searchResults.Add(new SearchData { Line = line, Title = itemId, LineIndex = lineid + 1 });
+                            searchResults.Add(new SearchData { Line = line, Title = itemId, CreateTime = fi.LastWriteTime, LineIndex = lineid + 1 });
                         lineid++;
                     }
                 }
 
+                searchResults.Sort((a, b) => (int)(b.CreateTime - a.CreateTime).TotalSeconds);
                 listView1.VirtualListSize = searchResults.Count;
                 listView1.Visible = true;
             });
@@ -180,6 +193,18 @@ namespace MemoHippo
 
             if (Form1 != null)
                 Form1.HideBlackPanel();
+        }
+
+        private void rjComboBox1_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (rjComboBox1.SelectedIndex == 0) //一周
+                searchBegin = DateTime.Now.Subtract(TimeSpan.FromDays(7));
+            else if (rjComboBox1.SelectedIndex == 1) //一周
+                searchBegin = DateTime.Now.Subtract(TimeSpan.FromDays(30));
+            else
+                searchBegin = DateTime.Now.Subtract(TimeSpan.FromDays(365 * 30));
+
+            SearchAct();
         }
     }
 }

@@ -43,6 +43,9 @@
     <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="NPinyin">
+      <HintPath>.\NPinyin.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -66,6 +69,7 @@
     <Compile Include="Model\IRowItem.cs" />
     <Compile Include="Model\MemoBookCfg.cs" />
     <Compile Include="Model\RTItemData.cs" />
+    <Compile Include="PanelManager.cs" />
     <Compile Include="UIS\Panels\UCIconPicker.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -76,6 +80,77 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\Panels\UCNInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\Panels\UCNInput.Designer.cs">
+      <DependentUpon>UCNInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\RJControls\Forms\FormButton.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIS\RJControls\Forms\FormButton.Designer.cs">
+      <DependentUpon>FormButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\RJControls\Forms\FormComboBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIS\RJControls\Forms\FormComboBox.Designer.cs">
+      <DependentUpon>FormComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\RJControls\Forms\FormMiniatura.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIS\RJControls\Forms\FormMiniatura.Designer.cs">
+      <DependentUpon>FormMiniatura.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\RJControls\Forms\FormRadioButton.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIS\RJControls\Forms\FormRadioButton.Designer.cs">
+      <DependentUpon>FormRadioButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\RJControls\Forms\FormTextBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIS\RJControls\Forms\FormTextBox.Designer.cs">
+      <DependentUpon>FormTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\RJControls\Forms\FormToggleButton.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIS\RJControls\Forms\FormToggleButton.Designer.cs">
+      <DependentUpon>FormToggleButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\RJControls\MenuColorTable.cs" />
+    <Compile Include="UIS\RJControls\MenuRenderer.cs" />
+    <Compile Include="UIS\RJControls\RJButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UIS\RJControls\RJCircularPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UIS\RJControls\RJComboBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\RJControls\RJDropdownMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UIS\RJControls\RJProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UIS\RJControls\RJRadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UIS\RJControls\RJTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\RJControls\RJTextBox.Designer.cs">
+      <DependentUpon>RJTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\RJControls\RJToggleButton.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Utils\ColorClassifier.cs" />
     <Compile Include="Text Editor\DasayEditor.cs">
@@ -199,6 +274,7 @@
     <Compile Include="Utils\DelayedActionExecutor.cs" />
     <Compile Include="Utils\HLog.cs" />
     <Compile Include="Utils\ImageTool.cs" />
+    <Compile Include="Utils\StringTool.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -231,6 +307,9 @@
     <EmbeddedResource Include="UIS\Main\UCRowNikon.resx">
       <DependentUpon>UCRowNikon.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UIS\Panels\UCNInput.resx">
+      <DependentUpon>UCNInput.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCSearch.resx">
       <DependentUpon>UCSearch.cs</DependentUpon>
     </EmbeddedResource>
@@ -245,6 +324,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\InputTextBox2.resx">
       <DependentUpon>InputTextBox2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\RJControls\Forms\FormButton.resx">
+      <DependentUpon>FormButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\RJControls\Forms\FormComboBox.resx">
+      <DependentUpon>FormComboBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\RJControls\Forms\FormMiniatura.resx">
+      <DependentUpon>FormMiniatura.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\RJControls\Forms\FormRadioButton.resx">
+      <DependentUpon>FormRadioButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\RJControls\Forms\FormTextBox.resx">
+      <DependentUpon>FormTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\RJControls\Forms\FormToggleButton.resx">
+      <DependentUpon>FormToggleButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\RJControls\RJTextBox.resx">
+      <DependentUpon>RJTextBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\TransparentPanel.resx">
       <DependentUpon>TransparentPanel.cs</DependentUpon>
@@ -290,14 +390,18 @@
     <None Include="Resources\null.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\share.png" />
+    <None Include="Resources\url.png" />
     <None Include="Resources\smile.png" />
     <None Include="Resources\noteadd.png" />
     <None Include="Resources\note.png" />
     <Content Include="ico.ico" />
+    <None Include="Resources\add.png" />
     <Content Include="Resources\convert.jpg" />
     <Content Include="Resources\copy.jpg" />
     <Content Include="Resources\del.jpg" />
     <Content Include="Resources\del2.jpg" />
+    <None Include="Resources\done.png" />
     <Content Include="Resources\pictureadd.png" />
     <Content Include="Resources\picturepaste.png" />
     <Content Include="Resources\selector.jpg" />

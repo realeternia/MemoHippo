@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MemoHippo.Model;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -11,26 +12,16 @@ namespace MemoHippo
         private Timer t;
         private int tick;
 
-        public UCRowNikon() 
-            : base()
+        public UCRowNikon(MemoItemInfo itemIf)
+            : base(itemIf)
         {
             Height = 70;
 
             t = new Timer();
             t.Interval = 30000;
             t.Tick += T_Tick;
-
-            InitializeComponent();
         }
 
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            this.Name = "UCRowNikon";
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.UCRowNikon_Paint);
-            this.ResumeLayout(false);
-
-        }
 
         private void T_Tick(object sender, System.EventArgs e)
         {
@@ -40,8 +31,6 @@ namespace MemoHippo
 
         public override void AfterInit()
         {
-            base.AfterInit();
-
             var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, ItemId);
             var infos = ConvertRtfToPlainText(File.ReadAllText(fullPath));
             foreach(var info in infos.Split('\n'))
@@ -63,8 +52,9 @@ namespace MemoHippo
         }
 
 
-        private void UCRowNikon_Paint(object sender, PaintEventArgs e)
+        protected override void UCRowCommon_Paint(object sender, PaintEventArgs e)
         {
+            DrawBase(e);
             if (lines.Count > 0)
                 e.Graphics.DrawString(lines[tick % lines.Count], Font, Brushes.Yellow, 35, 35);
         }

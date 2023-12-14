@@ -18,6 +18,12 @@ namespace MemoHippo.Utils
                 timers[eventName].Dispose();
             }
 
+            if(delayTime == 0)
+            {//立刻执行
+                action.Invoke();
+                return;
+            }
+
             // 创建新的计时器和取消令牌
             var cancellationTokenSource = new CancellationTokenSource();
 

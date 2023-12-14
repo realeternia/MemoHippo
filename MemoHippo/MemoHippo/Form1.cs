@@ -1,5 +1,4 @@
 ﻿using MemoHippo.Model;
-using MemoHippo.Panels;
 using MemoHippo.UIS;
 using MemoHippo.Utils;
 using System;
@@ -29,6 +28,7 @@ namespace MemoHippo
         public CustomMenuStrip CustomMenuStripCol { get { return customMenuStripCol; } }
 
 
+
         public Form1()
         {
             InitializeComponent();
@@ -41,6 +41,8 @@ namespace MemoHippo
             HidePaperPad();
 
             panelBlack.BackColor = Color.FromArgb(128, Color.Black);
+
+            PanelManager.Instance.Init(this);
         }
 
         private void Form1_Load(object sender, System.EventArgs e)
@@ -67,6 +69,7 @@ namespace MemoHippo
                     SelectCatalogItem(itm);
             }
             InitMenu();
+           // DeleteRemovedFiles();
         }
 
         //添加一个新的分类
@@ -252,7 +255,7 @@ namespace MemoHippo
             uckvList1.Init(itemInfo);
            // dasayEditor1.Location = new Point(uckvList1.Location.X, uckvList1.Location.Y + uckvList1.Height);
             dasayEditor1.Height = splitContainer2.Panel2.Height - uckvList1.Location.Y - uckvList1.Height;
-            dasayEditor1.LoadFile(nowRowItem.Id.ToString());
+            dasayEditor1.LoadFile(nowRowItem);
 
             //调整pad显示
             splitContainer2.SplitterDistance = System.Math.Max(0, splitContainer2.Width - 800);
@@ -328,25 +331,19 @@ namespace MemoHippo
 
         private void pictureBoxPaperIcon_Click(object sender, System.EventArgs e)
         {
-            var iconPanel = new UCIconPicker();
-            iconPanel.Form1 = this;
-            iconPanel.AfterSelect = (iconPath) =>
-            {
-                UpdateIcon(iconPath);
-            };
-
             Point absoluteLocation = pictureBoxPaperIcon.PointToScreen(new Point(0, 0));
-            ShowBlackPanel(iconPanel, absoluteLocation.X - Location.X - iconPanel.Width / 2, absoluteLocation.Y - Location.Y+5, 1);
-            iconPanel.OnInit();
+            PanelManager.Instance.ShowIconForm(absoluteLocation.X - Location.X - 500 / 2,
+                absoluteLocation.Y - Location.Y + 5,
+                (iconPath) =>
+                {
+                    UpdateIcon(iconPath);
+                }
+            );
         }
 
         private void ucCatalogSearch_Click(object sender, System.EventArgs e)
         {
-            var search = new UCSearch();
-            search.Form1 = this;
-
-            ShowBlackPanel(search, 0, 0);
-            search.OnInit();
+            PanelManager.Instance.ShowSearchForm();
         }
 
         public void ShowBlackPanel(Control ctr, int x, int y, float bright = 0.5f)
@@ -387,6 +384,17 @@ namespace MemoHippo
                 blueMenuItem.Image = ImageTool.CreateSolidColorBitmap(Color.FromArgb(cr.Value.R+40, cr.Value.G+40, cr.Value.B+40), 32, 32);
                 blueMenuItem.Click += ColorMenuItem_Click;
                 colorToolStripMenuItem.DropDownItems.Add(blueMenuItem);
+            }
+        }
+
+        private void DeleteRemovedFiles()
+        {
+            foreach (var file in Directory.GetFiles(ENV.SaveDir))
+            {
+                var fi = new FileInfo(file);
+                var itemId = fi.Name;
+                if (MemoBook.Instance.FindItemInfo(int.Parse(itemId.Replace(".rtf", ""))) == null)
+                    File.Delete(file);
             }
         }
 

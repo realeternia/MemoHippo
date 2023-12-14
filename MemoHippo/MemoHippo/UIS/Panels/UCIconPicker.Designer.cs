@@ -1,5 +1,5 @@
 ﻿
-namespace MemoHippo.Panels
+namespace MemoHippo.UIS.Panels
 {
     partial class UCIconPicker
     {

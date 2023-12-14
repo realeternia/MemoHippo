@@ -3,6 +3,7 @@ using MemoHippo.UIS;
 using MemoHippo.Utils;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace MemoHippo
@@ -101,9 +102,9 @@ namespace MemoHippo
             {
                 UCRowCommon labelCtr;
                 if (memoItem.Type == (int)RowItemType.Nikon)
-                    labelCtr = new UCRowNikon();
+                    labelCtr = new UCRowNikon(memoItem);
                 else
-                    labelCtr = new UCRowCommon();
+                    labelCtr = new UCRowCommon(memoItem);
                 labelCtr.Menu = customMenuStripRow;
 
                 var rowItem = labelCtr as IRowItem;
@@ -145,7 +146,7 @@ namespace MemoHippo
             //  (sender as Control).BackColor = Color.Blue;
             delayTimer.Stop();
 
-            HLog.Info("UCTipColumn mouse up {0}", ctr.Name);
+           // HLog.Info("UCTipColumn mouse up {0}", ctr.Name);
         }
 
         private void label_MouseDown(object sender, MouseEventArgs e)
@@ -154,7 +155,7 @@ namespace MemoHippo
             if (ctr.Name == "dragctr0") // add 对象
                 return;
 
-            HLog.Info("UCTipColumn mouse down {0}", ctr.Name);
+          //  HLog.Info("UCTipColumn mouse down {0}", ctr.Name);
 
             delayTimer.Start();
             delayControl = ctr;
@@ -170,7 +171,7 @@ namespace MemoHippo
             }
             delayTimer.Stop();
 
-            HLog.Info("UCTipColumn mouse click {0}", senderName);
+      //      HLog.Info("UCTipColumn mouse click {0}", senderName);
         }
 
         private void OnDelayTimerTick(object sender, EventArgs e)
@@ -184,7 +185,7 @@ namespace MemoHippo
 
             label.DoDragDrop(label.Parent.Parent.Name + "." + delayControl.Name, DragDropEffects.Move);
 
-            HLog.Info("UCTipColumn OnDelayTimerTick DoDragDrop end {0}", delayControl.Name);
+         //   HLog.Info("UCTipColumn OnDelayTimerTick DoDragDrop end {0}", delayControl.Name);
 
             delayControl = null;
         }
@@ -203,7 +204,7 @@ namespace MemoHippo
                 isDragging = true;
 
                 dragStartPos = MousePosition;
-                HLog.Info("UCTipColumn DragEnter data={0} mp={1}", e.Data.GetData(DataFormats.StringFormat), MousePosition);
+          //      HLog.Info("UCTipColumn DragEnter data={0} mp={1}", e.Data.GetData(DataFormats.StringFormat), MousePosition);
             }
         }
 
@@ -212,14 +213,14 @@ namespace MemoHippo
             isDragging = false;
             flowLayoutPanel1.Invalidate();
 
-            HLog.Info("UCTipColumn DragLeave");
+      //      HLog.Info("UCTipColumn DragLeave");
         }
 
         private void flowLayoutPanel1_DragDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.Text))
             {
-                HLog.Info("UCTipColumn DragDrop data={0} mp={1}", e.Data.GetData(DataFormats.StringFormat), MousePosition);
+           //     HLog.Info("UCTipColumn DragDrop data={0} mp={1}", e.Data.GetData(DataFormats.StringFormat), MousePosition);
 
                 if(Math.Abs(dragStartPos.X - MousePosition.X) + Math.Abs(dragStartPos.Y - MousePosition.Y) > 10)
                 {
@@ -395,6 +396,10 @@ namespace MemoHippo
         {
             var itemId = int.Parse(customMenuStripRow.Tag.ToString());
             ColumnInfo.RemoveItem(itemId);
+
+            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, itemId);
+            if (File.Exists(fullPath))
+                File.Delete(fullPath);
 
             RefreshLabels();
         }

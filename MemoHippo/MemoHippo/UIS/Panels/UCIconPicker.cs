@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace MemoHippo.Panels
+namespace MemoHippo.UIS.Panels
 {
     public partial class UCIconPicker : UserControl
     {
@@ -137,7 +137,7 @@ namespace MemoHippo.Panels
                 pickId++;
             }
 
-            HLog.Debug("UCIconPicker_MouseMove old={0} now={1}", selIdex, nowId);
+          //  HLog.Debug("UCIconPicker_MouseMove old={0} now={1}", selIdex, nowId);
             if (selIdex != nowId)
             {
                 if (selIdex != -1)

@@ -9,16 +9,28 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Collections.Generic;
-using MemoHippo.Panels;
 using MemoHippo;
 using MemoHippo.Utils;
+using MemoHippo.Model;
 
 namespace Text_Editor
 {
     public partial class DasayEditor : UserControl
     {
+        // 定义关键词和相应的颜色
+        private Dictionary<string, Color> keywords = new Dictionary<string, Color>
+        {
+            ["todo"] = Color.Gray,
+            ["done"] = Color.LimeGreen,
+            ["url"] = Color.LightBlue,
+            ["share"] = Color.Goldenrod,
+        };
+
+        private MemoItemInfo memoItemInfo;
         private string filenamee;    // file opened inside of RTB
         public Form1 ParentC;
+        private bool checkChangeLock = true;
+        private bool hasModify;
 
         public DasayEditor()
         {
@@ -131,20 +143,52 @@ namespace Text_Editor
             ModifyFontStyle(FontStyle.Strikeout);
         }
 
-        public void LoadFile(string path)
+        private void OnSave()
         {
-            if(!string.IsNullOrEmpty(filenamee))
-            { //当前打开的文件保存
-                HighlightKeywords();
-                richTextBox1.SaveFile(filenamee, RichTextBoxStreamType.RichText);
+            HighlightKeywords();
+
+            var txt = richTextBox1.Text;
+            foreach(var keyPair in keywords)
+            {
+                var todoCount = StringTool.CountSubstring(txt, keyPair.Key);
+                memoItemInfo.SetParm(keyPair.Key, todoCount.ToString());
+            }
+        }
+
+        public void Save(bool checkSaveAct)
+        {
+            if (checkSaveAct)
+            {//修改过才会重新highlight
+                checkChangeLock = false;
+                OnSave();
+                checkChangeLock = true;
+            }
+         
+            richTextBox1.SaveFile(filenamee, RichTextBoxStreamType.RichText);
+
+            HLog.Debug("SaveFile {0} finish checkSaveAct={1}", filenamee, checkSaveAct);
+        }
+
+        public void LoadFile(MemoItemInfo itemInfo)
+        {
+            if (!string.IsNullOrEmpty(filenamee))
+            {
+                // 立刻存档，并且取消timer
+                if (hasModify)
+                    DelayedActionExecutor.Trigger("desaySave", 0, () => Save(true));
             }
 
+            memoItemInfo = itemInfo;
+            var path = memoItemInfo.Id.ToString();
             var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, path);
             filenamee = fullPath;
+            hasModify = false;
             if (File.Exists(fullPath))
             {
-                // load the file into the richTextBox
+                checkChangeLock = false;
                 richTextBox1.LoadFile(filenamee, RichTextBoxStreamType.RichText);
+                HLog.Debug("LoadFile {0} success", filenamee);
+                checkChangeLock = true;
             }
             else
             {
@@ -308,14 +352,7 @@ namespace Text_Editor
 
         private void wordWrapToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (richTextBox1.WordWrap == false)
-            {
-                richTextBox1.WordWrap = true;    // WordWrap is active
-            }
-            else if(richTextBox1.WordWrap == true)
-            {
-                richTextBox1.WordWrap = false;    // WordWrap is not active
-            }
+            richTextBox1.WordWrap = !richTextBox1.WordWrap;
         }
 
         private void deleteStripMenuItem_Click(object sender, EventArgs e)
@@ -334,6 +371,7 @@ namespace Text_Editor
                 return;
 
             richTextBox1.SelectionFont = new Font("微软雅黑", 12);
+            richTextBox1.SelectionColor = richTextBox1.ForeColor;
             richTextBox1.SelectionCharOffset = 0;
         }
 
@@ -399,14 +437,6 @@ namespace Text_Editor
             // determine key released
             switch (e.KeyCode)
             {
-                case Keys.Enter:
-                    if (IsLineMyBullet(out int currentLineIndex, -1))
-                    {
-                        RichtextSelect(richTextBox1.GetFirstCharIndexFromLine(currentLineIndex), 0);
-                        richTextBox1.SelectedText = bulletMarker[richTextBox1.SelectionIndent / 30].ToString() + " ";
-                    }
-                    ClearFormat(); //格式不带到下一行
-                    break;
                 case Keys.Tab:
                     if (e.Shift)
                         richTextBox1.SelectionIndent = Math.Max(0, richTextBox1.SelectionIndent - 30);
@@ -419,43 +449,42 @@ namespace Text_Editor
                         richTextBox1.SelectedText = bulletMarker[richTextBox1.SelectionIndent / 30].ToString() + " ";
                     }
                     break;
-                case Keys.E:
+                case Keys.E: //表情
                     if (richTextBox1.SelectionStart >= 2 && richTextBox1.Text[richTextBox1.SelectionStart - 2] == '/')
                     { // /e
                         RichtextSelect(richTextBox1.SelectionStart - 2, 2);
                         richTextBox1.SelectedText = "";
-
+                        
                         AddIcon();
                     }
                     break;
-                    
+                case Keys.P: //人名
+                    if (richTextBox1.SelectionStart >= 2 && richTextBox1.Text[richTextBox1.SelectionStart - 2] == '/')
+                    { // /p
+                        RichtextSelect(richTextBox1.SelectionStart - 2, 2);
+                        richTextBox1.SelectedText = "";
+
+                        AddPeople();
+                    }
+                    break;
             }
         }
 
-        private void AddIcon()
+        private void richTextBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            var pos = richTextBox1.SelectionStart;
-
-            var iconPanel = new UCIconPicker();
-            iconPanel.Form1 = ParentC;
-            iconPanel.AfterSelect = (iconPath) =>
+            // 放在这里不会触发输出法选字的那下enter
+            // 防止 AddIcon 最后回车的那下，击穿
+            switch (e.KeyChar)
             {
-                // 将图片添加到剪贴板
-                Clipboard.SetImage(ImageTool.Transparent2Color((Bitmap)ResLoader.Read(iconPath), richTextBox1.BackColor, 24, 24));
-                richTextBox1.Paste();
-
-                RichtextSelect(pos + 1, 0);
-
-                DelayedActionExecutor.Trigger("choosetarget", 0.1f, () => richTextBox1.Focus()); //防止enter事件击穿
-            };
-
-            Point cursorPosition = richTextBox1.GetPositionFromCharIndex(richTextBox1.SelectionStart);
-
-            // 如果需要，将坐标转换为屏幕坐标
-            cursorPosition = richTextBox1.PointToScreen(cursorPosition);
-
-            ParentC.ShowBlackPanel(iconPanel, cursorPosition.X - ParentC.Location.X, cursorPosition.Y - ParentC.Location.Y, 1);
-            iconPanel.OnInit();
+                case (char)Keys.Enter:
+                    ClearFormat(); //格式不带到下一行
+                    if (IsLineMyBullet(out int currentLineIndex, -1))
+                    {
+                        RichtextSelect(richTextBox1.GetFirstCharIndexFromLine(currentLineIndex), 0);
+                        richTextBox1.SelectedText = bulletMarker[richTextBox1.SelectionIndent / 30].ToString() + " ";
+                    }
+                    break;
+            }
         }
 
         private void richTextBox1_KeyDown(object sender, KeyEventArgs e)
@@ -464,18 +493,85 @@ namespace Text_Editor
             {
                 e.SuppressKeyPress = true;// 阻止 Tab 键的默认行为
             }
+            else if (e.KeyCode == Keys.Left)
+            {
+                if (IsLineMyBullet(out int currentLineIndex))
+                {//左键不可超过bullet
+                    var idx = richTextBox1.GetFirstCharIndexFromLine(currentLineIndex);
+                    if(richTextBox1.SelectionStart <= idx + 2)
+                        e.SuppressKeyPress = true;// 阻止 Tab 键的默认行为
+                }
+            }
+            else if (e.KeyCode == Keys.Home)
+            {
+                if (IsLineMyBullet(out int currentLineIndex))
+                {//home键不可超过bullet
+                    RichtextSelect(richTextBox1.GetFirstCharIndexFromLine(currentLineIndex)+2, 0);
+                    e.SuppressKeyPress = true;
+                }
+            }
+        }
+
+        private void richTextBox1_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(e.LinkText);
+        }
+
+
+        private void AddIcon()
+        {
+            var pos = richTextBox1.SelectionStart;
+
+            Point cursorPosition = richTextBox1.GetPositionFromCharIndex(richTextBox1.SelectionStart);
+
+            // 如果需要，将坐标转换为屏幕坐标
+            cursorPosition = richTextBox1.PointToScreen(cursorPosition);
+
+            PanelManager.Instance.ShowIconForm(cursorPosition.X - ParentC.Location.X, 
+                cursorPosition.Y - ParentC.Location.Y,
+                (iconPath) =>
+                {
+                    // 将图片添加到剪贴板
+                    Clipboard.SetImage(ImageTool.Transparent2Color((Bitmap)ResLoader.Read(iconPath), richTextBox1.BackColor, 24, 24));
+                    richTextBox1.Paste();
+
+                    RichtextSelect(pos + 1, 0);
+                    richTextBox1.Focus();
+                    //DelayedActionExecutor.Trigger("choosetarget", 0.1f, () => richTextBox1.Focus()); //防止enter事件击穿
+                }
+            );
+        }
+
+        private void AddPeople()
+        {
+            var pos = richTextBox1.SelectionStart;
+
+            Point cursorPosition = richTextBox1.GetPositionFromCharIndex(richTextBox1.SelectionStart);
+
+            // 如果需要，将坐标转换为屏幕坐标
+            cursorPosition = richTextBox1.PointToScreen(cursorPosition);
+
+            PanelManager.Instance.ShowPeopleForm(cursorPosition.X - ParentC.Location.X,
+                cursorPosition.Y - ParentC.Location.Y,
+                (name) =>
+                {
+                    Clipboard.SetText(name);
+                    richTextBox1.Paste(DataFormats.GetFormat(DataFormats.Text));
+
+                    RichtextSelect(pos, name.Length);
+                    richTextBox1.SelectionColor = Color.Yellow; //给名字变色
+
+                    RichtextSelect(pos + name.Length, 0);
+                    richTextBox1.SelectionColor = richTextBox1.ForeColor;
+
+                    richTextBox1.Focus();
+                    //DelayedActionExecutor.Trigger("choosetarget", 0.1f, () => richTextBox1.Focus()); //防止enter事件击穿
+                }
+            );
         }
 
         private void HighlightKeywords()
         {
-
-            // 定义关键词和相应的颜色
-            var keywords = new Dictionary<string, Color>
-            {
-                ["todo"] = Color.Yellow,
-                ["done"] = Color.Cyan,
-            };
-
             // 保存原始光标位置和选择范围
             int originalSelectionStart = richTextBox1.SelectionStart;
             int originalSelectionLength = richTextBox1.SelectionLength;
@@ -564,5 +660,14 @@ namespace Text_Editor
             }
         }
 
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (!checkChangeLock)
+                return;
+
+            HLog.Debug("DasayEditor textchanged");
+            hasModify = true;
+            DelayedActionExecutor.Trigger("desaySave", 10, () => Save(false));
+        }
     }
 }

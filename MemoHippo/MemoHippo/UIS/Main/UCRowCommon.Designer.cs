@@ -40,7 +40,7 @@ namespace MemoHippo
             this.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "UCRowCommon";
-            this.Size = new System.Drawing.Size(260, 50);
+            this.Size = new System.Drawing.Size(260, 47);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.UCRowCommon_Paint);
             this.MouseEnter += new System.EventHandler(this.UCRowCommon_MouseEnter);
             this.MouseLeave += new System.EventHandler(this.UCRowCommon_MouseLeave);
