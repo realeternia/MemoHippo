@@ -1,7 +1,7 @@
 ﻿
 namespace MemoHippo
 {
-    partial class UCCatalogNew
+    partial class UCCatalogFix
     {
         /// <summary> 
         /// 必需的设计器变量。

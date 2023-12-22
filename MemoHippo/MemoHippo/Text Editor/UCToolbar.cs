@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using MemoHippo.Properties;
 using MemoHippo.Utils;
 
 namespace Text_Editor
@@ -46,6 +47,13 @@ namespace Text_Editor
                 var colorS = ColorClassifier.ClassifyColor(cr.Value);
                 var subItem = colorStripDropDownButton.DropDownItems[(int)colorS] as ToolStripMenuItem;
                 subItem.DropDownItems.Add(blueMenuItem);
+            }
+
+            foreach(ToolStripMenuItem cr in toolStripDropDownButtonSwitch.DropDownItems)
+            {
+                cr.BackColor = Color.FromArgb(24, 24, 24);
+                cr.ForeColor = Color.White;
+                cr.Image = Resources.brush;
             }
         }
 

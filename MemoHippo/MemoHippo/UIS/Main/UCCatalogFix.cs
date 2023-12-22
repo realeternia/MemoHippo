@@ -4,12 +4,12 @@ using System.Windows.Forms;
 
 namespace MemoHippo
 {
-    public partial class UCCatalogNew : UserControl
+    public partial class UCCatalogFix : UserControl
     {
         public string Title { get; set; }
         public Image PicImg { get; set; }
 
-        public UCCatalogNew()
+        public UCCatalogFix()
         {
             InitializeComponent();
 
@@ -19,7 +19,10 @@ namespace MemoHippo
         private void UCCatalogNew_Paint(object sender, PaintEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(Title))
-                e.Graphics.DrawString(Title, Font, System.Drawing.Brushes.White, 34, 5);
+            {
+                using (var b = new SolidBrush(ForeColor))
+                    e.Graphics.DrawString(Title, Font, b, 34, 5);
+            }
 
             e.Graphics.DrawImage(PicImg, 5, 7, 24, 24);
         }

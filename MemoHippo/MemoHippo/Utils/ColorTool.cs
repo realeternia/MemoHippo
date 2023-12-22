@@ -122,5 +122,9 @@ namespace MemoHippo.Utils
             ["月影白"] = Color.FromArgb(194, 196, 195),
             ["笋皮棕"] = Color.FromArgb(107, 51, 26),
         };
+        public static Color ColorPlus(Color c, float exp)
+        {
+            return Color.FromArgb((byte)(c.R * exp), (byte)(c.G * exp), (byte)(c.B * exp));
+        }
     }
 }

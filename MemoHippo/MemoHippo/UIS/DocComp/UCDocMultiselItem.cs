@@ -1,29 +1,30 @@
 ﻿using MemoHippo.Model;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace MemoHippo.UIS
 {
-    public partial class UCKVListMultisel : UserControl
+    public partial class UCDocMultiselItem : UserControl, IDocComp
     {
-        private MemoItemInfo itemInfo;
+        public Action<string> OnModify { get; set; }
 
-        public UCKVListMultisel()
+        public UCDocMultiselItem()
         {
             InitializeComponent();
+            DoubleBuffered = true;
         }
 
-        public void SetData(string k, MemoItemInfo itemInfo1)
+        public void SetData(string k, string tagStr1)
         {
             label1.Text = k;
-            textBox1.Text = itemInfo1.Tag;
-            itemInfo = itemInfo1;
+            textBox1.Text = tagStr1;
         }
 
         private void textBox1_Leave(object sender, System.EventArgs e)
         {
             Invalidate();
-            itemInfo.Tag = textBox1.Text;
+            OnModify(textBox1.Text);
             textBox1.Visible = false;
         }
 
@@ -34,9 +35,9 @@ namespace MemoHippo.UIS
 
             var startX = 210;
             var startY = 5;
-            if (!string.IsNullOrEmpty(itemInfo.Tag))
+            if (!string.IsNullOrEmpty(textBox1.Text))
             {
-                var dts = itemInfo.Tag.Split(',');
+                var dts = textBox1.Text.Split(',');
                 foreach (string word in dts)
                 {
                  
@@ -66,6 +67,16 @@ namespace MemoHippo.UIS
             textBox1.Visible = true;
             textBox1.Focus();
             Invalidate();
+        }
+
+        private void textBox1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                Invalidate();
+                OnModify(textBox1.Text);
+                textBox1.Visible = false;
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using YamlDotNet.Serialization;
@@ -25,9 +26,7 @@ namespace MemoHippo
         private bool textChangeLock;
         private InputTextBox2 colAddInputBox;
 
-        public CustomMenuStrip CustomMenuStripCol { get { return customMenuStripCol; } }
-
-
+        public RJControls.RJDropdownMenu CustomMenuStripCol { get { return rjDropdownMenuCol; } }
 
         public Form1()
         {
@@ -68,7 +67,20 @@ namespace MemoHippo
                 if (itm != null)
                     SelectCatalogItem(itm);
             }
+
+            rjDropdownMenuCatlog.PrimaryColor = Color.SeaGreen;
+            rjDropdownMenuCatlog.MenuItemTextColor = Color.White;
+            rjDropdownMenuCatlog.MenuItemHeight = 25;
+            rjDropdownMenuCol.PrimaryColor = Color.SeaGreen;
+            rjDropdownMenuCol.MenuItemTextColor = Color.White;
+            rjDropdownMenuCol.MenuItemHeight = 25;
+
+            rjDropdownMenuRow.PrimaryColor = Color.SeaGreen;
+            rjDropdownMenuRow.MenuItemTextColor = Color.White;
+            rjDropdownMenuRow.MenuItemHeight = 25;
+
             InitMenu();
+
            // DeleteRemovedFiles();
         }
 
@@ -83,6 +95,11 @@ namespace MemoHippo
                 SelectCatalogItem(ctrs[0] as UCCatalogItem);
 
             textBoxCatalogTitle.Focus(); //光标停留到输入栏
+        }
+
+        private void ucCatalogSetup_Click(object sender, EventArgs e)
+        {
+            PanelManager.Instance.ShowSetup();
         }
 
         //添加一个新的栏目
@@ -118,7 +135,7 @@ namespace MemoHippo
                 newItem.Title = catalog.Name;
                 newItem.Click += CatalogItem_Click;
                 newItem.Width = flowLayoutPanel1.Width - 5;
-                newItem.Menu = customMenuStrip1;
+                newItem.Menu = rjDropdownMenuCatlog;
                 flowLayoutPanel1.Controls.Add(newItem);
 
                 newItem.AfterInit();
@@ -133,6 +150,8 @@ namespace MemoHippo
         private void CatalogItem_Click(object sender, System.EventArgs e)
         {
             var mItem = sender as UCCatalogItem;
+            if (nowCatalogCtr == mItem)
+                return;
 
             SelectCatalogItem(mItem);
         }
@@ -157,6 +176,12 @@ namespace MemoHippo
             var ucIndex = 1;
             panel1.Visible = false;
             textBoxCatalogTitle.Visible = false;
+            foreach(var ctr in panel1.Controls)
+            {
+                var columnCtr = ctr as UCTipColumn;
+                if (columnCtr != null)
+                    columnCtr.ReleaseAllLabels();
+            }
             panel1.Controls.Clear();
             columnCtrs.Clear();
 
@@ -191,6 +216,7 @@ namespace MemoHippo
             columnUC.Width = 270;
             columnUC.ParentC = this;
 
+            columnUC.RowMenu = rjDropdownMenuRow;
             columnUC.Init(nowCatalog.Id, itid, title, c);
             columnUC.OnClickItem += OnRowItemClick;
 
@@ -257,20 +283,23 @@ namespace MemoHippo
             dasayEditor1.Height = splitContainer2.Panel2.Height - uckvList1.Location.Y - uckvList1.Height;
             dasayEditor1.LoadFile(nowRowItem);
 
-            //调整pad显示
-            splitContainer2.SplitterDistance = System.Math.Max(0, splitContainer2.Width - 800);
+            if (splitContainer2.SplitterDistance > splitContainer2.Width-10)
+                splitContainer2.SplitterDistance = Math.Min(lastDistance, Math.Max(0, splitContainer2.Width - 800));
 
         }
 
+        private int lastDistance;
         private void HidePaperPad()
         {
+            if (splitContainer2.SplitterDistance > splitContainer2.Width - 10)
+                return;
             //更新选中
             if (nowRowItemCtr != null)
                 nowRowItemCtr.SetSelect(false);
             nowRowItemCtr = null;
             nowRowItem = null;
 
-            //调整pad隐藏
+            lastDistance = splitContainer2.SplitterDistance;
             splitContainer2.SplitterDistance = splitContainer2.Width;
         }
 
@@ -365,7 +394,7 @@ namespace MemoHippo
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var itemId = int.Parse(customMenuStrip1.Tag.ToString());
+            var itemId = int.Parse(rjDropdownMenuCatlog.Tag.ToString());
             MemoBook.Instance.DeleteCatalog(itemId);
             RefreshCatalogs();
 
@@ -383,7 +412,7 @@ namespace MemoHippo
                 blueMenuItem.ForeColor = Color.White;
                 blueMenuItem.Image = ImageTool.CreateSolidColorBitmap(Color.FromArgb(cr.Value.R+40, cr.Value.G+40, cr.Value.B+40), 32, 32);
                 blueMenuItem.Click += ColorMenuItem_Click;
-                colorToolStripMenuItem.DropDownItems.Add(blueMenuItem);
+                colorToolStripMenuItem1.DropDownItems.Add(blueMenuItem);
             }
         }
 
@@ -400,7 +429,7 @@ namespace MemoHippo
 
         private void ColorMenuItem_Click(object sender, EventArgs e)
         {
-            var columnId = int.Parse(customMenuStripCol.Tag.ToString());
+            var columnId = int.Parse(rjDropdownMenuCol.Tag.ToString());
             nowCatalog.GetColumn(columnId).BgColor = ColorTool.DarkColorTable[(sender as ToolStripMenuItem).Text].ToArgb();
 
             //todo 可以精细处理，就刷一列
@@ -409,7 +438,7 @@ namespace MemoHippo
 
         private void toolStripMenuItemDelCol_Click(object sender, EventArgs e)
         {
-            var columnId = int.Parse(customMenuStripCol.Tag.ToString());
+            var columnId = int.Parse(rjDropdownMenuCol.Tag.ToString());
             if (nowCatalog == null || nowCatalog.GetColumn(columnId).Items.Count > 0)
                 return;
 
@@ -420,10 +449,50 @@ namespace MemoHippo
 
         #endregion
 
+        #region row菜单支持
+
+        private void commonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeType((int)RowItemType.Common);
+        }
+
+        private void nikonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeType((int)RowItemType.Nikon);
+        }
+
+        private void ChangeType(int type)
+        {
+            var itemId = int.Parse(rjDropdownMenuRow.Tag.ToString());
+            var columnCtr = rjDropdownMenuRow.Bind as UCTipColumn;
+
+            var itemInfo = columnCtr.ColumnInfo.GetItem(itemId);
+            if (itemInfo != null)
+                itemInfo.Type = type;
+
+            columnCtr.RefreshLabels();
+        }
+
+        private void deleteToolStripMenuItemRow_Click(object sender, EventArgs e)
+        {
+            var itemId = int.Parse(rjDropdownMenuRow.Tag.ToString());
+            var columnCtr = rjDropdownMenuRow.Bind as UCTipColumn;
+
+            columnCtr.ColumnInfo.RemoveItem(itemId);
+
+            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, itemId);
+            if (File.Exists(fullPath))
+                File.Delete(fullPath);
+
+            columnCtr.RefreshLabels();
+        }
+        #endregion
+
         private void doubleBufferedFlowLayoutPanel1_SizeChanged(object sender, EventArgs e)
         {
             dasayEditor1.Width = doubleBufferedFlowLayoutPanel1.Width;
             dasayEditor1.Height = doubleBufferedFlowLayoutPanel1.Height - uckvList1.Location.Y - uckvList1.Height;
+            uckvList1.Width = doubleBufferedFlowLayoutPanel1.Width;
         }
 
         private void pictureBoxPaperIcon_MouseEnter(object sender, EventArgs e)
@@ -435,5 +504,6 @@ namespace MemoHippo
         {
             pictureBoxPaperIcon.BackColor = Color.FromArgb(32, 32, 32);
         }
+
     }
 }

@@ -2,6 +2,7 @@
 using MemoHippo.UIS;
 using MemoHippo.Utils;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -10,6 +11,21 @@ namespace MemoHippo
 {
     public partial class UCTipColumn : UserControl
     {
+        private static List<UCRowCommon> labelCacheList = new List<UCRowCommon>();
+
+        private static T FindAndRemove<T>() where T : UCRowCommon
+        {
+            foreach (var item in labelCacheList)
+            {
+                if (item.GetType() == typeof(T))
+                {
+                    labelCacheList.Remove(item);
+                    return item as T;
+                }
+            }
+            return null;
+        }
+
         public class EventItemClickArgs : EventArgs
         {
             public int ItemId { get; set; }
@@ -18,7 +34,7 @@ namespace MemoHippo
             public bool FocusTitle { get; set; }
         }
 
-        enum RowItemType
+        public enum RowItemType
         {
             Common=1,
             Nikon
@@ -28,7 +44,7 @@ namespace MemoHippo
         public Form1 ParentC;
         private Color itemColor;
 
-        public event System.EventHandler<EventItemClickArgs> OnClickItem;
+        public event EventHandler<EventItemClickArgs> OnClickItem;
         private Timer delayTimer;
         private Control delayControl;
         private bool isDragging;
@@ -40,7 +56,8 @@ namespace MemoHippo
         public MemoColumnInfo ColumnInfo;
 
         private UCRowAdd rowAdd;
-        
+        public RJControls.RJDropdownMenu RowMenu { get; set; }
+
         private int lineY;
         private bool textChangeLock;
 
@@ -63,12 +80,10 @@ namespace MemoHippo
             DecorateControl(rowAdd, 0);
             rowAdd.Width = 270;
             rowAdd.label1.Click += buttonAdd_Click;
+
+            DoubleBuffered = true;
         }
 
-        public Color ColorPlus(Color c, float exp)
-        {
-            return Color.FromArgb((byte)(c.R * exp), (byte)(c.G * exp), (byte)(c.B * exp));
-        }
 
         public void Init(int cid, int itid, string title, Color cr)
         {
@@ -77,9 +92,8 @@ namespace MemoHippo
             textChangeLock = true;
             labelTitle.Text = title;
             textChangeLock = false;
-            labelTitle.BackColor = ColorPlus(cr, 2);
-          //  BackColor = ColorPlus(cr, 0.65f);
-            flowLayoutPanel1.BackColor = ColorPlus(cr, 0.65f);
+            labelTitle.BackColor = ColorTool.ColorPlus(cr, 2);
+            flowLayoutPanel1.BackColor = ColorTool.ColorPlus(cr, 0.65f);
             itemColor = cr;
 
             ColumnInfo = MemoBook.Instance.GetCatalog(catalogId).GetColumn(columnId);
@@ -95,17 +109,22 @@ namespace MemoHippo
         }
 
 
-        private void RefreshLabels()
+        public void RefreshLabels()
         {
+            ReleaseAllLabels();
             flowLayoutPanel1.Controls.Clear();
+
             foreach (var memoItem in ColumnInfo.Items)
             {
                 UCRowCommon labelCtr;
                 if (memoItem.Type == (int)RowItemType.Nikon)
-                    labelCtr = new UCRowNikon(memoItem);
+                    labelCtr = FindAndRemove<UCRowNikon>() ?? new UCRowNikon();
                 else
-                    labelCtr = new UCRowCommon(memoItem);
-                labelCtr.Menu = customMenuStripRow;
+                    labelCtr = FindAndRemove<UCRowCommon>() ?? new UCRowCommon();
+
+                labelCtr.itemInfo = memoItem;
+                labelCtr.Menu = RowMenu;
+                labelCtr.ColumnCtr = this;
 
                 var rowItem = labelCtr as IRowItem;
                 rowItem.ItemId = memoItem.Id;
@@ -120,6 +139,21 @@ namespace MemoHippo
             isDragging = false;
         }
 
+        public void ReleaseAllLabels()
+        {
+            foreach(var ctr in flowLayoutPanel1.Controls)
+            {
+                var rowItem = ctr as UCRowCommon;
+                if (rowItem != null)
+                {
+                    rowItem.NLMouseDown -= new MouseEventHandler(label_MouseDown);
+                    rowItem.NLMouseUp -= new MouseEventHandler(label_MouseUp);
+                    rowItem.NLMouseClick -= Label1_MouseClick;
+                    labelCacheList.Add(rowItem);
+                }
+            }
+        }
+
         private void DecorateControl(Control c, int id)
         {
             c.Name = "dragctr" + id;
@@ -127,9 +161,7 @@ namespace MemoHippo
             c.ForeColor = Color.White;
             if (id > 0)
                 c.BackColor = itemColor;
-           // c.Font = new Font("宋体", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(134)));
             c.Margin = new Padding(5);
-            // c.Padding = new Padding(3);
 
             var rowItem = c as IRowItem;
             if (rowItem != null)
@@ -143,7 +175,6 @@ namespace MemoHippo
         private void label_MouseUp(object sender, MouseEventArgs e)
         {
             var ctr = (Control)sender;
-            //  (sender as Control).BackColor = Color.Blue;
             delayTimer.Stop();
 
            // HLog.Info("UCTipColumn mouse up {0}", ctr.Name);
@@ -176,7 +207,6 @@ namespace MemoHippo
 
         private void OnDelayTimerTick(object sender, EventArgs e)
         {
-            //    delayControl.BackColor = Color.Blue;
             HLog.Info("UCTipColumn OnDelayTimerTick DoDragDrop {0}", delayControl.Name);
 
             delayTimer.Stop();
@@ -369,39 +399,6 @@ namespace MemoHippo
 
             if (ColumnInfo != null && !textChangeLock)
                 ColumnInfo.Title = inputBox.Text;
-        }
-
-        private void commonToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ChangeType((int)RowItemType.Common);
-        }
-
-        private void nikonToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ChangeType((int)RowItemType.Nikon);
-        }
-
-        private void ChangeType(int type)
-        {
-            var itemId = int.Parse(customMenuStripRow.Tag.ToString());
-
-            var itemInfo = ColumnInfo.GetItem(itemId);
-            if (itemInfo != null)
-                itemInfo.Type = type;
-
-            RefreshLabels();
-        }
-
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var itemId = int.Parse(customMenuStripRow.Tag.ToString());
-            ColumnInfo.RemoveItem(itemId);
-
-            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, itemId);
-            if (File.Exists(fullPath))
-                File.Delete(fullPath);
-
-            RefreshLabels();
         }
 
         private void UCTipColumn_MouseEnter(object sender, EventArgs e)

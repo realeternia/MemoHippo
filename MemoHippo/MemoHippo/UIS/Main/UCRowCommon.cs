@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using static MemoHippo.UCTipColumn;
 
 namespace MemoHippo
 {
@@ -15,7 +16,10 @@ namespace MemoHippo
         public event MouseEventHandler NLMouseDown;
         public event MouseEventHandler NLMouseUp;
 
-        public CustomMenuStrip Menu { get; set; }
+        public RJControls.RJDropdownMenu Menu { get; set; }
+        public UCTipColumn ColumnCtr { get; set; }
+
+        public virtual RowItemType Type { get { return RowItemType.Common; } }
 
         private Rectangle menuRegion;
 
@@ -24,10 +28,10 @@ namespace MemoHippo
         private string title;
         protected bool isMouseOver;
 
-        protected MemoItemInfo itemInfo;
+        public MemoItemInfo itemInfo { get; set; }
         private Dictionary<string, int> parmCount = new Dictionary<string, int>();
 
-        public UCRowCommon(MemoItemInfo itemIf)
+        public UCRowCommon()
         {
             InitializeComponent();
 
@@ -36,21 +40,21 @@ namespace MemoHippo
             MouseUp += UCRowCommon_MouseUp;
 
             menuRegion = new Rectangle(Width - 40, Height / 2 - Resources.menu.Height / 2, 34, 31);
-            itemInfo = itemIf;
+        }
 
+        public virtual void AfterInit()
+        {
             var parmList = itemInfo.GetParmList();
-            foreach(var parm in parmList)
+            parmCount.Clear();
+            foreach (var parm in parmList)
             {
                 if (parm.Item2 != "0")
                     parmCount[parm.Item1] = int.Parse(parm.Item2);
             }
             if (parmCount.Count > 0)
                 Height = 70;
-        }
-
-        public virtual void AfterInit()
-        {
-
+            else
+                Height = 47;
         }
 
         public void SetTitle(string str)
@@ -69,6 +73,8 @@ namespace MemoHippo
             {
                 Menu.Show(this, menuRegion.X + menuRegion.Width, menuRegion.Y);
                 Menu.Tag = ItemId;
+                Menu.Bind = ColumnCtr;
+                return;
             }
 
             if (NLMouseClick != null)
@@ -123,14 +129,16 @@ namespace MemoHippo
 
             int offset = 0;
 
+            if (parmCount.ContainsKey("main"))
+                offset += DrawItem(e.Graphics, Resources.main, parmCount["main"], 35 + 45 * offset);
             if (parmCount.ContainsKey("todo"))
                 offset += DrawItem(e.Graphics, Resources.add, parmCount["todo"], 35 + 45 * offset);
             if (parmCount.ContainsKey("done"))
                 offset += DrawItem(e.Graphics, Resources.done1, parmCount["done"], 35 + 45 * offset);
+            if (parmCount.ContainsKey("follow"))
+                offset += DrawItem(e.Graphics, Resources.follow, parmCount["follow"], 35 + 45 * offset);
             if (parmCount.ContainsKey("share"))
                 offset += DrawItem(e.Graphics, Resources.share, parmCount["share"], 35 + 45 * offset);
-            if (parmCount.ContainsKey("url"))
-                offset += DrawItem(e.Graphics, Resources.url, parmCount["url"], 35 + 45 * offset);
         }
 
         private int DrawItem(Graphics g, Image img, int val, int posX)

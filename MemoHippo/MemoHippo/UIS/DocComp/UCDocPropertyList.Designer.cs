@@ -1,7 +1,7 @@
 ﻿
 namespace MemoHippo.UIS
 {
-    partial class UCKVList
+    partial class UCDocPropertyList
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -29,24 +29,23 @@ namespace MemoHippo.UIS
         /// </summary>
         private void InitializeComponent()
         {
-            this.doubleBufferedFlowLayoutPanel1 = new MemoHippo.UIS.DoubleBufferedFlowLayoutPanel();
+            this.doubleBufferedPanel1 = new MemoHippo.UIS.DoubleBufferedPanel();
             this.SuspendLayout();
             // 
-            // doubleBufferedFlowLayoutPanel1
+            // doubleBufferedPanel1
             // 
-            this.doubleBufferedFlowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.doubleBufferedFlowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.doubleBufferedFlowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.doubleBufferedFlowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.doubleBufferedFlowLayoutPanel1.Name = "doubleBufferedFlowLayoutPanel1";
-            this.doubleBufferedFlowLayoutPanel1.Size = new System.Drawing.Size(700, 487);
-            this.doubleBufferedFlowLayoutPanel1.TabIndex = 0;
+            this.doubleBufferedPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.doubleBufferedPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.doubleBufferedPanel1.Location = new System.Drawing.Point(0, 0);
+            this.doubleBufferedPanel1.Name = "doubleBufferedPanel1";
+            this.doubleBufferedPanel1.Size = new System.Drawing.Size(700, 487);
+            this.doubleBufferedPanel1.TabIndex = 0;
             // 
             // UCKVList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.doubleBufferedFlowLayoutPanel1);
+            this.Controls.Add(this.doubleBufferedPanel1);
             this.Name = "UCKVList";
             this.Size = new System.Drawing.Size(700, 487);
             this.ResumeLayout(false);
@@ -55,6 +54,6 @@ namespace MemoHippo.UIS
 
         #endregion
 
-        private DoubleBufferedFlowLayoutPanel doubleBufferedFlowLayoutPanel1;
+        private DoubleBufferedPanel doubleBufferedPanel1;
     }
 }

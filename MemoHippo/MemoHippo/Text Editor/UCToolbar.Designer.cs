@@ -29,18 +29,14 @@ namespace Text_Editor
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UCToolbar));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripDropDownButtonSwitch = new System.Windows.Forms.ToolStripDropDownButton();
             this.textToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.blistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.head1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.head2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.head3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
-            this.changeCaseDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
-            this.lowercaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.uppercaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.clearFormattingStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -48,17 +44,18 @@ namespace Text_Editor
             this.italicStripButton = new System.Windows.Forms.ToolStripButton();
             this.underlineStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonDel = new System.Windows.Forms.ToolStripButton();
+            this.qutoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
             // 
-            this.toolStrip1.BackColor = System.Drawing.Color.White;
+            this.toolStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripDropDownButton1,
+            this.toolStripDropDownButtonSwitch,
             this.colorStripDropDownButton,
-            this.changeCaseDropDownButton,
             this.toolStripSeparator9,
             this.clearFormattingStripButton,
             this.toolStripSeparator2,
@@ -72,21 +69,22 @@ namespace Text_Editor
             this.toolStrip1.TabIndex = 17;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripDropDownButton1
+            // toolStripDropDownButtonSwitch
             // 
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDropDownButtonSwitch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDropDownButtonSwitch.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.textToolStripMenuItem,
             this.blistToolStripMenuItem,
             this.head1ToolStripMenuItem,
             this.head2ToolStripMenuItem,
-            this.head3ToolStripMenuItem});
-            this.toolStripDropDownButton1.ForeColor = System.Drawing.Color.Black;
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(83, 28);
-            this.toolStripDropDownButton1.Text = "切换类型";
+            this.head3ToolStripMenuItem,
+            this.qutoToolStripMenuItem});
+            this.toolStripDropDownButtonSwitch.ForeColor = System.Drawing.Color.Black;
+            this.toolStripDropDownButtonSwitch.Image = global::MemoHippo.Properties.Resources._switch;
+            this.toolStripDropDownButtonSwitch.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButtonSwitch.Name = "toolStripDropDownButtonSwitch";
+            this.toolStripDropDownButtonSwitch.Size = new System.Drawing.Size(38, 28);
+            this.toolStripDropDownButtonSwitch.Text = "切换";
             // 
             // textToolStripMenuItem
             // 
@@ -126,31 +124,7 @@ namespace Text_Editor
             this.colorStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.colorStripDropDownButton.Name = "colorStripDropDownButton";
             this.colorStripDropDownButton.Size = new System.Drawing.Size(38, 28);
-            this.colorStripDropDownButton.Text = "Font Color";
-            // 
-            // changeCaseDropDownButton
-            // 
-            this.changeCaseDropDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.changeCaseDropDownButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lowercaseToolStripMenuItem,
-            this.uppercaseToolStripMenuItem});
-            this.changeCaseDropDownButton.Image = ((System.Drawing.Image)(resources.GetObject("changeCaseDropDownButton.Image")));
-            this.changeCaseDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.changeCaseDropDownButton.Name = "changeCaseDropDownButton";
-            this.changeCaseDropDownButton.Size = new System.Drawing.Size(38, 28);
-            this.changeCaseDropDownButton.Text = "Change Case";
-            // 
-            // lowercaseToolStripMenuItem
-            // 
-            this.lowercaseToolStripMenuItem.Name = "lowercaseToolStripMenuItem";
-            this.lowercaseToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.lowercaseToolStripMenuItem.Text = "&lowercase";
-            // 
-            // uppercaseToolStripMenuItem
-            // 
-            this.uppercaseToolStripMenuItem.Name = "uppercaseToolStripMenuItem";
-            this.uppercaseToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.uppercaseToolStripMenuItem.Text = "&UPPERCASE";
+            this.colorStripDropDownButton.Text = "字色";
             // 
             // toolStripSeparator9
             // 
@@ -160,11 +134,11 @@ namespace Text_Editor
             // clearFormattingStripButton
             // 
             this.clearFormattingStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.clearFormattingStripButton.Image = ((System.Drawing.Image)(resources.GetObject("clearFormattingStripButton.Image")));
+            this.clearFormattingStripButton.Image = global::MemoHippo.Properties.Resources.clearformat;
             this.clearFormattingStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.clearFormattingStripButton.Name = "clearFormattingStripButton";
             this.clearFormattingStripButton.Size = new System.Drawing.Size(29, 28);
-            this.clearFormattingStripButton.Text = "Clear All Formatting";
+            this.clearFormattingStripButton.Text = "清除格式";
             // 
             // toolStripSeparator2
             // 
@@ -174,38 +148,45 @@ namespace Text_Editor
             // boldStripButton
             // 
             this.boldStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.boldStripButton.Image = ((System.Drawing.Image)(resources.GetObject("boldStripButton.Image")));
+            this.boldStripButton.Image = global::MemoHippo.Properties.Resources.bold;
             this.boldStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.boldStripButton.Name = "boldStripButton";
             this.boldStripButton.Size = new System.Drawing.Size(29, 28);
             this.boldStripButton.Text = "Bold";
+            this.boldStripButton.ToolTipText = "加粗";
             // 
             // italicStripButton
             // 
             this.italicStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.italicStripButton.Image = ((System.Drawing.Image)(resources.GetObject("italicStripButton.Image")));
+            this.italicStripButton.Image = global::MemoHippo.Properties.Resources.iter;
             this.italicStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.italicStripButton.Name = "italicStripButton";
             this.italicStripButton.Size = new System.Drawing.Size(29, 28);
-            this.italicStripButton.Text = "Italics";
+            this.italicStripButton.Text = "斜体";
             // 
             // underlineStripButton
             // 
             this.underlineStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.underlineStripButton.Image = ((System.Drawing.Image)(resources.GetObject("underlineStripButton.Image")));
+            this.underlineStripButton.Image = global::MemoHippo.Properties.Resources.uline;
             this.underlineStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.underlineStripButton.Name = "underlineStripButton";
             this.underlineStripButton.Size = new System.Drawing.Size(29, 28);
-            this.underlineStripButton.Text = "Underline";
+            this.underlineStripButton.Text = "下划线";
             // 
             // toolStripButtonDel
             // 
             this.toolStripButtonDel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonDel.Image = global::MemoHippo.Properties.Resources.del2;
+            this.toolStripButtonDel.Image = global::MemoHippo.Properties.Resources.del21;
             this.toolStripButtonDel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonDel.Name = "toolStripButtonDel";
             this.toolStripButtonDel.Size = new System.Drawing.Size(29, 28);
-            this.toolStripButtonDel.Text = "toolStripButtonDel";
+            this.toolStripButtonDel.Text = "删除线";
+            // 
+            // qutoToolStripMenuItem
+            // 
+            this.qutoToolStripMenuItem.Name = "qutoToolStripMenuItem";
+            this.qutoToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.qutoToolStripMenuItem.Text = "引用";
             // 
             // UCToolbar
             // 
@@ -226,21 +207,19 @@ namespace Text_Editor
 
         private System.Windows.Forms.ToolStrip toolStrip1;
         public System.Windows.Forms.ToolStripDropDownButton colorStripDropDownButton;
-        private System.Windows.Forms.ToolStripDropDownButton changeCaseDropDownButton;
-        private System.Windows.Forms.ToolStripMenuItem lowercaseToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem uppercaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         public System.Windows.Forms.ToolStripButton clearFormattingStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         public System.Windows.Forms.ToolStripButton boldStripButton;
         public System.Windows.Forms.ToolStripButton italicStripButton;
         public System.Windows.Forms.ToolStripButton underlineStripButton;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonSwitch;
         public System.Windows.Forms.ToolStripMenuItem textToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem blistToolStripMenuItem;
         public System.Windows.Forms.ToolStripButton toolStripButtonDel;
         public System.Windows.Forms.ToolStripMenuItem head1ToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem head2ToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem head3ToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem qutoToolStripMenuItem;
     }
 }

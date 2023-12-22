@@ -18,6 +18,9 @@ namespace MemoHippo.UIS
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            if (BG == null)
+                return;
+
             float[][] matrixItems ={
                     new float[] { Brightness, 0, 0, 0, 0},
                     new float[] {0, Brightness, 0, 0, 0},

@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace MemoHippo.Utils
 {
-    public class DelayedActionExecutor
+    public class DelayedExecutor
     {
         private static readonly Dictionary<string, Timer> timers = new Dictionary<string, Timer>();
         private static readonly Dictionary<string, CancellationTokenSource> cancellationTokens = new Dictionary<string, CancellationTokenSource>();

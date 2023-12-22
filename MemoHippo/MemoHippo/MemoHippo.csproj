@@ -70,6 +70,13 @@
     <Compile Include="Model\MemoBookCfg.cs" />
     <Compile Include="Model\RTItemData.cs" />
     <Compile Include="PanelManager.cs" />
+    <Compile Include="UIS\DocComp\IDocComp.cs" />
+    <Compile Include="UIS\Panels\UCBigBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\Panels\UCBigBox.Designer.cs">
+      <DependentUpon>UCBigBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIS\Panels\UCIconPicker.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -86,6 +93,12 @@
     </Compile>
     <Compile Include="UIS\Panels\UCNInput.Designer.cs">
       <DependentUpon>UCNInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\Panels\UCSettingBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\Panels\UCSettingBar.Designer.cs">
+      <DependentUpon>UCSettingBar.cs</DependentUpon>
     </Compile>
     <Compile Include="UIS\RJControls\Forms\FormButton.cs">
       <SubType>Form</SubType>
@@ -159,9 +172,6 @@
     <Compile Include="Text Editor\DasayEditor.designer.cs">
       <DependentUpon>DasayEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Text Editor\MyMenuStrip.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Text Editor\RichTextBoxEx.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -192,9 +202,6 @@
     <Compile Include="UIS\HintTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UIS\CustomMenuStrip.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="UIS\InputTextBox2.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -219,11 +226,11 @@
     <Compile Include="Utils\ResLoader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UIS\Main\UCCatalogNew.cs">
+    <Compile Include="UIS\Main\UCCatalogFix.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UIS\Main\UCCatalogNew.Designer.cs">
-      <DependentUpon>UCCatalogNew.cs</DependentUpon>
+    <Compile Include="UIS\Main\UCCatalogFix.Designer.cs">
+      <DependentUpon>UCCatalogFix.cs</DependentUpon>
     </Compile>
     <Compile Include="UIS\Main\UCCatalogItem.cs">
       <SubType>UserControl</SubType>
@@ -252,31 +259,35 @@
     <Compile Include="UIS\DoubleBufferedPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UIS\UCKVList.cs">
+    <Compile Include="UIS\DocComp\UCDocPropertyList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UIS\UCKVList.Designer.cs">
-      <DependentUpon>UCKVList.cs</DependentUpon>
+    <Compile Include="UIS\DocComp\UCDocPropertyList.Designer.cs">
+      <DependentUpon>UCDocPropertyList.cs</DependentUpon>
     </Compile>
-    <Compile Include="UIS\UCKVListMultisel.cs">
+    <Compile Include="UIS\DocComp\UCDocMultiselItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UIS\UCKVListMultisel.Designer.cs">
-      <DependentUpon>UCKVListMultisel.cs</DependentUpon>
+    <Compile Include="UIS\DocComp\UCDocMultiselItem.Designer.cs">
+      <DependentUpon>UCDocMultiselItem.cs</DependentUpon>
     </Compile>
-    <Compile Include="UIS\UCKVListItem.cs">
+    <Compile Include="UIS\DocComp\UCDocStringItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UIS\UCKVListItem.Designer.cs">
-      <DependentUpon>UCKVListItem.cs</DependentUpon>
+    <Compile Include="UIS\DocComp\UCDocStringItem.Designer.cs">
+      <DependentUpon>UCDocStringItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\ColorTool.cs" />
-    <Compile Include="Utils\DelayedActionExecutor.cs" />
+    <Compile Include="Utils\DelayedExecutor.cs" />
     <Compile Include="Utils\HLog.cs" />
     <Compile Include="Utils\ImageTool.cs" />
     <Compile Include="Utils\StringTool.cs" />
+    <Compile Include="Utils\TextBoxSelectRecover.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\Panels\UCBigBox.resx">
+      <DependentUpon>UCBigBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCIconPicker.resx">
       <DependentUpon>UCIconPicker.cs</DependentUpon>
@@ -292,8 +303,8 @@
     <EmbeddedResource Include="Text Editor\UCToolbar.resx">
       <DependentUpon>UCToolbar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UIS\Main\UCCatalogNew.resx">
-      <DependentUpon>UCCatalogNew.cs</DependentUpon>
+    <EmbeddedResource Include="UIS\Main\UCCatalogFix.resx">
+      <DependentUpon>UCCatalogFix.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Main\UCCatalogItem.resx">
       <DependentUpon>UCCatalogItem.cs</DependentUpon>
@@ -309,6 +320,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCNInput.resx">
       <DependentUpon>UCNInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\Panels\UCSettingBar.resx">
+      <DependentUpon>UCSettingBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCSearch.resx">
       <DependentUpon>UCSearch.cs</DependentUpon>
@@ -349,14 +363,14 @@
     <EmbeddedResource Include="UIS\TransparentPanel.resx">
       <DependentUpon>TransparentPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UIS\UCKVList.resx">
-      <DependentUpon>UCKVList.cs</DependentUpon>
+    <EmbeddedResource Include="UIS\DocComp\UCDocPropertyList.resx">
+      <DependentUpon>UCDocPropertyList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UIS\UCKVListMultisel.resx">
-      <DependentUpon>UCKVListMultisel.cs</DependentUpon>
+    <EmbeddedResource Include="UIS\DocComp\UCDocMultiselItem.resx">
+      <DependentUpon>UCDocMultiselItem.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UIS\UCKVListItem.resx">
-      <DependentUpon>UCKVListItem.cs</DependentUpon>
+    <EmbeddedResource Include="UIS\DocComp\UCDocStringItem.resx">
+      <DependentUpon>UCDocStringItem.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="packages.config" />
@@ -390,18 +404,28 @@
     <None Include="Resources\null.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\wheel.png" />
+    <None Include="Resources\trace.png" />
+    <None Include="Resources\switch.png" />
+    <None Include="Resources\uline.png" />
     <None Include="Resources\share.png" />
-    <None Include="Resources\url.png" />
     <None Include="Resources\smile.png" />
     <None Include="Resources\noteadd.png" />
     <None Include="Resources\note.png" />
     <Content Include="ico.ico" />
     <None Include="Resources\add.png" />
+    <None Include="Resources\brush.png" />
+    <None Include="Resources\bold.png" />
+    <None Include="Resources\clearformat.png" />
     <Content Include="Resources\convert.jpg" />
     <Content Include="Resources\copy.jpg" />
     <Content Include="Resources\del.jpg" />
     <Content Include="Resources\del2.jpg" />
     <None Include="Resources\done.png" />
+    <None Include="Resources\follow.png" />
+    <None Include="Resources\del2.png" />
+    <None Include="Resources\iter.png" />
+    <None Include="Resources\main.png" />
     <Content Include="Resources\pictureadd.png" />
     <Content Include="Resources\picturepaste.png" />
     <Content Include="Resources\selector.jpg" />

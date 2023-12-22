@@ -30,8 +30,8 @@ namespace RJControls
             }
             else
             {
-                backColor = Color.White;
-                leftColumnColor = Color.LightGray;
+                backColor = Color.FromArgb(24, 24, 24);
+                leftColumnColor = Color.FromArgb(24, 24, 24); 
                 borderColor = Color.LightGray;
                 menuItemBorderColor = primaryColor;
                 menuItemSelectedColor = primaryColor;

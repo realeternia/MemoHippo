@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using static MemoHippo.UCTipColumn;
 
 namespace MemoHippo
 {
@@ -12,8 +13,10 @@ namespace MemoHippo
         private Timer t;
         private int tick;
 
-        public UCRowNikon(MemoItemInfo itemIf)
-            : base(itemIf)
+        public override RowItemType Type { get { return RowItemType.Nikon; } }
+
+        public UCRowNikon() 
+            : base()
         {
             Height = 70;
 
@@ -31,6 +34,8 @@ namespace MemoHippo
 
         public override void AfterInit()
         {
+            lines.Clear();
+
             var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, ItemId);
             var infos = ConvertRtfToPlainText(File.ReadAllText(fullPath));
             foreach(var info in infos.Split('\n'))

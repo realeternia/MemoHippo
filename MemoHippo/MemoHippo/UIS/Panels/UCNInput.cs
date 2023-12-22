@@ -23,6 +23,7 @@ namespace MemoHippo.UIS.Panels
         public void OnInit(List<string> wordL)
         {
             wordList = wordL;
+            textBoxText.Clear();
             textBoxText.Focus();
 
             UpdateHints();

@@ -1,4 +1,5 @@
 ﻿using MemoHippo.Utils;
+using RJControls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -30,11 +31,12 @@ namespace MemoHippo.UIS
             textBox1.OnLoad();
         }
 
-        public void OnInit()
+        public void OnInit(string keyword)
         {
-            textBox1.Clear();
+            textBox1.Text = keyword;
             textBox1.Focus();
-            listView1.Hide();
+            if (string.IsNullOrEmpty(keyword))
+                listView1.Hide();
             rjComboBox1.SelectedIndex = 0;
         }
 
@@ -45,7 +47,7 @@ namespace MemoHippo.UIS
 
         private void SearchAct()
         {
-            DelayedActionExecutor.Trigger("ucsearch", 0.3f, () =>
+            DelayedExecutor.Trigger("ucsearch", 0.3f, () =>
             {
                 listView1.Visible = false; //防止中途绘制出现奇怪问题
                 searchResults.Clear();
@@ -205,6 +207,11 @@ namespace MemoHippo.UIS
                 searchBegin = DateTime.Now.Subtract(TimeSpan.FromDays(365 * 30));
 
             SearchAct();
+        }
+
+        private void rjButton6_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = (sender as RJButton).Text;
         }
     }
 }

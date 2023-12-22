@@ -21,6 +21,8 @@ namespace RJControls
 
         private Bitmap menuItemHeaderSize;
 
+        public Control Bind;
+
         //Constructor
         public RJDropdownMenu(IContainer container)
             : base(container)
@@ -67,8 +69,11 @@ namespace RJControls
                 menuItemHeaderSize = new Bitmap(25, 45);
             else menuItemHeaderSize = new Bitmap(20, menuItemHeight);
 
-            foreach (ToolStripMenuItem menuItemL1 in this.Items)
+            foreach (var menuItemObj in this.Items)
             {
+                ToolStripMenuItem menuItemL1 = menuItemObj as ToolStripMenuItem;
+                if (menuItemL1 == null)
+                    continue;
                 menuItemL1.ImageScaling = ToolStripItemImageScaling.None;
                 if (menuItemL1.Image == null) menuItemL1.Image = menuItemHeaderSize;
 
