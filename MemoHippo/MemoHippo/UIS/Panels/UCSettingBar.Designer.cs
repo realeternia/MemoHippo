@@ -1,6 +1,7 @@
 ﻿
 using MemoHippo.UIS;
 using RJControls;
+using System.Windows.Forms;
 
 namespace MemoHippo.UIS
 {
@@ -34,7 +35,7 @@ namespace MemoHippo.UIS
         {
             this.components = new System.ComponentModel.Container();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.uckvList1 = new MemoHippo.UIS.UCDocPropertyList();
+            this.panel1 = new MemoHippo.UIS.DoubleBufferedPanel();
             this.SuspendLayout();
             // 
             // imageList1
@@ -43,21 +44,25 @@ namespace MemoHippo.UIS
             this.imageList1.ImageSize = new System.Drawing.Size(70, 70);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // uckvList1
+            // panel1
             // 
-            this.uckvList1.BackColor = System.Drawing.Color.Lime;
-            this.uckvList1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.uckvList1.Location = new System.Drawing.Point(232, 0);
-            this.uckvList1.Name = "uckvList1";
-            this.uckvList1.Size = new System.Drawing.Size(921, 797);
-            this.uckvList1.TabIndex = 0;
+            this.panel1.AutoScroll = true;
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(38)))));
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel1.Font = new System.Drawing.Font("宋体", 9F);
+            this.panel1.Location = new System.Drawing.Point(254, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(899, 797);
+            this.panel1.TabIndex = 0;
+            this.panel1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.panel1_Scroll);
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.doubleBufferedPanel1_Paint);
             // 
             // UCSettingBar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.Controls.Add(this.uckvList1);
+            this.Controls.Add(this.panel1);
             this.Name = "UCSettingBar";
             this.Size = new System.Drawing.Size(1153, 797);
             this.ResumeLayout(false);
@@ -66,6 +71,6 @@ namespace MemoHippo.UIS
 
         #endregion
         private System.Windows.Forms.ImageList imageList1;
-        private UCDocPropertyList uckvList1;
+        private DoubleBufferedPanel panel1;
     }
 }

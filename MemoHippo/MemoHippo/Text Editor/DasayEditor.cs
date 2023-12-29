@@ -12,20 +12,21 @@ using System.Collections.Generic;
 using MemoHippo;
 using MemoHippo.Utils;
 using MemoHippo.Model;
+using MemoHippo.Model.Types;
 
 namespace Text_Editor
 {
     public partial class DasayEditor : UserControl
     {
         // 定义关键词和相应的颜色
-        private Dictionary<string, Color> keywords = new Dictionary<string, Color>
+        private List<string> keywords = new List<string>
         {
-            ["todo"] = Color.Gray,
-            ["done"] = Color.LimeGreen,
-            ["url"] = Color.Cyan,
-            ["share"] = Color.Goldenrod,
-            ["follow"] = Color.Crimson,
-            ["main"] = Color.Fuchsia,
+            "todo",
+            "done",
+            "url",
+            "share",
+            "follow",
+            "main",
         };
 
         private MemoItemInfo memoItemInfo;
@@ -170,8 +171,8 @@ namespace Text_Editor
             var txt = richTextBox1.Text;
             foreach(var keyPair in keywords)
             {
-                var todoCount = StringTool.CountSubstring(txt, keyPair.Key);
-                memoItemInfo.SetParm(keyPair.Key, todoCount.ToString());
+                var todoCount = StringTool.CountSubstring(txt, keyPair);
+                memoItemInfo.SetParm(keyPair, todoCount.ToString());
             }
         }
 
@@ -678,7 +679,7 @@ namespace Text_Editor
                     richTextBox1.Paste(DataFormats.GetFormat(DataFormats.Text));
 
                     RichtextSelect(pos, name.Length);
-                    richTextBox1.SelectionColor = Color.Yellow; //给名字变色
+                    richTextBox1.SelectionColor = MemoBook.Instance.Cfg.PeopleColor.ToColor(); //给名字变色
 
                     RichtextSelect(pos + name.Length, 0);
                     richTextBox1.SelectionColor = richTextBox1.ForeColor;
@@ -710,7 +711,8 @@ namespace Text_Editor
             }
 
             // 遍历关键词并高亮
-            foreach (var keyword in keywords.Keys)
+            ColorCfg color = null;
+            foreach (var keyword in keywords)
             {
                 int index = 0;
                 while (index < richTextBox1.TextLength)
@@ -720,7 +722,18 @@ namespace Text_Editor
                         break;
 
                     RichtextSelect(index, keyword.Length);
-                    richTextBox1.SelectionColor = keywords[keyword];
+
+                    switch (keyword)
+                    {
+                        case "todo": color = MemoBook.Instance.Cfg.KWTodoColor; break;
+                        case "done": color = MemoBook.Instance.Cfg.KWDoneColor; break;
+                        case "url": color = MemoBook.Instance.Cfg.KWUrlColor; break;
+                        case "share": color = MemoBook.Instance.Cfg.KWShareColor; break;
+                        case "follow": color = MemoBook.Instance.Cfg.KWFollowColor; break;
+                        case "main": color = MemoBook.Instance.Cfg.KWMainColor; break;
+                    }
+                    
+                    richTextBox1.SelectionColor = color.ToColor();
 
                     index += keyword.Length;
                 }

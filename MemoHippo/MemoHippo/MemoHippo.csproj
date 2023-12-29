@@ -66,16 +66,42 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ENV.cs" />
+    <Compile Include="Model\SetupItemDesAttribute.cs" />
     <Compile Include="Model\IRowItem.cs" />
     <Compile Include="Model\MemoBookCfg.cs" />
     <Compile Include="Model\RTItemData.cs" />
+    <Compile Include="Model\Types\ColorCfg.cs" />
     <Compile Include="PanelManager.cs" />
     <Compile Include="UIS\DocComp\IDocComp.cs" />
+    <Compile Include="UIS\InputNumberBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\InputNumberBox.Designer.cs">
+      <DependentUpon>InputNumberBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\InputArrayBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\InputArrayBox.Designer.cs">
+      <DependentUpon>InputArrayBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\InputColorBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\InputColorBox.Designer.cs">
+      <DependentUpon>InputColorBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIS\Panels\UCBigBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UIS\Panels\UCBigBox.Designer.cs">
       <DependentUpon>UCBigBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\Panels\UCSettingItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\Panels\UCSettingItem.Designer.cs">
+      <DependentUpon>UCSettingItem.cs</DependentUpon>
     </Compile>
     <Compile Include="UIS\Panels\UCIconPicker.cs">
       <SubType>UserControl</SubType>
@@ -165,6 +191,36 @@
     <Compile Include="UIS\RJControls\RJToggleButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UIS\SetupComp\UCSetupNumberItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\SetupComp\UCSetupNumberItem.Designer.cs">
+      <DependentUpon>UCSetupNumberItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\SetupComp\UCSetupStrArrayItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\SetupComp\UCSetupStrArrayItem.Designer.cs">
+      <DependentUpon>UCSetupStrArrayItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\SetupComp\UCSetupColorItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\SetupComp\UCSetupColorItem.Designer.cs">
+      <DependentUpon>UCSetupColorItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\SetupComp\UCSetupSwitch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\SetupComp\UCSetupSwitch.Designer.cs">
+      <DependentUpon>UCSetupSwitch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\SetupComp\UCSetupStringItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\SetupComp\UCSetupStringItem.Designer.cs">
+      <DependentUpon>UCSetupStringItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\ColorClassifier.cs" />
     <Compile Include="Text Editor\DasayEditor.cs">
       <SubType>UserControl</SubType>
@@ -202,11 +258,11 @@
     <Compile Include="UIS\HintTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UIS\InputTextBox2.cs">
+    <Compile Include="UIS\InputTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UIS\InputTextBox2.Designer.cs">
-      <DependentUpon>InputTextBox2.cs</DependentUpon>
+    <Compile Include="UIS\InputTextBox.Designer.cs">
+      <DependentUpon>InputTextBox.cs</DependentUpon>
     </Compile>
     <Compile Include="UIS\TransparentPanel.cs">
       <SubType>Component</SubType>
@@ -223,6 +279,7 @@
     <Compile Include="Model\MemoBook.cs" />
     <Compile Include="Model\MemoCatalogInfo.cs" />
     <Compile Include="Utils\FontMgr.cs" />
+    <Compile Include="Utils\MathTool.cs" />
     <Compile Include="Utils\ResLoader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -286,8 +343,20 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UIS\InputNumberBox.resx">
+      <DependentUpon>InputNumberBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\InputArrayBox.resx">
+      <DependentUpon>InputArrayBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\InputColorBox.resx">
+      <DependentUpon>InputColorBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCBigBox.resx">
       <DependentUpon>UCBigBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\Panels\UCSettingItem.resx">
+      <DependentUpon>UCSettingItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCIconPicker.resx">
       <DependentUpon>UCIconPicker.cs</DependentUpon>
@@ -336,8 +405,8 @@
     <EmbeddedResource Include="UIS\HintTextBox.resx">
       <DependentUpon>HintTextBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UIS\InputTextBox2.resx">
-      <DependentUpon>InputTextBox2.cs</DependentUpon>
+    <EmbeddedResource Include="UIS\InputTextBox.resx">
+      <DependentUpon>InputTextBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\RJControls\Forms\FormButton.resx">
       <DependentUpon>FormButton.cs</DependentUpon>
@@ -359,6 +428,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\RJControls\RJTextBox.resx">
       <DependentUpon>RJTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\SetupComp\UCSetupNumberItem.resx">
+      <DependentUpon>UCSetupNumberItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\SetupComp\UCSetupStrArrayItem.resx">
+      <DependentUpon>UCSetupStrArrayItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\SetupComp\UCSetupColorItem.resx">
+      <DependentUpon>UCSetupColorItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\SetupComp\UCSetupSwitch.resx">
+      <DependentUpon>UCSetupSwitch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\SetupComp\UCSetupStringItem.resx">
+      <DependentUpon>UCSetupStringItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\TransparentPanel.resx">
       <DependentUpon>TransparentPanel.cs</DependentUpon>
@@ -430,5 +514,6 @@
     <Content Include="Resources\picturepaste.png" />
     <Content Include="Resources\selector.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

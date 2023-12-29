@@ -1,4 +1,5 @@
 ﻿using MemoHippo.Model;
+using MemoHippo.Utils;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -10,7 +11,7 @@ namespace MemoHippo
     public class UCRowNikon : UCRowCommon
     {
         private List<string> lines = new List<string>();
-        private Timer t;
+        private System.Threading.Timer t;
         private int tick;
 
         public override RowItemType Type { get { return RowItemType.Nikon; } }
@@ -19,14 +20,10 @@ namespace MemoHippo
             : base()
         {
             Height = 70;
-
-            t = new Timer();
-            t.Interval = 30000;
-            t.Tick += T_Tick;
         }
 
 
-        private void T_Tick(object sender, System.EventArgs e)
+        private void T_Tick(object state)
         {
             tick++;
             Invalidate();
@@ -44,7 +41,12 @@ namespace MemoHippo
                     lines.Add(info.Trim());
             }
 
-            t.Start();
+            t = new System.Threading.Timer(T_Tick, null, MathTool.GetRandom(MemoBook.Instance.Cfg.NikonInterval / 2 * 1000), MemoBook.Instance.Cfg.NikonInterval * 1000);
+        }
+
+        public override void OnRemove()
+        {
+            t.Dispose();
         }
 
         private string ConvertRtfToPlainText(string rtfContent)
@@ -61,7 +63,10 @@ namespace MemoHippo
         {
             DrawBase(e);
             if (lines.Count > 0)
-                e.Graphics.DrawString(lines[tick % lines.Count], Font, Brushes.Yellow, 35, 35);
+            {
+                using (var brush = new SolidBrush(MemoBook.Instance.Cfg.NikonForeColor.ToColor()))
+                    e.Graphics.DrawString(lines[tick % lines.Count], Font, brush, 35, 35);
+            }
         }
     }
 }

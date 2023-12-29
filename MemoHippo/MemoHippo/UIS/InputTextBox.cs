@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace MemoHippo.UIS
 {
-    public partial class InputTextBox2 : UserControl
+    public partial class InputTextBox : UserControl
     {
-        public event System.EventHandler<EventArgs> OnCustomTextChanged;
+        public Action<string> OnCustomTextChanged;
 
         public override string Text
         {
@@ -18,19 +18,22 @@ namespace MemoHippo.UIS
             set { textBox1.Text = value; }
         }
 
-        public Form1 Form1 { get; set; }
-
-        public InputTextBox2()
+        public InputTextBox()
         {
             InitializeComponent();
+        }
+
+        public void OnInit()
+        {
+            textBox1.Focus();
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             if (OnCustomTextChanged != null)
-                OnCustomTextChanged(this, e);
+                OnCustomTextChanged(textBox1.Text);
 
-            Form1.HideBlackPanel();
+            PanelManager.Instance.HideBlackPanel();
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
@@ -38,11 +41,12 @@ namespace MemoHippo.UIS
             if (e.KeyCode == Keys.Enter)
             {
                 if (OnCustomTextChanged != null)
-                    OnCustomTextChanged(this, e);
+                    OnCustomTextChanged(textBox1.Text);
                 e.Handled = true;
 
-                Form1.HideBlackPanel();
+                PanelManager.Instance.HideBlackPanel();
             }
         }
+
     }
 }

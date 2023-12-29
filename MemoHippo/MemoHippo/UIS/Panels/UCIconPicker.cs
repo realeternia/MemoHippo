@@ -20,7 +20,6 @@ namespace MemoHippo.UIS.Panels
             public string Name;
             public Point Location;
         }
-        public Form1 Form1 { get; set; }
 
         private int ColCount = 12; // 列数
         private int iconSize = 32; // 图标大小
@@ -169,7 +168,7 @@ namespace MemoHippo.UIS.Panels
             if(AfterSelect != null)
                 AfterSelect(nowPath);
 
-            Form1.HideBlackPanel();
+            PanelManager.Instance.HideBlackPanel();
         }
 
         private void MoveSelection(int xoff, int yoff)

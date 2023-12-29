@@ -9,10 +9,9 @@ namespace MemoHippo.UIS.Panels
     {
         private int textHintIndex;
         private bool isAutoComplete;
-        private static List<string> wordList = new List<string>();
+        private static string[] wordList = new string[0];
         private List<string> results = new List<string>(); //当前显示的结果列表
 
-        public Form1 Form1 { get; set; }
         public Action<string> AfterSelect;
 
         public UCNInput()
@@ -20,7 +19,7 @@ namespace MemoHippo.UIS.Panels
             InitializeComponent();
         }
 
-        public void OnInit(List<string> wordL)
+        public void OnInit(string[] wordL)
         {
             wordList = wordL;
             textBoxText.Clear();
@@ -77,7 +76,7 @@ namespace MemoHippo.UIS.Panels
                 if (AfterSelect != null)
                     AfterSelect(textBoxText.Text.Split('-')[0]);
 
-                Form1.HideBlackPanel();
+                PanelManager.Instance.HideBlackPanel();
             }
         }
 

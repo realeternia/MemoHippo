@@ -24,7 +24,7 @@ namespace MemoHippo
         private MemoItemInfo nowRowItem = null;
         
         private bool textChangeLock;
-        private InputTextBox2 colAddInputBox;
+        private InputTextBox colAddInputBox;
 
         public RJControls.RJDropdownMenu CustomMenuStripCol { get { return rjDropdownMenuCol; } }
 
@@ -51,9 +51,8 @@ namespace MemoHippo
             textBoxCatalogTitle.OnLoad();
             textBoxRowItemTitle.OnLoad();
 
-            colAddInputBox = new InputTextBox2();
-            colAddInputBox.Form1 = this;
-            colAddInputBox.OnCustomTextChanged += Hintbox_OnCustomTextChanged;
+            colAddInputBox = new InputTextBox();
+            colAddInputBox.OnCustomTextChanged = Hintbox_OnCustomTextChanged;
 
             if (File.Exists(ENV.BaseDir+ "/memo.yaml"))
             {
@@ -110,13 +109,13 @@ namespace MemoHippo
 
             Point absoluteLocation = ucTipAdd1.PointToScreen(new Point(0, 0));
 
-            ShowBlackPanel(colAddInputBox, absoluteLocation.X - Location.X, absoluteLocation.Y - Location.Y, 1);
+            PanelManager.Instance.ShowBlackPanel(colAddInputBox, absoluteLocation.X - Location.X, absoluteLocation.Y - Location.Y, 1);
             colAddInputBox.Focus();
         }
 
-        private void Hintbox_OnCustomTextChanged(object sender, EventArgs e)
+        private void Hintbox_OnCustomTextChanged(string s)
         {
-            var newId = nowCatalog.AddColumn(colAddInputBox.Text);
+            var newId = nowCatalog.AddColumn(s);
             RefreshColumns(nowCatalog.Id);
 
             panel1.Controls.Find("col" + newId.ToString(), false);
@@ -373,23 +372,6 @@ namespace MemoHippo
         private void ucCatalogSearch_Click(object sender, System.EventArgs e)
         {
             PanelManager.Instance.ShowSearchForm();
-        }
-
-        public void ShowBlackPanel(Control ctr, int x, int y, float bright = 0.5f)
-        {
-            Bitmap bitmap = new Bitmap(splitContainer1.Width, splitContainer1.Height);
-            using (Graphics graphics = Graphics.FromImage(bitmap))
-                graphics.CopyFromScreen(splitContainer1.PointToScreen(Point.Empty), Point.Empty, splitContainer1.Size);
-
-            panelBlack.BG = bitmap;
-            panelBlack.Brightness = bright;
-            panelBlack.AddControl(ctr, x, y);
-            panelBlack.BringToFront();
-        }
-
-        public void HideBlackPanel()
-        {
-            panelBlack.HideAll();
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)

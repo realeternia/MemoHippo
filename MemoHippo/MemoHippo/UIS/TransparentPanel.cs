@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 
@@ -6,14 +8,45 @@ namespace MemoHippo.UIS
 {
     public class TransparentPanel : Panel
     {
-        public Bitmap BG { get; set; }
-        public float Brightness { get; set; } = 0.5f; // 控制亮度，1 为不变，大于 1 变亮，小于 1 变暗
+        class CachedParms
+        {
+            public Bitmap BG { get; set; }
+            public float Brightness { get; set; }
+            public Control Control { get; set; }
+        }
+
+        private Bitmap BG;
+        private float Brightness = 0.5f; // 控制亮度，1 为不变，大于 1 变亮，小于 1 变暗
+
+        private Stack<CachedParms> caches = new Stack<CachedParms>();
 
         public TransparentPanel()
         {
             DoubleBuffered = true;
 
             this.Click += new System.EventHandler(this.TransparentPanel_Click);
+        }
+
+        public void SetUp(Control c, int rx, int ry, Bitmap bg, float bright)
+        {
+            if(Controls.Count > 0) //叠了
+            {
+                caches.Push(new CachedParms { BG = BG, Brightness = Brightness, Control = Controls[0] });
+                Controls.Clear();
+            }
+
+            BG = bg;
+            Brightness = bright;
+
+            if (rx + ry == 0)
+            {//自动居中
+                rx = (Width - c.Width) / 2;
+                ry = (Height - c.Height) / 2;
+            }
+
+            // 设置 labelControl 的位置
+            c.Location = new Point(rx, ry);
+            Controls.Add(c);
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -44,20 +77,18 @@ namespace MemoHippo.UIS
         {
             Controls.Clear();
 
-            SendToBack();
-        }
-
-        public void AddControl(Control c, int rx, int ry)
-        {
-            if (rx + ry == 0)
-            {//自动居中
-                rx = (Width - c.Width) / 2;
-                ry = (Height - c.Height) / 2;
+            if(caches.Count > 0)
+            {
+                var parm = caches.Pop();
+                BG = parm.BG;
+                Brightness = parm.Brightness;
+                Controls.Add(parm.Control);
             }
-
-            // 设置 labelControl 的位置
-            c.Location = new Point(rx, ry);
-            Controls.Add(c);
+            else
+            {
+                SendToBack();
+            }
         }
+
     }
 }

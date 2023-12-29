@@ -61,7 +61,7 @@ namespace MemoHippo
         private int lineY;
         private bool textChangeLock;
 
-        private InputTextBox2 inputBox;
+        private InputTextBox inputBox;
         private Rectangle menuRegion;
         private bool isMouseOn;
 
@@ -98,10 +98,9 @@ namespace MemoHippo
 
             ColumnInfo = MemoBook.Instance.GetCatalog(catalogId).GetColumn(columnId);
 
-            inputBox = new InputTextBox2();
-            inputBox.Form1 = ParentC;
+            inputBox = new InputTextBox();
             inputBox.Text = labelTitle.Text;
-            inputBox.OnCustomTextChanged += Hintbox_OnCustomTextChanged;
+            inputBox.OnCustomTextChanged = Hintbox_OnCustomTextChanged;
 
             menuRegion = new Rectangle(Width - 50, 13, 40, 30);
 
@@ -149,6 +148,7 @@ namespace MemoHippo
                     rowItem.NLMouseDown -= new MouseEventHandler(label_MouseDown);
                     rowItem.NLMouseUp -= new MouseEventHandler(label_MouseUp);
                     rowItem.NLMouseClick -= Label1_MouseClick;
+                    rowItem.OnRemove();
                     labelCacheList.Add(rowItem);
                 }
             }
@@ -389,16 +389,16 @@ namespace MemoHippo
         {
             Point absoluteLocation = labelTitle.PointToScreen(new Point(0, 0));
 
-            ParentC.ShowBlackPanel(inputBox, absoluteLocation.X - ParentC.Location.X, absoluteLocation.Y - ParentC.Location.Y, 1);
+            PanelManager.Instance.ShowBlackPanel(inputBox, absoluteLocation.X - ParentC.Location.X, absoluteLocation.Y - ParentC.Location.Y, 1);
             inputBox.Focus();
         }
 
-        private void Hintbox_OnCustomTextChanged(object sender, EventArgs e)
+        private void Hintbox_OnCustomTextChanged(string s)
         {
-            labelTitle.Text = inputBox.Text;
+            labelTitle.Text = s;
 
             if (ColumnInfo != null && !textChangeLock)
-                ColumnInfo.Title = inputBox.Text;
+                ColumnInfo.Title = s;
         }
 
         private void UCTipColumn_MouseEnter(object sender, EventArgs e)

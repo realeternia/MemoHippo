@@ -57,6 +57,11 @@ namespace MemoHippo
                 Height = 47;
         }
 
+        public virtual void OnRemove()
+        {
+
+        }
+
         public void SetTitle(string str)
         {
             title = str;

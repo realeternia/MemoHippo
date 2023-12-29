@@ -49,7 +49,7 @@ namespace MemoHippo.UIS.Panels
             // 
             // listBox1
             // 
-            this.listBox1.BackColor = System.Drawing.Color.Navy;
+            this.listBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(64)))));
             this.listBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listBox1.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.listBox1.ForeColor = System.Drawing.Color.White;

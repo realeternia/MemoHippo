@@ -140,6 +140,8 @@ namespace MemoHippo
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 125);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
@@ -278,8 +280,6 @@ namespace MemoHippo
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelBlack.BackColor = System.Drawing.Color.Black;
-            this.panelBlack.BG = null;
-            this.panelBlack.Brightness = 0.5F;
             this.panelBlack.Location = new System.Drawing.Point(0, 0);
             this.panelBlack.Name = "panelBlack";
             this.panelBlack.Size = new System.Drawing.Size(1830, 1078);
@@ -438,7 +438,7 @@ namespace MemoHippo
         public DoubleBufferedPanel panel1;
         private UCCatalogFix ucCatalogSetup;
         private UCCatalogFix ucCatalogSearch;
-        private TransparentPanel panelBlack;
+        public TransparentPanel panelBlack;
         private UCDocPropertyList uckvList1;
         private DoubleBufferedFlowLayoutPanel doubleBufferedFlowLayoutPanel1;
         private RJControls.RJDropdownMenu rjDropdownMenuCol;

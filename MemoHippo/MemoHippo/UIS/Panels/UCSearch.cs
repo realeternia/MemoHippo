@@ -193,8 +193,7 @@ namespace MemoHippo.UIS
 
             Form1.ShowPaperPadEx(itemInfo.CatalogId, itemInfo.ItemInfo);
 
-            if (Form1 != null)
-                Form1.HideBlackPanel();
+            PanelManager.Instance.HideBlackPanel();
         }
 
         private void rjComboBox1_OnSelectedIndexChanged(object sender, EventArgs e)

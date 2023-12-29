@@ -2,6 +2,7 @@
 using MemoHippo.UIS.Panels;
 using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace MemoHippo
 {
@@ -15,6 +16,10 @@ namespace MemoHippo
         private UCNInput peoplePanel;
         private UCBigBox bigBox;
         private UCSettingBar setupBar;
+        private InputTextBox inputBox;
+        private InputNumberBox numberBox;
+        private InputArrayBox arrayBox;
+        private InputColorBox colorBox;
 
         public void Init(Form1 form)
         {
@@ -29,7 +34,7 @@ namespace MemoHippo
                 searchForm.Form1 = form1;
             }
 
-            form1.ShowBlackPanel(searchForm, 0, 0);
+            ShowBlackPanel(searchForm, 0, 0);
 
             searchForm.OnInit(keyword);
         }
@@ -50,13 +55,12 @@ namespace MemoHippo
             if (iconPicker == null)
             {
                 iconPicker = new UCIconPicker();
-                iconPicker.Form1 = form1;
             }
 
             iconPicker.AfterSelect = act;
 
             ReLocate(ref x, ref y, iconPicker.Size);
-            form1.ShowBlackPanel(iconPicker, x, y, 1);
+            ShowBlackPanel(iconPicker, x, y, 1);
             iconPicker.OnInit();
         }
 
@@ -65,13 +69,12 @@ namespace MemoHippo
             if (peoplePanel == null)
             {
                 peoplePanel = new UCNInput();
-                peoplePanel.Form1 = form1;
             }
 
             peoplePanel.AfterSelect = act;
 
             ReLocate(ref x, ref y, peoplePanel.Size);
-            form1.ShowBlackPanel(peoplePanel, x, y, 1);
+            ShowBlackPanel(peoplePanel, x, y, 1);
             peoplePanel.OnInit(MemoBook.Instance.Cfg.PeopleNames);
         }
 
@@ -82,7 +85,7 @@ namespace MemoHippo
                 bigBox = new UCBigBox();
             }
 
-            form1.ShowBlackPanel(bigBox, 0, 0);
+            ShowBlackPanel(bigBox, 0, 0);
 
             bigBox.OnInit(rtf);
         }
@@ -92,9 +95,86 @@ namespace MemoHippo
             if (setupBar == null)
             {
                 setupBar = new UCSettingBar();
+                setupBar.Init();
             }
 
-            form1.ShowBlackPanel(setupBar, 0, 0);
+            ShowBlackPanel(setupBar, 0, 0);
+        }
+
+        public void ShowInputBox(string str, Action<string> callback)
+        {
+            if (inputBox == null)
+            {
+                inputBox = new InputTextBox();
+                inputBox.Width = 500;
+            }
+
+            inputBox.Text = str;
+            inputBox.OnCustomTextChanged = (s1) => callback(s1);
+
+            ShowBlackPanel(inputBox, 0, 0);
+            inputBox.OnInit();
+        }
+
+        public void ShowNumberBox(int number, int min, int max, Action<int> callback)
+        {
+            if (numberBox == null)
+            {
+                numberBox = new InputNumberBox();
+                numberBox.Width = 500;
+            }
+
+            numberBox.ValMin = min;
+            numberBox.ValMax = max;
+            numberBox.Value = number;
+            numberBox.OnCustomTextChanged = (s1) => callback(s1);
+
+            ShowBlackPanel(numberBox, 0, 0);
+            numberBox.OnInit();
+        }
+
+        public void ShowStrArrayBox(string[] strs, Action<string[]> callback)
+        {
+            if (arrayBox == null)
+            {
+                arrayBox = new InputArrayBox();
+                arrayBox.Width = 500;
+            }
+
+            arrayBox.StrArray = strs;
+            arrayBox.OnCustomTextChanged = (s1) => callback(s1);
+
+            ShowBlackPanel(arrayBox, 0, 0);
+            arrayBox.OnInit();
+        }
+
+        public void ShowColorBox(Color c, Action<Color> callback)
+        {
+            if (colorBox == null)
+            {
+                colorBox = new InputColorBox();
+                colorBox.Width = 500;
+            }
+
+            colorBox.OnCustomTextChanged = (s1) => callback(s1);
+
+            ShowBlackPanel(colorBox, 0, 0);
+            colorBox.OnInit(c);
+        }
+
+        public void ShowBlackPanel(Control ctr, int x, int y, float bright = 0.5f)
+        {
+            Bitmap bitmap = new Bitmap(form1.Width+2, form1.Height+2);
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+                graphics.CopyFromScreen(form1.PointToScreen(Point.Empty), Point.Empty, form1.Size);
+
+            form1.panelBlack.SetUp(ctr, x, y, bitmap, bright);
+            form1.panelBlack.BringToFront();
+        }
+
+        public void HideBlackPanel()
+        {
+            form1.panelBlack.HideAll();
         }
     }
 }

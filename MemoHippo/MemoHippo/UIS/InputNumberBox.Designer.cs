@@ -1,7 +1,7 @@
 ﻿
 namespace MemoHippo.UIS
 {
-    partial class InputTextBox2
+    partial class InputNumberBox
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -47,9 +47,11 @@ namespace MemoHippo.UIS
             this.textBox1.Size = new System.Drawing.Size(194, 31);
             this.textBox1.TabIndex = 0;
             this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
+            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBox1.Image = global::MemoHippo.Properties.Resources.done;
             this.pictureBox1.Location = new System.Drawing.Point(214, 9);
