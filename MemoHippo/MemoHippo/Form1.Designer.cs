@@ -34,11 +34,12 @@ namespace MemoHippo
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.ucCatalogStore = new MemoHippo.UCCatalogFix();
             this.ucCatalogNew = new MemoHippo.UCCatalogFix();
             this.ucCatalogSearch = new MemoHippo.UCCatalogFix();
             this.ucCatalogSetup = new MemoHippo.UCCatalogFix();
             this.flowLayoutPanel1 = new MemoHippo.UIS.DoubleBufferedFlowLayoutPanel();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.textBoxCatalogTitle = new MemoHippo.UIS.HintTextBox();
             this.panel1 = new MemoHippo.UIS.DoubleBufferedPanel();
             this.ucTipAdd1 = new MemoHippo.UCColumnAdd();
@@ -54,10 +55,11 @@ namespace MemoHippo
             this.rjDropdownMenuCatlog = new RJControls.RJDropdownMenu(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.rjDropdownMenuRow = new RJControls.RJDropdownMenu(this.components);
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.storeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.commonToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.nikonToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -84,6 +86,7 @@ namespace MemoHippo
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.ucCatalogStore);
             this.splitContainer1.Panel1.Controls.Add(this.ucCatalogNew);
             this.splitContainer1.Panel1.Controls.Add(this.ucCatalogSearch);
             this.splitContainer1.Panel1.Controls.Add(this.ucCatalogSetup);
@@ -96,12 +99,50 @@ namespace MemoHippo
             this.splitContainer1.SplitterDistance = 240;
             this.splitContainer1.TabIndex = 3;
             // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.AutoScroll = true;
+            this.splitContainer2.Panel1.Controls.Add(this.textBoxCatalogTitle);
+            this.splitContainer2.Panel1.Controls.Add(this.panel1);
+            this.splitContainer2.Panel1.Click += new System.EventHandler(this.splitContainer2_Panel1_Click);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.splitContainer2.Panel2.Controls.Add(this.doubleBufferedFlowLayoutPanel1);
+            this.splitContainer2.Panel2MinSize = 0;
+            this.splitContainer2.Size = new System.Drawing.Size(1589, 1078);
+            this.splitContainer2.SplitterDistance = 1094;
+            this.splitContainer2.TabIndex = 0;
+            // 
+            // ucCatalogStore
+            // 
+            this.ucCatalogStore.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.ucCatalogStore.Font = new System.Drawing.Font("微软雅黑", 10.5F);
+            this.ucCatalogStore.ForeColor = System.Drawing.Color.DarkGray;
+            this.ucCatalogStore.Location = new System.Drawing.Point(0, 80);
+            this.ucCatalogStore.Margin = new System.Windows.Forms.Padding(0);
+            this.ucCatalogStore.Name = "ucCatalogStore";
+            this.ucCatalogStore.PicImg = global::MemoHippo.Properties.Resources.store;
+            this.ucCatalogStore.Size = new System.Drawing.Size(240, 38);
+            this.ucCatalogStore.TabIndex = 4;
+            this.ucCatalogStore.Title = "归档间";
+            this.ucCatalogStore.Click += new System.EventHandler(this.ucCatalogStore_Click);
+            // 
             // ucCatalogNew
             // 
             this.ucCatalogNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
             this.ucCatalogNew.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.ucCatalogNew.ForeColor = System.Drawing.Color.DarkGray;
-            this.ucCatalogNew.Location = new System.Drawing.Point(0, 80);
+            this.ucCatalogNew.Location = new System.Drawing.Point(0, 119);
             this.ucCatalogNew.Margin = new System.Windows.Forms.Padding(0);
             this.ucCatalogNew.Name = "ucCatalogNew";
             this.ucCatalogNew.PicImg = global::MemoHippo.Properties.Resources.noteadd;
@@ -135,7 +176,7 @@ namespace MemoHippo
             this.ucCatalogSetup.PicImg = global::MemoHippo.Properties.Resources.wheel;
             this.ucCatalogSetup.Size = new System.Drawing.Size(240, 38);
             this.ucCatalogSetup.TabIndex = 1;
-            this.ucCatalogSetup.Title = "设置";
+            this.ucCatalogSetup.Title = "设置中心";
             this.ucCatalogSetup.Click += new System.EventHandler(this.ucCatalogSetup_Click);
             // 
             // flowLayoutPanel1
@@ -143,35 +184,11 @@ namespace MemoHippo
             this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 125);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 160);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(240, 953);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(240, 918);
             this.flowLayoutPanel1.TabIndex = 0;
-            // 
-            // splitContainer2
-            // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.splitContainer2.Name = "splitContainer2";
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.AutoScroll = true;
-            this.splitContainer2.Panel1.Controls.Add(this.textBoxCatalogTitle);
-            this.splitContainer2.Panel1.Controls.Add(this.panel1);
-            this.splitContainer2.Panel1.Click += new System.EventHandler(this.splitContainer2_Panel1_Click);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.splitContainer2.Panel2.Controls.Add(this.doubleBufferedFlowLayoutPanel1);
-            this.splitContainer2.Panel2MinSize = 0;
-            this.splitContainer2.Size = new System.Drawing.Size(1589, 1078);
-            this.splitContainer2.SplitterDistance = 1094;
-            this.splitContainer2.TabIndex = 0;
             // 
             // textBoxCatalogTitle
             // 
@@ -198,7 +215,7 @@ namespace MemoHippo
             this.panel1.Location = new System.Drawing.Point(0, 98);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(475, 981);
+            this.panel1.Size = new System.Drawing.Size(500, 981);
             this.panel1.TabIndex = 0;
             this.panel1.Click += new System.EventHandler(this.splitContainer2_Panel1_Click);
             // 
@@ -347,21 +364,22 @@ namespace MemoHippo
             this.rjDropdownMenuRow.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.rjDropdownMenuRow.IsMainMenu = false;
             this.rjDropdownMenuRow.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem2,
-            this.toolStripMenuItem3});
+            this.storeToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.toolStripMenuItem2});
             this.rjDropdownMenuRow.MenuItemHeight = 25;
             this.rjDropdownMenuRow.MenuItemTextColor = System.Drawing.Color.Empty;
             this.rjDropdownMenuRow.Name = "rjDropdownMenu1";
             this.rjDropdownMenuRow.PrimaryColor = System.Drawing.Color.Empty;
-            this.rjDropdownMenuRow.Size = new System.Drawing.Size(115, 60);
+            this.rjDropdownMenuRow.Size = new System.Drawing.Size(115, 88);
             // 
-            // toolStripMenuItem2
+            // storeToolStripMenuItem
             // 
-            this.toolStripMenuItem2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(114, 28);
-            this.toolStripMenuItem2.Text = "删除";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.deleteToolStripMenuItemRow_Click);
+            this.storeToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.storeToolStripMenuItem.Name = "storeToolStripMenuItem";
+            this.storeToolStripMenuItem.Size = new System.Drawing.Size(114, 28);
+            this.storeToolStripMenuItem.Text = "存档";
+            this.storeToolStripMenuItem.Click += new System.EventHandler(this.storeToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
@@ -390,6 +408,14 @@ namespace MemoHippo
             this.nikonToolStripMenuItem1.Size = new System.Drawing.Size(145, 28);
             this.nikonToolStripMenuItem1.Text = "轮播行";
             this.nikonToolStripMenuItem1.Click += new System.EventHandler(this.nikonToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(114, 28);
+            this.toolStripMenuItem2.Text = "删除";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.deleteToolStripMenuItemRow_Click);
             // 
             // Form1
             // 
@@ -452,6 +478,8 @@ namespace MemoHippo
         private System.Windows.Forms.ToolStripMenuItem commonToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem nikonToolStripMenuItem1;
         private UCCatalogFix ucCatalogNew;
+        private System.Windows.Forms.ToolStripMenuItem storeToolStripMenuItem;
+        private UCCatalogFix ucCatalogStore;
     }
 }
 

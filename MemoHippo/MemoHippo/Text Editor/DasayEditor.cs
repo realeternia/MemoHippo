@@ -169,10 +169,12 @@ namespace Text_Editor
             HighlightKeywords();
 
             var txt = richTextBox1.Text;
-            foreach(var keyPair in keywords)
+            foreach(var keys in keywords)
             {
-                var todoCount = StringTool.CountSubstring(txt, keyPair);
-                memoItemInfo.SetParm(keyPair, todoCount.ToString());
+                if (keys == "url") //url 只上色，不统计
+                    continue;
+                var todoCount = StringTool.CountSubstring(txt, keys);
+                memoItemInfo.SetParm(keys, todoCount.ToString());
             }
         }
 

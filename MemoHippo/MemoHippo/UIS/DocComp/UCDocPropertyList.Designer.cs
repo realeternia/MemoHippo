@@ -41,12 +41,12 @@ namespace MemoHippo.UIS
             this.doubleBufferedPanel1.Size = new System.Drawing.Size(700, 487);
             this.doubleBufferedPanel1.TabIndex = 0;
             // 
-            // UCKVList
+            // UCDocPropertyList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.doubleBufferedPanel1);
-            this.Name = "UCKVList";
+            this.Name = "UCDocPropertyList";
             this.Size = new System.Drawing.Size(700, 487);
             this.ResumeLayout(false);
 

@@ -27,8 +27,10 @@ namespace MemoHippo.UIS
                 oldCtrList.Add(c);
             doubleBufferedPanel1.Controls.Clear();
 
+            // 需要逆序
+            if (!MemoBook.Instance.Cfg.DisableTag)
+                CheckCtrs(oldCtrList, "multisel", "标签", itemInfo.Tag, (s) => itemInfo.Tag = s);
             CheckCtrs(oldCtrList, "common", "创建时间", new FileInfo(string.Format("{0}/{1}.rtf", ENV.SaveDir, itemInfo.Id)).CreationTime.ToString(), null);
-            CheckCtrs(oldCtrList, "multisel", "标签", itemInfo.Tag, (s) => itemInfo.Tag = s);
 
             Width = 700 - 5;
             Height = doubleBufferedPanel1.Controls.Count * 37 + 10;
@@ -47,13 +49,15 @@ namespace MemoHippo.UIS
                 var foundCtr = found as Control;
                 foundCtr.Name = k;
                 foundCtr.Height = 37;
-                foundCtr.Width = 700 - 5;
-                foundCtr.Location = new Point(0, doubleBufferedPanel1.Controls.Count * 37);
             }
             found.OnModify = onModify;
             found.SetData(k, v);
 
             doubleBufferedPanel1.Controls.Add(found as Control);
+            var foundCtr2 = found as Control;
+            foundCtr2.Location = new Point(0, doubleBufferedPanel1.Controls.Count * 37);
+            foundCtr2.Width = 700 - 5;
+            foundCtr2.Dock = DockStyle.Top;
         }
 
         private IDocComp FindCtr(List<Control> cc, string k)
@@ -65,5 +69,6 @@ namespace MemoHippo.UIS
             }
             return null;
         }
+
     }
 }

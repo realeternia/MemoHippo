@@ -374,6 +374,11 @@ namespace MemoHippo
             PanelManager.Instance.ShowSearchForm();
         }
 
+        private void ucCatalogStore_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var itemId = int.Parse(rjDropdownMenuCatlog.Tag.ToString());
@@ -383,6 +388,7 @@ namespace MemoHippo
             RefreshColumns(0);
             ShowPaperPad(null, null);
         }
+
 
         #region column的菜单支持
         private void InitMenu()
@@ -465,6 +471,17 @@ namespace MemoHippo
             var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, itemId);
             if (File.Exists(fullPath))
                 File.Delete(fullPath);
+
+            columnCtr.RefreshLabels();
+        }
+
+        private void storeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var itemId = int.Parse(rjDropdownMenuRow.Tag.ToString());
+            var columnCtr = rjDropdownMenuRow.Bind as UCTipColumn;
+
+            var itemInfo = columnCtr.ColumnInfo.RemoveItem(itemId);
+            MemoBook.Instance.Store.Store(itemInfo);
 
             columnCtr.RefreshLabels();
         }

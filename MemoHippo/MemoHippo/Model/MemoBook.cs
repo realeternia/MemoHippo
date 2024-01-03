@@ -14,6 +14,7 @@ namespace MemoHippo
         public int ColumnIndex = 100001;
         public int ItemIndex = 200001;
         public MemoBookCfg Cfg = new MemoBookCfg();
+        public StoreRoom Store = new StoreRoom();
 
         public MemoCatalogInfo AddCatalog()
         {

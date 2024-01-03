@@ -66,10 +66,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ENV.cs" />
+    <Compile Include="Model\MemoColumnInfo.cs" />
+    <Compile Include="Model\MemoItemInfo.cs" />
     <Compile Include="Model\SetupItemDesAttribute.cs" />
     <Compile Include="Model\IRowItem.cs" />
     <Compile Include="Model\MemoBookCfg.cs" />
     <Compile Include="Model\RTItemData.cs" />
+    <Compile Include="Model\StoreRoom.cs" />
     <Compile Include="Model\Types\ColorCfg.cs" />
     <Compile Include="PanelManager.cs" />
     <Compile Include="UIS\DocComp\IDocComp.cs" />
@@ -488,6 +491,7 @@
     <None Include="Resources\null.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\store.png" />
     <None Include="Resources\wheel.png" />
     <None Include="Resources\trace.png" />
     <None Include="Resources\switch.png" />

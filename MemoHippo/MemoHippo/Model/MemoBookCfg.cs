@@ -9,7 +9,7 @@ namespace MemoHippo.Model
     {
         public List<string> RecentIcons = new List<string>();
 
-        [SetupItemDes("信息", "人员列表", "balalbalb")]
+        [SetupItemDes("主要", "人员列表", "balalbalb")]
         public string[] PeopleNames { get; set; } = new string[0];
 
         [SetupItemDes("测试", "测试A", "balalbalb")]
@@ -21,7 +21,9 @@ namespace MemoHippo.Model
         [SetupItemDes("测试", "字符AAAA", "balalbalb")]
         public string TestStringB { get; set; }
 
-        [SetupItemDes("信息", "滚动字幕替换间隔时间", "单位秒", 5, 3600)]
+        [SetupItemDes("主要", "关闭标签", "禁用文档的标签功能")]
+        public bool DisableTag { get; set; }
+        [SetupItemDes("主要", "滚动字幕替换间隔时间", "单位秒", 5, 3600)]
         public int NikonInterval { get; set; } = 30;
 
         [SetupItemDes("外观", "滚动字幕颜色", "")]
