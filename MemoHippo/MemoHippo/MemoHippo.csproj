@@ -72,7 +72,6 @@
     <Compile Include="Model\IRowItem.cs" />
     <Compile Include="Model\MemoBookCfg.cs" />
     <Compile Include="Model\RTItemData.cs" />
-    <Compile Include="Model\StoreRoom.cs" />
     <Compile Include="Model\Types\ColorCfg.cs" />
     <Compile Include="PanelManager.cs" />
     <Compile Include="UIS\DocComp\IDocComp.cs" />
@@ -93,6 +92,21 @@
     </Compile>
     <Compile Include="UIS\InputColorBox.Designer.cs">
       <DependentUpon>InputColorBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\Main\UCListSelectBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\Main\UCListSelectBar.Designer.cs">
+      <DependentUpon>UCListSelectBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\Main\UCRowDDL.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\Panels\UCGmRunSvTime.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\Panels\UCGmRunSvTime.designer.cs">
+      <DependentUpon>UCGmRunSvTime.cs</DependentUpon>
     </Compile>
     <Compile Include="UIS\Panels\UCBigBox.cs">
       <SubType>UserControl</SubType>
@@ -224,6 +238,9 @@
     <Compile Include="UIS\SetupComp\UCSetupStringItem.Designer.cs">
       <DependentUpon>UCSetupStringItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIS\ViewStack.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Utils\ColorClassifier.cs" />
     <Compile Include="Text Editor\DasayEditor.cs">
       <SubType>UserControl</SubType>
@@ -281,6 +298,7 @@
     </Compile>
     <Compile Include="Model\MemoBook.cs" />
     <Compile Include="Model\MemoCatalogInfo.cs" />
+    <Compile Include="Utils\DrawTool.cs" />
     <Compile Include="Utils\FontMgr.cs" />
     <Compile Include="Utils\MathTool.cs" />
     <Compile Include="Utils\ResLoader.cs" />
@@ -343,6 +361,7 @@
     <Compile Include="Utils\ImageTool.cs" />
     <Compile Include="Utils\StringTool.cs" />
     <Compile Include="Utils\TextBoxSelectRecover.cs" />
+    <Compile Include="Utils\TimeTool.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -354,6 +373,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\InputColorBox.resx">
       <DependentUpon>InputColorBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\Main\UCListSelectBar.resx">
+      <DependentUpon>UCListSelectBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\Main\UCRowDDL.resx">
+      <DependentUpon>UCRowDDL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\Panels\UCGmRunSvTime.resx">
+      <DependentUpon>UCGmRunSvTime.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCBigBox.resx">
       <DependentUpon>UCBigBox.cs</DependentUpon>

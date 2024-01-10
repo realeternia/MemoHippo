@@ -20,6 +20,7 @@ namespace MemoHippo
         private InputNumberBox numberBox;
         private InputArrayBox arrayBox;
         private InputColorBox colorBox;
+        private UCGmRunSvTime timePicker;
 
         public void Init(Form1 form)
         {
@@ -160,6 +161,20 @@ namespace MemoHippo
 
             ShowBlackPanel(colorBox, 0, 0);
             colorBox.OnInit(c);
+        }
+
+        public void ShowTimeForm(int x, int y, Action<string> act)
+        {
+            if (timePicker == null)
+            {
+                timePicker = new UCGmRunSvTime();
+            }
+
+            timePicker.AfterSelect = act;
+
+            ReLocate(ref x, ref y, timePicker.Size);
+            ShowBlackPanel(timePicker, x, y, 1);
+            timePicker.OnInit();
         }
 
         public void ShowBlackPanel(Control ctr, int x, int y, float bright = 0.5f)

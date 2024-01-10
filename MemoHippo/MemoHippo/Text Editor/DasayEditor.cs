@@ -13,6 +13,7 @@ using MemoHippo;
 using MemoHippo.Utils;
 using MemoHippo.Model;
 using MemoHippo.Model.Types;
+using System.Threading;
 
 namespace Text_Editor
 {
@@ -129,19 +130,20 @@ namespace Text_Editor
         }
         private void ModifyFontStyle(FontStyle flag)
         {
-            if (richTextBox1.SelectionFont == null)
-                return;
-
-            // create fontStyle object
-            FontStyle style = richTextBox1.SelectionFont.Style;
-
+            FontStyle style = FontStyle.Regular;
+            Font f = richTextBox1.Font;
+            if (richTextBox1.SelectionFont != null)
+            {
+                style = richTextBox1.SelectionFont.Style;
+                f = richTextBox1.SelectionFont;
+            }       
             // determines the font style
             if ((style & flag) == flag)
                 style &= ~flag;
             else
                 style |= flag;
 
-            richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont, style); // sets the font style
+            richTextBox1.SelectionFont = new Font(f, style); // sets the font style
         }
 
         private void boldStripButton3_Click(object sender, EventArgs e)
@@ -217,6 +219,9 @@ namespace Text_Editor
             {
                 richTextBox1.Clear();
             }
+            //让滚动条到最前面
+            richTextBox1.SelectionStart = 0;
+            richTextBox1.ScrollToCaret();
         }
 
         private void colorStripDropDownButton_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -515,6 +520,78 @@ namespace Text_Editor
             AddIcon();
         }
 
+        private void toolStripButtonTodo_Click(object sender, EventArgs e)
+        {
+            var keyword = (sender as ToolStripButton).Tag.ToString();
+
+            int currentLineIndex = richTextBox1.GetLineFromCharIndex(richTextBox1.SelectionStart);
+            string currentLineText = richTextBox1.Lines[currentLineIndex];
+
+            int todoIndex = currentLineText.IndexOf(keyword);
+            if (todoIndex != -1)
+            {
+                RemoveWord(currentLineIndex, currentLineText, keyword);
+            }
+            else
+            {
+                // 处理单词互斥
+                if(keyword == "todo")
+                {
+                    RemoveWord(currentLineIndex, currentLineText, "done");
+                    RemoveWord(currentLineIndex, currentLineText, "follow");
+                    RemoveWord(currentLineIndex, currentLineText, "main");
+                }
+                else if (keyword == "done")
+                {
+                    RemoveWord(currentLineIndex, currentLineText, "todo");
+                    RemoveWord(currentLineIndex, currentLineText, "follow");
+                    RemoveWord(currentLineIndex, currentLineText, "main");
+                }
+                else if (keyword == "follow")
+                {
+                    RemoveWord(currentLineIndex, currentLineText, "todo");
+                    RemoveWord(currentLineIndex, currentLineText, "done");
+                    RemoveWord(currentLineIndex, currentLineText, "main");
+                }
+                else if (keyword == "main")
+                {
+                    RemoveWord(currentLineIndex, currentLineText, "todo");
+                    RemoveWord(currentLineIndex, currentLineText, "done");
+                    RemoveWord(currentLineIndex, currentLineText, "follow");
+                }
+
+                var selectStart = richTextBox1.GetFirstCharIndexFromLine(currentLineIndex);
+                if (IsLineWithSpecialChar(currentLineIndex))
+                {     // 在第二个位置插入 "todo"
+                    selectStart = selectStart + 2;
+                }
+
+                RichtextSelect(selectStart, 0);
+                richTextBox1.SelectedText = keyword + " ";
+                richTextBox1.SelectionColor = richTextBox1.ForeColor;
+
+                RichtextSelect(selectStart, keyword.Length);
+                richTextBox1.SelectionColor = GetKeywordColor(keyword);
+
+                RichtextSelect(selectStart, 0);
+            }
+        }
+
+        private void RemoveWord(int currentLineIndex, string currentLineText, string keyword)
+        {
+            int todoIndex = currentLineText.IndexOf(keyword);
+            if (todoIndex < 0)
+                return;
+
+            // 移除 "todo"，包括可能的空格
+            int endIndex = todoIndex + keyword.Length;
+            if (endIndex < currentLineText.Length && currentLineText[endIndex] == ' ')
+                endIndex++; // 移除空格
+
+            RichtextSelect(richTextBox1.GetFirstCharIndexFromLine(currentLineIndex) + todoIndex, endIndex - todoIndex);
+            richTextBox1.SelectedText = string.Empty;
+        }
+
         string bulletMarker = "●◆◇▷▪";
         string specialMarker = "▎";
         private bool IsLineWithSpecialChar(int lineIndex)
@@ -583,6 +660,15 @@ namespace Text_Editor
                         richTextBox1.SelectedText = "";
 
                         AddPeople();
+                    }
+                    break;
+                case Keys.T: //时间
+                    if (richTextBox1.SelectionStart >= 2 && richTextBox1.Text[richTextBox1.SelectionStart - 2] == '/')
+                    { // /p
+                        RichtextSelect(richTextBox1.SelectionStart - 2, 2);
+                        richTextBox1.SelectedText = "";
+
+                        AddTime();
                     }
                     break;
             }
@@ -667,7 +753,6 @@ namespace Text_Editor
         private void AddPeople()
         {
             var pos = richTextBox1.SelectionStart;
-
             Point cursorPosition = richTextBox1.GetPositionFromCharIndex(richTextBox1.SelectionStart);
 
             // 如果需要，将坐标转换为屏幕坐标
@@ -677,7 +762,8 @@ namespace Text_Editor
                 cursorPosition.Y - ParentC.Location.Y,
                 (name) =>
                 {
-                    Clipboard.SetText(name);
+                    Clipboard.SetDataObject(name);
+                    //  Clipboard.SetText(name);  paste可能会失败
                     richTextBox1.Paste(DataFormats.GetFormat(DataFormats.Text));
 
                     RichtextSelect(pos, name.Length);
@@ -688,6 +774,35 @@ namespace Text_Editor
 
                     richTextBox1.Focus();
                     //DelayedActionExecutor.Trigger("choosetarget", 0.1f, () => richTextBox1.Focus()); //防止enter事件击穿
+                }
+            );
+        }
+        private void AddTime()
+        {
+            var pos = richTextBox1.SelectionStart;
+            Point cursorPosition = richTextBox1.GetPositionFromCharIndex(richTextBox1.SelectionStart);
+
+            // 如果需要，将坐标转换为屏幕坐标
+            cursorPosition = richTextBox1.PointToScreen(cursorPosition);
+
+            PanelManager.Instance.ShowTimeForm(cursorPosition.X - ParentC.Location.X,
+                cursorPosition.Y - ParentC.Location.Y,
+                (timeStr) =>
+                {
+                    Clipboard.SetDataObject(timeStr);
+                  //  Clipboard.SetText(timeStr);
+                    richTextBox1.Paste(DataFormats.GetFormat(DataFormats.Text));
+
+                    RichtextSelect(pos, timeStr.Length);
+                    if (timeStr.Contains("ddl"))
+                        richTextBox1.SelectionColor = MemoBook.Instance.Cfg.TimeDDLColor.ToColor(); //给名字变色
+                    else
+                        richTextBox1.SelectionColor = MemoBook.Instance.Cfg.TimeCommonColor.ToColor(); //给名字变色
+
+                    RichtextSelect(pos + timeStr.Length, 0);
+                    richTextBox1.SelectionColor = richTextBox1.ForeColor;
+
+                    richTextBox1.Focus();
                 }
             );
         }
@@ -713,7 +828,6 @@ namespace Text_Editor
             }
 
             // 遍历关键词并高亮
-            ColorCfg color = null;
             foreach (var keyword in keywords)
             {
                 int index = 0;
@@ -724,24 +838,29 @@ namespace Text_Editor
                         break;
 
                     RichtextSelect(index, keyword.Length);
-
-                    switch (keyword)
-                    {
-                        case "todo": color = MemoBook.Instance.Cfg.KWTodoColor; break;
-                        case "done": color = MemoBook.Instance.Cfg.KWDoneColor; break;
-                        case "url": color = MemoBook.Instance.Cfg.KWUrlColor; break;
-                        case "share": color = MemoBook.Instance.Cfg.KWShareColor; break;
-                        case "follow": color = MemoBook.Instance.Cfg.KWFollowColor; break;
-                        case "main": color = MemoBook.Instance.Cfg.KWMainColor; break;
-                    }
-                    
-                    richTextBox1.SelectionColor = color.ToColor();
+                    richTextBox1.SelectionColor = GetKeywordColor(keyword);
 
                     index += keyword.Length;
                 }
             }
 
             richTextBox1.ResumePainting();
+        }
+
+        private static Color GetKeywordColor(string keyword)
+        {
+            var color = MemoBook.Instance.Cfg.KWTodoColor;
+            switch (keyword)
+            {
+                case "todo": color = MemoBook.Instance.Cfg.KWTodoColor; break;
+                case "done": color = MemoBook.Instance.Cfg.KWDoneColor; break;
+                case "url": color = MemoBook.Instance.Cfg.KWUrlColor; break;
+                case "share": color = MemoBook.Instance.Cfg.KWShareColor; break;
+                case "follow": color = MemoBook.Instance.Cfg.KWFollowColor; break;
+                case "main": color = MemoBook.Instance.Cfg.KWMainColor; break;
+            }
+
+            return color.ToColor();
         }
 
 

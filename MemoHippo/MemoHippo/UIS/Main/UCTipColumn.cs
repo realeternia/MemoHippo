@@ -37,7 +37,8 @@ namespace MemoHippo
         public enum RowItemType
         {
             Common=1,
-            Nikon
+            Nikon,
+            DDL
         }
 
 
@@ -115,9 +116,13 @@ namespace MemoHippo
 
             foreach (var memoItem in ColumnInfo.Items)
             {
+                if (memoItem.HasTag("存档"))
+                    continue;
                 UCRowCommon labelCtr;
                 if (memoItem.Type == (int)RowItemType.Nikon)
                     labelCtr = FindAndRemove<UCRowNikon>() ?? new UCRowNikon();
+                else if (memoItem.Type == (int)RowItemType.DDL)
+                    labelCtr = FindAndRemove<UCRowDDL>() ?? new UCRowDDL();
                 else
                     labelCtr = FindAndRemove<UCRowCommon>() ?? new UCRowCommon();
 

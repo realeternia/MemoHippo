@@ -34,17 +34,32 @@ namespace Text_Editor
                 colorStripDropDownButton.DropDownItems.Add(blueMenuItem);
             }
 
-            foreach (var cr in ColorTool.FullColorTable)
+            List<string> colorNames = new List<string>();
+            colorNames.AddRange(ColorTool.FullColorTable.Keys);
+            colorNames.Sort((a, b) => {
+                var aColor = ColorTool.FullColorTable[a];
+                var bColor = ColorTool.FullColorTable[b];
+
+                // 计算亮度
+                double luminanceA = 0.299 * aColor.R + 0.587 * aColor.G + 0.114 * aColor.B;
+                double luminanceB = 0.299 * bColor.R + 0.587 * bColor.G + 0.114 * bColor.B;
+
+                // 按照亮度从高到低排序
+                return luminanceB.CompareTo(luminanceA);
+            });
+
+            foreach (var crName in colorNames)
             {
-                ToolStripMenuItem blueMenuItem = new ToolStripMenuItem(cr.Key);
+                var color = ColorTool.FullColorTable[crName];
+                ToolStripMenuItem blueMenuItem = new ToolStripMenuItem(crName);
                 //    blueMenuItem.BackColor = Color.Blue;
                 blueMenuItem.BackColor = Color.FromArgb(24, 24, 24);
                 blueMenuItem.ForeColor = Color.White;
-                blueMenuItem.Image = ImageTool.CreateSolidColorBitmap(Color.FromArgb(cr.Value.R, cr.Value.G, cr.Value.B), 32, 32);
-                blueMenuItem.Tag = cr.Value;
+                blueMenuItem.Image = ImageTool.CreateSolidColorBitmap(Color.FromArgb(color.R, color.G, color.B), 32, 32);
+                blueMenuItem.Tag = color;
                 //     blueMenuItem.Click += ColorMenuItem_Click;
 
-                var colorS = ColorClassifier.ClassifyColor(cr.Value);
+                var colorS = ColorClassifier.ClassifyColor(color);
                 var subItem = colorStripDropDownButton.DropDownItems[(int)colorS] as ToolStripMenuItem;
                 subItem.DropDownItems.Add(blueMenuItem);
             }

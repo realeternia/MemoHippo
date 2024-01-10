@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace MemoHippo.UIS.Panels
@@ -43,29 +44,26 @@ namespace MemoHippo.UIS.Panels
             {
                 e.Handled = true;
                 textHintIndex--;
-                var hintResult = GetHint(10000000 + textHintIndex);
-                if (hintResult != "")
-                {
-                    isAutoComplete = true;
-                    textBoxText.Text = hintResult;
-                    textBoxText.SelectionStart = textBoxText.Text.Length;
-                    listBox1.SelectedIndex = results.IndexOf(hintResult);
-                    isAutoComplete = false;
-                }
+                UpdateHintText();
             }
             else if (e.KeyCode == Keys.Down)
             {
                 e.Handled = true;
                 textHintIndex++;
-                var hintResult = GetHint(10000000 + textHintIndex);
-                if (hintResult != "")
-                {
-                    isAutoComplete = true;
-                    textBoxText.Text = hintResult;
-                    textBoxText.SelectionStart = textBoxText.Text.Length;
-                    listBox1.SelectedIndex = results.IndexOf(hintResult);
-                    isAutoComplete = false;
-                }
+                UpdateHintText();
+            }
+        }
+
+        private void UpdateHintText()
+        {
+            var hintResult = GetHint(10000000 + textHintIndex);
+            if (hintResult != "")
+            {
+                isAutoComplete = true;
+                textBoxText.Text = hintResult;
+                textBoxText.SelectionStart = textBoxText.Text.Length;
+                listBox1.SelectedIndex = results.IndexOf(hintResult);
+                isAutoComplete = false;
             }
         }
 
@@ -142,6 +140,21 @@ namespace MemoHippo.UIS.Panels
                 sb.Append(s[0]);
             }
             return sb.ToString();
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            textHintIndex = listBox1.SelectedIndex;
+            UpdateHintText();
+        }
+
+        private void buttonOk_Click(object sender, EventArgs e)
+        {
+            if (AfterSelect != null)
+                AfterSelect(textBoxText.Text.Split('-')[0]);
+
+          
+            PanelManager.Instance.HideBlackPanel();
         }
     }
 }

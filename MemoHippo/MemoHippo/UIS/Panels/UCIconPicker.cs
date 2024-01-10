@@ -31,6 +31,8 @@ namespace MemoHippo.UIS.Panels
 
         public Action<string> AfterSelect;
 
+        private List<Tuple<string, string>> catalogs = new List<Tuple<string, string>>();
+
         public UCIconPicker()
         {
             InitializeComponent();
@@ -38,13 +40,20 @@ namespace MemoHippo.UIS.Panels
             toDrawIcons = new List<IconRect>();
             titles = new List<IconGroupTitle>();
 
+            catalogs.Add(new Tuple<string, string>("Work", "任务"));
+            catalogs.Add(new Tuple<string, string>("Beos", "Beos"));
+            catalogs.Add(new Tuple<string, string>("Icon", "幻兽"));
+
+            int idx = 0;
             if (MemoBook.Instance.Cfg.RecentIcons.Count == 0)
             {
-                titles.Add(new IconGroupTitle { Name = "任务", Location = new Point(0, 0) });
-                var rowCount = InitIconRegion(ResLoader.GetFileList("Work"), 0, wordHeight);
-
-                titles.Add(new IconGroupTitle { Name = "幻兽", Location = new Point(0, rowCount * (iconSize + iconPadding) + wordHeight) });
-                rowCount += InitIconRegion(ResLoader.GetFileList("Icon"), rowCount, rowCount * (iconSize + iconPadding) + wordHeight * 2);
+                var rowCount = 0;
+                foreach (var catalog in catalogs)
+                {
+                    titles.Add(new IconGroupTitle { Name = catalog.Item2, Location = new Point(0, rowCount * (iconSize + iconPadding) + idx * wordHeight) });
+                    rowCount += InitIconRegion(ResLoader.GetFileList(catalog.Item1), rowCount, rowCount * (iconSize + iconPadding) + wordHeight * (idx + 1));
+                    idx++;
+                }
 
                 doubleBufferedPanel1.Height = rowCount * (iconSize + iconPadding) + wordHeight * 2;
             }
@@ -53,11 +62,13 @@ namespace MemoHippo.UIS.Panels
                 titles.Add(new IconGroupTitle { Name = "最近", Location = new Point(0, 0) });
                 var rowCount = InitIconRegion(MemoBook.Instance.Cfg.RecentIcons, 0, wordHeight);
 
-                titles.Add(new IconGroupTitle { Name = "任务", Location = new Point(0, rowCount * (iconSize + iconPadding) + wordHeight) });
-                rowCount += InitIconRegion(ResLoader.GetFileList("Work"), rowCount, rowCount * (iconSize + iconPadding) + wordHeight * 2);
-
-                titles.Add(new IconGroupTitle { Name = "幻兽", Location = new Point(0, rowCount * (iconSize + iconPadding) + wordHeight * 2) });
-                rowCount += InitIconRegion(ResLoader.GetFileList("Icon"), rowCount, rowCount * (iconSize + iconPadding) + wordHeight * 3);
+                idx++;
+                foreach (var catalog in catalogs)
+                {
+                    titles.Add(new IconGroupTitle { Name = catalog.Item2, Location = new Point(0, rowCount * (iconSize + iconPadding) + idx * wordHeight) });
+                    rowCount += InitIconRegion(ResLoader.GetFileList(catalog.Item1), rowCount, rowCount * (iconSize + iconPadding) + wordHeight * (idx + 1));
+                    idx++;
+                }
 
                 doubleBufferedPanel1.Height = rowCount * (iconSize + iconPadding) + wordHeight * 4;
             }
@@ -99,7 +110,7 @@ namespace MemoHippo.UIS.Panels
                 if (pickId == selIdex)
                     e.Graphics.FillRectangle(Brushes.Gray, icon.Rect);
 
-                e.Graphics.DrawImage(ResLoader.Read(icon.Path), icon.Rect);
+                e.Graphics.DrawImage(ResLoader.Read(icon.Path.Replace('\\','/')), icon.Rect);
                 pickId++;
             }
             foreach (var title in titles)

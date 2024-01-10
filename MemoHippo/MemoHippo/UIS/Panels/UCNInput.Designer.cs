@@ -31,6 +31,7 @@ namespace MemoHippo.UIS.Panels
         {
             this.textBoxText = new System.Windows.Forms.TextBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.buttonOk = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBoxText
@@ -41,7 +42,7 @@ namespace MemoHippo.UIS.Panels
             this.textBoxText.ForeColor = System.Drawing.Color.White;
             this.textBoxText.Location = new System.Drawing.Point(5, 283);
             this.textBoxText.Name = "textBoxText";
-            this.textBoxText.Size = new System.Drawing.Size(200, 40);
+            this.textBoxText.Size = new System.Drawing.Size(151, 40);
             this.textBoxText.TabIndex = 3;
             this.textBoxText.TextChanged += new System.EventHandler(this.textBoxText_TextChanged);
             this.textBoxText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
@@ -70,6 +71,21 @@ namespace MemoHippo.UIS.Panels
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(200, 272);
             this.listBox1.TabIndex = 4;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            // 
+            // buttonOk
+            // 
+            this.buttonOk.BackColor = System.Drawing.Color.DodgerBlue;
+            this.buttonOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonOk.Font = new System.Drawing.Font("宋体", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.buttonOk.ForeColor = System.Drawing.Color.Gainsboro;
+            this.buttonOk.Location = new System.Drawing.Point(162, 283);
+            this.buttonOk.Name = "buttonOk";
+            this.buttonOk.Size = new System.Drawing.Size(42, 39);
+            this.buttonOk.TabIndex = 5;
+            this.buttonOk.Text = "OK";
+            this.buttonOk.UseVisualStyleBackColor = false;
+            this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
             // 
             // UCNInput
             // 
@@ -77,6 +93,7 @@ namespace MemoHippo.UIS.Panels
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.textBoxText);
             this.Name = "UCNInput";
@@ -89,5 +106,6 @@ namespace MemoHippo.UIS.Panels
         #endregion
         private System.Windows.Forms.TextBox textBoxText;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Button buttonOk;
     }
 }

@@ -30,6 +30,10 @@ namespace MemoHippo.Model
         public ColorCfg NikonForeColor { get; set; } = new ColorCfg(Color.Yellow);
         [SetupItemDes("外观", "人名字色", "编辑器中人名颜色")]
         public ColorCfg PeopleColor { get; set; } = new ColorCfg(Color.Yellow);
+        [SetupItemDes("外观", "时间字色", "编辑器中普通时间的颜色")]
+        public ColorCfg TimeCommonColor { get; set; } = new ColorCfg(Color.LightGreen);
+        [SetupItemDes("外观", "ddl字色", "编辑器中ddl时间的颜色")]
+        public ColorCfg TimeDDLColor { get; set; } = new ColorCfg(Color.Purple);
 
         [SetupItemDes("外观", "todo字色", "编辑器中颜色todo")]
         public ColorCfg KWTodoColor { get; set; } = new ColorCfg(Color.Gray);

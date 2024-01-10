@@ -30,7 +30,7 @@ namespace MemoHippo.UIS
             // 需要逆序
             if (!MemoBook.Instance.Cfg.DisableTag)
                 CheckCtrs(oldCtrList, "multisel", "标签", itemInfo.Tag, (s) => itemInfo.Tag = s);
-            CheckCtrs(oldCtrList, "common", "创建时间", new FileInfo(string.Format("{0}/{1}.rtf", ENV.SaveDir, itemInfo.Id)).CreationTime.ToString(), null);
+            CheckCtrs(oldCtrList, "common", "创建时间", itemInfo.GetCreateTime().ToString(), null);
 
             Width = 700 - 5;
             Height = doubleBufferedPanel1.Controls.Count * 37 + 10;

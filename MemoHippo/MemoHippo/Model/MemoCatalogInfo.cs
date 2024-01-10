@@ -45,5 +45,26 @@ namespace MemoHippo.Model
             Columns.Remove(itm);
             return itm;
         }
+
+        public List<MemoItemInfo> GetItems()
+        {
+            var results = new List<MemoItemInfo>();
+            foreach (var col in Columns)
+                results.AddRange(col.Items);
+
+            return results;
+        }
+        public MemoItemInfo FindItemInfo(int id)
+        {
+            foreach (var col in Columns)
+            {
+                foreach (var item in col.Items)
+                {
+                    if (item.Id == id)
+                        return item;
+                }
+            }
+            return null;
+        }
     }
 }

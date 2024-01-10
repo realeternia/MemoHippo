@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace MemoHippo.Model
 {
@@ -46,6 +47,32 @@ namespace MemoHippo.Model
                 results.Add(new Tuple<string, string>(itInfo[0], itInfo[1]));
             }
             return results;
+        }
+
+        public DateTime GetCreateTime()
+        {
+            return new FileInfo(string.Format("{0}/{1}.rtf", ENV.SaveDir, Id)).CreationTime;
+        }
+        public DateTime GetModifyTime()
+        {
+            return new FileInfo(string.Format("{0}/{1}.rtf", ENV.SaveDir, Id)).LastWriteTime;
+        }
+
+        public void AddTag(string s)
+        {
+            if (Tag != null && Tag.Contains(s))
+                return;
+            if (Tag == null || Tag.Length == 0)
+                Tag = s;
+            else
+                Tag += "," + s;
+        }
+
+        public bool HasTag(string s)
+        {
+            if (Tag == null)
+                return false;
+            return Tag.Contains(s);
         }
     }
 }

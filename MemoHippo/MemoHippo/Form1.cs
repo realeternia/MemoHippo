@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using YamlDotNet.Serialization;
@@ -35,6 +34,7 @@ namespace MemoHippo
             dasayEditor1.ParentC = this;
 
             ucTipAdd1.button1.Click += columnNew_Click;
+            ucListSelectBar1.OnIndexChanged = OnSelectBarIndexChanged;
 
             // 先隐藏面板
             HidePaperPad();
@@ -166,7 +166,14 @@ namespace MemoHippo
             nowCatalogCtr = mItem;
             mItem.SetSelect(true);
 
-            RefreshColumns(mItem.Id);
+            RefreshColumns(mItem.Id); //todo 这个现在每次都刷
+
+            if (viewStack1.SelectedIndex == 1)
+            {
+                listMouseOnLine = null;
+                listCachedItems = nowCatalog.GetItems();
+                listView1.VirtualListSize = listCachedItems.Count;
+            }
         }
 
         private int catalogId;
@@ -232,7 +239,7 @@ namespace MemoHippo
                 return;
             }
 
-            ShowPaperPad(sender as IRowItem, nowCatalog.GetColumn(args.ColumnId).GetItem(args.ItemId), args.FocusTitle);
+            ShowPaperPad(nowCatalog.GetColumn(args.ColumnId).GetItem(args.ItemId), args.FocusTitle);
         }
 
         //外部调用展示面板
@@ -244,20 +251,12 @@ namespace MemoHippo
                     SelectCatalogItem(ctr);
             }
 
-            IRowItem showRow = null;
-            foreach(var column in columnCtrs)
-            {
-                var result = column.FindItemControl(item.Id);
-                if (result != null)
-                    showRow = result;
-            }
-
-            ShowPaperPad(showRow, item);
+            ShowPaperPad(item);
         }
 
-        private void ShowPaperPad(IRowItem showItem, MemoItemInfo itemInfo, bool focusTitle = false)
+        private void ShowPaperPad(MemoItemInfo itemInfo, bool focusTitle = false)
         {
-            if(showItem == null)
+            if(itemInfo == null)
             {
                 HidePaperPad();
                 return;
@@ -266,9 +265,19 @@ namespace MemoHippo
             //更新选中
             if (nowRowItemCtr != null)
                 nowRowItemCtr.SetSelect(false);
-            nowRowItemCtr = showItem;
-            nowRowItemCtr.SetSelect(true);
+            foreach (var column in columnCtrs)
+            {
+                var result = column.FindItemControl(itemInfo.Id);
+                if (result != null)
+                {
+                    nowRowItemCtr = result;
+                    nowRowItemCtr.SetSelect(true);
+                    break;
+                }
+            }
+
             nowRowItem = itemInfo;
+            listView1.Invalidate(); //todo 有优化空间
 
             //更新显示文件内容
             textChangeLock = true;
@@ -279,7 +288,7 @@ namespace MemoHippo
             textChangeLock = false;
             uckvList1.Init(itemInfo);
            // dasayEditor1.Location = new Point(uckvList1.Location.X, uckvList1.Location.Y + uckvList1.Height);
-            dasayEditor1.Height = splitContainer2.Panel2.Height - uckvList1.Location.Y - uckvList1.Height;
+            dasayEditor1.Height = splitContainer2.Panel2.Height - uckvList1.Location.Y - uckvList1.Height-15;
             dasayEditor1.LoadFile(nowRowItem);
 
             if (splitContainer2.SplitterDistance > splitContainer2.Width-10)
@@ -386,7 +395,7 @@ namespace MemoHippo
             RefreshCatalogs();
 
             RefreshColumns(0);
-            ShowPaperPad(null, null);
+            ShowPaperPad(null);
         }
 
 
@@ -448,6 +457,10 @@ namespace MemoHippo
         {
             ChangeType((int)RowItemType.Nikon);
         }
+        private void ddlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeType((int)RowItemType.DDL);
+        }
 
         private void ChangeType(int type)
         {
@@ -480,8 +493,8 @@ namespace MemoHippo
             var itemId = int.Parse(rjDropdownMenuRow.Tag.ToString());
             var columnCtr = rjDropdownMenuRow.Bind as UCTipColumn;
 
-            var itemInfo = columnCtr.ColumnInfo.RemoveItem(itemId);
-            MemoBook.Instance.Store.Store(itemInfo);
+            var itemInfo = columnCtr.ColumnInfo.GetItem(itemId);
+            itemInfo.AddTag("存档");
 
             columnCtr.RefreshLabels();
         }
@@ -490,7 +503,7 @@ namespace MemoHippo
         private void doubleBufferedFlowLayoutPanel1_SizeChanged(object sender, EventArgs e)
         {
             dasayEditor1.Width = doubleBufferedFlowLayoutPanel1.Width;
-            dasayEditor1.Height = doubleBufferedFlowLayoutPanel1.Height - uckvList1.Location.Y - uckvList1.Height;
+            dasayEditor1.Height = doubleBufferedFlowLayoutPanel1.Height - uckvList1.Location.Y - uckvList1.Height-15;
             uckvList1.Width = doubleBufferedFlowLayoutPanel1.Width;
         }
 
@@ -502,6 +515,158 @@ namespace MemoHippo
         private void pictureBoxPaperIcon_MouseLeave(object sender, EventArgs e)
         {
             pictureBoxPaperIcon.BackColor = Color.FromArgb(32, 32, 32);
+        }
+
+        #region 全部信息列表
+
+        private void listView1_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
+        {
+            if (e.ItemIndex >= 0 && e.ItemIndex < listCachedItems.Count)
+            {
+                ListViewItem item = new ListViewItem();
+                item.Tag = listCachedItems[e.ItemIndex].Id;
+
+                e.Item = item;
+            }
+        }
+
+        private void listView1_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
+        {
+            if (listCachedItems == null)
+                return;
+
+            var itemInfo = listCachedItems[e.ItemIndex];
+            if (itemInfo != null)
+            {
+                e.Graphics.DrawImage(ResLoader.Read(itemInfo.Icon), e.Bounds.X + 8, e.Bounds.Y + 10, 24, 24);
+
+                string textToDraw = string.Format("{0}/{1}", itemInfo.Id, itemInfo.Title);
+                e.Graphics.DrawString(textToDraw,
+                    e.Item.Font, Brushes.White, e.Bounds.X + 8 + 30, e.Bounds.Y + 10, StringFormat.GenericDefault);
+
+                // 获取文本的大小
+                SizeF textSize1 = e.Graphics.MeasureString(textToDraw, e.Item.Font);
+
+                // 调整坐标以居中绘制文本
+                int startX = e.Bounds.X + 8 + 30 + (int)textSize1.Width;
+                int startY = e.Bounds.Y + 10;
+
+                if (!string.IsNullOrEmpty(itemInfo.Tag))
+                {
+                    var dts = itemInfo.Tag.Split(',');
+                    foreach (string word in dts)
+                    {
+                        // 获取文本框的大小
+                        SizeF textSize = e.Graphics.MeasureString(word, Font);
+
+                        Rectangle borderRect = new Rectangle(startX, startY, (int)textSize.Width + 6, (int)textSize.Height + 6);
+                        var brush = DrawTool.GetTagBrush(word);
+                        e.Graphics.FillRoundRectangle(brush, borderRect, 3);
+
+                        e.Graphics.DrawString(word, Font, Brushes.White, startX + 3, startY + 5);
+
+                        // 调整下一个词的位置
+                        startX += (int)textSize.Width + 6 + 6;
+                    }
+                }
+
+                using (var ft = new Font("Arial", 9))
+                {
+                    StringFormat stringFormat = new StringFormat();
+                    stringFormat.FormatFlags = StringFormatFlags.DirectionRightToLeft;
+                    e.Graphics.DrawString(string.Format("{0}", itemInfo.GetCreateTime()),
+                 ft, Brushes.Gray, e.Bounds.X + listView1.Width - 8, e.Bounds.Y + 10 + 3, stringFormat);
+                }
+            }
+
+            //using (var ft = new Font("微软雅黑", 9.5f))
+            //    DrawLine(e, e.SubItem.Text, textBox1.Text, ft);
+        }
+
+
+        private void listView1_DrawItem(object sender, DrawListViewItemEventArgs e)
+        {
+            if (listCachedItems == null)
+                return;
+
+            var itemInfo = listCachedItems[e.ItemIndex];
+
+            var destRT = new Rectangle(e.Bounds.X + 5, e.Bounds.Y + 2, e.Bounds.Width-5, e.Bounds.Height - 4);
+
+            if (listMouseOnLine != null && e.ItemIndex == listMouseOnLine.Index)
+            {
+                using (var b = new SolidBrush(Color.FromArgb(60, 60, 60)))
+                    e.Graphics.FillRectangle(b, destRT);
+            }
+            if (nowRowItem != null && itemInfo.Id == nowRowItem.Id)
+            {
+                e.Graphics.DrawRectangle(Pens.LightBlue, destRT);
+            }
+        }
+
+        private List<MemoItemInfo> listCachedItems;
+        private ListViewItem listMouseOnLine;
+
+        private void viewStack1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (viewStack1.SelectedIndex == 1)
+            {
+                listCachedItems = nowCatalog.GetItems();
+                listView1.VirtualListSize = listCachedItems.Count;
+            }
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listMouseOnLine == null)
+            {
+                ShowPaperPad(null);
+            }
+            else
+            {
+                var lineInfo = listCachedItems[listMouseOnLine.Index];
+                ShowPaperPad(nowCatalog.FindItemInfo(lineInfo.Id), false);
+            }
+        }
+
+        private void listView1_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point localPoint = listView1.PointToClient(Cursor.Position);
+
+            // 使用 HitTest 方法判断鼠标下方的项目
+            ListViewHitTestInfo hitTest = listView1.HitTest(localPoint);
+            if (hitTest.Item != null)
+            {
+                if (listMouseOnLine != null)
+                    listView1.Invalidate(listMouseOnLine.Bounds);
+                listMouseOnLine = hitTest.Item;
+                listView1.Invalidate(listMouseOnLine.Bounds);
+                // 在这里你可以处理鼠标悬停在项目上的逻辑
+                // 例如获取项目的信息，更新UI等
+            }
+            else
+            {
+                if (listMouseOnLine != null)
+                    listView1.Invalidate(listMouseOnLine.Bounds);
+                listMouseOnLine = null;
+            }
+        }
+
+
+        private void listView1_SizeChanged(object sender, EventArgs e)
+        {
+            listView1.Columns[0].Width = listView1.Width - 8;
+        }
+
+        private void OnSelectBarIndexChanged(int idx)
+        {
+            viewStack1.SelectedIndex = idx;
+        }
+        #endregion
+
+        private void splitContainer2_Panel1_Resize(object sender, EventArgs e)
+        {
+            viewStack1.Height = splitContainer2.Panel1.Height - 135;
         }
 
     }

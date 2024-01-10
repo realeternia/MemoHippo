@@ -75,21 +75,6 @@
     <EmbeddedResource Include="Icon\cup1.PNG" />
     <EmbeddedResource Include="Icon\cup2.PNG" />
     <EmbeddedResource Include="Icon\cup3.PNG" />
-    <EmbeddedResource Include="Icon\rac1.PNG" />
-    <EmbeddedResource Include="Icon\rac10.PNG" />
-    <EmbeddedResource Include="Icon\rac11.PNG" />
-    <EmbeddedResource Include="Icon\rac12.PNG" />
-    <EmbeddedResource Include="Icon\rac13.PNG" />
-    <EmbeddedResource Include="Icon\rac14.PNG" />
-    <EmbeddedResource Include="Icon\rac15.PNG" />
-    <EmbeddedResource Include="Icon\rac2.PNG" />
-    <EmbeddedResource Include="Icon\rac3.PNG" />
-    <EmbeddedResource Include="Icon\rac4.PNG" />
-    <EmbeddedResource Include="Icon\rac5.PNG" />
-    <EmbeddedResource Include="Icon\rac6.PNG" />
-    <EmbeddedResource Include="Icon\rac7.PNG" />
-    <EmbeddedResource Include="Icon\rac8.PNG" />
-    <EmbeddedResource Include="Icon\rac9.PNG" />
     <EmbeddedResource Include="Icon\res1.PNG" />
     <EmbeddedResource Include="Icon\res2.PNG" />
     <EmbeddedResource Include="Icon\res3.PNG" />
@@ -114,9 +99,6 @@
     <EmbeddedResource Include="Icon\wep2.PNG" />
     <EmbeddedResource Include="Icon\wep3.PNG" />
     <EmbeddedResource Include="Icon\wep4.PNG" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Icon\rac0.PNG" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon\hatt1.PNG" />
@@ -204,7 +186,50 @@
   <ItemGroup>
     <EmbeddedResource Include="menu.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Beos\34684_aim_be.png" />
+    <EmbeddedResource Include="Beos\34689_beos_blocks.png" />
+    <EmbeddedResource Include="Beos\34694_beos_blocks.png" />
+    <EmbeddedResource Include="Beos\34695_beos_bounce.png" />
+    <EmbeddedResource Include="Beos\34699_beos_player.png" />
+    <EmbeddedResource Include="Beos\34703_wrench_customize.png" />
+    <EmbeddedResource Include="Beos\34704_desktop_beos.png" />
+    <EmbeddedResource Include="Beos\34710_envelope_mail.png" />
+    <EmbeddedResource Include="Beos\34712_eyeball_watch.png" />
+    <EmbeddedResource Include="Beos\34713_beos_find.png" />
+    <EmbeddedResource Include="Beos\34714_beos_flash.png" />
+    <EmbeddedResource Include="Beos\34715_beos_floppy.png" />
+    <EmbeddedResource Include="Beos\34719_beos_folder.png" />
+    <EmbeddedResource Include="Beos\34720_a_letter.png" />
+    <EmbeddedResource Include="Beos\34724_book_help.png" />
+    <EmbeddedResource Include="Beos\34725_house_home.png" />
+    <EmbeddedResource Include="Beos\34727_hotsync_beos.png" />
+    <EmbeddedResource Include="Beos\34729_info_beos.png" />
+    <EmbeddedResource Include="Beos\34730_kernel_beos.png" />
+    <EmbeddedResource Include="Beos\34732_beos_keyboard.png" />
+    <EmbeddedResource Include="Beos\34735_secure_lock.png" />
+    <EmbeddedResource Include="Beos\34744_mp3.png" />
+    <EmbeddedResource Include="Beos\34747_beos_orb.png" />
+    <EmbeddedResource Include="Beos\34748_package_beos.png" />
+    <EmbeddedResource Include="Beos\34749_beos_paint.png" />
+    <EmbeddedResource Include="Beos\34752_users_people.png" />
+    <EmbeddedResource Include="Beos\34753_beos.png" />
+    <EmbeddedResource Include="Beos\34758_query_beos.png" />
+    <EmbeddedResource Include="Beos\34761_beos_stop.png" />
+    <EmbeddedResource Include="Beos\34765_beos_trash_empty.png" />
+    <EmbeddedResource Include="Beos\34766_beos_trash_full.png" />
+    <EmbeddedResource Include="Beos\34767_monitor_beos.png" />
+    <EmbeddedResource Include="Beos\34770_warning_alert.png" />
+    <EmbeddedResource Include="Beos\34771_beos_workspace_desktop.png" />
+    <EmbeddedResource Include="Beos\34772_beos_paper_pen.png" />
+    <EmbeddedResource Include="Beos\34778_cdrom.png" />
+    <EmbeddedResource Include="Beos\34779_clipboard.png" />
+    <EmbeddedResource Include="Beos\34788_globe_planet.png" />
+    <EmbeddedResource Include="Beos\34789_heart_love.png" />
+    <EmbeddedResource Include="Beos\34792_idea_jabber.png" />
+    <EmbeddedResource Include="Beos\34793_school_books.png" />
+    <EmbeddedResource Include="Beos\34796_webshop_shopping.png" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Work\285633_image_image.png" />
     <EmbeddedResource Include="Work\285638_pencil_pencil.png" />

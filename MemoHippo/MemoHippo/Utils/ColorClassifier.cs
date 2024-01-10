@@ -13,7 +13,7 @@ namespace MemoHippo.Utils
             Blue,
             Purple,
             Gray,
-            Brown,
+       //     Brown,
         }
         public static ColorSeries ClassifyColor(Color color)
         {
@@ -77,7 +77,8 @@ namespace MemoHippo.Utils
             }
             else
             {
-                return ColorSeries.Brown;
+                return ColorSeries.Red;
+              //  return ColorSeries.Brown;
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using MemoHippo.Model;
+using MemoHippo.Utils;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -47,8 +48,9 @@ namespace MemoHippo.UIS
                     // 获取文本框的大小
                     SizeF textSize = e.Graphics.MeasureString(word, Font);
 
-                    Rectangle borderRect = new Rectangle(startX, startY, (int)textSize.Width+6, (int)textSize.Height+6);
-                    e.Graphics.FillRectangle(Brushes.DeepSkyBlue, borderRect);
+                    Rectangle borderRect = new Rectangle(startX, startY+3, (int)textSize.Width+6, (int)textSize.Height+2);
+                    var brush = DrawTool.GetTagBrush(word);
+                    e.Graphics.FillRectangle(brush, borderRect);
 
                     e.Graphics.DrawString(word, Font, Brushes.White, startX+3, startY+5);
 
