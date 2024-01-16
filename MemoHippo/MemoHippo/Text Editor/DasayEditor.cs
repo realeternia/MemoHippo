@@ -40,6 +40,7 @@ namespace Text_Editor
         public DasayEditor()
         {
             InitializeComponent();
+            DoubleBuffered = true;
             this.BackColor = Color.FromArgb(32, 32, 32);
             richTextBox1.BackColor = Color.FromArgb(32, 32, 32);
         }
@@ -208,6 +209,8 @@ namespace Text_Editor
             var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, path);
             filenamee = fullPath;
             hasModify = false;
+
+            richTextBox1.Clear();
             if (File.Exists(fullPath))
             {
                 checkChangeLock = false;
@@ -215,13 +218,13 @@ namespace Text_Editor
                 HLog.Debug("LoadFile {0} success", filenamee);
                 checkChangeLock = true;
             }
-            else
-            {
-                richTextBox1.Clear();
-            }
-            //让滚动条到最前面
-            richTextBox1.SelectionStart = 0;
-            richTextBox1.ScrollToCaret();
+            //else
+            //{
+            //    richTextBox1.Clear();
+            //}
+            ////让滚动条到最前面
+            //richTextBox1.SelectionStart = 0;
+            //richTextBox1.ScrollToCaret();
         }
 
         private void colorStripDropDownButton_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)

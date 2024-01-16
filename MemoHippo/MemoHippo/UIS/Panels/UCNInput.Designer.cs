@@ -38,11 +38,11 @@ namespace MemoHippo.UIS.Panels
             // 
             this.textBoxText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.textBoxText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxText.Font = new System.Drawing.Font("微软雅黑", 15F);
+            this.textBoxText.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.textBoxText.ForeColor = System.Drawing.Color.White;
-            this.textBoxText.Location = new System.Drawing.Point(5, 283);
+            this.textBoxText.Location = new System.Drawing.Point(5, 285);
             this.textBoxText.Name = "textBoxText";
-            this.textBoxText.Size = new System.Drawing.Size(151, 40);
+            this.textBoxText.Size = new System.Drawing.Size(151, 34);
             this.textBoxText.TabIndex = 3;
             this.textBoxText.TextChanged += new System.EventHandler(this.textBoxText_TextChanged);
             this.textBoxText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
@@ -71,7 +71,7 @@ namespace MemoHippo.UIS.Panels
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(200, 272);
             this.listBox1.TabIndex = 4;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.listBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseClick);
             // 
             // buttonOk
             // 

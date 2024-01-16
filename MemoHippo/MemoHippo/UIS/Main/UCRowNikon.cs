@@ -19,6 +19,11 @@ namespace MemoHippo
         public UCRowNikon() 
             : base()
         {
+            UpdateView();
+        }
+
+        protected override void UpdateView()
+        {
             Height = 70;
         }
 

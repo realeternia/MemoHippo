@@ -75,6 +75,9 @@
     <Compile Include="Model\Types\ColorCfg.cs" />
     <Compile Include="PanelManager.cs" />
     <Compile Include="UIS\DocComp\IDocComp.cs" />
+    <Compile Include="UIS\DoubleBufferedTabPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UIS\InputNumberBox.cs">
       <SubType>UserControl</SubType>
     </Compile>

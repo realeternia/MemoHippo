@@ -26,6 +26,11 @@ namespace MemoHippo
         public UCRowDDL() 
             : base()
         {
+            UpdateView();
+        }
+
+        protected override void UpdateView()
+        {
             Height = 70;
         }
 

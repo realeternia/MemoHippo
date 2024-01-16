@@ -75,6 +75,7 @@ namespace MemoHippo.Utils
             switch(word)
             {
                 case "存档": return Brushes.DarkRed;
+                case "长期": return Brushes.MediumPurple;
             }
             return Brushes.DeepSkyBlue;
         }

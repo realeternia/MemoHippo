@@ -288,7 +288,7 @@ namespace MemoHippo
             textChangeLock = false;
             uckvList1.Init(itemInfo);
            // dasayEditor1.Location = new Point(uckvList1.Location.X, uckvList1.Location.Y + uckvList1.Height);
-            dasayEditor1.Height = splitContainer2.Panel2.Height - uckvList1.Location.Y - uckvList1.Height-15;
+            dasayEditor1.Height = splitContainer2.Panel2.Height - uckvList1.Location.Y - uckvList1.Height-10;
             dasayEditor1.LoadFile(nowRowItem);
 
             if (splitContainer2.SplitterDistance > splitContainer2.Width-10)
@@ -503,7 +503,7 @@ namespace MemoHippo
         private void doubleBufferedFlowLayoutPanel1_SizeChanged(object sender, EventArgs e)
         {
             dasayEditor1.Width = doubleBufferedFlowLayoutPanel1.Width;
-            dasayEditor1.Height = doubleBufferedFlowLayoutPanel1.Height - uckvList1.Location.Y - uckvList1.Height-15;
+            dasayEditor1.Height = doubleBufferedFlowLayoutPanel1.Height - uckvList1.Location.Y - uckvList1.Height-10;
             uckvList1.Width = doubleBufferedFlowLayoutPanel1.Width;
         }
 
@@ -667,6 +667,7 @@ namespace MemoHippo
         private void splitContainer2_Panel1_Resize(object sender, EventArgs e)
         {
             viewStack1.Height = splitContainer2.Panel1.Height - 135;
+            viewStack1.Width = splitContainer2.Panel1.Width;
         }
 
     }

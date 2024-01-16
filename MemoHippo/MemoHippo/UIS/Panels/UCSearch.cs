@@ -79,6 +79,7 @@ namespace MemoHippo.UIS
                 }
 
                 searchResults.Sort((a, b) => (int)(b.CreateTime - a.CreateTime).TotalSeconds);
+                selectLine = null;
                 listView1.VirtualListSize = searchResults.Count;
                 listView1.Visible = true;
             });

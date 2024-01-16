@@ -142,12 +142,6 @@ namespace MemoHippo.UIS.Panels
             return sb.ToString();
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            textHintIndex = listBox1.SelectedIndex;
-            UpdateHintText();
-        }
-
         private void buttonOk_Click(object sender, EventArgs e)
         {
             if (AfterSelect != null)
@@ -155,6 +149,12 @@ namespace MemoHippo.UIS.Panels
 
           
             PanelManager.Instance.HideBlackPanel();
+        }
+
+        private void listBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            textHintIndex = listBox1.SelectedIndex;
+            UpdateHintText();
         }
     }
 }

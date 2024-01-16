@@ -1,6 +1,5 @@
 ﻿using MemoHippo.Model;
 using MemoHippo.Properties;
-using MemoHippo.UIS;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -44,6 +43,11 @@ namespace MemoHippo
 
         public virtual void AfterInit()
         {
+            UpdateView();
+        }
+
+        protected virtual void UpdateView()
+        {
             var parmList = itemInfo.GetParmList();
             parmCount.Clear();
             foreach (var parm in parmList)
@@ -84,12 +88,16 @@ namespace MemoHippo
 
             if (NLMouseClick != null)
                 NLMouseClick(this, e);
+
+            UpdateView();
         }
+
         private void UCRowCommon_MouseDown(object sender, MouseEventArgs e)
         {
             if (NLMouseDown != null)
                 NLMouseDown(this, e);
         }
+
         private void UCRowCommon_MouseUp(object sender, MouseEventArgs e)
         {
             if (NLMouseUp != null)
