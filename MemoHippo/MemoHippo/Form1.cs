@@ -79,7 +79,6 @@ namespace MemoHippo
             rjDropdownMenuRow.MenuItemHeight = 25;
 
             InitMenu();
-
            // DeleteRemovedFiles();
         }
 
@@ -383,11 +382,6 @@ namespace MemoHippo
             PanelManager.Instance.ShowSearchForm();
         }
 
-        private void ucCatalogStore_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var itemId = int.Parse(rjDropdownMenuCatlog.Tag.ToString());
@@ -498,6 +492,15 @@ namespace MemoHippo
 
             columnCtr.RefreshLabels();
         }
+
+        private void toolStripMenuItemCata_Click(object sender, EventArgs e)
+        {
+            var itemId = int.Parse(rjDropdownMenuRow.Tag.ToString());
+            var columnCtr = rjDropdownMenuRow.Bind as UCTipColumn;
+
+            var itemInfo = columnCtr.ColumnInfo.GetItem(itemId);
+            itemInfo.AddTag("汇总");
+        }
         #endregion
 
         private void doubleBufferedFlowLayoutPanel1_SizeChanged(object sender, EventArgs e)
@@ -505,6 +508,7 @@ namespace MemoHippo
             dasayEditor1.Width = doubleBufferedFlowLayoutPanel1.Width;
             dasayEditor1.Height = doubleBufferedFlowLayoutPanel1.Height - uckvList1.Location.Y - uckvList1.Height-10;
             uckvList1.Width = doubleBufferedFlowLayoutPanel1.Width;
+            textBoxRowItemTitle.Width = doubleBufferedFlowLayoutPanel1.Width-100;
         }
 
         private void pictureBoxPaperIcon_MouseEnter(object sender, EventArgs e)

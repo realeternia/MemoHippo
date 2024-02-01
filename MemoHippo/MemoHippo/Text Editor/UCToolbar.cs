@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using MemoHippo;
 using MemoHippo.Properties;
 using MemoHippo.Utils;
 
@@ -13,6 +14,7 @@ namespace Text_Editor
         private Timer fadeInTimer;
         private bool toShow;
         private DateTime timeToFinish;
+        private int lastTagCount;
 
         public UCToolbar()
         {
@@ -22,6 +24,11 @@ namespace Text_Editor
             fadeInTimer.Interval = 10; // 设置速度
             fadeInTimer.Tick += new EventHandler(FadeInTimer_Tick);
 
+            InitColorMenu();
+        }
+
+        private void InitColorMenu()
+        {
             foreach (var cr in ColorTool.BaseColorTable)
             {
                 ToolStripMenuItem blueMenuItem = new ToolStripMenuItem(cr.Key);
@@ -30,13 +37,14 @@ namespace Text_Editor
                 blueMenuItem.ForeColor = Color.White;
                 blueMenuItem.Image = ImageTool.CreateSolidColorBitmap(Color.FromArgb(cr.Value.R, cr.Value.G, cr.Value.B), 32, 32);
                 blueMenuItem.Tag = cr.Value;
-           //     blueMenuItem.Click += ColorMenuItem_Click;
+                //     blueMenuItem.Click += ColorMenuItem_Click;
                 colorStripDropDownButton.DropDownItems.Add(blueMenuItem);
             }
 
             List<string> colorNames = new List<string>();
             colorNames.AddRange(ColorTool.FullColorTable.Keys);
-            colorNames.Sort((a, b) => {
+            colorNames.Sort((a, b) =>
+            {
                 var aColor = ColorTool.FullColorTable[a];
                 var bColor = ColorTool.FullColorTable[b];
 
@@ -64,11 +72,36 @@ namespace Text_Editor
                 subItem.DropDownItems.Add(blueMenuItem);
             }
 
-            foreach(ToolStripMenuItem cr in toolStripDropDownButtonSwitch.DropDownItems)
+            foreach (ToolStripMenuItem cr in toolStripDropDownButtonSwitch.DropDownItems)
             {
                 cr.BackColor = Color.FromArgb(24, 24, 24);
                 cr.ForeColor = Color.White;
                 cr.Image = Resources.brush;
+            }
+        }
+
+        public void OnLoadFile()
+        {
+            InitCataMenu();
+        }
+
+        private void InitCataMenu()
+        {
+            var tagItems = MemoBook.Instance.FindItemInfosByTag("汇总");
+            if (lastTagCount == tagItems.Count)
+                return;
+
+            lastTagCount = tagItems.Count;
+            toolStripDropDownButtonCata.DropDownItems.Clear();
+            foreach (var cr in tagItems)
+            {
+                ToolStripMenuItem blueMenuItem = new ToolStripMenuItem(cr.ItemInfo.Title);
+                blueMenuItem.BackColor = Color.FromArgb(24, 24, 24);
+                blueMenuItem.ForeColor = Color.White;
+                blueMenuItem.Image = ResLoader.Read(cr.ItemInfo.Icon);
+                blueMenuItem.Tag = cr.ItemInfo.Id;
+                //     blueMenuItem.Click += ColorMenuItem_Click;
+                toolStripDropDownButtonCata.DropDownItems.Add(blueMenuItem);
             }
         }
 

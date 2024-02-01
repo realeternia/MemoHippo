@@ -51,6 +51,7 @@ namespace Text_Editor
             richTextBox1.AcceptsTab = true;    // allow tab
             richTextBox1.ShortcutsEnabled = true;    // allow shortcuts
             richTextBox1.DetectUrls = true;    // allow detect url
+         //   richTextBox1.LanguageOption = RichTextBoxLanguageOptions.UIFonts;
 
             // fill zoomDropDownButton item list
             zoomDropDownButton.DropDown.Items.Add("20%");
@@ -67,9 +68,10 @@ namespace Text_Editor
             this.ucToolbar1.italicStripButton.Click += new System.EventHandler(this.italicStripButton_Click);
             this.ucToolbar1.underlineStripButton.Click += new System.EventHandler(this.underlineStripButton_Click);
             this.ucToolbar1.toolStripButtonDel.Click += new System.EventHandler(this.delStripButton_Click);
-            this.ucToolbar1.colorStripDropDownButton.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.colorStripDropDownButton_DropDownItemClicked);
+            this.ucToolbar1.colorStripDropDownButton.DropDownItemClicked += new ToolStripItemClickedEventHandler(this.colorStripDropDownButton_DropDownItemClicked);
             foreach (var sub in ucToolbar1.colorStripDropDownButton.DropDownItems)
-                (sub as ToolStripMenuItem).DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.colorStripDropDownButton_DropDownItemClicked);
+                (sub as ToolStripMenuItem).DropDownItemClicked += new ToolStripItemClickedEventHandler(this.colorStripDropDownButton_DropDownItemClicked);
+            ucToolbar1.toolStripDropDownButtonCata.DropDownItemClicked += new ToolStripItemClickedEventHandler(this.cataStripDropDownButton_DropDownItemClicked);
             this.ucToolbar1.clearFormattingStripButton.Click += new System.EventHandler(this.clearFormattingStripButton_Click);
             this.ucToolbar1.blistToolStripMenuItem.Click += barbulletListStripButton_Click;
             this.ucToolbar1.textToolStripMenuItem.Click += bartextListStripButton_Click;
@@ -113,6 +115,7 @@ namespace Text_Editor
             rjDropdownMenuRightClick.PrimaryColor = Color.SeaGreen;
             rjDropdownMenuRightClick.MenuItemTextColor = Color.White;
             rjDropdownMenuRightClick.MenuItemHeight = 25;
+
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -217,6 +220,8 @@ namespace Text_Editor
                 richTextBox1.LoadFile(filenamee, RichTextBoxStreamType.RichText);
                 HLog.Debug("LoadFile {0} success", filenamee);
                 checkChangeLock = true;
+
+                ucToolbar1.OnLoadFile();
             }
             //else
             //{
@@ -231,6 +236,14 @@ namespace Text_Editor
         {
             richTextBox1.SelectionColor = (Color)e.ClickedItem.Tag;
             ucToolbar1.colorStripDropDownButton.HideDropDown();
+        }
+
+        private void cataStripDropDownButton_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            var itemId = (int)e.ClickedItem.Tag;
+
+            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, itemId);
+            RtfModifier.Modify(richTextBox1.Font, fullPath, richTextBox1.SelectedRtf, memoItemInfo.Title);
         }
 
         public void RichtextSelect(int start, int count)
@@ -765,9 +778,7 @@ namespace Text_Editor
                 cursorPosition.Y - ParentC.Location.Y,
                 (name) =>
                 {
-                    Clipboard.SetDataObject(name);
-                    //  Clipboard.SetText(name);  paste可能会失败
-                    richTextBox1.Paste(DataFormats.GetFormat(DataFormats.Text));
+                    RtfModifier.InsertString(richTextBox1, name);
 
                     RichtextSelect(pos, name.Length);
                     richTextBox1.SelectionColor = MemoBook.Instance.Cfg.PeopleColor.ToColor(); //给名字变色
@@ -780,6 +791,8 @@ namespace Text_Editor
                 }
             );
         }
+
+
         private void AddTime()
         {
             var pos = richTextBox1.SelectionStart;
@@ -792,9 +805,7 @@ namespace Text_Editor
                 cursorPosition.Y - ParentC.Location.Y,
                 (timeStr) =>
                 {
-                    Clipboard.SetDataObject(timeStr);
-                  //  Clipboard.SetText(timeStr);
-                    richTextBox1.Paste(DataFormats.GetFormat(DataFormats.Text));
+                    RtfModifier.InsertString(richTextBox1, timeStr);
 
                     RichtextSelect(pos, timeStr.Length);
                     if (timeStr.Contains("ddl"))

@@ -60,7 +60,7 @@ namespace MemoHippo.UIS
             // UCSettingBar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
             this.Controls.Add(this.panel1);
             this.Name = "UCSettingBar";

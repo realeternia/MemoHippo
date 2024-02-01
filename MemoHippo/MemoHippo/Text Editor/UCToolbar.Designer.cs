@@ -36,15 +36,16 @@ namespace Text_Editor
             this.head1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.head2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.head3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.qutoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.clearFormattingStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButtonCata = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.boldStripButton = new System.Windows.Forms.ToolStripButton();
             this.italicStripButton = new System.Windows.Forms.ToolStripButton();
             this.underlineStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonDel = new System.Windows.Forms.ToolStripButton();
-            this.qutoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,6 +59,7 @@ namespace Text_Editor
             this.colorStripDropDownButton,
             this.toolStripSeparator9,
             this.clearFormattingStripButton,
+            this.toolStripDropDownButtonCata,
             this.toolStripSeparator2,
             this.boldStripButton,
             this.italicStripButton,
@@ -90,32 +92,38 @@ namespace Text_Editor
             // 
             this.textToolStripMenuItem.BackColor = System.Drawing.Color.White;
             this.textToolStripMenuItem.Name = "textToolStripMenuItem";
-            this.textToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.textToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
             this.textToolStripMenuItem.Text = "文本";
             // 
             // blistToolStripMenuItem
             // 
             this.blistToolStripMenuItem.Name = "blistToolStripMenuItem";
-            this.blistToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.blistToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
             this.blistToolStripMenuItem.Text = "条目";
             // 
             // head1ToolStripMenuItem
             // 
             this.head1ToolStripMenuItem.Name = "head1ToolStripMenuItem";
-            this.head1ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.head1ToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
             this.head1ToolStripMenuItem.Text = "一级标题";
             // 
             // head2ToolStripMenuItem
             // 
             this.head2ToolStripMenuItem.Name = "head2ToolStripMenuItem";
-            this.head2ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.head2ToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
             this.head2ToolStripMenuItem.Text = "二级标题";
             // 
             // head3ToolStripMenuItem
             // 
             this.head3ToolStripMenuItem.Name = "head3ToolStripMenuItem";
-            this.head3ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.head3ToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
             this.head3ToolStripMenuItem.Text = "三级标题";
+            // 
+            // qutoToolStripMenuItem
+            // 
+            this.qutoToolStripMenuItem.Name = "qutoToolStripMenuItem";
+            this.qutoToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.qutoToolStripMenuItem.Text = "引用";
             // 
             // colorStripDropDownButton
             // 
@@ -139,6 +147,14 @@ namespace Text_Editor
             this.clearFormattingStripButton.Name = "clearFormattingStripButton";
             this.clearFormattingStripButton.Size = new System.Drawing.Size(29, 28);
             this.clearFormattingStripButton.Text = "清除格式";
+            // 
+            // toolStripDropDownButtonCata
+            // 
+            this.toolStripDropDownButtonCata.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDropDownButtonCata.Image = global::MemoHippo.Properties.Resources.bubble;
+            this.toolStripDropDownButtonCata.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButtonCata.Name = "toolStripDropDownButtonCata";
+            this.toolStripDropDownButtonCata.Size = new System.Drawing.Size(38, 28);
             // 
             // toolStripSeparator2
             // 
@@ -182,16 +198,9 @@ namespace Text_Editor
             this.toolStripButtonDel.Size = new System.Drawing.Size(29, 28);
             this.toolStripButtonDel.Text = "删除线";
             // 
-            // qutoToolStripMenuItem
-            // 
-            this.qutoToolStripMenuItem.Name = "qutoToolStripMenuItem";
-            this.qutoToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.qutoToolStripMenuItem.Text = "引用";
-            // 
             // UCToolbar
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.Black;
             this.Controls.Add(this.toolStrip1);
             this.Name = "UCToolbar";
@@ -221,5 +230,6 @@ namespace Text_Editor
         public System.Windows.Forms.ToolStripMenuItem head2ToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem head3ToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem qutoToolStripMenuItem;
+        public System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonCata;
     }
 }

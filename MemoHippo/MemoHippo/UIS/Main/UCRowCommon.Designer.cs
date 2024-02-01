@@ -34,7 +34,7 @@ namespace MemoHippo
             // UCRowCommon
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.Black;
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("微软雅黑", 10.5F);

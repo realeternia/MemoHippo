@@ -67,6 +67,7 @@ namespace MemoHippo
             this.commonToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.nikonToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ddlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemCata = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -122,7 +123,6 @@ namespace MemoHippo
             this.ucCatalogStore.Size = new System.Drawing.Size(240, 38);
             this.ucCatalogStore.TabIndex = 4;
             this.ucCatalogStore.Title = "归档间";
-            this.ucCatalogStore.Click += new System.EventHandler(this.ucCatalogStore_Click);
             // 
             // ucCatalogNew
             // 
@@ -248,10 +248,10 @@ namespace MemoHippo
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.panel1.Controls.Add(this.ucTipAdd1);
-            this.panel1.Location = new System.Drawing.Point(4, 5);
+            this.panel1.Location = new System.Drawing.Point(2, 2);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(500, 906);
+            this.panel1.Size = new System.Drawing.Size(500, 909);
             this.panel1.TabIndex = 0;
             this.panel1.Click += new System.EventHandler(this.splitContainer2_Panel1_Click);
             // 
@@ -359,8 +359,6 @@ namespace MemoHippo
             // 
             // textBoxRowItemTitle
             // 
-            this.textBoxRowItemTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxRowItemTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.textBoxRowItemTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxRowItemTitle.DefaultText = "点击输入标题";
@@ -470,18 +468,19 @@ namespace MemoHippo
             this.rjDropdownMenuRow.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.storeToolStripMenuItem,
             this.toolStripMenuItem3,
+            this.toolStripMenuItemCata,
             this.toolStripMenuItem2});
             this.rjDropdownMenuRow.MenuItemHeight = 25;
             this.rjDropdownMenuRow.MenuItemTextColor = System.Drawing.Color.Empty;
             this.rjDropdownMenuRow.Name = "rjDropdownMenu1";
             this.rjDropdownMenuRow.PrimaryColor = System.Drawing.Color.Empty;
-            this.rjDropdownMenuRow.Size = new System.Drawing.Size(115, 88);
+            this.rjDropdownMenuRow.Size = new System.Drawing.Size(183, 116);
             // 
             // storeToolStripMenuItem
             // 
             this.storeToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.storeToolStripMenuItem.Name = "storeToolStripMenuItem";
-            this.storeToolStripMenuItem.Size = new System.Drawing.Size(114, 28);
+            this.storeToolStripMenuItem.Size = new System.Drawing.Size(182, 28);
             this.storeToolStripMenuItem.Text = "存档";
             this.storeToolStripMenuItem.Click += new System.EventHandler(this.storeToolStripMenuItem_Click);
             // 
@@ -493,8 +492,8 @@ namespace MemoHippo
             this.nikonToolStripMenuItem1,
             this.ddlToolStripMenuItem});
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(114, 28);
-            this.toolStripMenuItem3.Text = "转换";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(182, 28);
+            this.toolStripMenuItem3.Text = "小标题样式";
             // 
             // commonToolStripMenuItem1
             // 
@@ -523,18 +522,26 @@ namespace MemoHippo
             this.ddlToolStripMenuItem.Text = "截止时间";
             this.ddlToolStripMenuItem.Click += new System.EventHandler(this.ddlToolStripMenuItem_Click);
             // 
+            // toolStripMenuItemCata
+            // 
+            this.toolStripMenuItemCata.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolStripMenuItemCata.Name = "toolStripMenuItemCata";
+            this.toolStripMenuItemCata.Size = new System.Drawing.Size(182, 28);
+            this.toolStripMenuItemCata.Text = "标记为：汇总";
+            this.toolStripMenuItemCata.Click += new System.EventHandler(this.toolStripMenuItemCata_Click);
+            // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolStripMenuItem2.ForeColor = System.Drawing.Color.IndianRed;
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(114, 28);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(182, 28);
             this.toolStripMenuItem2.Text = "删除";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.deleteToolStripMenuItemRow_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1813, 1078);
             this.Controls.Add(this.splitContainer1);
@@ -605,6 +612,7 @@ namespace MemoHippo
         private System.Windows.Forms.ImageList imageList1;
         private UIS.Main.UCListSelectBar ucListSelectBar1;
         private System.Windows.Forms.ToolStripMenuItem ddlToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCata;
     }
 }
 

@@ -62,5 +62,29 @@ namespace MemoHippo
             }
             return null;
         }
+
+        public List<RTItemData> FindItemInfosByTag(string tag)
+        {
+            List<RTItemData> rts = new List<RTItemData>();
+            foreach (var ct in CatalogInfos)
+            {
+                foreach (var col in ct.Columns)
+                {
+                    foreach (var item in col.Items)
+                    {
+                        if (item.HasTag(tag))
+                        {
+                            RTItemData itemData = new RTItemData();
+                            itemData.Catalog = ct.Name;
+                            itemData.CatalogId = ct.Id;
+                            itemData.Column = col.Title;
+                            itemData.ItemInfo = item;
+                            rts.Add(itemData);
+                        }
+                    }
+                }
+            }
+            return rts;
+        }
     }
 }

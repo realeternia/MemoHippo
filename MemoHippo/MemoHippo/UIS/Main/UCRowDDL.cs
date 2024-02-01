@@ -46,7 +46,7 @@ namespace MemoHippo
             lines.Clear();
 
             var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, ItemId);
-            var infos = ConvertRtfToPlainText(File.ReadAllText(fullPath));
+            var infos = RtfModifier.ConvertRtfToPlainText(File.ReadAllText(fullPath));
             string pattern = @"(.*)(ddl \d{4}/\d{2}/\d{2} \d{1,2}时)(.*)";
 
 
@@ -76,16 +76,6 @@ namespace MemoHippo
         {
             t.Dispose();
         }
-
-        private string ConvertRtfToPlainText(string rtfContent)
-        {
-            using (RichTextBox richTextBox = new RichTextBox())
-            {
-                richTextBox.Rtf = rtfContent;
-                return richTextBox.Text;
-            }
-        }
-
 
         protected override void UCRowCommon_Paint(object sender, PaintEventArgs e)
         {

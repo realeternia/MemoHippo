@@ -64,7 +64,7 @@ namespace MemoHippo.UIS
             // UCKVListMultisel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);

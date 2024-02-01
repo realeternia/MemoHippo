@@ -67,7 +67,7 @@ namespace MemoHippo.UIS
                         continue;
 
                     string rtfContent = File.ReadAllText(file);
-                    string plainText = GetPlainTextFromRtf(rtfContent);
+                    string plainText = RtfModifier.GetPlainTextFromRtf(rtfContent);
 
                     int lineid = 0;
                     foreach (var line in plainText.Split('\n'))
@@ -83,13 +83,6 @@ namespace MemoHippo.UIS
                 listView1.VirtualListSize = searchResults.Count;
                 listView1.Visible = true;
             });
-        }
-
-        private RichTextBox richTextBox = new RichTextBox();
-        private string GetPlainTextFromRtf(string rtfContent)
-        {
-            richTextBox.Rtf = rtfContent;
-            return richTextBox.Text;
         }
 
         private void listView1_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)

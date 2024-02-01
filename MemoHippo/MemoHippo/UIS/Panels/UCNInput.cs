@@ -71,10 +71,11 @@ namespace MemoHippo.UIS.Panels
         {
             if (e.KeyCode == Keys.Enter)
             {
-                if (AfterSelect != null)
-                    AfterSelect(textBoxText.Text.Split('-')[0]);
+                buttonOk.PerformClick();
+                //if (AfterSelect != null)
+                //    AfterSelect(textBoxText.Text.Split('-')[0]);
 
-                PanelManager.Instance.HideBlackPanel();
+                //PanelManager.Instance.HideBlackPanel();
             }
         }
 

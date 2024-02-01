@@ -362,6 +362,7 @@
     <Compile Include="Utils\DelayedExecutor.cs" />
     <Compile Include="Utils\HLog.cs" />
     <Compile Include="Utils\ImageTool.cs" />
+    <Compile Include="Utils\RtfModifier.cs" />
     <Compile Include="Utils\StringTool.cs" />
     <Compile Include="Utils\TextBoxSelectRecover.cs" />
     <Compile Include="Utils\TimeTool.cs" />
@@ -536,6 +537,7 @@
     <None Include="Resources\brush.png" />
     <None Include="Resources\bold.png" />
     <None Include="Resources\clearformat.png" />
+    <None Include="Resources\bubble.png" />
     <Content Include="Resources\convert.jpg" />
     <Content Include="Resources\copy.jpg" />
     <Content Include="Resources\del.jpg" />
