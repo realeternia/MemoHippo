@@ -140,7 +140,7 @@ namespace MemoHippo.UIS
             this.rjButton6.BorderSize = 0;
             this.rjButton6.FlatAppearance.BorderSize = 0;
             this.rjButton6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rjButton6.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rjButton6.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
             this.rjButton6.ForeColor = System.Drawing.Color.Black;
             this.rjButton6.Image = global::MemoHippo.Properties.Resources.add;
             this.rjButton6.Location = new System.Drawing.Point(53, 2);
@@ -164,7 +164,7 @@ namespace MemoHippo.UIS
             this.rjButton1.BorderSize = 0;
             this.rjButton1.FlatAppearance.BorderSize = 0;
             this.rjButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rjButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rjButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
             this.rjButton1.ForeColor = System.Drawing.Color.Black;
             this.rjButton1.Image = global::MemoHippo.Properties.Resources.done1;
             this.rjButton1.Location = new System.Drawing.Point(173, 2);
@@ -188,7 +188,7 @@ namespace MemoHippo.UIS
             this.rjButton2.BorderSize = 0;
             this.rjButton2.FlatAppearance.BorderSize = 0;
             this.rjButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rjButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rjButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
             this.rjButton2.ForeColor = System.Drawing.Color.Black;
             this.rjButton2.Image = global::MemoHippo.Properties.Resources.share;
             this.rjButton2.Location = new System.Drawing.Point(293, 2);
@@ -212,7 +212,7 @@ namespace MemoHippo.UIS
             this.rjButton3.BorderSize = 0;
             this.rjButton3.FlatAppearance.BorderSize = 0;
             this.rjButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rjButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rjButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
             this.rjButton3.ForeColor = System.Drawing.Color.Black;
             this.rjButton3.Image = global::MemoHippo.Properties.Resources.follow;
             this.rjButton3.Location = new System.Drawing.Point(422, 2);
@@ -229,7 +229,6 @@ namespace MemoHippo.UIS
             // 
             // UCSearch
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.Controls.Add(this.rjButton3);

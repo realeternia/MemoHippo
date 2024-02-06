@@ -30,6 +30,7 @@ namespace MemoHippo.UIS
             // 需要逆序
             if (!MemoBook.Instance.Cfg.DisableTag)
                 CheckCtrs(oldCtrList, "multisel", "标签", itemInfo.Tag, (s) => itemInfo.Tag = s);
+            CheckCtrs(oldCtrList, "common", "别名", string.IsNullOrEmpty(itemInfo.NickName) ? itemInfo.Id.ToString() : itemInfo.NickName, (s) => itemInfo.NickName = s);
             CheckCtrs(oldCtrList, "common", "创建时间", itemInfo.GetCreateTime().ToString(), null);
 
             Width = 700 - 5;
@@ -52,6 +53,7 @@ namespace MemoHippo.UIS
             }
             found.OnModify = onModify;
             found.SetData(k, v);
+            found.SetReadOnly(onModify == null);
 
             doubleBufferedPanel1.Controls.Add(found as Control);
             var foundCtr2 = found as Control;

@@ -12,8 +12,6 @@ using System.Collections.Generic;
 using MemoHippo;
 using MemoHippo.Utils;
 using MemoHippo.Model;
-using MemoHippo.Model.Types;
-using System.Threading;
 
 namespace Text_Editor
 {
@@ -53,15 +51,6 @@ namespace Text_Editor
             richTextBox1.DetectUrls = true;    // allow detect url
          //   richTextBox1.LanguageOption = RichTextBoxLanguageOptions.UIFonts;
 
-            // fill zoomDropDownButton item list
-            zoomDropDownButton.DropDown.Items.Add("20%");
-            zoomDropDownButton.DropDown.Items.Add("50%");
-            zoomDropDownButton.DropDown.Items.Add("70%");
-            zoomDropDownButton.DropDown.Items.Add("100%");
-            zoomDropDownButton.DropDown.Items.Add("150%");
-            zoomDropDownButton.DropDown.Items.Add("200%");
-            zoomDropDownButton.DropDown.Items.Add("300%");
-
             this.ResumeLayout();
 
             this.ucToolbar1.boldStripButton.Click += new System.EventHandler(this.boldStripButton3_Click);
@@ -86,7 +75,6 @@ namespace Text_Editor
             head2ToolStripMenuItem.Click += head2ToolStripMenuItem_Click;
             head3ToolStripMenuItem.Click += head3ToolStripMenuItem_Click;
             showlineToolStripMenuItem.Click += showlineToolStripMenuItem_Click;
-            toolStripMenuItemPeople.Click += toolStripMenuItemPeople_Click;
             qutoToolStripMenuItem.Click += qutoToolStripMenuItem_Click;
 
             cutToolStripMenuItem.Click += cutToolStripMenuItem_Click;
@@ -192,10 +180,22 @@ namespace Text_Editor
                 OnSave();
                 checkChangeLock = true;
             }
-         
-            richTextBox1.SaveFile(filenamee, RichTextBoxStreamType.RichText);
 
-            HLog.Debug("SaveFile {0} finish checkSaveAct={1}", filenamee, checkSaveAct);
+            if (memoItemInfo.IsEncrypt())
+            {
+                string tempFilePath = Path.GetTempFileName();
+                richTextBox1.SaveFile(tempFilePath, RichTextBoxStreamType.RichText);
+              
+                FileEncryption.EncryptFile(tempFilePath, filenamee.Replace(".rtf", ".rz"));
+                File.Delete(filenamee); //如果有未加密文件存在，删一下
+            }
+            else
+            {
+                richTextBox1.SaveFile(filenamee, RichTextBoxStreamType.RichText);
+                File.Delete(filenamee.Replace(".rtf", ".rz")); //如果有加密文件存在，删一下
+            }
+            
+            HLog.Info("SaveFile {0} finish checkSaveAct={1}", filenamee, checkSaveAct);
         }
 
         public void LoadFile(MemoItemInfo itemInfo)
@@ -208,21 +208,32 @@ namespace Text_Editor
             }
 
             memoItemInfo = itemInfo;
-            var path = memoItemInfo.Id.ToString();
-            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, path);
+            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, memoItemInfo.Id);
             filenamee = fullPath;
+            if (memoItemInfo.IsEncrypt())
+                fullPath = fullPath.Replace(".rtf", ".rz");
             hasModify = false;
 
+            checkChangeLock = false;
             richTextBox1.Clear();
             if (File.Exists(fullPath))
             {
-                checkChangeLock = false;
-                richTextBox1.LoadFile(filenamee, RichTextBoxStreamType.RichText);
-                HLog.Debug("LoadFile {0} success", filenamee);
-                checkChangeLock = true;
+                if (itemInfo.IsEncrypt())
+                {
+                    string tempFilePath = Path.GetTempFileName();
+                    FileEncryption.DecryptFile(fullPath, tempFilePath);
 
+                    richTextBox1.LoadFile(tempFilePath, RichTextBoxStreamType.RichText);
+                }
+                else
+                {
+                    richTextBox1.LoadFile(fullPath, RichTextBoxStreamType.RichText);
+                }
+
+                HLog.Debug("LoadFile {0} success", fullPath);
                 ucToolbar1.OnLoadFile();
             }
+            checkChangeLock = true;
             //else
             //{
             //    richTextBox1.Clear();
@@ -427,11 +438,6 @@ namespace Text_Editor
             PanelManager.Instance.ShowBigBox(rtfOfCurrentLine);
         }
 
-        private void toolStripMenuItemPeople_Click(object sender, EventArgs e)
-        {
-            var name = toolStripMenuItemPeople.Text.Replace("查找：", "");
-            PanelManager.Instance.ShowSearchForm(name);
-        }
         #endregion
 
         private void undoStripButton_Click(object sender, EventArgs e)
@@ -442,39 +448,6 @@ namespace Text_Editor
         private void redoStripButton_Click(object sender, EventArgs e)
         {            
             richTextBox1.Redo();    // redo move
-        }
-
-        private void zoomDropDownButton_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            float zoomPercent = Convert.ToSingle(e.ClickedItem.Text.Trim('%')); // convert
-            richTextBox1.ZoomFactor = zoomPercent / 100;    // set zoom factor
-
-            if(e.ClickedItem.Image == null)
-            {
-                // sets all the image properties to null - incase one is already selected beforehand
-                for (int i = 0; i < zoomDropDownButton.DropDownItems.Count; i++)
-                {
-                    zoomDropDownButton.DropDownItems[i].Image = null;
-                }
-
-                // draw bmp in image property of selected item, while its active
-                Bitmap bmp = new Bitmap(5, 5);
-                using (Graphics gfx = Graphics.FromImage(bmp))
-                {
-                    gfx.FillEllipse(Brushes.Black, 1, 1, 3, 3);
-                }
-                e.ClickedItem.Image = bmp;    // draw ellipse in image property
-            }
-            else
-            {
-                e.ClickedItem.Image = null;
-                richTextBox1.ZoomFactor = 1.0f;    // set back to NO ZOOM
-            }
-        }
-
-        private void wordWrapToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            richTextBox1.WordWrap = !richTextBox1.WordWrap;
         }
 
         private void deleteStripMenuItem_Click(object sender, EventArgs e)
@@ -721,7 +694,7 @@ namespace Text_Editor
                 if (IsLineWithSpecialChar(lineIdx))
                 {//左键不可超过bullet
                     var idx = richTextBox1.GetFirstCharIndexFromLine(lineIdx);
-                    if(richTextBox1.SelectionStart <= idx + 2)
+                    if (richTextBox1.SelectionStart <= idx + 2)
                         e.SuppressKeyPress = true;// 阻止 Tab 键的默认行为
                 }
             }
@@ -730,9 +703,15 @@ namespace Text_Editor
                 var lineIdx = richTextBox1.GetLineFromCharIndex(richTextBox1.SelectionStart);
                 if (IsLineWithSpecialChar(lineIdx))
                 {//home键不可超过bullet
-                    RichtextSelect(richTextBox1.GetFirstCharIndexFromLine(lineIdx) +2, 0);
+                    RichtextSelect(richTextBox1.GetFirstCharIndexFromLine(lineIdx) + 2, 0);
                     e.SuppressKeyPress = true;
                 }
+            }
+            else if (e.KeyCode == Keys.F && e.Control)
+            {
+                toolStripTextBoxKeyText.Visible = true;
+                toolStripButtonFindNext.Visible = true;
+                toolStripTextBoxKeyText.Focus();
             }
         }
 
@@ -903,35 +882,89 @@ namespace Text_Editor
 
             if (rjButtonLeftSLineId != rowIndex)
             {
-                rjButtonLeftS.Visible = true;
                 var charPos = richTextBox1.GetPositionFromCharIndex(charIndex);
-                rjButtonLeftS.Location = new Point(12, charPos.Y + richTextBox1.Location.Y);
-                rjButtonLeftSLineId = rowIndex;
+                if (charPos.Y > -15) //防止向上出框
+                {
+                    rjButtonLeftS.Visible = true;
+                    rjButtonLeftS.Location = new Point(12, charPos.Y + richTextBox1.Location.Y);
+                    rjButtonLeftSLineId = rowIndex;
+                }
             }
         }
 
         private void rjButtonLeftS_Click(object sender, EventArgs e)
         {
             showlineToolStripMenuItem.Visible = richTextBox1.Lines[rjButtonLeftSLineId].Length > 30;
-            string nameExist = "";
+            var nowLine = richTextBox1.Lines[rjButtonLeftSLineId];
+
+            List<string> searchNameList = new List<string>();
+
             foreach(var name in MemoBook.Instance.Cfg.GetNamesOnly())
             {
-                if (richTextBox1.Lines[rjButtonLeftSLineId].Contains(name))
-                {
-                    nameExist = name;
-                    break;
-                }
+                if (nowLine.Contains(name))
+                    searchNameList.Add(name);
             }
-            if (!string.IsNullOrEmpty(nameExist))
+
+            if (searchNameList.Count > 0)
             {
-                toolStripMenuItemPeople.Text = "查找：" + nameExist;
+                toolStripMenuItemPeople.DropDownItems.Clear();
                 toolStripMenuItemPeople.Visible = true;
+
+                foreach (var name in searchNameList)
+                {
+                    var toolStripMenuItemSearch = new ToolStripMenuItem();
+                    toolStripMenuItemSearch.BackColor = Color.FromArgb(32, 32, 32);
+                    //  this.toolStripMenuItemPeople.Name = "toolStripMenuItemPeople";
+                    toolStripMenuItemSearch.Size = new Size(232, 36);
+                    toolStripMenuItemSearch.Text = name;
+                    toolStripMenuItemSearch.Click += ToolStripMenuItemSearch_Click;
+                    toolStripMenuItemPeople.DropDownItems.Add(toolStripMenuItemSearch);
+                }
             }
             else
             {
                 toolStripMenuItemPeople.Visible = false;
             }
+
+            var db = RoleDB.Instance.DB;
+            searchNameList.Clear();
+            foreach (var name in db.GetValuesByHeader("姓名"))
+            {
+                if (nowLine.Contains(name))
+                    searchNameList.Add(name);
+            }
+
+            if (searchNameList.Count > 0)
+            {
+                toolStripMenuItemSearchCard.DropDownItems.Clear();
+                toolStripMenuItemSearchCard.Visible = true;
+
+                foreach (var name in searchNameList)
+                {
+                    var toolStripMenuItemSearch = new ToolStripMenuItem();
+                    toolStripMenuItemSearch.BackColor = Color.FromArgb(32, 32, 32);
+                    //  this.toolStripMenuItemPeople.Name = "toolStripMenuItemPeople";
+                    toolStripMenuItemSearch.Size = new Size(232, 36);
+                    toolStripMenuItemSearch.Text = name;
+                    toolStripMenuItemSearch.Click += ToolStripMenuItemSearchCard_Click;
+                    toolStripMenuItemSearchCard.DropDownItems.Add(toolStripMenuItemSearch);
+                }
+            }
+            else
+            {
+                toolStripMenuItemSearchCard.Visible = false;
+            }
+
             rjDropdownMenuBar.Show(rjButtonLeftS, -rjDropdownMenuBar.Width, 0);
+        }
+
+        private void ToolStripMenuItemSearch_Click(object sender, EventArgs e)
+        {
+            PanelManager.Instance.ShowSearchForm((sender as ToolStripMenuItem).Text);
+        }
+        private void ToolStripMenuItemSearchCard_Click(object sender, EventArgs e)
+        {
+            PanelManager.Instance.ShowRoleStore((sender as ToolStripMenuItem).Text);
         }
 
         private void richTextBox1_MouseEnter(object sender, EventArgs e)
@@ -951,10 +984,63 @@ namespace Text_Editor
             if (!checkChangeLock)
                 return;
 
-          //  HLog.Debug("DasayEditor textchanged");
+            HLog.Debug("DasayEditor textchanged");
             hasModify = true;
             DelayedExecutor.Trigger("desaySave", 10, () => Save(false));
         }
 
+        private string lastSearchText = "";
+        private int lastSearch = 0;
+        private void toolStripButtonFindNext_Click(object sender, EventArgs e)
+        {
+            DoSearch();
+        }
+
+        private void DoSearch()
+        {
+            if (string.IsNullOrEmpty(toolStripTextBoxKeyText.Text))
+                return;
+
+            if (lastSearchText != toolStripTextBoxKeyText.Text)
+            {
+                lastSearchText = toolStripTextBoxKeyText.Text;
+                lastSearch = 0;
+            }
+
+            string searchText = toolStripTextBoxKeyText.Text;
+            monitorRichtextboxChange = true;
+            int index = richTextBox1.Find(searchText, lastSearch, RichTextBoxFinds.None);
+            monitorRichtextboxChange = false;
+
+            if (index != -1)
+            {
+                lastSearch = index + 1;
+                RichtextSelect(index, searchText.Length);
+                richTextBox1.ScrollToCaret(); // 滚动到选定的文本
+                richTextBox1.Focus();
+            }
+            else
+            {
+                if (lastSearch != 0)
+                {
+                    monitorRichtextboxChange = true;
+                    index = richTextBox1.Find(searchText, 0, RichTextBoxFinds.None);
+                    if (index != -1)
+                    {
+                        monitorRichtextboxChange = false;
+                        lastSearch = index + 1;
+                        RichtextSelect(index, searchText.Length);
+                        richTextBox1.ScrollToCaret(); // 滚动到选定的文本
+                        richTextBox1.Focus();
+                    }
+                }
+            }
+        }
+
+        public void SearchTxt(string txt)
+        {
+            toolStripTextBoxKeyText.Text = txt;
+            DoSearch();
+        }
     }
 }

@@ -38,8 +38,7 @@ namespace MemoHippo
         {
             lines.Clear();
 
-            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, ItemId);
-            var infos = RtfModifier.ConvertRtfToPlainText(File.ReadAllText(fullPath));
+            var infos = RtfModifier.ReadRtfPlainText(ItemId);
             foreach(var info in infos.Split('\n'))
             {
                 if (!string.IsNullOrWhiteSpace(info))

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace MemoHippo.Utils
@@ -58,11 +59,34 @@ namespace MemoHippo.Utils
             while (pos >= box.Text.Length || box.Text[pos] != str[0]);
         }
 
-        public static string ConvertRtfToPlainText(string rtfContent)
+        public static string ReadRtfPlainText(int itemId, bool checkEncryto = false)
         {
+            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, itemId);
+            var itemInfo = MemoBook.Instance.FindItemInfo(itemId).ItemInfo;
+            if (checkEncryto && itemInfo.IsEncrypt())
+            {
+                fullPath = fullPath.Replace(".rtf", ".rz");
+            }
+
+            if (!File.Exists(fullPath)) 
+                return "";
+
+            string fileData;
+            if (checkEncryto && itemInfo.IsEncrypt())
+            {
+                string tempFilePath = Path.GetTempFileName();
+                FileEncryption.DecryptFile(fullPath, tempFilePath);
+
+                fileData = File.ReadAllText(tempFilePath);
+            }
+            else
+            {
+                fileData = File.ReadAllText(fullPath);
+            }
+
             using (RichTextBox richTextBox = new RichTextBox())
             {
-                richTextBox.Rtf = rtfContent;
+                richTextBox.Rtf = fileData;
                 return richTextBox.Text;
             }
         }

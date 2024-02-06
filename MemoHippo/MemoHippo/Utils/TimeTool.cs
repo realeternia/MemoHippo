@@ -53,5 +53,33 @@ namespace MemoHippo.Utils
 
             return nowDate;
         }
+
+        public static string GetTimeAgo(DateTime inputDateTime)
+        {
+            TimeSpan timeDifference = DateTime.Now - inputDateTime;
+
+            if (timeDifference.TotalHours < 24)
+            {
+                return "一天内";
+            }
+            else if (timeDifference.TotalDays < 7)
+            {
+                return $"{(int)timeDifference.TotalDays}天前";
+            }
+            else if (timeDifference.TotalDays < 30)
+            {
+                int weeks = (int)(timeDifference.TotalDays / 7);
+                return $"{weeks}周前";
+            }
+            else if (timeDifference.TotalDays < 365)
+            {
+                int months = (int)(timeDifference.TotalDays / 30);
+                return $"{months}月前";
+            }
+            else
+            {
+                return "一年内";
+            }
+        }
     }
 }

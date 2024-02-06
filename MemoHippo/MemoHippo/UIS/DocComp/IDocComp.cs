@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MemoHippo.UIS
 {
@@ -10,5 +6,6 @@ namespace MemoHippo.UIS
     {
         void SetData(string k, string v);
         Action<string> OnModify { get; set; }
+        void SetReadOnly(bool readOnly);
     }
 }

@@ -45,8 +45,7 @@ namespace MemoHippo
         {
             lines.Clear();
 
-            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, ItemId);
-            var infos = RtfModifier.ConvertRtfToPlainText(File.ReadAllText(fullPath));
+            var infos = RtfModifier.ReadRtfPlainText(ItemId);
             string pattern = @"(.*)(ddl \d{4}/\d{2}/\d{2} \d{1,2}时)(.*)";
 
 

@@ -34,7 +34,7 @@ namespace MemoHippo
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.ucCatalogStore = new MemoHippo.UCCatalogFix();
+            this.ucCatalogRoleStore = new MemoHippo.UCCatalogFix();
             this.ucCatalogNew = new MemoHippo.UCCatalogFix();
             this.ucCatalogSearch = new MemoHippo.UCCatalogFix();
             this.ucCatalogSetup = new MemoHippo.UCCatalogFix();
@@ -68,6 +68,7 @@ namespace MemoHippo
             this.nikonToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ddlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCata = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemCryto = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -98,7 +99,7 @@ namespace MemoHippo
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.ucCatalogStore);
+            this.splitContainer1.Panel1.Controls.Add(this.ucCatalogRoleStore);
             this.splitContainer1.Panel1.Controls.Add(this.ucCatalogNew);
             this.splitContainer1.Panel1.Controls.Add(this.ucCatalogSearch);
             this.splitContainer1.Panel1.Controls.Add(this.ucCatalogSetup);
@@ -111,18 +112,19 @@ namespace MemoHippo
             this.splitContainer1.SplitterDistance = 240;
             this.splitContainer1.TabIndex = 3;
             // 
-            // ucCatalogStore
+            // ucCatalogRoleStore
             // 
-            this.ucCatalogStore.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.ucCatalogStore.Font = new System.Drawing.Font("微软雅黑", 10.5F);
-            this.ucCatalogStore.ForeColor = System.Drawing.Color.DarkGray;
-            this.ucCatalogStore.Location = new System.Drawing.Point(0, 80);
-            this.ucCatalogStore.Margin = new System.Windows.Forms.Padding(0);
-            this.ucCatalogStore.Name = "ucCatalogStore";
-            this.ucCatalogStore.PicImg = global::MemoHippo.Properties.Resources.store;
-            this.ucCatalogStore.Size = new System.Drawing.Size(240, 38);
-            this.ucCatalogStore.TabIndex = 4;
-            this.ucCatalogStore.Title = "归档间";
+            this.ucCatalogRoleStore.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.ucCatalogRoleStore.Font = new System.Drawing.Font("微软雅黑", 10.5F);
+            this.ucCatalogRoleStore.ForeColor = System.Drawing.Color.DarkGray;
+            this.ucCatalogRoleStore.Location = new System.Drawing.Point(0, 80);
+            this.ucCatalogRoleStore.Margin = new System.Windows.Forms.Padding(0);
+            this.ucCatalogRoleStore.Name = "ucCatalogRoleStore";
+            this.ucCatalogRoleStore.PicImg = global::MemoHippo.Properties.Resources.store;
+            this.ucCatalogRoleStore.Size = new System.Drawing.Size(240, 38);
+            this.ucCatalogRoleStore.TabIndex = 4;
+            this.ucCatalogRoleStore.Title = "卡牌库";
+            this.ucCatalogRoleStore.Click += new System.EventHandler(this.ucCatalogRoleStore_Click);
             // 
             // ucCatalogNew
             // 
@@ -469,12 +471,13 @@ namespace MemoHippo
             this.storeToolStripMenuItem,
             this.toolStripMenuItem3,
             this.toolStripMenuItemCata,
+            this.toolStripMenuItemCryto,
             this.toolStripMenuItem2});
             this.rjDropdownMenuRow.MenuItemHeight = 25;
             this.rjDropdownMenuRow.MenuItemTextColor = System.Drawing.Color.Empty;
             this.rjDropdownMenuRow.Name = "rjDropdownMenu1";
             this.rjDropdownMenuRow.PrimaryColor = System.Drawing.Color.Empty;
-            this.rjDropdownMenuRow.Size = new System.Drawing.Size(183, 116);
+            this.rjDropdownMenuRow.Size = new System.Drawing.Size(183, 144);
             // 
             // storeToolStripMenuItem
             // 
@@ -529,6 +532,14 @@ namespace MemoHippo
             this.toolStripMenuItemCata.Size = new System.Drawing.Size(182, 28);
             this.toolStripMenuItemCata.Text = "标记为：汇总";
             this.toolStripMenuItemCata.Click += new System.EventHandler(this.toolStripMenuItemCata_Click);
+            // 
+            // toolStripMenuItemCryto
+            // 
+            this.toolStripMenuItemCryto.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolStripMenuItemCryto.Name = "toolStripMenuItemCryto";
+            this.toolStripMenuItemCryto.Size = new System.Drawing.Size(182, 28);
+            this.toolStripMenuItemCryto.Text = "标记为：加密";
+            this.toolStripMenuItemCryto.Click += new System.EventHandler(this.toolStripMenuItemCryto_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -601,7 +612,7 @@ namespace MemoHippo
         private System.Windows.Forms.ToolStripMenuItem nikonToolStripMenuItem1;
         private UCCatalogFix ucCatalogNew;
         private System.Windows.Forms.ToolStripMenuItem storeToolStripMenuItem;
-        private UCCatalogFix ucCatalogStore;
+        private UCCatalogFix ucCatalogRoleStore;
         private ViewStack viewStack1;
         private System.Windows.Forms.TabPage tabPage1;
         public DoubleBufferedPanel panel1;
@@ -613,6 +624,7 @@ namespace MemoHippo
         private UIS.Main.UCListSelectBar ucListSelectBar1;
         private System.Windows.Forms.ToolStripMenuItem ddlToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCata;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCryto;
     }
 }
 

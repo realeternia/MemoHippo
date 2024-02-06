@@ -61,19 +61,25 @@ namespace MemoHippo.UIS
                 foreach (var file in Directory.GetFiles(ENV.SaveDir))
                 {
                     var fi = new FileInfo(file);
-                    var itemId = fi.Name;
+                    if (fi.Extension != ".rtf")
+                        continue;
 
                     if (fi.LastWriteTime < searchBegin)
                         continue;
 
-                    string rtfContent = File.ReadAllText(file);
-                    string plainText = RtfModifier.GetPlainTextFromRtf(rtfContent);
+                    var itemIdStr = fi.Name;
+                    int itemId = int.Parse(itemIdStr.Replace(".rtf", ""));
+                    var itemInfo = MemoBook.Instance.FindItemInfo(itemId);
+                    if (itemInfo == null)
+                        continue;
+
+                    string plainText = RtfModifier.ReadRtfPlainText(itemId);
 
                     int lineid = 0;
                     foreach (var line in plainText.Split('\n'))
                     {
                         if (line.IndexOf(searchTxt) >= 0)
-                            searchResults.Add(new SearchData { Line = line, Title = itemId, CreateTime = fi.LastWriteTime, LineIndex = lineid + 1 });
+                            searchResults.Add(new SearchData { Line = line, Title = itemIdStr, CreateTime = fi.LastWriteTime, LineIndex = lineid + 1 });
                         lineid++;
                     }
                 }
@@ -185,7 +191,7 @@ namespace MemoHippo.UIS
             var lineInfo = searchResults[selectLine.Index];
             var itemInfo = MemoBook.Instance.FindItemInfo(int.Parse(lineInfo.Title.Replace(".rtf", "")));
 
-            Form1.ShowPaperPadEx(itemInfo.CatalogId, itemInfo.ItemInfo);
+            Form1.ShowPaperPadEx(itemInfo.CatalogId, itemInfo.ItemInfo, lineInfo.Line.Trim());
 
             PanelManager.Instance.HideBlackPanel();
         }
@@ -199,7 +205,8 @@ namespace MemoHippo.UIS
             else
                 searchBegin = DateTime.Now.Subtract(TimeSpan.FromDays(365 * 30));
 
-            SearchAct();
+            if (!string.IsNullOrEmpty(textBox1.Text))
+                SearchAct();
         }
 
         private void rjButton6_Click(object sender, EventArgs e)

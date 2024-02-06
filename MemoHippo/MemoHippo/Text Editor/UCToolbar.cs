@@ -87,7 +87,7 @@ namespace Text_Editor
 
         private void InitCataMenu()
         {
-            var tagItems = MemoBook.Instance.FindItemInfosByTag("汇总");
+            var tagItems = MemoBook.Instance.FindItemInfosByTag("汇总", "加密"); //加密文件不能进汇总
             if (lastTagCount == tagItems.Count)
                 return;
 

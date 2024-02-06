@@ -76,6 +76,7 @@ namespace MemoHippo.Utils
             {
                 case "存档": return Brushes.DarkRed;
                 case "汇总": return Brushes.MediumPurple;
+                case "加密": return Brushes.OrangeRed;
             }
             return Brushes.DeepSkyBlue;
         }

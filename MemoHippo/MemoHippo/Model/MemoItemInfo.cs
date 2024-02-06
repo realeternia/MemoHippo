@@ -9,6 +9,7 @@ namespace MemoHippo.Model
         public int Id { get; set; } //同文件存储路径
         public int Type { get; set; } //0 默认，1 背单词
         public string Title { get; set; }
+        public string NickName { get; set; } //别名
         public string Tag { get; set; }
         public string Icon { get; set; }
         public string Parm { get; set; } //额外数据
@@ -51,11 +52,16 @@ namespace MemoHippo.Model
 
         public DateTime GetCreateTime()
         {
-            return new FileInfo(string.Format("{0}/{1}.rtf", ENV.SaveDir, Id)).CreationTime;
+            return new FileInfo(string.Format("{0}/{1}.{2}", ENV.SaveDir, Id, IsEncrypt() ? "rz" : "rtf")).CreationTime;
         }
         public DateTime GetModifyTime()
         {
-            return new FileInfo(string.Format("{0}/{1}.rtf", ENV.SaveDir, Id)).LastWriteTime;
+            return new FileInfo(string.Format("{0}/{1}.{2}", ENV.SaveDir, Id, IsEncrypt() ? "rz" : "rtf")).LastWriteTime;
+        }
+
+        public bool IsEncrypt()
+        {
+            return HasTag("加密");
         }
 
         public void AddTag(string s)

@@ -54,16 +54,17 @@ namespace MemoHippo.UIS
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(424, 22);
             this.textBox1.TabIndex = 1;
+            this.textBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyUp);
+            this.textBox1.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
-            // UCKVListItem
+            // UCDocStringItem
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.Margin = new System.Windows.Forms.Padding(0);
-            this.Name = "UCKVListItem";
+            this.Name = "UCDocStringItem";
             this.Size = new System.Drawing.Size(700, 39);
             this.ResumeLayout(false);
             this.PerformLayout();

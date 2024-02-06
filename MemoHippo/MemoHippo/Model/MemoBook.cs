@@ -63,7 +63,25 @@ namespace MemoHippo
             return null;
         }
 
-        public List<RTItemData> FindItemInfosByTag(string tag)
+        public MemoItemInfo GetIdFromNickname(string nkName)
+        {
+            foreach (var ct in CatalogInfos)
+            {
+                foreach (var col in ct.Columns)
+                {
+                    foreach (var item in col.Items)
+                    {
+                        if (item.NickName == nkName)
+                        {
+                            return item;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        public List<RTItemData> FindItemInfosByTag(string tag, string revTag = "")
         {
             List<RTItemData> rts = new List<RTItemData>();
             foreach (var ct in CatalogInfos)
@@ -72,7 +90,7 @@ namespace MemoHippo
                 {
                     foreach (var item in col.Items)
                     {
-                        if (item.HasTag(tag))
+                        if (item.HasTag(tag) && (string.IsNullOrEmpty(revTag) || !item.HasTag(revTag)))
                         {
                             RTItemData itemData = new RTItemData();
                             itemData.Catalog = ct.Name;

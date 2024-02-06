@@ -79,6 +79,8 @@ namespace MemoHippo
             rjDropdownMenuRow.MenuItemHeight = 25;
 
             InitMenu();
+
+            HLog.Info("main form load finish");
            // DeleteRemovedFiles();
         }
 
@@ -99,6 +101,7 @@ namespace MemoHippo
         {
             PanelManager.Instance.ShowSetup();
         }
+
 
         //添加一个新的栏目
         private void columnNew_Click(object sender, System.EventArgs e)
@@ -232,17 +235,19 @@ namespace MemoHippo
 
         private void OnRowItemClick(object sender, EventItemClickArgs args)
         {
-            if(args == null)
+            if (args == null)
             {
                 HidePaperPad();
                 return;
             }
 
-            ShowPaperPad(nowCatalog.GetColumn(args.ColumnId).GetItem(args.ItemId), args.FocusTitle);
+            ShowPaperPad(nowCatalog.GetColumn(args.ColumnId).GetItem(args.ItemId));
+            if (args.FocusTitle)
+                textBoxRowItemTitle.Focus();
         }
 
         //外部调用展示面板
-        public void ShowPaperPadEx(int catalogId, MemoItemInfo item)
+        public void ShowPaperPadEx(int catalogId, MemoItemInfo item, string searchTxt = "")
         {
             foreach(UCCatalogItem ctr in flowLayoutPanel1.Controls)
             {
@@ -250,10 +255,10 @@ namespace MemoHippo
                     SelectCatalogItem(ctr);
             }
 
-            ShowPaperPad(item);
+            ShowPaperPad(item, searchTxt);
         }
 
-        private void ShowPaperPad(MemoItemInfo itemInfo, bool focusTitle = false)
+        private void ShowPaperPad(MemoItemInfo itemInfo, string searchTxt = "")
         {
             if(itemInfo == null)
             {
@@ -281,8 +286,7 @@ namespace MemoHippo
             //更新显示文件内容
             textChangeLock = true;
             textBoxRowItemTitle.TrueText = nowRowItem.Title;
-            if (focusTitle)
-                textBoxRowItemTitle.Focus();
+
             UpdatePaperIcon(nowRowItem.Icon);
             textChangeLock = false;
             uckvList1.Init(itemInfo);
@@ -293,6 +297,10 @@ namespace MemoHippo
             if (splitContainer2.SplitterDistance > splitContainer2.Width-10)
                 splitContainer2.SplitterDistance = Math.Min(lastDistance, Math.Max(0, splitContainer2.Width - 800));
 
+            if(!string.IsNullOrEmpty(searchTxt))
+            {
+                dasayEditor1.SearchTxt(searchTxt);
+            }
         }
 
         private int lastDistance;
@@ -326,6 +334,8 @@ namespace MemoHippo
             var serializer = new SerializerBuilder().Build();
             var yaml = serializer.Serialize(MemoBook.Instance);
             File.WriteAllText(ENV.BaseDir + "/memo.yaml", yaml, Encoding.UTF8);
+
+            HLog.Info("main form quit");
         }
 
         private void textBoxRowItemTitle_TextChanged(object sender, System.EventArgs e)
@@ -380,6 +390,10 @@ namespace MemoHippo
         private void ucCatalogSearch_Click(object sender, System.EventArgs e)
         {
             PanelManager.Instance.ShowSearchForm();
+        }
+        private void ucCatalogRoleStore_Click(object sender, EventArgs e)
+        {
+            PanelManager.Instance.ShowRoleStore();
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -473,9 +487,11 @@ namespace MemoHippo
             var itemId = int.Parse(rjDropdownMenuRow.Tag.ToString());
             var columnCtr = rjDropdownMenuRow.Bind as UCTipColumn;
 
-            columnCtr.ColumnInfo.RemoveItem(itemId);
+            var itemInfo = columnCtr.ColumnInfo.RemoveItem(itemId);
 
             var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, itemId);
+            if (itemInfo.IsEncrypt())
+                fullPath = fullPath.Replace(".rtf", ".rz");
             if (File.Exists(fullPath))
                 File.Delete(fullPath);
 
@@ -500,6 +516,15 @@ namespace MemoHippo
 
             var itemInfo = columnCtr.ColumnInfo.GetItem(itemId);
             itemInfo.AddTag("汇总");
+        }
+
+        private void toolStripMenuItemCryto_Click(object sender, EventArgs e)
+        {
+            var itemId = int.Parse(rjDropdownMenuRow.Tag.ToString());
+            var columnCtr = rjDropdownMenuRow.Bind as UCTipColumn;
+
+            var itemInfo = columnCtr.ColumnInfo.GetItem(itemId);
+            itemInfo.AddTag("加密");
         }
         #endregion
 
@@ -629,7 +654,7 @@ namespace MemoHippo
             else
             {
                 var lineInfo = listCachedItems[listMouseOnLine.Index];
-                ShowPaperPad(nowCatalog.FindItemInfo(lineInfo.Id), false);
+                ShowPaperPad(nowCatalog.FindItemInfo(lineInfo.Id));
             }
         }
 

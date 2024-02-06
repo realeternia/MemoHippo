@@ -22,6 +22,11 @@ namespace MemoHippo.UIS
             textBox1.Text = tagStr1;
         }
 
+        public void SetReadOnly(bool readOnly)
+        {
+            textBox1.ReadOnly = readOnly;
+        }
+
         private void textBox1_Leave(object sender, System.EventArgs e)
         {
             Invalidate();
@@ -66,6 +71,9 @@ namespace MemoHippo.UIS
 
         private void UCKVListMultisel_Click(object sender, System.EventArgs e)
         {
+            if (textBox1.ReadOnly)
+                return;
+
             textBox1.Visible = true;
             textBox1.Focus();
             Invalidate();
