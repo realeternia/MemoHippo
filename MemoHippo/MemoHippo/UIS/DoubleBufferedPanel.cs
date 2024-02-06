@@ -6,7 +6,7 @@ namespace MemoHippo.UIS
     {
         public DoubleBufferedPanel()
         {
-            this.DoubleBuffered = true;
+            this.DoubleBuffered = true; 
         }
     }
 }

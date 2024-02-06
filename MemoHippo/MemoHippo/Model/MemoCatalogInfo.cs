@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using MemoHippo.Utils;
+using System.Collections.Generic;
 using System.Drawing;
-using YamlDotNet.Serialization;
 
 namespace MemoHippo.Model
 {
@@ -11,84 +11,60 @@ namespace MemoHippo.Model
         public string Name { get; set; }
         public int Offset { get; set; }
 
-        private Color[] ColorTable = {
-            Color.FromArgb(0x40, 0x33, 0x24),
-            Color.FromArgb(0x1b, 0x2d, 0x38),
-            Color.FromArgb(0x3e, 0x28, 0x25)
-        };
+        private static Color[] ColorArray;
 
         public List<MemoColumnInfo> Columns = new List<MemoColumnInfo>();
 
-        public void AddColumn(string title)
+        static MemoCatalogInfo()
+        {
+            ColorArray = new Color[ColorTool.DarkColorTable.Count];
+            ColorTool.DarkColorTable.Values.CopyTo(ColorArray, 0);
+        }
+
+        public int AddColumn(string title)
         {
             MemoBook.Instance.ColumnIndex++;
             Offset++;
             var cInfo = new MemoColumnInfo();
             cInfo.Id = MemoBook.Instance.ColumnIndex;
             cInfo.Title = title;
-            cInfo.BgColor = ColorTable[Offset % ColorTable.Length].ToArgb();
+            cInfo.BgColor = ColorArray[Offset % ColorArray.Length].ToArgb();
             Columns.Add(cInfo);
+
+            return cInfo.Id;
         }
 
         public MemoColumnInfo GetColumn(int id)
         {
             return Columns.Find(a => a.Id == id);
         }
-    }
 
-    public class MemoColumnInfo
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public int BgColor { get; set; }
-
-        public List<MemoItemInfo> Items = new List<MemoItemInfo>();
-
-        public void AddItem(string title)
+        public MemoColumnInfo RemoveColumn(int id)
         {
-            MemoBook.Instance.ItemIndex++;
-            var itmInfo = new MemoItemInfo();
-            itmInfo.Id = MemoBook.Instance.ItemIndex;
-            itmInfo.Title = title;
-            Items.Add(itmInfo);
-        }
-        public MemoItemInfo GetItem(int id)
-        {
-            return Items.Find(a => a.Id == id);
-        }
-
-        public MemoItemInfo RemoveItem(int id)
-        {
-            var itm = Items.Find(a => a.Id == id);
-            Items.Remove(itm);
+            var itm = Columns.Find(a => a.Id == id);
+            Columns.Remove(itm);
             return itm;
         }
 
-        public void InsertItem(MemoItemInfo itm, int checkId, bool afterNode)
+        public List<MemoItemInfo> GetItems()
         {
-            int off = 0;
-            foreach(var pickItem in Items)
-            {
-                if(pickItem.Id == checkId)
-                    break;
-                off++;
-            }
+            var results = new List<MemoItemInfo>();
+            foreach (var col in Columns)
+                results.AddRange(col.Items);
 
-            if (afterNode)
-                off++;
-
-            if (off < Items.Count)
-                Items.Insert(off, itm);
-            else
-                Items.Add(itm);
+            return results;
         }
-    }
-
-    public class MemoItemInfo
-    {
-        public int Id { get; set; }
-        public int Type { get; set; } //0 默认，1 背单词
-        public string Title { get; set; }
-        public string Icon { get; set; }
+        public MemoItemInfo FindItemInfo(int id)
+        {
+            foreach (var col in Columns)
+            {
+                foreach (var item in col.Items)
+                {
+                    if (item.Id == id)
+                        return item;
+                }
+            }
+            return null;
+        }
     }
 }

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MemoHippo.Utils;
+using System;
 using System.Windows.Forms;
 
 namespace MemoHippo
@@ -14,6 +12,9 @@ namespace MemoHippo
         [STAThread]
         static void Main()
         {
+            HLog.Start("log", LogTargets.File);
+            HLog.DisableDebugLog = true;
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
