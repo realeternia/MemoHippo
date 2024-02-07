@@ -19,7 +19,7 @@ namespace MemoHippo.Utils
             }
             else
             {
-                var findItem = MemoBook.Instance.GetIdFromNickname(name);
+                var findItem = MemoBook.Instance.GetItemByNickname(name);
                 if (findItem != null)
                     itemId = findItem.Id;
             }

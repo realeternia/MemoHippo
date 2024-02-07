@@ -71,7 +71,6 @@
     <Compile Include="Model\SetupItemDesAttribute.cs" />
     <Compile Include="Model\IRowItem.cs" />
     <Compile Include="Model\MemoBookCfg.cs" />
-    <Compile Include="Model\RTItemData.cs" />
     <Compile Include="Model\Types\ColorCfg.cs" />
     <Compile Include="PanelManager.cs" />
     <Compile Include="UIS\DocComp\IDocComp.cs" />

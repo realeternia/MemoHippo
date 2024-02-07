@@ -62,7 +62,7 @@ namespace MemoHippo.Utils
         public static string ReadRtfPlainText(int itemId, bool checkEncryto = false)
         {
             var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, itemId);
-            var itemInfo = MemoBook.Instance.FindItemInfo(itemId).ItemInfo;
+            var itemInfo = MemoBook.Instance.GetItem(itemId);
             if (checkEncryto && itemInfo.IsEncrypt())
             {
                 fullPath = fullPath.Replace(".rtf", ".rz");

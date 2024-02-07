@@ -114,7 +114,7 @@ namespace MemoHippo
             ReleaseAllLabels();
             flowLayoutPanel1.Controls.Clear();
 
-            foreach (var memoItem in ColumnInfo.Items)
+            foreach (var memoItem in MemoBook.Instance.GetItemsByColumn(columnId))
             {
                 if (memoItem.HasTag("存档"))
                     continue;
@@ -274,8 +274,9 @@ namespace MemoHippo
 
                     if (movingControl != null)
                     {
-                        var itm = beginColumn.ColumnInfo.RemoveItem(itemId);
-                        ColumnInfo.InsertItem(itm, upCtrId, afterNode);
+                        var itm = MemoBook.Instance.GetItem(itemId);
+                        itm.ColumnId = columnId; //换一个col
+                        MemoBook.Instance.MoveItem(itm, upCtrId, afterNode);
 
                         beginColumn.RefreshLabels();
                         RefreshLabels();
@@ -367,7 +368,7 @@ namespace MemoHippo
         //新增加一个页面
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var newItem = ColumnInfo.AddItem("");
+            var newItem = MemoBook.Instance.AddItem("", catalogId, ColumnInfo.Id);
 
             RefreshLabels();
 

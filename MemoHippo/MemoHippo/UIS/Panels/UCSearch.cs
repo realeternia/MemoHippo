@@ -69,7 +69,7 @@ namespace MemoHippo.UIS
 
                     var itemIdStr = fi.Name;
                     int itemId = int.Parse(itemIdStr.Replace(".rtf", ""));
-                    var itemInfo = MemoBook.Instance.FindItemInfo(itemId);
+                    var itemInfo = MemoBook.Instance.GetCatalog(itemId);
                     if (itemInfo == null)
                         continue;
 
@@ -147,11 +147,11 @@ namespace MemoHippo.UIS
         private void listView1_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
         {
             var lineInfo = searchResults[e.ItemIndex];
-            var itemInfo = MemoBook.Instance.FindItemInfo(int.Parse(lineInfo.Title.Replace(".rtf", "")));
+            var itemInfo = MemoBook.Instance.GetItem(int.Parse(lineInfo.Title.Replace(".rtf", "")));
             if (itemInfo != null)
             {
-                e.Graphics.DrawImage(ResLoader.Read(itemInfo.ItemInfo.Icon), e.Bounds.X + 8, e.Bounds.Y + 10, 24, 24);
-                e.Graphics.DrawString(string.Format("{2} ({0}/{1} Ln:{3})", itemInfo.Catalog, itemInfo.Column, itemInfo.ItemInfo.Title, lineInfo.LineIndex),
+                e.Graphics.DrawImage(ResLoader.Read(itemInfo.Icon), e.Bounds.X + 8, e.Bounds.Y + 10, 24, 24);
+                e.Graphics.DrawString(string.Format("{2} ({0}/{1} Ln:{3})", itemInfo.GetCatalog(), itemInfo.GetColumn(), itemInfo.Title, lineInfo.LineIndex),
                     e.Item.Font, Brushes.White, e.Bounds.X + 8 + 30, e.Bounds.Y + 10, StringFormat.GenericDefault);
             }
 
@@ -189,9 +189,9 @@ namespace MemoHippo.UIS
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             var lineInfo = searchResults[selectLine.Index];
-            var itemInfo = MemoBook.Instance.FindItemInfo(int.Parse(lineInfo.Title.Replace(".rtf", "")));
+            var itemInfo = MemoBook.Instance.GetItem(int.Parse(lineInfo.Title.Replace(".rtf", "")));
 
-            Form1.ShowPaperPadEx(itemInfo.CatalogId, itemInfo.ItemInfo, lineInfo.Line.Trim());
+            Form1.ShowPaperPadEx(itemInfo.CatalogId, itemInfo, lineInfo.Line.Trim());
 
             PanelManager.Instance.HideBlackPanel();
         }

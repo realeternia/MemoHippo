@@ -95,11 +95,11 @@ namespace Text_Editor
             toolStripDropDownButtonCata.DropDownItems.Clear();
             foreach (var cr in tagItems)
             {
-                ToolStripMenuItem blueMenuItem = new ToolStripMenuItem(cr.ItemInfo.Title);
+                ToolStripMenuItem blueMenuItem = new ToolStripMenuItem(cr.Title);
                 blueMenuItem.BackColor = Color.FromArgb(24, 24, 24);
                 blueMenuItem.ForeColor = Color.White;
-                blueMenuItem.Image = ResLoader.Read(cr.ItemInfo.Icon);
-                blueMenuItem.Tag = cr.ItemInfo.Id;
+                blueMenuItem.Image = ResLoader.Read(cr.Icon);
+                blueMenuItem.Tag = cr.Id;
                 //     blueMenuItem.Click += ColorMenuItem_Click;
                 toolStripDropDownButtonCata.DropDownItems.Add(blueMenuItem);
             }

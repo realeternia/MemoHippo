@@ -1,6 +1,5 @@
 ﻿using MemoHippo.Model;
 using System.Collections.Generic;
-using YamlDotNet.Serialization;
 
 namespace MemoHippo
 {
@@ -10,6 +9,9 @@ namespace MemoHippo
         public static MemoBook Instance = new MemoBook();
 
         public List<MemoCatalogInfo> CatalogInfos = new List<MemoCatalogInfo>();
+
+        public List<MemoItemInfo> Items = new List<MemoItemInfo>();
+
         public int CatalogIndex = 1;
         public int ColumnIndex = 100001;
         public int ItemIndex = 200001;
@@ -40,69 +42,92 @@ namespace MemoHippo
             return CatalogInfos.Find(i => i.Id == id);
         }
 
-        public RTItemData FindItemInfo(int id)
+        public List<MemoItemInfo> GetItemsByCatalog(int catalogId)
         {
-            foreach(var ct in CatalogInfos)
+            var results = new List<MemoItemInfo>();
+            foreach (var item in Items)
+                if (item.CatalogId == catalogId)
+                    results.Add(item);
+
+            return results;
+        }
+        public List<MemoItemInfo> GetItemsByColumn(int colId)
+        {
+            var results = new List<MemoItemInfo>();
+            foreach (var item in Items)
+                if (item.ColumnId == colId)
+                    results.Add(item);
+
+            return results;
+        }
+
+        public MemoItemInfo GetItemByNickname(string nkName)
+        {
+            foreach (var item in Items)
             {
-                foreach (var col in ct.Columns)
+                if (item.NickName == nkName)
                 {
-                    foreach (var item in col.Items)
-                    {
-                        if(item.Id == id)
-                        {
-                            RTItemData itemData = new RTItemData();
-                            itemData.Catalog = ct.Name;
-                            itemData.CatalogId = ct.Id;
-                            itemData.Column = col.Title;
-                            itemData.ItemInfo = item;
-                            return itemData;
-                        }
-                    }
+                    return item;
                 }
             }
             return null;
         }
 
-        public MemoItemInfo GetIdFromNickname(string nkName)
+        public List<MemoItemInfo> FindItemInfosByTag(string tag, string revTag = "")
         {
-            foreach (var ct in CatalogInfos)
+            List<MemoItemInfo> rts = new List<MemoItemInfo>();
+            foreach (var item in Items)
             {
-                foreach (var col in ct.Columns)
+                if (item.HasTag(tag) && (string.IsNullOrEmpty(revTag) || !item.HasTag(revTag)))
                 {
-                    foreach (var item in col.Items)
-                    {
-                        if (item.NickName == nkName)
-                        {
-                            return item;
-                        }
-                    }
-                }
-            }
-            return null;
-        }
-
-        public List<RTItemData> FindItemInfosByTag(string tag, string revTag = "")
-        {
-            List<RTItemData> rts = new List<RTItemData>();
-            foreach (var ct in CatalogInfos)
-            {
-                foreach (var col in ct.Columns)
-                {
-                    foreach (var item in col.Items)
-                    {
-                        if (item.HasTag(tag) && (string.IsNullOrEmpty(revTag) || !item.HasTag(revTag)))
-                        {
-                            RTItemData itemData = new RTItemData();
-                            itemData.Catalog = ct.Name;
-                            itemData.CatalogId = ct.Id;
-                            itemData.Column = col.Title;
-                            itemData.ItemInfo = item;
-                            rts.Add(itemData);
-                        }
-                    }
+                    rts.Add(item);
                 }
             }
             return rts;
         }
+        public void MoveItem(MemoItemInfo itm, int checkId, bool afterNode)
+        {
+            Items.Remove(itm);
+
+            int off = 0;
+            foreach (var pickItem in Items)
+            {
+                if (pickItem.Id == checkId)
+                    break;
+                off++;
+            }
+
+            if (afterNode)
+                off++;
+
+            if (off < Items.Count)
+                Items.Insert(off, itm);
+            else
+                Items.Add(itm);
+        }
+        public MemoItemInfo AddItem(string title, int catalog, int column)
+        {
+            Instance.ItemIndex++;
+            var itmInfo = new MemoItemInfo();
+            itmInfo.Id = Instance.ItemIndex;
+            itmInfo.Title = title;
+            itmInfo.CatalogId = catalog;
+            itmInfo.ColumnId = column;
+            Items.Add(itmInfo);
+
+            return itmInfo;
+        }
+        public MemoItemInfo GetItem(int id)
+        {
+            return Items.Find(a => a.Id == id);
+        }
+
+        public MemoItemInfo RemoveItem(int id)
+        {
+            var itm = Items.Find(a => a.Id == id);
+            Items.Remove(itm);
+            return itm;
+        }
+
     }
 }

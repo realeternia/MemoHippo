@@ -13,6 +13,20 @@ namespace MemoHippo.Model
         public string Tag { get; set; }
         public string Icon { get; set; }
         public string Parm { get; set; } //额外数据
+        public int CatalogId { get; set; } 
+        public int ColumnId { get; set; } 
+
+        public string GetCatalog() { return MemoBook.Instance.CatalogInfos.Find(a => a.Id == CatalogId).Name; }
+        public string GetColumn()
+        {
+            foreach (var catalog in MemoBook.Instance.CatalogInfos)
+            {
+                var result = catalog.Columns.Find(a => a.Id == ColumnId);
+                if (result != null)
+                    return result.Title;
+            }
+            return null;
+        }
 
         public void SetParm(string key, string v)
         {
