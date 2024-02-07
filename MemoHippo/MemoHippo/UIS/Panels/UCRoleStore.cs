@@ -100,7 +100,7 @@ namespace MemoHippo.UIS
 
                     var itemIdStr = fi.Name;
                     int itemId = int.Parse(itemIdStr.Replace(".rtf", ""));
-                    var itemInfo = MemoBook.Instance.FindItemInfo(itemId);
+                    var itemInfo = MemoBook.Instance.GetItem(itemId);
                     if (itemInfo == null)
                         continue;
 

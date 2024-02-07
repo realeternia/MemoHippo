@@ -173,7 +173,7 @@ namespace MemoHippo
             if (viewStack1.SelectedIndex == 1)
             {
                 listMouseOnLine = null;
-                listCachedItems = nowCatalog.GetItems();
+                listCachedItems = MemoBook.Instance.GetItemsByCatalog(catalogId);
                 listView1.VirtualListSize = listCachedItems.Count;
             }
         }
@@ -241,7 +241,7 @@ namespace MemoHippo
                 return;
             }
 
-            ShowPaperPad(nowCatalog.GetColumn(args.ColumnId).GetItem(args.ItemId));
+            ShowPaperPad(MemoBook.Instance.GetItem(args.ItemId));
             if (args.FocusTitle)
                 textBoxRowItemTitle.Focus();
         }
@@ -427,7 +427,7 @@ namespace MemoHippo
             {
                 var fi = new FileInfo(file);
                 var itemId = fi.Name;
-                if (MemoBook.Instance.FindItemInfo(int.Parse(itemId.Replace(".rtf", ""))) == null)
+                if (MemoBook.Instance.GetCatalog(int.Parse(itemId.Replace(".rtf", ""))) == null)
                     File.Delete(file);
             }
         }
@@ -444,7 +444,7 @@ namespace MemoHippo
         private void toolStripMenuItemDelCol_Click(object sender, EventArgs e)
         {
             var columnId = int.Parse(rjDropdownMenuCol.Tag.ToString());
-            if (nowCatalog == null || nowCatalog.GetColumn(columnId).Items.Count > 0)
+            if (nowCatalog == null || MemoBook.Instance.GetItemsByColumn(columnId).Count > 0)
                 return;
 
             MemoBook.Instance.GetCatalog(nowCatalog.Id).RemoveColumn(columnId);
@@ -475,7 +475,7 @@ namespace MemoHippo
             var itemId = int.Parse(rjDropdownMenuRow.Tag.ToString());
             var columnCtr = rjDropdownMenuRow.Bind as UCTipColumn;
 
-            var itemInfo = columnCtr.ColumnInfo.GetItem(itemId);
+            var itemInfo = MemoBook.Instance.GetItem(itemId);
             if (itemInfo != null)
                 itemInfo.Type = type;
 
@@ -487,7 +487,7 @@ namespace MemoHippo
             var itemId = int.Parse(rjDropdownMenuRow.Tag.ToString());
             var columnCtr = rjDropdownMenuRow.Bind as UCTipColumn;
 
-            var itemInfo = columnCtr.ColumnInfo.RemoveItem(itemId);
+            var itemInfo = MemoBook.Instance.RemoveItem(itemId);
 
             var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, itemId);
             if (itemInfo.IsEncrypt())
@@ -503,7 +503,7 @@ namespace MemoHippo
             var itemId = int.Parse(rjDropdownMenuRow.Tag.ToString());
             var columnCtr = rjDropdownMenuRow.Bind as UCTipColumn;
 
-            var itemInfo = columnCtr.ColumnInfo.GetItem(itemId);
+            var itemInfo = MemoBook.Instance.GetItem(itemId);
             itemInfo.AddTag("存档");
 
             columnCtr.RefreshLabels();
@@ -514,7 +514,7 @@ namespace MemoHippo
             var itemId = int.Parse(rjDropdownMenuRow.Tag.ToString());
             var columnCtr = rjDropdownMenuRow.Bind as UCTipColumn;
 
-            var itemInfo = columnCtr.ColumnInfo.GetItem(itemId);
+            var itemInfo = MemoBook.Instance.GetItem(itemId);
             itemInfo.AddTag("汇总");
         }
 
@@ -523,7 +523,7 @@ namespace MemoHippo
             var itemId = int.Parse(rjDropdownMenuRow.Tag.ToString());
             var columnCtr = rjDropdownMenuRow.Bind as UCTipColumn;
 
-            var itemInfo = columnCtr.ColumnInfo.GetItem(itemId);
+            var itemInfo = MemoBook.Instance.GetItem(itemId);
             itemInfo.AddTag("加密");
         }
         #endregion
@@ -640,7 +640,7 @@ namespace MemoHippo
         {
             if (viewStack1.SelectedIndex == 1)
             {
-                listCachedItems = nowCatalog.GetItems();
+                listCachedItems = MemoBook.Instance.GetItemsByCatalog(catalogId);
                 listView1.VirtualListSize = listCachedItems.Count;
             }
         }
@@ -654,7 +654,7 @@ namespace MemoHippo
             else
             {
                 var lineInfo = listCachedItems[listMouseOnLine.Index];
-                ShowPaperPad(nowCatalog.FindItemInfo(lineInfo.Id));
+                ShowPaperPad(MemoBook.Instance.GetItem(lineInfo.Id));
             }
         }
 
