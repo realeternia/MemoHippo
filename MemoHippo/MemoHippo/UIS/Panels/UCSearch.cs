@@ -69,9 +69,14 @@ namespace MemoHippo.UIS
 
                     var itemIdStr = fi.Name;
                     int itemId = int.Parse(itemIdStr.Replace(".rtf", ""));
-                    var itemInfo = MemoBook.Instance.GetCatalog(itemId);
+                    var itemInfo = MemoBook.Instance.GetItem(itemId);
                     if (itemInfo == null)
                         continue;
+
+                    if(itemInfo.Title.Contains(searchTxt))
+                        searchResults.Add(new SearchData { Line = itemInfo.Title, Title = itemIdStr, CreateTime = fi.LastWriteTime, LineIndex = 0 });
+                    if (itemInfo.Tag.Contains(searchTxt))
+                        searchResults.Add(new SearchData { Line = itemInfo.Tag, Title = itemIdStr, CreateTime = fi.LastWriteTime, LineIndex = 0 });
 
                     string plainText = RtfModifier.ReadRtfPlainText(itemId);
 
