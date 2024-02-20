@@ -235,7 +235,6 @@
             // 
             // UCGmRunSvTime
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
@@ -258,6 +257,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "UCGmRunSvTime";
             this.Size = new System.Drawing.Size(384, 300);
+            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.UCGmRunSvTime_PreviewKeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -51,6 +51,7 @@ namespace MemoHippo
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.textBoxCatalogTitle = new MemoHippo.UIS.HintTextBox();
             this.doubleBufferedFlowLayoutPanel1 = new MemoHippo.UIS.DoubleBufferedFlowLayoutPanel();
+            this.ucDocTopBar1 = new MemoHippo.UIS.DocComp.UCDocTopBar();
             this.pictureBoxPaperIcon = new System.Windows.Forms.PictureBox();
             this.textBoxRowItemTitle = new MemoHippo.UIS.HintTextBox();
             this.uckvList1 = new MemoHippo.UIS.UCDocPropertyList();
@@ -66,6 +67,7 @@ namespace MemoHippo
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.commonToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.nikonToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemBook = new System.Windows.Forms.ToolStripMenuItem();
             this.ddlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCata = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCryto = new System.Windows.Forms.ToolStripMenuItem();
@@ -336,6 +338,7 @@ namespace MemoHippo
             // 
             // doubleBufferedFlowLayoutPanel1
             // 
+            this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.ucDocTopBar1);
             this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.pictureBoxPaperIcon);
             this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.textBoxRowItemTitle);
             this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.uckvList1);
@@ -347,10 +350,19 @@ namespace MemoHippo
             this.doubleBufferedFlowLayoutPanel1.TabIndex = 6;
             this.doubleBufferedFlowLayoutPanel1.SizeChanged += new System.EventHandler(this.doubleBufferedFlowLayoutPanel1_SizeChanged);
             // 
+            // ucDocTopBar1
+            // 
+            this.ucDocTopBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.ucDocTopBar1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.ucDocTopBar1.Location = new System.Drawing.Point(3, 3);
+            this.ucDocTopBar1.Name = "ucDocTopBar1";
+            this.ucDocTopBar1.Size = new System.Drawing.Size(476, 27);
+            this.ucDocTopBar1.TabIndex = 6;
+            // 
             // pictureBoxPaperIcon
             // 
-            this.pictureBoxPaperIcon.Location = new System.Drawing.Point(20, 45);
-            this.pictureBoxPaperIcon.Margin = new System.Windows.Forms.Padding(20, 45, 3, 20);
+            this.pictureBoxPaperIcon.Location = new System.Drawing.Point(20, 58);
+            this.pictureBoxPaperIcon.Margin = new System.Windows.Forms.Padding(20, 25, 3, 20);
             this.pictureBoxPaperIcon.Name = "pictureBoxPaperIcon";
             this.pictureBoxPaperIcon.Size = new System.Drawing.Size(32, 32);
             this.pictureBoxPaperIcon.TabIndex = 3;
@@ -367,8 +379,8 @@ namespace MemoHippo
             this.textBoxRowItemTitle.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.textBoxRowItemTitle.ForeColor = System.Drawing.SystemColors.GrayText;
             this.textBoxRowItemTitle.ForeColorDE = System.Drawing.Color.White;
-            this.textBoxRowItemTitle.Location = new System.Drawing.Point(65, 40);
-            this.textBoxRowItemTitle.Margin = new System.Windows.Forms.Padding(10, 40, 10, 20);
+            this.textBoxRowItemTitle.Location = new System.Drawing.Point(65, 53);
+            this.textBoxRowItemTitle.Margin = new System.Windows.Forms.Padding(10, 20, 10, 20);
             this.textBoxRowItemTitle.Name = "textBoxRowItemTitle";
             this.textBoxRowItemTitle.Size = new System.Drawing.Size(387, 40);
             this.textBoxRowItemTitle.TabIndex = 2;
@@ -381,7 +393,7 @@ namespace MemoHippo
             this.uckvList1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.uckvList1.BackColor = System.Drawing.Color.DarkBlue;
             this.uckvList1.BgColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.uckvList1.Location = new System.Drawing.Point(3, 103);
+            this.uckvList1.Location = new System.Drawing.Point(3, 116);
             this.uckvList1.Name = "uckvList1";
             this.uckvList1.Size = new System.Drawing.Size(491, 165);
             this.uckvList1.TabIndex = 5;
@@ -389,7 +401,7 @@ namespace MemoHippo
             // dasayEditor1
             // 
             this.dasayEditor1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.dasayEditor1.Location = new System.Drawing.Point(4, 273);
+            this.dasayEditor1.Location = new System.Drawing.Point(4, 286);
             this.dasayEditor1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dasayEditor1.Name = "dasayEditor1";
             this.dasayEditor1.Size = new System.Drawing.Size(491, 803);
@@ -493,6 +505,7 @@ namespace MemoHippo
             this.toolStripMenuItem3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.commonToolStripMenuItem1,
             this.nikonToolStripMenuItem1,
+            this.toolStripMenuItemBook,
             this.ddlToolStripMenuItem});
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
             this.toolStripMenuItem3.Size = new System.Drawing.Size(182, 28);
@@ -503,7 +516,7 @@ namespace MemoHippo
             this.commonToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.commonToolStripMenuItem1.ForeColor = System.Drawing.Color.White;
             this.commonToolStripMenuItem1.Name = "commonToolStripMenuItem1";
-            this.commonToolStripMenuItem1.Size = new System.Drawing.Size(162, 28);
+            this.commonToolStripMenuItem1.Size = new System.Drawing.Size(154, 28);
             this.commonToolStripMenuItem1.Text = "普通";
             this.commonToolStripMenuItem1.Click += new System.EventHandler(this.commonToolStripMenuItem_Click);
             // 
@@ -512,16 +525,25 @@ namespace MemoHippo
             this.nikonToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.nikonToolStripMenuItem1.ForeColor = System.Drawing.Color.White;
             this.nikonToolStripMenuItem1.Name = "nikonToolStripMenuItem1";
-            this.nikonToolStripMenuItem1.Size = new System.Drawing.Size(162, 28);
+            this.nikonToolStripMenuItem1.Size = new System.Drawing.Size(154, 28);
             this.nikonToolStripMenuItem1.Text = "轮播行";
             this.nikonToolStripMenuItem1.Click += new System.EventHandler(this.nikonToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItemBook
+            // 
+            this.toolStripMenuItemBook.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolStripMenuItemBook.ForeColor = System.Drawing.Color.White;
+            this.toolStripMenuItemBook.Name = "toolStripMenuItemBook";
+            this.toolStripMenuItemBook.Size = new System.Drawing.Size(154, 28);
+            this.toolStripMenuItemBook.Text = "图片预览";
+            this.toolStripMenuItemBook.Click += new System.EventHandler(this.toolStripMenuItemBook_Click);
             // 
             // ddlToolStripMenuItem
             // 
             this.ddlToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.ddlToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.ddlToolStripMenuItem.Name = "ddlToolStripMenuItem";
-            this.ddlToolStripMenuItem.Size = new System.Drawing.Size(162, 28);
+            this.ddlToolStripMenuItem.Size = new System.Drawing.Size(154, 28);
             this.ddlToolStripMenuItem.Text = "截止时间";
             this.ddlToolStripMenuItem.Click += new System.EventHandler(this.ddlToolStripMenuItem_Click);
             // 
@@ -625,6 +647,8 @@ namespace MemoHippo
         private System.Windows.Forms.ToolStripMenuItem ddlToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCata;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCryto;
+        private UIS.DocComp.UCDocTopBar ucDocTopBar1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemBook;
     }
 }
 

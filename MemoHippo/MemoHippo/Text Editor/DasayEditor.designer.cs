@@ -46,7 +46,6 @@
             this.toolStripDropDownButtonTemplate = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripTextBoxKeyText = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButtonFindNext = new System.Windows.Forms.ToolStripButton();
-            this.rjButtonLeftS = new RJControls.RJButton();
             this.ucToolbar1 = new Text_Editor.UCToolbar();
             this.richTextBox1 = new Text_Editor.RichTextBoxEx();
             this.rjDropdownMenuRightClick = new RJControls.RJDropdownMenu(this.components);
@@ -65,9 +64,16 @@
             this.toolStripMenuItemPeople = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemSearchCard = new System.Windows.Forms.ToolStripMenuItem();
             this.showlineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rjDropdownMenuLine = new RJControls.RJDropdownMenu(this.components);
+            this.toolStripMenuItemPName = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemEmotion = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemTime = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemLink = new System.Windows.Forms.ToolStripMenuItem();
+            this.rjButtonLeftS = new RJControls.RJButton();
             this.toolStrip1.SuspendLayout();
             this.rjDropdownMenuRightClick.SuspendLayout();
             this.rjDropdownMenuBar.SuspendLayout();
+            this.rjDropdownMenuLine.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -103,7 +109,7 @@
             this.undoStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.undoStripButton.Name = "undoStripButton";
             this.undoStripButton.Size = new System.Drawing.Size(29, 28);
-            this.undoStripButton.Text = "Undo Move";
+            this.undoStripButton.Text = "撤销";
             this.undoStripButton.Click += new System.EventHandler(this.undoStripButton_Click);
             // 
             // redoStripButton
@@ -113,7 +119,7 @@
             this.redoStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.redoStripButton.Name = "redoStripButton";
             this.redoStripButton.Size = new System.Drawing.Size(29, 28);
-            this.redoStripButton.Text = "Redo Move";
+            this.redoStripButton.Text = "重做";
             this.redoStripButton.Click += new System.EventHandler(this.redoStripButton_Click);
             // 
             // toolStripSeparator1
@@ -246,28 +252,6 @@
             this.toolStripButtonFindNext.Visible = false;
             this.toolStripButtonFindNext.Click += new System.EventHandler(this.toolStripButtonFindNext_Click);
             // 
-            // rjButtonLeftS
-            // 
-            this.rjButtonLeftS.BackColor = System.Drawing.Color.MediumSlateBlue;
-            this.rjButtonLeftS.BackgroundColor = System.Drawing.Color.MediumSlateBlue;
-            this.rjButtonLeftS.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.rjButtonLeftS.BorderRadius = 0;
-            this.rjButtonLeftS.BorderSize = 0;
-            this.rjButtonLeftS.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.rjButtonLeftS.FlatAppearance.BorderSize = 0;
-            this.rjButtonLeftS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rjButtonLeftS.ForeColor = System.Drawing.Color.White;
-            this.rjButtonLeftS.Image = global::MemoHippo.Properties.Resources.selector;
-            this.rjButtonLeftS.Location = new System.Drawing.Point(83, 325);
-            this.rjButtonLeftS.Margin = new System.Windows.Forms.Padding(0);
-            this.rjButtonLeftS.Name = "rjButtonLeftS";
-            this.rjButtonLeftS.Size = new System.Drawing.Size(21, 34);
-            this.rjButtonLeftS.TabIndex = 22;
-            this.rjButtonLeftS.TextColor = System.Drawing.Color.White;
-            this.rjButtonLeftS.UseVisualStyleBackColor = false;
-            this.rjButtonLeftS.Visible = false;
-            this.rjButtonLeftS.Click += new System.EventHandler(this.rjButtonLeftS_Click);
-            // 
             // ucToolbar1
             // 
             this.ucToolbar1.BackColor = System.Drawing.Color.White;
@@ -296,7 +280,6 @@
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             this.richTextBox1.WordWrap = false;
-            this.richTextBox1.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox1_LinkClicked);
             this.richTextBox1.SelectionChanged += new System.EventHandler(this.richTextBox1_SelectionChanged);
             this.richTextBox1.VScroll += new System.EventHandler(this.richTextBox1_VScroll);
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
@@ -458,6 +441,78 @@
             this.showlineToolStripMenuItem.Size = new System.Drawing.Size(232, 36);
             this.showlineToolStripMenuItem.Text = "查看文本";
             // 
+            // rjDropdownMenuLine
+            // 
+            this.rjDropdownMenuLine.BackColor = System.Drawing.Color.Black;
+            this.rjDropdownMenuLine.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.rjDropdownMenuLine.ForeColor = System.Drawing.Color.White;
+            this.rjDropdownMenuLine.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.rjDropdownMenuLine.IsMainMenu = false;
+            this.rjDropdownMenuLine.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemPName,
+            this.toolStripMenuItemEmotion,
+            this.toolStripMenuItemTime,
+            this.toolStripMenuItemLink});
+            this.rjDropdownMenuLine.MenuItemHeight = 25;
+            this.rjDropdownMenuLine.MenuItemTextColor = System.Drawing.Color.Empty;
+            this.rjDropdownMenuLine.Name = "rjDropdownMenu1";
+            this.rjDropdownMenuLine.PrimaryColor = System.Drawing.Color.Empty;
+            this.rjDropdownMenuLine.Size = new System.Drawing.Size(153, 116);
+            // 
+            // toolStripMenuItemPName
+            // 
+            this.toolStripMenuItemPName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolStripMenuItemPName.Image = global::MemoHippo.Properties.Resources.people;
+            this.toolStripMenuItemPName.Name = "toolStripMenuItemPName";
+            this.toolStripMenuItemPName.Size = new System.Drawing.Size(152, 28);
+            this.toolStripMenuItemPName.Text = "人员名";
+            // 
+            // toolStripMenuItemEmotion
+            // 
+            this.toolStripMenuItemEmotion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolStripMenuItemEmotion.Image = global::MemoHippo.Properties.Resources.emo;
+            this.toolStripMenuItemEmotion.Name = "toolStripMenuItemEmotion";
+            this.toolStripMenuItemEmotion.Size = new System.Drawing.Size(152, 28);
+            this.toolStripMenuItemEmotion.Text = "表情";
+            // 
+            // toolStripMenuItemTime
+            // 
+            this.toolStripMenuItemTime.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolStripMenuItemTime.Image = global::MemoHippo.Properties.Resources.time;
+            this.toolStripMenuItemTime.Name = "toolStripMenuItemTime";
+            this.toolStripMenuItemTime.Size = new System.Drawing.Size(152, 28);
+            this.toolStripMenuItemTime.Text = "时间";
+            // 
+            // toolStripMenuItemLink
+            // 
+            this.toolStripMenuItemLink.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolStripMenuItemLink.Image = global::MemoHippo.Properties.Resources.paper;
+            this.toolStripMenuItemLink.Name = "toolStripMenuItemLink";
+            this.toolStripMenuItemLink.Size = new System.Drawing.Size(152, 28);
+            this.toolStripMenuItemLink.Text = "页面外链";
+            // 
+            // rjButtonLeftS
+            // 
+            this.rjButtonLeftS.BackColor = System.Drawing.Color.MediumSlateBlue;
+            this.rjButtonLeftS.BackgroundColor = System.Drawing.Color.MediumSlateBlue;
+            this.rjButtonLeftS.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.rjButtonLeftS.BorderRadius = 0;
+            this.rjButtonLeftS.BorderSize = 0;
+            this.rjButtonLeftS.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rjButtonLeftS.FlatAppearance.BorderSize = 0;
+            this.rjButtonLeftS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rjButtonLeftS.ForeColor = System.Drawing.Color.White;
+            this.rjButtonLeftS.Image = global::MemoHippo.Properties.Resources.selector;
+            this.rjButtonLeftS.Location = new System.Drawing.Point(83, 325);
+            this.rjButtonLeftS.Margin = new System.Windows.Forms.Padding(0);
+            this.rjButtonLeftS.Name = "rjButtonLeftS";
+            this.rjButtonLeftS.Size = new System.Drawing.Size(21, 34);
+            this.rjButtonLeftS.TabIndex = 22;
+            this.rjButtonLeftS.TextColor = System.Drawing.Color.White;
+            this.rjButtonLeftS.UseVisualStyleBackColor = false;
+            this.rjButtonLeftS.Visible = false;
+            this.rjButtonLeftS.Click += new System.EventHandler(this.rjButtonLeftS_Click);
+            // 
             // DasayEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -474,6 +529,7 @@
             this.toolStrip1.PerformLayout();
             this.rjDropdownMenuRightClick.ResumeLayout(false);
             this.rjDropdownMenuBar.ResumeLayout(false);
+            this.rjDropdownMenuLine.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -481,7 +537,7 @@
 
         #endregion
 
-        private RichTextBoxEx richTextBox1;
+        public RichTextBoxEx richTextBox1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton undoStripButton;
@@ -516,5 +572,10 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSearchCard;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBoxKeyText;
         private System.Windows.Forms.ToolStripButton toolStripButtonFindNext;
+        private RJControls.RJDropdownMenu rjDropdownMenuLine;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPName;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEmotion;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTime;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemLink;
     }
 }
