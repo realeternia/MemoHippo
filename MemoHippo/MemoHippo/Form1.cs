@@ -1,4 +1,5 @@
 ﻿using MemoHippo.Model;
+using MemoHippo.Model.Types;
 using MemoHippo.UIS;
 using MemoHippo.Utils;
 using System;
@@ -35,6 +36,9 @@ namespace MemoHippo
 
             ucTipAdd1.button1.Click += columnNew_Click;
             ucListSelectBar1.OnIndexChanged = OnSelectBarIndexChanged;
+            dasayEditor1.richTextBox1.LinkClicked += new LinkClickedEventHandler(this.richTextBox1_LinkClicked);
+            ucDocTopBar1.buttonFormer.Click += ButtonFormer_Click;
+            ucDocTopBar1.buttonNext.Click += ButtonNext_Click;
 
             // 先隐藏面板
             HidePaperPad();
@@ -43,6 +47,7 @@ namespace MemoHippo
 
             PanelManager.Instance.Init(this);
         }
+
 
         private void Form1_Load(object sender, System.EventArgs e)
         {
@@ -247,24 +252,27 @@ namespace MemoHippo
         }
 
         //外部调用展示面板
-        public void ShowPaperPadEx(int catalogId, MemoItemInfo item, string searchTxt = "")
+        public void ShowPaperPadEx(MemoItemInfo item, ShowPaperParm parm)
         {
             foreach(UCCatalogItem ctr in flowLayoutPanel1.Controls)
             {
-                if(ctr != null && ctr.Id == catalogId)
+                if(ctr != null && ctr.Id == item.CatalogId)
                     SelectCatalogItem(ctr);
             }
 
-            ShowPaperPad(item, searchTxt);
+            ShowPaperPad(item, parm);
         }
 
-        private void ShowPaperPad(MemoItemInfo itemInfo, string searchTxt = "")
+        private void ShowPaperPad(MemoItemInfo itemInfo, ShowPaperParm parm = null)
         {
             if(itemInfo == null)
             {
                 HidePaperPad();
                 return;
             }
+
+            if (nowRowItem == itemInfo)
+                return;
 
             //更新选中
             if (nowRowItemCtr != null)
@@ -283,6 +291,7 @@ namespace MemoHippo
             nowRowItem = itemInfo;
             listView1.Invalidate(); //todo 有优化空间
 
+            doubleBufferedFlowLayoutPanel1.SuspendLayout();
             //更新显示文件内容
             textChangeLock = true;
             textBoxRowItemTitle.TrueText = nowRowItem.Title;
@@ -291,16 +300,20 @@ namespace MemoHippo
             textChangeLock = false;
             uckvList1.Init(itemInfo);
            // dasayEditor1.Location = new Point(uckvList1.Location.X, uckvList1.Location.Y + uckvList1.Height);
-            dasayEditor1.Height = splitContainer2.Panel2.Height - uckvList1.Location.Y - uckvList1.Height-10;
             dasayEditor1.LoadFile(nowRowItem);
 
             if (splitContainer2.SplitterDistance > splitContainer2.Width-10)
                 splitContainer2.SplitterDistance = Math.Min(lastDistance, Math.Max(0, splitContainer2.Width - 800));
 
-            if(!string.IsNullOrEmpty(searchTxt))
-            {
-                dasayEditor1.SearchTxt(searchTxt);
-            }
+            doubleBufferedFlowLayoutPanel1.ResumeLayout();
+
+            dasayEditor1.Height = splitContainer2.Panel2.Height - uckvList1.Location.Y - uckvList1.Height - 10;
+
+            if (parm != null && !string.IsNullOrEmpty(parm.SearchTxt))
+                dasayEditor1.SearchTxt(parm.SearchTxt);
+
+            if (parm == null || !parm.NoSaveHistory)
+                PageHistoryManager.Instance.Record(itemInfo.Id);
         }
 
         private int lastDistance;
@@ -331,9 +344,7 @@ namespace MemoHippo
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            var serializer = new SerializerBuilder().Build();
-            var yaml = serializer.Serialize(MemoBook.Instance);
-            File.WriteAllText(ENV.BaseDir + "/memo.yaml", yaml, Encoding.UTF8);
+            MemoBook.Instance.Save();
 
             HLog.Info("main form quit");
         }
@@ -470,6 +481,11 @@ namespace MemoHippo
             ChangeType((int)RowItemType.DDL);
         }
 
+        private void toolStripMenuItemBook_Click(object sender, EventArgs e)
+        {
+            ChangeType((int)RowItemType.BigPic);
+        }
+
         private void ChangeType(int type)
         {
             var itemId = int.Parse(rjDropdownMenuRow.Tag.ToString());
@@ -521,8 +537,6 @@ namespace MemoHippo
         private void toolStripMenuItemCryto_Click(object sender, EventArgs e)
         {
             var itemId = int.Parse(rjDropdownMenuRow.Tag.ToString());
-            var columnCtr = rjDropdownMenuRow.Bind as UCTipColumn;
-
             var itemInfo = MemoBook.Instance.GetItem(itemId);
             itemInfo.AddTag("加密");
         }
@@ -533,6 +547,7 @@ namespace MemoHippo
             dasayEditor1.Width = doubleBufferedFlowLayoutPanel1.Width;
             dasayEditor1.Height = doubleBufferedFlowLayoutPanel1.Height - uckvList1.Location.Y - uckvList1.Height-10;
             uckvList1.Width = doubleBufferedFlowLayoutPanel1.Width;
+            ucDocTopBar1.Width = doubleBufferedFlowLayoutPanel1.Width;
             textBoxRowItemTitle.Width = doubleBufferedFlowLayoutPanel1.Width-100;
         }
 
@@ -697,6 +712,30 @@ namespace MemoHippo
         {
             viewStack1.Height = splitContainer2.Panel1.Height - 135;
             viewStack1.Width = splitContainer2.Panel1.Width;
+        }
+
+        private void richTextBox1_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            if(e.LinkText.StartsWith("file://"))
+            {
+                var id = int.Parse(e.LinkText.Substring(7));
+                ShowPaperPad(MemoBook.Instance.GetItem(id));
+                return;
+            }
+
+            System.Diagnostics.Process.Start(e.LinkText);
+        }
+        private void ButtonFormer_Click(object sender, EventArgs e)
+        {
+            var pageId = PageHistoryManager.Instance.FindFormer();
+            if (pageId > 0)
+                ShowPaperPad(MemoBook.Instance.GetItem(pageId), new ShowPaperParm { NoSaveHistory = true });
+        }
+        private void ButtonNext_Click(object sender, EventArgs e)
+        {
+            var pageId = PageHistoryManager.Instance.FindNext();
+            if (pageId > 0)
+                ShowPaperPad(MemoBook.Instance.GetItem(pageId), new ShowPaperParm { NoSaveHistory = true });
         }
 
     }

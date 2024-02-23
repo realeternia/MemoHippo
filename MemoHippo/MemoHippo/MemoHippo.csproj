@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>MemoHippo</RootNamespace>
     <AssemblyName>MemoHippo</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -22,7 +22,8 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -72,8 +73,15 @@
     <Compile Include="Model\IRowItem.cs" />
     <Compile Include="Model\MemoBookCfg.cs" />
     <Compile Include="Model\Types\ColorCfg.cs" />
+    <Compile Include="Model\Types\ShowPaperParm.cs" />
     <Compile Include="PanelManager.cs" />
     <Compile Include="UIS\DocComp\IDocComp.cs" />
+    <Compile Include="UIS\DocComp\UCDocTopBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\DocComp\UCDocTopBar.Designer.cs">
+      <DependentUpon>UCDocTopBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIS\DoubleBufferedTabPage.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -102,6 +110,9 @@
       <DependentUpon>UCListSelectBar.cs</DependentUpon>
     </Compile>
     <Compile Include="UIS\Main\UCRowDDL.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\Main\UCRowBigPic.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UIS\Panels\UCGmRunSvTime.cs">
@@ -310,6 +321,7 @@
     <Compile Include="Model\MemoCatalogInfo.cs" />
     <Compile Include="Utils\DrawTool.cs" />
     <Compile Include="Utils\FontMgr.cs" />
+    <Compile Include="Utils\PageHistoryManager.cs" />
     <Compile Include="Utils\MathTool.cs" />
     <Compile Include="Utils\ResLoader.cs" />
     <Compile Include="Program.cs" />
@@ -377,6 +389,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UIS\DocComp\UCDocTopBar.resx">
+      <DependentUpon>UCDocTopBar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UIS\InputNumberBox.resx">
       <DependentUpon>InputNumberBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -391,6 +406,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Main\UCRowDDL.resx">
       <DependentUpon>UCRowDDL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\Main\UCRowBigPic.resx">
+      <DependentUpon>UCRowBigPic.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCGmRunSvTime.resx">
       <DependentUpon>UCGmRunSvTime.cs</DependentUpon>
@@ -534,6 +552,7 @@
     <None Include="Resources\null.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\time.png" />
     <None Include="Resources\store.png" />
     <None Include="Resources\wheel.png" />
     <None Include="Resources\trace.png" />
@@ -549,6 +568,8 @@
     <None Include="Resources\bold.png" />
     <None Include="Resources\clearformat.png" />
     <None Include="Resources\bubble.png" />
+    <None Include="Resources\arrowdown.png" />
+    <None Include="Resources\arrowup.png" />
     <Content Include="Resources\convert.jpg" />
     <Content Include="Resources\copy.jpg" />
     <Content Include="Resources\del.jpg" />
@@ -559,6 +580,9 @@
     <None Include="Resources\iter.png" />
     <None Include="Resources\main.png" />
     <None Include="Resources\eye.png" />
+    <None Include="Resources\emo.png" />
+    <None Include="Resources\paper.png" />
+    <None Include="Resources\people.png" />
     <Content Include="Resources\pictureadd.png" />
     <Content Include="Resources\picturepaste.png" />
     <Content Include="Resources\selector.jpg" />

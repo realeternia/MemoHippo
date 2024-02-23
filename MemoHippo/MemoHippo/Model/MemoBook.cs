@@ -1,5 +1,8 @@
 ﻿using MemoHippo.Model;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using YamlDotNet.Serialization;
 
 namespace MemoHippo
 {
@@ -17,12 +20,21 @@ namespace MemoHippo
         public int ItemIndex = 200001;
         public MemoBookCfg Cfg = new MemoBookCfg();
 
+        public void Save()
+        {
+            var serializer = new SerializerBuilder().Build();
+            var yaml = serializer.Serialize(this);
+            File.WriteAllText(ENV.BaseDir + "/memo.yaml", yaml, Encoding.UTF8);
+        }
+
         public MemoCatalogInfo AddCatalog()
         {
             var newCatalog = new MemoCatalogInfo { Id = CatalogIndex, Name = "" };
             CatalogIndex++;
             newCatalog.AddColumn("");
             CatalogInfos.Add(newCatalog);
+
+            Save();
 
             return newCatalog;
         }
@@ -33,6 +45,8 @@ namespace MemoHippo
             if (target == null)
                 return null;
             CatalogInfos.Remove(target);
+
+            Save();
 
             return target;
         }
@@ -105,6 +119,7 @@ namespace MemoHippo
             else
                 Items.Add(itm);
         }
+
         public MemoItemInfo AddItem(string title, int catalog, int column)
         {
             Instance.ItemIndex++;
@@ -114,6 +129,8 @@ namespace MemoHippo
             itmInfo.CatalogId = catalog;
             itmInfo.ColumnId = column;
             Items.Add(itmInfo);
+
+            Save();
 
             return itmInfo;
         }
@@ -126,8 +143,15 @@ namespace MemoHippo
         {
             var itm = Items.Find(a => a.Id == id);
             Items.Remove(itm);
+
+            Save();
+
             return itm;
         }
 
+        public string[] GetAllPageInfos()
+        {
+            return Items.ConvertAll(a => string.Format("{1}@{0}", a.Id, a.Title)).ToArray();
+        }
     }
 }

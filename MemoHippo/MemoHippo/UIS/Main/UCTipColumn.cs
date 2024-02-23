@@ -38,7 +38,8 @@ namespace MemoHippo
         {
             Common=1,
             Nikon,
-            DDL
+            DDL,
+            BigPic,
         }
 
 
@@ -123,6 +124,8 @@ namespace MemoHippo
                     labelCtr = FindAndRemove<UCRowNikon>() ?? new UCRowNikon();
                 else if (memoItem.Type == (int)RowItemType.DDL)
                     labelCtr = FindAndRemove<UCRowDDL>() ?? new UCRowDDL();
+                else if (memoItem.Type == (int)RowItemType.BigPic)
+                    labelCtr = FindAndRemove<UCRowBigPic>() ?? new UCRowBigPic();
                 else
                     labelCtr = FindAndRemove<UCRowCommon>() ?? new UCRowCommon();
 

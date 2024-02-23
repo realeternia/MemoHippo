@@ -1,6 +1,8 @@
 ﻿using MemoHippo.UIS;
 using MemoHippo.UIS.Panels;
+using MemoHippo.Utils;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -14,16 +16,16 @@ namespace MemoHippo
         private UCSearch searchForm;
         private UCRoleStore roleStore;
         private UCIconPicker iconPicker;
-        private UCNInput peoplePanel;
+        private UCNInput intputPanel;
         private UCBigBox bigBox;
         private UCSettingBar setupBar;
         private InputTextBox inputBox;
         private InputNumberBox numberBox;
         private InputArrayBox arrayBox;
         private InputColorBox colorBox;
-        private UCGmRunSvTime timePicker;
+        private UCGmRunSvTime timePicker; 
 
-        public void Init(Form1 form)
+        public void Init(Form1 form) 
         {
             form1 = form;
         }
@@ -81,16 +83,36 @@ namespace MemoHippo
 
         public void ShowPeopleForm(int x, int y, Action<string> act)
         {
-            if (peoplePanel == null)
+            if (intputPanel == null)
             {
-                peoplePanel = new UCNInput();
+                intputPanel = new UCNInput();
             }
 
-            peoplePanel.AfterSelect = act;
+            intputPanel.Mode = UCNInput.UCNInputMode.Name;
+            intputPanel.AfterSelect = act;
 
-            ReLocate(ref x, ref y, peoplePanel.Size);
-            ShowBlackPanel(peoplePanel, x, y, 1);
-            peoplePanel.OnInit(MemoBook.Instance.Cfg.PeopleNames);
+            ReLocate(ref x, ref y, intputPanel.Size);
+            ShowBlackPanel(intputPanel, x, y, 1);
+
+            List<string> names = RoleDB.Instance.DB.GetValuesByHeader("姓名");
+            names.AddRange(MemoBook.Instance.Cfg.PeopleNames);
+            names.Sort();
+            intputPanel.OnInit(names.ToArray());
+        }
+
+        public void ShowPageForm(int x, int y, Action<string> act)
+        {
+            if (intputPanel == null)
+            {
+                intputPanel = new UCNInput();
+            }
+
+            intputPanel.Mode = UCNInput.UCNInputMode.String;
+            intputPanel.AfterSelect = act;
+
+            ReLocate(ref x, ref y, intputPanel.Size);
+            ShowBlackPanel(intputPanel, x, y, 1);
+            intputPanel.OnInit(MemoBook.Instance.GetAllPageInfos());
         }
 
         public void ShowBigBox(string rtf)

@@ -7,12 +7,15 @@ namespace MemoHippo.UIS.Panels
 {
     public partial class UCNInput : UserControl
     {
+        public enum UCNInputMode { String, Name };
+
         private int textHintIndex;
         private bool isAutoComplete;
         private static string[] wordList = new string[0];
         private List<string> results = new List<string>(); //当前显示的结果列表
 
         public Action<string> AfterSelect;
+        public UCNInputMode Mode;
 
         public UCNInput()
         {
@@ -71,10 +74,12 @@ namespace MemoHippo.UIS.Panels
             if (e.KeyCode == Keys.Enter)
             {
                 buttonOk.PerformClick();
-                //if (AfterSelect != null)
-                //    AfterSelect(textBoxText.Text.Split('-')[0]);
-
-                //PanelManager.Instance.HideBlackPanel();
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                if (AfterSelect != null)
+                    AfterSelect("");
+                PanelManager.Instance.HideBlackPanel();
             }
         }
 
@@ -109,20 +114,32 @@ namespace MemoHippo.UIS.Panels
                     continue;
                 }
 
-                var matchTxts = matchTxt.Split('-');
-                // 拼音匹配前半部分
-                if (ConvertPinyinName(matchTxts[0]).StartsWith(nowText) || matchTxt.StartsWith(nowText))
+                if (Mode == UCNInputMode.Name)
                 {
-                    results.Add(matchTxt);
-                    continue;
+                    var matchTxts = matchTxt.Split('-');
+                    // 拼音匹配前半部分
+                    if (ConvertPinyinName(matchTxts[0]).StartsWith(nowText) || matchTxt.Contains(nowText))
+                    {
+                        results.Add(matchTxt);
+                        continue;
+                    }
+
+                    //匹配后半部分的描述
+                    if (matchTxts.Length > 1 && matchTxts[1].Contains(nowText))
+                    {
+                        results.Add(matchTxt);
+                        continue;
+                    }
+                }
+                else if (Mode == UCNInputMode.String)
+                {
+                    if (matchTxt.Contains(nowText))
+                    {
+                        results.Add(matchTxt);
+                        continue;
+                    }
                 }
 
-                //匹配后半部分的描述
-                if(matchTxts.Length > 1 && matchTxts[1].Contains(nowText))
-                {
-                    results.Add(matchTxt);
-                    continue;
-                }
             }
 
             listBox1.Items.Clear();
@@ -144,6 +161,9 @@ namespace MemoHippo.UIS.Panels
 
         private void buttonOk_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(textBoxText.Text))
+                return;
+
             if (AfterSelect != null)
                 AfterSelect(textBoxText.Text.Split('-')[0]);
 
