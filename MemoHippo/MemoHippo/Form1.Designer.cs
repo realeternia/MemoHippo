@@ -34,12 +34,13 @@ namespace MemoHippo
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.ucCatalogRoleStore = new MemoHippo.UCCatalogFix();
             this.ucCatalogNew = new MemoHippo.UCCatalogFix();
             this.ucCatalogSearch = new MemoHippo.UCCatalogFix();
             this.ucCatalogSetup = new MemoHippo.UCCatalogFix();
             this.flowLayoutPanel1 = new MemoHippo.UIS.DoubleBufferedFlowLayoutPanel();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.ucListSelectBar1 = new MemoHippo.UIS.Main.UCListSelectBar();
             this.viewStack1 = new MemoHippo.UIS.ViewStack();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -48,14 +49,17 @@ namespace MemoHippo
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.listView1 = new MemoHippo.UIS.DoubleBufferedListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.textBoxCatalogTitle = new MemoHippo.UIS.HintTextBox();
             this.doubleBufferedFlowLayoutPanel1 = new MemoHippo.UIS.DoubleBufferedFlowLayoutPanel();
             this.ucDocTopBar1 = new MemoHippo.UIS.DocComp.UCDocTopBar();
             this.pictureBoxPaperIcon = new System.Windows.Forms.PictureBox();
             this.textBoxRowItemTitle = new MemoHippo.UIS.HintTextBox();
             this.uckvList1 = new MemoHippo.UIS.UCDocPropertyList();
+            this.ucListSelectBar2 = new MemoHippo.UIS.Main.UCListSelectBar();
+            this.viewStack2 = new MemoHippo.UIS.ViewStack();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dasayEditor1 = new Text_Editor.DasayEditor();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.panelBlack = new MemoHippo.UIS.TransparentPanel();
             this.rjDropdownMenuCol = new RJControls.RJDropdownMenu(this.components);
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,6 +76,7 @@ namespace MemoHippo
             this.toolStripMenuItemCata = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCryto = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.imageGallery1 = new MemoHippo.UIS.Main.ImageGallery();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -86,6 +91,9 @@ namespace MemoHippo
             this.tabPage2.SuspendLayout();
             this.doubleBufferedFlowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPaperIcon)).BeginInit();
+            this.viewStack2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.rjDropdownMenuCol.SuspendLayout();
             this.rjDropdownMenuCatlog.SuspendLayout();
             this.rjDropdownMenuRow.SuspendLayout();
@@ -113,6 +121,37 @@ namespace MemoHippo
             this.splitContainer1.Size = new System.Drawing.Size(1813, 1078);
             this.splitContainer1.SplitterDistance = 240;
             this.splitContainer1.TabIndex = 3;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.ucListSelectBar1);
+            this.splitContainer2.Panel1.Controls.Add(this.viewStack1);
+            this.splitContainer2.Panel1.Controls.Add(this.textBoxCatalogTitle);
+            this.splitContainer2.Panel1.Click += new System.EventHandler(this.splitContainer2_Panel1_Click);
+            this.splitContainer2.Panel1.Resize += new System.EventHandler(this.splitContainer2_Panel1_Resize);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.splitContainer2.Panel2.Controls.Add(this.doubleBufferedFlowLayoutPanel1);
+            this.splitContainer2.Panel2MinSize = 0;
+            this.splitContainer2.Size = new System.Drawing.Size(1569, 1078);
+            this.splitContainer2.SplitterDistance = 1074;
+            this.splitContainer2.TabIndex = 0;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(40, 40);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // ucCatalogRoleStore
             // 
@@ -180,31 +219,6 @@ namespace MemoHippo
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(240, 918);
             this.flowLayoutPanel1.TabIndex = 0;
-            // 
-            // splitContainer2
-            // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.splitContainer2.Name = "splitContainer2";
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.ucListSelectBar1);
-            this.splitContainer2.Panel1.Controls.Add(this.viewStack1);
-            this.splitContainer2.Panel1.Controls.Add(this.textBoxCatalogTitle);
-            this.splitContainer2.Panel1.Click += new System.EventHandler(this.splitContainer2_Panel1_Click);
-            this.splitContainer2.Panel1.Resize += new System.EventHandler(this.splitContainer2_Panel1_Resize);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.splitContainer2.Panel2.Controls.Add(this.doubleBufferedFlowLayoutPanel1);
-            this.splitContainer2.Panel2MinSize = 0;
-            this.splitContainer2.Size = new System.Drawing.Size(1569, 1078);
-            this.splitContainer2.SplitterDistance = 1074;
-            this.splitContainer2.TabIndex = 0;
             // 
             // ucListSelectBar1
             // 
@@ -313,12 +327,6 @@ namespace MemoHippo
             // 
             this.columnHeader1.Width = 50;
             // 
-            // imageList1
-            // 
-            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageList1.ImageSize = new System.Drawing.Size(40, 40);
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            // 
             // textBoxCatalogTitle
             // 
             this.textBoxCatalogTitle.BackColor = System.Drawing.Color.Black;
@@ -342,7 +350,8 @@ namespace MemoHippo
             this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.pictureBoxPaperIcon);
             this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.textBoxRowItemTitle);
             this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.uckvList1);
-            this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.dasayEditor1);
+            this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.ucListSelectBar2);
+            this.doubleBufferedFlowLayoutPanel1.Controls.Add(this.viewStack2);
             this.doubleBufferedFlowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.doubleBufferedFlowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.doubleBufferedFlowLayoutPanel1.Name = "doubleBufferedFlowLayoutPanel1";
@@ -398,14 +407,60 @@ namespace MemoHippo
             this.uckvList1.Size = new System.Drawing.Size(491, 165);
             this.uckvList1.TabIndex = 5;
             // 
+            // ucListSelectBar2
+            // 
+            this.ucListSelectBar2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.ucListSelectBar2.Font = new System.Drawing.Font("微软雅黑", 10.8F);
+            this.ucListSelectBar2.ForeColor = System.Drawing.Color.White;
+            this.ucListSelectBar2.Location = new System.Drawing.Point(3, 287);
+            this.ucListSelectBar2.Name = "ucListSelectBar2";
+            this.ucListSelectBar2.SelectedIndex = 0;
+            this.ucListSelectBar2.Size = new System.Drawing.Size(208, 35);
+            this.ucListSelectBar2.TabIndex = 9;
+            this.ucListSelectBar2.TabNames = "说明|图片";
+            // 
+            // viewStack2
+            // 
+            this.viewStack2.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
+            this.viewStack2.Controls.Add(this.tabPage3);
+            this.viewStack2.Controls.Add(this.tabPage4);
+            this.viewStack2.Location = new System.Drawing.Point(3, 328);
+            this.viewStack2.Name = "viewStack2";
+            this.viewStack2.SelectedIndex = 0;
+            this.viewStack2.Size = new System.Drawing.Size(491, 746);
+            this.viewStack2.TabIndex = 7;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.dasayEditor1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 28);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(483, 714);
+            this.tabPage3.TabIndex = 0;
+            this.tabPage3.Text = "tabPage3";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
             // dasayEditor1
             // 
             this.dasayEditor1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.dasayEditor1.Location = new System.Drawing.Point(4, 286);
+            this.dasayEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dasayEditor1.Location = new System.Drawing.Point(3, 3);
             this.dasayEditor1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dasayEditor1.Name = "dasayEditor1";
-            this.dasayEditor1.Size = new System.Drawing.Size(491, 803);
+            this.dasayEditor1.Size = new System.Drawing.Size(477, 708);
             this.dasayEditor1.TabIndex = 0;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.imageGallery1);
+            this.tabPage4.Location = new System.Drawing.Point(4, 28);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(483, 714);
+            this.tabPage4.TabIndex = 1;
+            this.tabPage4.Text = "tabPage4";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // panelBlack
             // 
@@ -572,6 +627,15 @@ namespace MemoHippo
             this.toolStripMenuItem2.Text = "删除";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.deleteToolStripMenuItemRow_Click);
             // 
+            // imageGallery1
+            // 
+            this.imageGallery1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageGallery1.Location = new System.Drawing.Point(3, 3);
+            this.imageGallery1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.imageGallery1.Name = "imageGallery1";
+            this.imageGallery1.Size = new System.Drawing.Size(477, 708);
+            this.imageGallery1.TabIndex = 0;
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -602,6 +666,9 @@ namespace MemoHippo
             this.doubleBufferedFlowLayoutPanel1.ResumeLayout(false);
             this.doubleBufferedFlowLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPaperIcon)).EndInit();
+            this.viewStack2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
             this.rjDropdownMenuCol.ResumeLayout(false);
             this.rjDropdownMenuCatlog.ResumeLayout(false);
             this.rjDropdownMenuRow.ResumeLayout(false);
@@ -649,6 +716,11 @@ namespace MemoHippo
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCryto;
         private UIS.DocComp.UCDocTopBar ucDocTopBar1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemBook;
+        private ViewStack viewStack2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage tabPage4;
+        private UIS.Main.UCListSelectBar ucListSelectBar2;
+        private UIS.Main.ImageGallery imageGallery1;
     }
 }
 

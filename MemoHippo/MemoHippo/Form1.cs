@@ -33,9 +33,11 @@ namespace MemoHippo
             InitializeComponent();
 
             dasayEditor1.ParentC = this;
+           imageGallery1.ParentC = this;
 
             ucTipAdd1.button1.Click += columnNew_Click;
             ucListSelectBar1.OnIndexChanged = OnSelectBarIndexChanged;
+            ucListSelectBar2.OnIndexChanged = OnSelectBar2IndexChanged;
             dasayEditor1.richTextBox1.LinkClicked += new LinkClickedEventHandler(this.richTextBox1_LinkClicked);
             ucDocTopBar1.buttonFormer.Click += ButtonFormer_Click;
             ucDocTopBar1.buttonNext.Click += ButtonNext_Click;
@@ -301,13 +303,21 @@ namespace MemoHippo
             uckvList1.Init(itemInfo);
            // dasayEditor1.Location = new Point(uckvList1.Location.X, uckvList1.Location.Y + uckvList1.Height);
             dasayEditor1.LoadFile(nowRowItem);
+            ucListSelectBar2.TabNames = string.Format("描述 {0:0.0}k|图片 {1} 张", (float)itemInfo.GetFileLength() / 1024, itemInfo.GetImageCount());
+            if (ucListSelectBar2.SelectedIndex != 0)
+            { //切回首页
+                ucListSelectBar2.SelectedIndex = 0;
+                viewStack2.SelectedIndex = 0;
+            }
+            ucListSelectBar2.Invalidate();
 
-            if (splitContainer2.SplitterDistance > splitContainer2.Width-10)
+
+            if (splitContainer2.SplitterDistance > splitContainer2.Width-45)
                 splitContainer2.SplitterDistance = Math.Min(lastDistance, Math.Max(0, splitContainer2.Width - 800));
 
             doubleBufferedFlowLayoutPanel1.ResumeLayout();
 
-            dasayEditor1.Height = splitContainer2.Panel2.Height - uckvList1.Location.Y - uckvList1.Height - 10;
+            viewStack2.Height = splitContainer2.Panel2.Height - uckvList1.Location.Y - uckvList1.Height - 45;
 
             if (parm != null && !string.IsNullOrEmpty(parm.SearchTxt))
                 dasayEditor1.SearchTxt(parm.SearchTxt);
@@ -544,8 +554,8 @@ namespace MemoHippo
 
         private void doubleBufferedFlowLayoutPanel1_SizeChanged(object sender, EventArgs e)
         {
-            dasayEditor1.Width = doubleBufferedFlowLayoutPanel1.Width;
-            dasayEditor1.Height = doubleBufferedFlowLayoutPanel1.Height - uckvList1.Location.Y - uckvList1.Height-10;
+            viewStack2.Width = doubleBufferedFlowLayoutPanel1.Width;
+            viewStack2.Height = doubleBufferedFlowLayoutPanel1.Height - uckvList1.Location.Y - uckvList1.Height-45;
             uckvList1.Width = doubleBufferedFlowLayoutPanel1.Width;
             ucDocTopBar1.Width = doubleBufferedFlowLayoutPanel1.Width;
             textBoxRowItemTitle.Width = doubleBufferedFlowLayoutPanel1.Width-100;
@@ -705,6 +715,14 @@ namespace MemoHippo
         private void OnSelectBarIndexChanged(int idx)
         {
             viewStack1.SelectedIndex = idx;
+        }
+        private void OnSelectBar2IndexChanged(int idx)
+        {
+            viewStack2.SelectedIndex = idx;
+            if (idx == 1)
+            {
+                imageGallery1.Init(nowRowItem);
+            }
         }
         #endregion
 

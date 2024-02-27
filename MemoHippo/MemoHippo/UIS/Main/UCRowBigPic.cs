@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MemoHippo.Utils;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -9,7 +10,6 @@ namespace MemoHippo
     public class UCRowBigPic : UCRowCommon
     {
         public override RowItemType Type { get { return RowItemType.BigPic; } }
-        private Image bmp;
 
         public UCRowBigPic() 
             : base()
@@ -24,16 +24,7 @@ namespace MemoHippo
 
         public override void AfterInit()
         {
-            if (!Directory.Exists(ENV.ImgDir))
-                return;
 
-            var fullPath = string.Format("{0}/{1}.jpg", ENV.ImgDir, ItemId);
-            if (File.Exists(fullPath))
-            {
-                bmp = Image.FromFile(fullPath);
-                return;
-            }
-            bmp = Image.FromFile(string.Format("{0}/d.jpg", ENV.ImgDir));
         }
 
         public override void OnRemove()
@@ -45,6 +36,16 @@ namespace MemoHippo
             DrawBase(e);
 
             var drawRect = new Rectangle(2, 37, Width-4, Height - 39);
+            Image bmp;
+            var fullPath = string.Format("{0}/{1}/cover.jpg", ENV.ImgDir, ItemId);
+            if (File.Exists(fullPath))
+            {
+                bmp = ImageBook.Instance.Load(fullPath);
+            }
+            else
+            {
+                bmp = ImageBook.Instance.Load(string.Format("{0}/d.jpg", ENV.ImgDir));
+            }
             if (bmp != null)
             {
                 // 计算缩放比例

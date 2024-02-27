@@ -1,4 +1,5 @@
 ﻿using MemoHippo.UIS;
+using MemoHippo.UIS.ImageView;
 using MemoHippo.UIS.Panels;
 using MemoHippo.Utils;
 using System;
@@ -25,6 +26,7 @@ namespace MemoHippo
         private InputColorBox colorBox;
         private UCGmRunSvTime timePicker;
         private UCEditImage editImage;
+        private KpImageViewer imageViewer;
 
         public void Init(Form1 form) 
         {
@@ -225,7 +227,16 @@ namespace MemoHippo
             ShowBlackPanel(editImage, 0, 0);
             editImage.OnInit(img);
         }
+        public void ShowImageViewer(string path)
+        {
+            if (imageViewer == null)
+            {
+                imageViewer = new KpImageViewer();
+            }
 
+            ShowBlackPanel(imageViewer, 0, 0);
+            imageViewer.OnInit(path);
+        }
 
         public void ShowBlackPanel(Control ctr, int x, int y, float bright = 0.5f)
         {
