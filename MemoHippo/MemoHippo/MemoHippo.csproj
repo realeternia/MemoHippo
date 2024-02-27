@@ -115,6 +115,12 @@
     <Compile Include="UIS\Main\UCRowBigPic.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UIS\Panels\UCEditImage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\Panels\UCEditImage.designer.cs">
+      <DependentUpon>UCEditImage.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIS\Panels\UCGmRunSvTime.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -409,6 +415,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Main\UCRowBigPic.resx">
       <DependentUpon>UCRowBigPic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\Panels\UCEditImage.resx">
+      <DependentUpon>UCEditImage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCGmRunSvTime.resx">
       <DependentUpon>UCGmRunSvTime.cs</DependentUpon>
