@@ -31,9 +31,11 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DasayEditor));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripTextBoxKeyText = new System.Windows.Forms.ToolStripTextBox();
             this.undoStripButton = new System.Windows.Forms.ToolStripButton();
             this.redoStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.imgStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonScreen = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonEmo = new System.Windows.Forms.ToolStripButton();
@@ -42,19 +44,20 @@
             this.toolStripButtonFollow = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonShare = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMain = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripDropDownButtonTemplate = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripTextBoxKeyText = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButtonFindNext = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonFormatNotion = new System.Windows.Forms.ToolStripButton();
+            this.rjButtonLeftS = new RJControls.RJButton();
             this.ucToolbar1 = new Text_Editor.UCToolbar();
             this.richTextBox1 = new Text_Editor.RichTextBoxEx();
             this.rjDropdownMenuRightClick = new RJControls.RJDropdownMenu(this.components);
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rjDropdownMenuBar = new RJControls.RJDropdownMenu(this.components);
-            this.textToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.textToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bulletToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.head1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.head2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,7 +72,6 @@
             this.toolStripMenuItemEmotion = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTime = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemLink = new System.Windows.Forms.ToolStripMenuItem();
-            this.rjButtonLeftS = new RJControls.RJButton();
             this.toolStrip1.SuspendLayout();
             this.rjDropdownMenuRightClick.SuspendLayout();
             this.rjDropdownMenuBar.SuspendLayout();
@@ -95,12 +97,30 @@
             this.toolStripSeparator2,
             this.toolStripDropDownButtonTemplate,
             this.toolStripTextBoxKeyText,
-            this.toolStripButtonFindNext});
+            this.toolStripButtonFindNext,
+            this.toolStripButtonFormatNotion});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1029, 31);
             this.toolStrip1.TabIndex = 16;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
+            // 
+            // toolStripTextBoxKeyText
+            // 
+            this.toolStripTextBoxKeyText.ForeColor = System.Drawing.Color.Black;
+            this.toolStripTextBoxKeyText.Name = "toolStripTextBoxKeyText";
+            this.toolStripTextBoxKeyText.Size = new System.Drawing.Size(120, 31);
+            this.toolStripTextBoxKeyText.Visible = false;
             // 
             // undoStripButton
             // 
@@ -108,7 +128,7 @@
             this.undoStripButton.Image = ((System.Drawing.Image)(resources.GetObject("undoStripButton.Image")));
             this.undoStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.undoStripButton.Name = "undoStripButton";
-            this.undoStripButton.Size = new System.Drawing.Size(29, 28);
+            this.undoStripButton.Size = new System.Drawing.Size(28, 28);
             this.undoStripButton.Text = "撤销";
             this.undoStripButton.Click += new System.EventHandler(this.undoStripButton_Click);
             // 
@@ -118,14 +138,9 @@
             this.redoStripButton.Image = ((System.Drawing.Image)(resources.GetObject("redoStripButton.Image")));
             this.redoStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.redoStripButton.Name = "redoStripButton";
-            this.redoStripButton.Size = new System.Drawing.Size(29, 28);
+            this.redoStripButton.Size = new System.Drawing.Size(28, 28);
             this.redoStripButton.Text = "重做";
             this.redoStripButton.Click += new System.EventHandler(this.redoStripButton_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // imgStripButton
             // 
@@ -133,7 +148,7 @@
             this.imgStripButton.Image = global::MemoHippo.Properties.Resources.pictureadd;
             this.imgStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.imgStripButton.Name = "imgStripButton";
-            this.imgStripButton.Size = new System.Drawing.Size(29, 28);
+            this.imgStripButton.Size = new System.Drawing.Size(28, 28);
             this.imgStripButton.Text = "插入图片";
             this.imgStripButton.Click += new System.EventHandler(this.imgStripButton_Click);
             // 
@@ -143,7 +158,7 @@
             this.toolStripButtonScreen.Image = global::MemoHippo.Properties.Resources.picturepaste;
             this.toolStripButtonScreen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonScreen.Name = "toolStripButtonScreen";
-            this.toolStripButtonScreen.Size = new System.Drawing.Size(29, 28);
+            this.toolStripButtonScreen.Size = new System.Drawing.Size(28, 28);
             this.toolStripButtonScreen.Text = "黏贴图片";
             this.toolStripButtonScreen.Click += new System.EventHandler(this.toolStripButtonScreen_Click);
             // 
@@ -153,7 +168,7 @@
             this.toolStripButtonEmo.Image = global::MemoHippo.Properties.Resources.smile;
             this.toolStripButtonEmo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonEmo.Name = "toolStripButtonEmo";
-            this.toolStripButtonEmo.Size = new System.Drawing.Size(29, 28);
+            this.toolStripButtonEmo.Size = new System.Drawing.Size(28, 28);
             this.toolStripButtonEmo.Text = "添加表情";
             this.toolStripButtonEmo.Click += new System.EventHandler(this.toolStripButtonEmo_Click);
             // 
@@ -163,7 +178,7 @@
             this.toolStripButtonTodo.Image = global::MemoHippo.Properties.Resources.add;
             this.toolStripButtonTodo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonTodo.Name = "toolStripButtonTodo";
-            this.toolStripButtonTodo.Size = new System.Drawing.Size(29, 28);
+            this.toolStripButtonTodo.Size = new System.Drawing.Size(28, 28);
             this.toolStripButtonTodo.Tag = "todo";
             this.toolStripButtonTodo.Text = "添加/移除TODO";
             this.toolStripButtonTodo.ToolTipText = "添加/移除TODO";
@@ -175,7 +190,7 @@
             this.toolStripButtonDone.Image = global::MemoHippo.Properties.Resources.done1;
             this.toolStripButtonDone.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonDone.Name = "toolStripButtonDone";
-            this.toolStripButtonDone.Size = new System.Drawing.Size(29, 28);
+            this.toolStripButtonDone.Size = new System.Drawing.Size(28, 28);
             this.toolStripButtonDone.Tag = "done";
             this.toolStripButtonDone.Text = "添加/移除DONE";
             this.toolStripButtonDone.ToolTipText = "添加/移除DONE";
@@ -187,7 +202,7 @@
             this.toolStripButtonFollow.Image = global::MemoHippo.Properties.Resources.follow;
             this.toolStripButtonFollow.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonFollow.Name = "toolStripButtonFollow";
-            this.toolStripButtonFollow.Size = new System.Drawing.Size(29, 28);
+            this.toolStripButtonFollow.Size = new System.Drawing.Size(28, 28);
             this.toolStripButtonFollow.Tag = "follow";
             this.toolStripButtonFollow.Text = "添加/移除FOLLOW";
             this.toolStripButtonFollow.ToolTipText = "添加/移除FOLLOW";
@@ -199,7 +214,7 @@
             this.toolStripButtonShare.Image = global::MemoHippo.Properties.Resources.share;
             this.toolStripButtonShare.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonShare.Name = "toolStripButtonShare";
-            this.toolStripButtonShare.Size = new System.Drawing.Size(29, 28);
+            this.toolStripButtonShare.Size = new System.Drawing.Size(28, 28);
             this.toolStripButtonShare.Tag = "share";
             this.toolStripButtonShare.Text = "添加/移除SHARE";
             this.toolStripButtonShare.ToolTipText = "添加/移除SHARE";
@@ -211,16 +226,11 @@
             this.toolStripButtonMain.Image = global::MemoHippo.Properties.Resources.main;
             this.toolStripButtonMain.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonMain.Name = "toolStripButtonMain";
-            this.toolStripButtonMain.Size = new System.Drawing.Size(29, 28);
+            this.toolStripButtonMain.Size = new System.Drawing.Size(28, 28);
             this.toolStripButtonMain.Tag = "main";
             this.toolStripButtonMain.Text = "添加/移除MAIN";
             this.toolStripButtonMain.ToolTipText = "添加/移除MAIN";
             this.toolStripButtonMain.Click += new System.EventHandler(this.toolStripButtonTodo_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
             // 
             // toolStripDropDownButtonTemplate
             // 
@@ -233,14 +243,6 @@
             this.toolStripDropDownButtonTemplate.Size = new System.Drawing.Size(53, 28);
             this.toolStripDropDownButtonTemplate.Text = "模板";
             // 
-            // toolStripTextBoxKeyText
-            // 
-            this.toolStripTextBoxKeyText.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F);
-            this.toolStripTextBoxKeyText.ForeColor = System.Drawing.Color.Black;
-            this.toolStripTextBoxKeyText.Name = "toolStripTextBoxKeyText";
-            this.toolStripTextBoxKeyText.Size = new System.Drawing.Size(120, 31);
-            this.toolStripTextBoxKeyText.Visible = false;
-            // 
             // toolStripButtonFindNext
             // 
             this.toolStripButtonFindNext.ForeColor = System.Drawing.Color.Black;
@@ -251,6 +253,39 @@
             this.toolStripButtonFindNext.Text = "下一个";
             this.toolStripButtonFindNext.Visible = false;
             this.toolStripButtonFindNext.Click += new System.EventHandler(this.toolStripButtonFindNext_Click);
+            // 
+            // toolStripButtonFormatNotion
+            // 
+            this.toolStripButtonFormatNotion.ForeColor = System.Drawing.Color.Black;
+            this.toolStripButtonFormatNotion.Image = global::MemoHippo.Properties.Resources.notion;
+            this.toolStripButtonFormatNotion.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonFormatNotion.Name = "toolStripButtonFormatNotion";
+            this.toolStripButtonFormatNotion.Size = new System.Drawing.Size(82, 28);
+            this.toolStripButtonFormatNotion.Text = "转格式";
+            this.toolStripButtonFormatNotion.ToolTipText = "notion文档格式转换";
+            this.toolStripButtonFormatNotion.Click += new System.EventHandler(this.toolStripButtonFormatNotion_Click);
+            // 
+            // rjButtonLeftS
+            // 
+            this.rjButtonLeftS.BackColor = System.Drawing.Color.MediumSlateBlue;
+            this.rjButtonLeftS.BackgroundColor = System.Drawing.Color.MediumSlateBlue;
+            this.rjButtonLeftS.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.rjButtonLeftS.BorderRadius = 0;
+            this.rjButtonLeftS.BorderSize = 0;
+            this.rjButtonLeftS.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rjButtonLeftS.FlatAppearance.BorderSize = 0;
+            this.rjButtonLeftS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rjButtonLeftS.ForeColor = System.Drawing.Color.White;
+            this.rjButtonLeftS.Image = global::MemoHippo.Properties.Resources.selector;
+            this.rjButtonLeftS.Location = new System.Drawing.Point(83, 325);
+            this.rjButtonLeftS.Margin = new System.Windows.Forms.Padding(0);
+            this.rjButtonLeftS.Name = "rjButtonLeftS";
+            this.rjButtonLeftS.Size = new System.Drawing.Size(21, 34);
+            this.rjButtonLeftS.TabIndex = 22;
+            this.rjButtonLeftS.TextColor = System.Drawing.Color.White;
+            this.rjButtonLeftS.UseVisualStyleBackColor = false;
+            this.rjButtonLeftS.Visible = false;
+            this.rjButtonLeftS.Click += new System.EventHandler(this.rjButtonLeftS_Click);
             // 
             // ucToolbar1
             // 
@@ -300,12 +335,13 @@
             this.cutToolStripMenuItem,
             this.copyToolStripMenuItem,
             this.pasteToolStripMenuItem,
+            this.findToolStripMenuItem,
             this.removeToolStripMenuItem});
             this.rjDropdownMenuRightClick.MenuItemHeight = 25;
             this.rjDropdownMenuRightClick.MenuItemTextColor = System.Drawing.Color.Empty;
             this.rjDropdownMenuRightClick.Name = "rjDropdownMenu1";
             this.rjDropdownMenuRightClick.PrimaryColor = System.Drawing.Color.Empty;
-            this.rjDropdownMenuRightClick.Size = new System.Drawing.Size(178, 116);
+            this.rjDropdownMenuRightClick.Size = new System.Drawing.Size(178, 144);
             // 
             // cutToolStripMenuItem
             // 
@@ -331,6 +367,13 @@
             this.pasteToolStripMenuItem.Size = new System.Drawing.Size(177, 28);
             this.pasteToolStripMenuItem.Text = "黏贴";
             // 
+            // findToolStripMenuItem
+            // 
+            this.findToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.findToolStripMenuItem.Name = "findToolStripMenuItem";
+            this.findToolStripMenuItem.Size = new System.Drawing.Size(177, 28);
+            this.findToolStripMenuItem.Text = "查找";
+            // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
@@ -346,7 +389,7 @@
             this.rjDropdownMenuBar.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.rjDropdownMenuBar.IsMainMenu = false;
             this.rjDropdownMenuBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.textToolStripMenuItem1,
+            this.textToolStripMenuItem,
             this.bulletToolStripMenuItem,
             this.head1ToolStripMenuItem,
             this.head2ToolStripMenuItem,
@@ -362,13 +405,13 @@
             this.rjDropdownMenuBar.PrimaryColor = System.Drawing.Color.Empty;
             this.rjDropdownMenuBar.Size = new System.Drawing.Size(233, 334);
             // 
-            // textToolStripMenuItem1
+            // textToolStripMenuItem
             // 
-            this.textToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.textToolStripMenuItem1.Image = global::MemoHippo.Properties.Resources.brush;
-            this.textToolStripMenuItem1.Name = "textToolStripMenuItem1";
-            this.textToolStripMenuItem1.Size = new System.Drawing.Size(232, 36);
-            this.textToolStripMenuItem1.Text = "转为文本";
+            this.textToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.textToolStripMenuItem.Image = global::MemoHippo.Properties.Resources.brush;
+            this.textToolStripMenuItem.Name = "textToolStripMenuItem";
+            this.textToolStripMenuItem.Size = new System.Drawing.Size(232, 36);
+            this.textToolStripMenuItem.Text = "转为文本";
             // 
             // bulletToolStripMenuItem
             // 
@@ -491,28 +534,6 @@
             this.toolStripMenuItemLink.Size = new System.Drawing.Size(152, 28);
             this.toolStripMenuItemLink.Text = "页面外链";
             // 
-            // rjButtonLeftS
-            // 
-            this.rjButtonLeftS.BackColor = System.Drawing.Color.MediumSlateBlue;
-            this.rjButtonLeftS.BackgroundColor = System.Drawing.Color.MediumSlateBlue;
-            this.rjButtonLeftS.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.rjButtonLeftS.BorderRadius = 0;
-            this.rjButtonLeftS.BorderSize = 0;
-            this.rjButtonLeftS.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.rjButtonLeftS.FlatAppearance.BorderSize = 0;
-            this.rjButtonLeftS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rjButtonLeftS.ForeColor = System.Drawing.Color.White;
-            this.rjButtonLeftS.Image = global::MemoHippo.Properties.Resources.selector;
-            this.rjButtonLeftS.Location = new System.Drawing.Point(83, 325);
-            this.rjButtonLeftS.Margin = new System.Windows.Forms.Padding(0);
-            this.rjButtonLeftS.Name = "rjButtonLeftS";
-            this.rjButtonLeftS.Size = new System.Drawing.Size(21, 34);
-            this.rjButtonLeftS.TabIndex = 22;
-            this.rjButtonLeftS.TextColor = System.Drawing.Color.White;
-            this.rjButtonLeftS.UseVisualStyleBackColor = false;
-            this.rjButtonLeftS.Visible = false;
-            this.rjButtonLeftS.Click += new System.EventHandler(this.rjButtonLeftS_Click);
-            // 
             // DasayEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -550,7 +571,7 @@
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonTemplate;
         private RJControls.RJButton rjButtonLeftS;
         private RJControls.RJDropdownMenu rjDropdownMenuBar;
-        private System.Windows.Forms.ToolStripMenuItem textToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem textToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bulletToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem head1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem head2ToolStripMenuItem;
@@ -577,5 +598,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEmotion;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTime;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemLink;
+        private System.Windows.Forms.ToolStripMenuItem findToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton toolStripButtonFormatNotion;
     }
 }

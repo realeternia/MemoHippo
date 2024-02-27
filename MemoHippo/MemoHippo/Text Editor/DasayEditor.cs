@@ -67,9 +67,9 @@ namespace Text_Editor
             this.ucToolbar1.head1ToolStripMenuItem.Click += barhead1ToolStripMenuItem_Click;
             this.ucToolbar1.head2ToolStripMenuItem.Click += barhead2ToolStripMenuItem_Click;
             this.ucToolbar1.head3ToolStripMenuItem.Click += barhead3ToolStripMenuItem_Click;
-            ucToolbar1.qutoToolStripMenuItem.Click += barqutoToolStripMenuItem_Click;
+            this.ucToolbar1.qutoToolStripMenuItem.Click += barqutoToolStripMenuItem_Click;
 
-            textToolStripMenuItem1.Click += textListStripButton_Click;
+            textToolStripMenuItem.Click += textListStripButton_Click;
             bulletToolStripMenuItem.Click += bulletListStripButton_Click;
             head1ToolStripMenuItem.Click += head1ToolStripMenuItem_Click;
             head2ToolStripMenuItem.Click += head2ToolStripMenuItem_Click;
@@ -80,7 +80,8 @@ namespace Text_Editor
             cutToolStripMenuItem.Click += cutToolStripMenuItem_Click;
             copyToolStripMenuItem.Click += copyToolStripMenuItem_Click;
             pasteToolStripMenuItem.Click += pasteToolStripMenuItem_Click;
-            removeToolStripMenuItem.Click += deleteStripMenuItem_Click;
+            removeToolStripMenuItem.Click += removeToolStripMenuItem_Click;
+            findToolStripMenuItem.Click += findToolStripMenuItem_Click;
 
             toolStripMenuItemPName.Click += ToolStripMenuItemPName_Click;
             toolStripMenuItemTime.Click += ToolStripMenuItemTime_Click;
@@ -478,9 +479,17 @@ namespace Text_Editor
             richTextBox1.Redo();    // redo
         }
 
-        private void deleteStripMenuItem_Click(object sender, EventArgs e)
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             richTextBox1.SelectedText = ""; // delete selected text
+        }
+
+        private void findToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(richTextBox1.SelectedText))
+                return;
+
+            PanelManager.Instance.ShowSearchForm(richTextBox1.SelectedText);
         }
 
         private void clearFormattingStripButton_Click(object sender, EventArgs e)
@@ -1092,9 +1101,97 @@ namespace Text_Editor
             DoSearch();
         }
 
-        private void richTextBox1_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void toolStripButtonFormatNotion_Click(object sender, EventArgs e)
         {
+            richTextBox1.SuspendPainting();
 
+            for (int i = 0; i < richTextBox1.Lines.Length; i++)
+            {
+                string line = richTextBox1.Lines[i];
+                var lineStart = richTextBox1.GetFirstCharIndexFromLine(i);
+
+                if (line.StartsWith("        - "))
+                {
+                    RichtextSelect(lineStart, 10);
+                    richTextBox1.SelectedText = "";
+                    richTextBox1.SelectionIndent = 90;
+                    SetLineFormatCommon(new int[] { i }, bulletMarker[richTextBox1.SelectionIndent / 30].ToString(), 12, 0, false);
+                }
+                else if (line.StartsWith("    - "))
+                {
+                    RichtextSelect(lineStart, 6);
+                    richTextBox1.SelectedText = "";
+                    richTextBox1.SelectionIndent = 60;
+                    SetLineFormatCommon(new int[] { i }, bulletMarker[richTextBox1.SelectionIndent / 30].ToString(), 12, 0, false);
+                }
+                else if (line.StartsWith("- "))
+                {
+                    RichtextSelect(lineStart, 2);
+                    richTextBox1.SelectedText = "";
+                    richTextBox1.SelectionIndent = 30;
+                    SetLineFormatCommon(new int[] { i }, bulletMarker[richTextBox1.SelectionIndent / 30].ToString(), 12, 0, false);
+                }
+                else if (line.StartsWith("### "))
+                {
+                    RichtextSelect(lineStart, 3);
+                    richTextBox1.SelectedText = "";
+
+                    SetLineFormatCommon(new int[] { i }, "", 16, -10, true);
+                }
+                else if (line.StartsWith("## "))
+                {
+                    RichtextSelect(lineStart, 3);
+                    richTextBox1.SelectedText = "";
+
+                    SetLineFormatCommon(new int[] { i }, "", 18, -30, true);
+                }
+                else
+                {
+                    SetLineFormatCommon(new int[] { i }, "", 12, 0, false);
+                }
+            }
+
+            for (int i = 0; i < richTextBox1.Lines.Length; i++)
+            {
+                string line = richTextBox1.Lines[i];
+                var lineStart = richTextBox1.GetFirstCharIndexFromLine(i);
+                if (!CheckBold(i, line, "**"))
+                    CheckBold(i, line, "*");
+            }
+
+            richTextBox1.ResumePainting();
+            richTextBox1.Invalidate();
+        }
+
+        private bool CheckBold(int i, string line, string marker)
+        {
+            // 寻找第一个 *
+            int firstAsterisk = line.IndexOf(marker);
+
+            // 如果找到第一个 *，则继续寻找第二个 *
+            if (firstAsterisk != -1)
+            {
+                int secondAsterisk = line.IndexOf(marker, firstAsterisk + marker.Length);
+
+                // 如果找到第二个 *，则处理文本
+                if (secondAsterisk != -1)
+                {
+                    var lineStart = richTextBox1.GetFirstCharIndexFromLine(i);
+                    int selectionLength = secondAsterisk - firstAsterisk - marker.Length;
+
+                    RichtextSelect(lineStart + firstAsterisk + marker.Length, selectionLength);
+                    richTextBox1.SelectionFont = new Font(richTextBox1.Font, FontStyle.Bold);
+
+                    // 删除第一个 * 和第二个 *
+                    RichtextSelect(lineStart + secondAsterisk, marker.Length);
+                    richTextBox1.SelectedText = "";
+                    RichtextSelect(lineStart + firstAsterisk, marker.Length);
+                    richTextBox1.SelectedText = "";
+
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
