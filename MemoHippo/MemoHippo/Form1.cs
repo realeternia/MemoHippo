@@ -734,10 +734,17 @@ namespace MemoHippo
 
         private void richTextBox1_LinkClicked(object sender, LinkClickedEventArgs e)
         {
-            if(e.LinkText.StartsWith("file://"))
+            if(e.LinkText.StartsWith("file://page/"))
             {
-                var id = int.Parse(e.LinkText.Substring(7));
+                var id = int.Parse(e.LinkText.Substring(7 + 5));
                 ShowPaperPad(MemoBook.Instance.GetItem(id));
+                return;
+            }
+            else if (e.LinkText.StartsWith("file://img/"))
+            {
+                var filePath = e.LinkText.Substring(7 + 4);
+                if (File.Exists(ENV.ImgDir + filePath))
+                    PanelManager.Instance.ShowImageViewer(ENV.ImgDir + filePath);
                 return;
             }
 

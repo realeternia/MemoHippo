@@ -36,7 +36,7 @@ namespace MemoHippo.UIS.Main
             foreach (var path in Directory.GetFiles(ENV.ImgDir + itemInfo.Id))
             {
                 var showItem = new UCImageGalleryItem();
-                showItem.Init(path);
+                showItem.Init(itemInfo.Id, path);
                 doubleBufferedFlowLayoutPanel1.Controls.Add(showItem);
             }
         }
