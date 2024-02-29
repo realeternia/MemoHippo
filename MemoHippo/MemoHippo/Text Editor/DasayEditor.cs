@@ -29,7 +29,6 @@ namespace Text_Editor
         };
 
         private MemoItemInfo memoItemInfo;
-        private string filenamee;    // file opened inside of RTB
         public Form1 ParentC;
         private bool checkChangeLock = true;
         private bool hasModify;
@@ -98,7 +97,7 @@ namespace Text_Editor
                     {
                         var menuItem = o as ToolStripMenuItem;
                         richTextBox1.LoadFile(ENV.TemplateDir + menuItem.Text, RichTextBoxStreamType.RichText);
-                        var ttl = string.Format("{0}{1}", fileName.Replace(".rtf", ""), DateTime.Now.ToString("yy.MM.dd"));
+                        var ttl = string.Format("{0}{1}", fileName.Replace(".rtf", ""), DateTime.Now.ToString("yy.MM.dd")); //--模板
                         ParentC.SetRowTitleInfo(ttl, "Work/285665_calendar_calendar.png");
                     };
                 }
@@ -201,7 +200,17 @@ namespace Text_Editor
             }
         }
 
-        public void Save(bool checkSaveAct)
+        public void SaveOnClose()
+        {
+            if (memoItemInfo != null)
+            {
+                // 立刻存档，并且取消timer
+                if (hasModify || memoItemInfo.GetAndResetDirty())
+                    DelayedExecutor.Trigger("desaySave", 0, () => Save(true));
+            }
+        }
+
+        private void Save(bool checkSaveAct)
         {
             if (checkSaveAct)
             {//修改过才会重新highlight
@@ -214,33 +223,20 @@ namespace Text_Editor
             {
                 string tempFilePath = Path.GetTempFileName();
                 richTextBox1.SaveFile(tempFilePath, RichTextBoxStreamType.RichText);
-              
-                FileEncryption.EncryptFile(tempFilePath, filenamee.Replace(".rtf", ".rz"));
-                File.Delete(filenamee); //如果有未加密文件存在，删一下
+                FileEncryption.EncryptFile(tempFilePath, memoItemInfo.GetPath());
             }
             else
             {
-                richTextBox1.SaveFile(filenamee, RichTextBoxStreamType.RichText);
-                File.Delete(filenamee.Replace(".rtf", ".rz")); //如果有加密文件存在，删一下
+                richTextBox1.SaveFile(memoItemInfo.GetPath(), RichTextBoxStreamType.RichText);
             }
             
-            HLog.Info("SaveFile {0} finish checkSaveAct={1}", filenamee, checkSaveAct);
+            HLog.Info("SaveFile {0} finish checkSaveAct={1}", memoItemInfo.Id, checkSaveAct);
         }
 
         public void LoadFile(MemoItemInfo itemInfo)
         {
-            if (!string.IsNullOrEmpty(filenamee))
-            {
-                // 立刻存档，并且取消timer
-                if (hasModify)
-                    DelayedExecutor.Trigger("desaySave", 0, () => Save(true));
-            }
-
             memoItemInfo = itemInfo;
-            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, memoItemInfo.Id);
-            filenamee = fullPath;
-            if (memoItemInfo.IsEncrypt())
-                fullPath = fullPath.Replace(".rtf", ".rz");
+            var fullPath = memoItemInfo.GetPath();
             hasModify = false;
 
             checkChangeLock = false;
@@ -661,14 +657,16 @@ namespace Text_Editor
                     }
 
                     break;
-                case Keys.OemQuestion: //表情
-                    RichtextSelect(richTextBox1.SelectionStart - 1, 1);
-                    richTextBox1.SelectedText = "";
 
-                    Point cursorLocation = richTextBox1.GetPositionFromCharIndex(richTextBox1.SelectionStart);
-                    rjDropdownMenuLine.Show(richTextBox1, cursorLocation.X + 10, cursorLocation.Y + 10);
+            }
 
-                    break;
+            if (e.KeyCode == Keys.OemQuestion && !e.Shift)
+            {
+                RichtextSelect(richTextBox1.SelectionStart - 1, 1);
+                richTextBox1.SelectedText = "";
+
+                Point cursorLocation = richTextBox1.GetPositionFromCharIndex(richTextBox1.SelectionStart);
+                rjDropdownMenuLine.Show(richTextBox1, cursorLocation.X + 10, cursorLocation.Y + 10);
             }
         }
 

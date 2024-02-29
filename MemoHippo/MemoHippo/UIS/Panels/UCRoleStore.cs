@@ -89,45 +89,45 @@ namespace MemoHippo.UIS
                     return;
                 }
 
-                foreach (var file in Directory.GetFiles(ENV.SaveDir))
+                foreach (var itemInfo in MemoBook.Instance.Items)
                 {
-                    var fi = new FileInfo(file);
-                    if (fi.Extension != ".rtf")
+                    if (itemInfo.IsEncrypt())
                         continue;
 
-                    if (fi.LastWriteTime < searchBegin)
-                        continue;
-
-                    var itemIdStr = fi.Name;
-                    int itemId = int.Parse(itemIdStr.Replace(".rtf", ""));
-                    var itemInfo = MemoBook.Instance.GetItem(itemId);
-                    if (itemInfo == null)
-                        continue;
-
-                    string plainText = RtfModifier.ReadRtfPlainText(itemId);
-
-                    int lineid = 0;
-                    foreach (var line in plainText.Split('\n'))
+                    var fullPath = itemInfo.GetPath();
+                    if (File.Exists(fullPath))
                     {
-                        bool hit = false;
-                        if(searchTxt == "all")
-                        {
-                            foreach (var s in nameList)
-                                if (line.IndexOf(s) >= 0)
-                                {
-                                    hit = true;
-                                    break;
-                                }
-                        }   
-                        else
-                        {
-                            if (line.IndexOf(searchTxt) >= 0)
-                                hit = true;
-                        }
-                        if (hit && !line.Contains("url")) //url里一般有减号，剔除掉
-                            searchResults.Add(new SearchData { Line = line.Trim(), Title = itemIdStr, CreateTime = fi.CreationTime, LineIndex = lineid + 1 });
+                        var fi = new FileInfo(fullPath);
+                        if (fi.LastWriteTime < searchBegin)
+                            continue;
 
-                        lineid++;
+                        var itemIdStr = fi.Name;
+
+                        string plainText = RtfModifier.ReadRtfPlainText(itemInfo.Id);
+
+                        int lineid = 0;
+                        foreach (var line in plainText.Split('\n'))
+                        {
+                            bool hit = false;
+                            if (searchTxt == "all")
+                            {
+                                foreach (var s in nameList)
+                                    if (line.IndexOf(s) >= 0)
+                                    {
+                                        hit = true;
+                                        break;
+                                    }
+                            }
+                            else
+                            {
+                                if (line.IndexOf(searchTxt) >= 0)
+                                    hit = true;
+                            }
+                            if (hit && !line.Contains("url")) //url里一般有减号，剔除掉
+                                searchResults.Add(new SearchData { Line = line.Trim(), Title = itemIdStr, CreateTime = fi.CreationTime, LineIndex = lineid + 1 });
+
+                            lineid++;
+                        }
                     }
                 }
 

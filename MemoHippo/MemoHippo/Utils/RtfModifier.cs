@@ -59,20 +59,16 @@ namespace MemoHippo.Utils
             while (pos >= box.Text.Length || box.Text[pos] != str[0]);
         }
 
-        public static string ReadRtfPlainText(int itemId, bool checkEncryto = false)
+        public static string ReadRtfPlainText(int itemId)
         {
-            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, itemId);
             var itemInfo = MemoBook.Instance.GetItem(itemId);
-            if (checkEncryto && itemInfo.IsEncrypt())
-            {
-                fullPath = fullPath.Replace(".rtf", ".rz");
-            }
+            var fullPath = itemInfo.GetPath();
 
             if (!File.Exists(fullPath)) 
                 return "";
 
             string fileData;
-            if (checkEncryto && itemInfo.IsEncrypt())
+            if (itemInfo.IsEncrypt())
             {
                 string tempFilePath = Path.GetTempFileName();
                 FileEncryption.DecryptFile(fullPath, tempFilePath);
