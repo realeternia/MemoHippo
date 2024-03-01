@@ -747,6 +747,13 @@ namespace MemoHippo
                     PanelManager.Instance.ShowImageViewer(ENV.ImgDir + filePath);
                 return;
             }
+            else if (e.LinkText.StartsWith("file://url/"))
+            {
+                var filePath = e.LinkText.Substring(7 + 4);
+                var realPath = CsvDbHouse.Instance.UrlDb.GetValueByKey(filePath, "url");
+                System.Diagnostics.Process.Start(realPath);
+                return;
+            }
 
             System.Diagnostics.Process.Start(e.LinkText);
         }

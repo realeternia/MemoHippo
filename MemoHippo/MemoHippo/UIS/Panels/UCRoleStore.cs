@@ -43,8 +43,7 @@ namespace MemoHippo.UIS
 
             if (nameList.Count == 0)
             {
-                var db = RoleDB.Instance.DB;
-                db = CsvDb.Create("rolelist");
+                var db = CsvDbHouse.Instance.RoleDb;
                 nameList = db.GetValuesByHeader("姓名", "职级", (a, b) => { return int.Parse(b.Substring(1)) - int.Parse(a.Substring(1)); });
                 rjComboBoxKey.Items.Add("all");
                 rjComboBoxKey.Items.AddRange(nameList.ToArray());
@@ -212,7 +211,7 @@ namespace MemoHippo.UIS
                 return;
             }
 
-            var db = RoleDB.Instance.DB;
+            var db = CsvDbHouse.Instance.RoleDb;
             var enterTime = db.GetValueByKey(searchTxt, "入职日期");
             DateTime startDate = DateTime.ParseExact(enterTime, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             labelTime.Text = CalculateMonthDifference(startDate, DateTime.Now).ToString() + "月";

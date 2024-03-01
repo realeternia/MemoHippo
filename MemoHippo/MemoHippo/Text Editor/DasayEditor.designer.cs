@@ -31,11 +31,9 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DasayEditor));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripTextBoxKeyText = new System.Windows.Forms.ToolStripTextBox();
             this.undoStripButton = new System.Windows.Forms.ToolStripButton();
             this.redoStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.imgStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonScreen = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonEmo = new System.Windows.Forms.ToolStripButton();
@@ -44,7 +42,9 @@
             this.toolStripButtonFollow = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonShare = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMain = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripDropDownButtonTemplate = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripTextBoxKeyText = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButtonFindNext = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonFormatNotion = new System.Windows.Forms.ToolStripButton();
             this.rjButtonLeftS = new RJControls.RJButton();
@@ -72,6 +72,7 @@
             this.toolStripMenuItemEmotion = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTime = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemLink = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemUrl = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.rjDropdownMenuRightClick.SuspendLayout();
             this.rjDropdownMenuBar.SuspendLayout();
@@ -105,23 +106,6 @@
             this.toolStrip1.TabIndex = 16;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
-            // 
-            // toolStripTextBoxKeyText
-            // 
-            this.toolStripTextBoxKeyText.ForeColor = System.Drawing.Color.Black;
-            this.toolStripTextBoxKeyText.Name = "toolStripTextBoxKeyText";
-            this.toolStripTextBoxKeyText.Size = new System.Drawing.Size(120, 31);
-            this.toolStripTextBoxKeyText.Visible = false;
-            // 
             // undoStripButton
             // 
             this.undoStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -141,6 +125,11 @@
             this.redoStripButton.Size = new System.Drawing.Size(28, 28);
             this.redoStripButton.Text = "重做";
             this.redoStripButton.Click += new System.EventHandler(this.redoStripButton_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // imgStripButton
             // 
@@ -232,6 +221,11 @@
             this.toolStripButtonMain.ToolTipText = "添加/移除MAIN";
             this.toolStripButtonMain.Click += new System.EventHandler(this.toolStripButtonTodo_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
+            // 
             // toolStripDropDownButtonTemplate
             // 
             this.toolStripDropDownButtonTemplate.BackColor = System.Drawing.SystemColors.Control;
@@ -242,6 +236,13 @@
             this.toolStripDropDownButtonTemplate.Name = "toolStripDropDownButtonTemplate";
             this.toolStripDropDownButtonTemplate.Size = new System.Drawing.Size(53, 28);
             this.toolStripDropDownButtonTemplate.Text = "模板";
+            // 
+            // toolStripTextBoxKeyText
+            // 
+            this.toolStripTextBoxKeyText.ForeColor = System.Drawing.Color.Black;
+            this.toolStripTextBoxKeyText.Name = "toolStripTextBoxKeyText";
+            this.toolStripTextBoxKeyText.Size = new System.Drawing.Size(120, 31);
+            this.toolStripTextBoxKeyText.Visible = false;
             // 
             // toolStripButtonFindNext
             // 
@@ -495,19 +496,20 @@
             this.toolStripMenuItemPName,
             this.toolStripMenuItemEmotion,
             this.toolStripMenuItemTime,
+            this.toolStripMenuItemUrl,
             this.toolStripMenuItemLink});
             this.rjDropdownMenuLine.MenuItemHeight = 25;
             this.rjDropdownMenuLine.MenuItemTextColor = System.Drawing.Color.Empty;
             this.rjDropdownMenuLine.Name = "rjDropdownMenu1";
             this.rjDropdownMenuLine.PrimaryColor = System.Drawing.Color.Empty;
-            this.rjDropdownMenuLine.Size = new System.Drawing.Size(153, 116);
+            this.rjDropdownMenuLine.Size = new System.Drawing.Size(215, 172);
             // 
             // toolStripMenuItemPName
             // 
             this.toolStripMenuItemPName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.toolStripMenuItemPName.Image = global::MemoHippo.Properties.Resources.people;
             this.toolStripMenuItemPName.Name = "toolStripMenuItemPName";
-            this.toolStripMenuItemPName.Size = new System.Drawing.Size(152, 28);
+            this.toolStripMenuItemPName.Size = new System.Drawing.Size(214, 28);
             this.toolStripMenuItemPName.Text = "人员名";
             // 
             // toolStripMenuItemEmotion
@@ -515,7 +517,7 @@
             this.toolStripMenuItemEmotion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.toolStripMenuItemEmotion.Image = global::MemoHippo.Properties.Resources.emo;
             this.toolStripMenuItemEmotion.Name = "toolStripMenuItemEmotion";
-            this.toolStripMenuItemEmotion.Size = new System.Drawing.Size(152, 28);
+            this.toolStripMenuItemEmotion.Size = new System.Drawing.Size(214, 28);
             this.toolStripMenuItemEmotion.Text = "表情";
             // 
             // toolStripMenuItemTime
@@ -523,7 +525,7 @@
             this.toolStripMenuItemTime.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.toolStripMenuItemTime.Image = global::MemoHippo.Properties.Resources.time;
             this.toolStripMenuItemTime.Name = "toolStripMenuItemTime";
-            this.toolStripMenuItemTime.Size = new System.Drawing.Size(152, 28);
+            this.toolStripMenuItemTime.Size = new System.Drawing.Size(214, 28);
             this.toolStripMenuItemTime.Text = "时间";
             // 
             // toolStripMenuItemLink
@@ -531,8 +533,16 @@
             this.toolStripMenuItemLink.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.toolStripMenuItemLink.Image = global::MemoHippo.Properties.Resources.paper;
             this.toolStripMenuItemLink.Name = "toolStripMenuItemLink";
-            this.toolStripMenuItemLink.Size = new System.Drawing.Size(152, 28);
+            this.toolStripMenuItemLink.Size = new System.Drawing.Size(214, 28);
             this.toolStripMenuItemLink.Text = "页面外链";
+            // 
+            // toolStripMenuItemUrl
+            // 
+            this.toolStripMenuItemUrl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.toolStripMenuItemUrl.Image = global::MemoHippo.Properties.Resources.paper;
+            this.toolStripMenuItemUrl.Name = "toolStripMenuItemUrl";
+            this.toolStripMenuItemUrl.Size = new System.Drawing.Size(214, 28);
+            this.toolStripMenuItemUrl.Text = "添加URL";
             // 
             // DasayEditor
             // 
@@ -600,5 +610,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemLink;
         private System.Windows.Forms.ToolStripMenuItem findToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton toolStripButtonFormatNotion;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemUrl;
     }
 }

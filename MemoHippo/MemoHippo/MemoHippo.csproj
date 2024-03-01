@@ -144,6 +144,12 @@
     <Compile Include="UIS\Panels\UCEditImage.designer.cs">
       <DependentUpon>UCEditImage.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIS\Panels\UCAddUrl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\Panels\UCAddUrl.designer.cs">
+      <DependentUpon>UCAddUrl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIS\Panels\UCGmRunSvTime.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -411,7 +417,7 @@
     <Compile Include="Utils\DelayedExecutor.cs" />
     <Compile Include="Utils\HLog.cs" />
     <Compile Include="Utils\ImageTool.cs" />
-    <Compile Include="Utils\RoleDB.cs" />
+    <Compile Include="Utils\CsvDbHouse.cs" />
     <Compile Include="Utils\RtfModifier.cs" />
     <Compile Include="Utils\StringTool.cs" />
     <Compile Include="Utils\TextBoxSelectRecover.cs" />
@@ -451,6 +457,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCEditImage.resx">
       <DependentUpon>UCEditImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\Panels\UCAddUrl.resx">
+      <DependentUpon>UCAddUrl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCGmRunSvTime.resx">
       <DependentUpon>UCGmRunSvTime.cs</DependentUpon>

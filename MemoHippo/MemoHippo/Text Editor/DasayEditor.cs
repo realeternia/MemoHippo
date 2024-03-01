@@ -86,6 +86,7 @@ namespace Text_Editor
             toolStripMenuItemTime.Click += ToolStripMenuItemTime_Click;
             toolStripMenuItemLink.Click += ToolStripMenuItemLink_Click;
             toolStripMenuItemEmotion.Click += ToolStripMenuItemEmotion_Click;
+            toolStripMenuItemUrl.Click += ToolStripMenuItemUrl_Click;
 
             if (Directory.Exists(ENV.TemplateDir))
                 foreach (var file in Directory.GetFiles(ENV.TemplateDir))
@@ -132,6 +133,10 @@ namespace Text_Editor
         private void ToolStripMenuItemPName_Click(object sender, EventArgs e)
         {
             AddPeople();
+        }
+        private void ToolStripMenuItemUrl_Click(object sender, EventArgs e)
+        {
+            AddUrl();
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -188,7 +193,8 @@ namespace Text_Editor
 
         private void OnSave()
         {
-            HighlightKeywords();
+            if (!memoItemInfo.HasTag("db"))
+                HighlightKeywords();
 
             var txt = richTextBox1.Text;
             foreach(var keys in keywords)
@@ -846,6 +852,29 @@ namespace Text_Editor
                 }
             );
         }
+        private void AddUrl()
+        {
+            var pos = richTextBox1.SelectionStart;
+            Point cursorPosition = richTextBox1.GetPositionFromCharIndex(richTextBox1.SelectionStart);
+
+            // 如果需要，将坐标转换为屏幕坐标
+            cursorPosition = richTextBox1.PointToScreen(cursorPosition);
+
+            PanelManager.Instance.ShowAddUrl((str) =>
+                {
+                    if (string.IsNullOrEmpty(str))
+                    {
+                        richTextBox1.Focus();
+                        return;
+                    }
+
+                    RtfModifier.InsertString(richTextBox1, str);
+
+                    richTextBox1.Focus();
+                    //DelayedActionExecutor.Trigger("choosetarget", 0.1f, () => richTextBox1.Focus()); //防止enter事件击穿
+                }
+            );
+        }
 
         private void HighlightKeywords()
         {
@@ -973,7 +1002,7 @@ namespace Text_Editor
                 toolStripMenuItemPeople.Visible = false;
             }
 
-            var db = RoleDB.Instance.DB;
+            var db = CsvDbHouse.Instance.RoleDb;
             searchNameList.Clear();
             foreach (var name in db.GetValuesByHeader("姓名"))
             {
