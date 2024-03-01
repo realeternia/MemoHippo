@@ -43,8 +43,7 @@ namespace MemoHippo.UIS
 
             if (nameList.Count == 0)
             {
-                var db = RoleDB.Instance.DB;
-                db = CsvDb.Create("rolelist");
+                var db = CsvDbHouse.Instance.RoleDb;
                 nameList = db.GetValuesByHeader("姓名", "职级", (a, b) => { return int.Parse(b.Substring(1)) - int.Parse(a.Substring(1)); });
                 rjComboBoxKey.Items.Add("all");
                 rjComboBoxKey.Items.AddRange(nameList.ToArray());
@@ -89,45 +88,45 @@ namespace MemoHippo.UIS
                     return;
                 }
 
-                foreach (var file in Directory.GetFiles(ENV.SaveDir))
+                foreach (var itemInfo in MemoBook.Instance.Items)
                 {
-                    var fi = new FileInfo(file);
-                    if (fi.Extension != ".rtf")
+                    if (itemInfo.IsEncrypt())
                         continue;
 
-                    if (fi.LastWriteTime < searchBegin)
-                        continue;
-
-                    var itemIdStr = fi.Name;
-                    int itemId = int.Parse(itemIdStr.Replace(".rtf", ""));
-                    var itemInfo = MemoBook.Instance.GetItem(itemId);
-                    if (itemInfo == null)
-                        continue;
-
-                    string plainText = RtfModifier.ReadRtfPlainText(itemId);
-
-                    int lineid = 0;
-                    foreach (var line in plainText.Split('\n'))
+                    var fullPath = itemInfo.GetPath();
+                    if (File.Exists(fullPath))
                     {
-                        bool hit = false;
-                        if(searchTxt == "all")
-                        {
-                            foreach (var s in nameList)
-                                if (line.IndexOf(s) >= 0)
-                                {
-                                    hit = true;
-                                    break;
-                                }
-                        }   
-                        else
-                        {
-                            if (line.IndexOf(searchTxt) >= 0)
-                                hit = true;
-                        }
-                        if (hit && !line.Contains("url")) //url里一般有减号，剔除掉
-                            searchResults.Add(new SearchData { Line = line.Trim(), Title = itemIdStr, CreateTime = fi.CreationTime, LineIndex = lineid + 1 });
+                        var fi = new FileInfo(fullPath);
+                        if (fi.LastWriteTime < searchBegin)
+                            continue;
 
-                        lineid++;
+                        var itemIdStr = fi.Name;
+
+                        string plainText = RtfModifier.ReadRtfPlainText(itemInfo.Id);
+
+                        int lineid = 0;
+                        foreach (var line in plainText.Split('\n'))
+                        {
+                            bool hit = false;
+                            if (searchTxt == "all")
+                            {
+                                foreach (var s in nameList)
+                                    if (line.IndexOf(s) >= 0)
+                                    {
+                                        hit = true;
+                                        break;
+                                    }
+                            }
+                            else
+                            {
+                                if (line.IndexOf(searchTxt) >= 0)
+                                    hit = true;
+                            }
+                            if (hit && !line.Contains("url")) //url里一般有减号，剔除掉
+                                searchResults.Add(new SearchData { Line = line.Trim(), Title = itemIdStr, CreateTime = fi.CreationTime, LineIndex = lineid + 1 });
+
+                            lineid++;
+                        }
                     }
                 }
 
@@ -212,7 +211,7 @@ namespace MemoHippo.UIS
                 return;
             }
 
-            var db = RoleDB.Instance.DB;
+            var db = CsvDbHouse.Instance.RoleDb;
             var enterTime = db.GetValueByKey(searchTxt, "入职日期");
             DateTime startDate = DateTime.ParseExact(enterTime, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             labelTime.Text = CalculateMonthDifference(startDate, DateTime.Now).ToString() + "月";

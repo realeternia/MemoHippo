@@ -1,7 +1,7 @@
 ﻿
 namespace MemoHippo.UIS.Main
 {
-    partial class UCListSelectBar
+    partial class UCImageGalleryItem
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -31,17 +31,19 @@ namespace MemoHippo.UIS.Main
         {
             this.SuspendLayout();
             // 
-            // UCListSelectBar
+            // UCImageGalleryItem
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.BackColor = System.Drawing.Color.Black;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ForeColor = System.Drawing.Color.White;
-            this.Name = "UCListSelectBar";
-            this.Size = new System.Drawing.Size(633, 59);
-            this.Load += new System.EventHandler(this.UCListSelectBar_Load);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.UCListSelectBar_Paint);
-            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.UCListSelectBar_MouseClick);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Name = "UCImageGalleryItem";
+            this.Size = new System.Drawing.Size(277, 223);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.UCImageGalleryItem_Paint);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.UCImageGalleryItem_MouseClick);
+            this.MouseEnter += new System.EventHandler(this.UCImageGalleryItem_MouseEnter);
+            this.MouseLeave += new System.EventHandler(this.UCImageGalleryItem_MouseLeave);
             this.ResumeLayout(false);
 
         }

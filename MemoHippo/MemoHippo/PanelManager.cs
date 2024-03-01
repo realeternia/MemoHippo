@@ -1,4 +1,5 @@
 ﻿using MemoHippo.UIS;
+using MemoHippo.UIS.ImageView;
 using MemoHippo.UIS.Panels;
 using MemoHippo.Utils;
 using System;
@@ -23,7 +24,10 @@ namespace MemoHippo
         private InputNumberBox numberBox;
         private InputArrayBox arrayBox;
         private InputColorBox colorBox;
-        private UCGmRunSvTime timePicker; 
+        private UCGmRunSvTime timePicker;
+        private UCEditImage editImage;
+        private KpImageViewer imageViewer;
+        private UCAddUrl addUrl;
 
         public void Init(Form1 form) 
         {
@@ -94,7 +98,7 @@ namespace MemoHippo
             ReLocate(ref x, ref y, intputPanel.Size);
             ShowBlackPanel(intputPanel, x, y, 1);
 
-            List<string> names = RoleDB.Instance.DB.GetValuesByHeader("姓名");
+            List<string> names = CsvDbHouse.Instance.RoleDb.GetValuesByHeader("姓名");
             names.AddRange(MemoBook.Instance.Cfg.PeopleNames);
             names.Sort();
             intputPanel.OnInit(names.ToArray());
@@ -212,7 +216,40 @@ namespace MemoHippo
             ShowBlackPanel(timePicker, x, y, 1);
             timePicker.OnInit();
         }
+        public void ShowEditImage(Image img, Action<Image> callback)
+        {
+            if (editImage == null)
+            {
+                editImage = new UCEditImage();
+            }
 
+            editImage.OnImageChanged = (s1) => callback(s1);
+
+            ShowBlackPanel(editImage, 0, 0);
+            editImage.OnInit(img);
+        }
+        public void ShowImageViewer(string path)
+        {
+            if (imageViewer == null)
+            {
+                imageViewer = new KpImageViewer();
+            }
+
+            ShowBlackPanel(imageViewer, 0, 0);
+            imageViewer.OnInit(path);
+        }
+        public void ShowAddUrl(Action<string> callback)
+        {
+            if (addUrl == null)
+            {
+                addUrl = new UCAddUrl();
+            }
+
+            addUrl.AfterSelect = (s1) => callback(s1);
+
+            ShowBlackPanel(addUrl, 0, 0);
+            addUrl.OnInit();
+        }
         public void ShowBlackPanel(Control ctr, int x, int y, float bright = 0.5f)
         {
             Bitmap bitmap = new Bitmap(form1.Width+2, form1.Height+2);

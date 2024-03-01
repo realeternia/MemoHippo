@@ -14,6 +14,7 @@ namespace MemoHippo.UIS
         class SearchData
         {
             public string Title;
+            public int ItemId;
             public string Line;
             public int LineIndex;
             public DateTime CreateTime;
@@ -58,20 +59,19 @@ namespace MemoHippo.UIS
                     return;
                 }
 
-                foreach (var file in Directory.GetFiles(ENV.SaveDir))
+                foreach (var itemInfo in MemoBook.Instance.Items)
                 {
-                    var fi = new FileInfo(file);
-                    if (fi.Extension != ".rtf")
+                    if (itemInfo.IsEncrypt())
                         continue;
 
-                    if (fi.LastWriteTime < searchBegin)
-                        continue;
+                    var fullPath = itemInfo.GetPath();
+                    if (File.Exists(fullPath))
+                    {
+                        var fi = new FileInfo(fullPath);
+                        if (fi.LastWriteTime < searchBegin)
+                            continue;
 
-                    var itemIdStr = fi.Name;
-                    int itemId = int.Parse(itemIdStr.Replace(".rtf", ""));
-                    var itemInfo = MemoBook.Instance.GetItem(itemId);
-                    if (itemInfo == null)
-                        continue;
+                        var itemIdStr = fi.Name;
 
                     if(itemInfo.Title.Contains(searchTxt))
                         searchResults.Add(new SearchData { Line = itemInfo.Title, Title = itemIdStr, CreateTime = fi.LastWriteTime, LineIndex = 0 });
@@ -80,12 +80,13 @@ namespace MemoHippo.UIS
 
                     string plainText = RtfModifier.ReadRtfPlainText(itemId);
 
-                    int lineid = 0;
-                    foreach (var line in plainText.Split('\n'))
-                    {
-                        if (line.IndexOf(searchTxt) >= 0)
-                            searchResults.Add(new SearchData { Line = line, Title = itemIdStr, CreateTime = fi.LastWriteTime, LineIndex = lineid + 1 });
-                        lineid++;
+                        int lineid = 0;
+                        foreach (var line in plainText.Split('\n'))
+                        {
+                            if (line.IndexOf(searchTxt) >= 0)
+                                searchResults.Add(new SearchData { Line = line, Title = itemIdStr, ItemId = itemInfo.Id, CreateTime = fi.LastWriteTime, LineIndex = lineid + 1 });
+                            lineid++;
+                        }
                     }
                 }
 
@@ -152,7 +153,7 @@ namespace MemoHippo.UIS
         private void listView1_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
         {
             var lineInfo = searchResults[e.ItemIndex];
-            var itemInfo = MemoBook.Instance.GetItem(int.Parse(lineInfo.Title.Replace(".rtf", "")));
+            var itemInfo = MemoBook.Instance.GetItem(lineInfo.ItemId);
             if (itemInfo != null)
             {
                 e.Graphics.DrawImage(ResLoader.Read(itemInfo.Icon), e.Bounds.X + 8, e.Bounds.Y + 10, 24, 24);
@@ -194,7 +195,7 @@ namespace MemoHippo.UIS
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             var lineInfo = searchResults[selectLine.Index];
-            var itemInfo = MemoBook.Instance.GetItem(int.Parse(lineInfo.Title.Replace(".rtf", "")));
+            var itemInfo = MemoBook.Instance.GetItem(lineInfo.ItemId);
 
             Form1.ShowPaperPadEx(itemInfo, new Model.Types.ShowPaperParm { SearchTxt = lineInfo.Line.Trim() });
 

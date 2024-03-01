@@ -59,20 +59,16 @@ namespace MemoHippo.Utils
             while (pos >= box.Text.Length || box.Text[pos] != str[0]);
         }
 
-        public static string ReadRtfPlainText(int itemId, bool checkEncryto = false)
+        public static string ReadRtfPlainText(int itemId)
         {
-            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, itemId);
             var itemInfo = MemoBook.Instance.GetItem(itemId);
-            if (checkEncryto && itemInfo.IsEncrypt())
-            {
-                fullPath = fullPath.Replace(".rtf", ".rz");
-            }
+            var fullPath = itemInfo.GetPath();
 
             if (!File.Exists(fullPath)) 
                 return "";
 
             string fileData;
-            if (checkEncryto && itemInfo.IsEncrypt())
+            if (itemInfo.IsEncrypt())
             {
                 string tempFilePath = Path.GetTempFileName();
                 FileEncryption.DecryptFile(fullPath, tempFilePath);
@@ -91,5 +87,32 @@ namespace MemoHippo.Utils
             }
         }
 
+        public static void WriteRtfPlainText(int itemId, string str)
+        {
+            var itemInfo = MemoBook.Instance.GetItem(itemId);
+            var fullPath = itemInfo.GetPath();
+
+            if (!File.Exists(fullPath))
+                return;
+
+            using (RichTextBox richTextBox = new RichTextBox())
+            {
+                richTextBox.AppendText(str);
+                richTextBox.SelectAll();
+                richTextBox.SelectionFont = new Font("微软雅黑", 12);
+                richTextBox.SelectionColor = System.Drawing.Color.Gainsboro;
+                if (itemInfo.IsEncrypt())
+                {
+                    string tempFilePath = Path.GetTempFileName();
+                    richTextBox.SaveFile(tempFilePath, RichTextBoxStreamType.RichText);
+                    
+                    FileEncryption.EncryptFile(tempFilePath, itemInfo.GetPath());
+                }
+                else
+                {
+                    richTextBox.SaveFile(itemInfo.GetPath(), RichTextBoxStreamType.RichText);
+                }
+            }
+        }
     }
 }

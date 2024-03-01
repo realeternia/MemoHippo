@@ -29,7 +29,6 @@ namespace Text_Editor
         };
 
         private MemoItemInfo memoItemInfo;
-        private string filenamee;    // file opened inside of RTB
         public Form1 ParentC;
         private bool checkChangeLock = true;
         private bool hasModify;
@@ -67,9 +66,9 @@ namespace Text_Editor
             this.ucToolbar1.head1ToolStripMenuItem.Click += barhead1ToolStripMenuItem_Click;
             this.ucToolbar1.head2ToolStripMenuItem.Click += barhead2ToolStripMenuItem_Click;
             this.ucToolbar1.head3ToolStripMenuItem.Click += barhead3ToolStripMenuItem_Click;
-            ucToolbar1.qutoToolStripMenuItem.Click += barqutoToolStripMenuItem_Click;
+            this.ucToolbar1.qutoToolStripMenuItem.Click += barqutoToolStripMenuItem_Click;
 
-            textToolStripMenuItem1.Click += textListStripButton_Click;
+            textToolStripMenuItem.Click += textListStripButton_Click;
             bulletToolStripMenuItem.Click += bulletListStripButton_Click;
             head1ToolStripMenuItem.Click += head1ToolStripMenuItem_Click;
             head2ToolStripMenuItem.Click += head2ToolStripMenuItem_Click;
@@ -80,12 +79,14 @@ namespace Text_Editor
             cutToolStripMenuItem.Click += cutToolStripMenuItem_Click;
             copyToolStripMenuItem.Click += copyToolStripMenuItem_Click;
             pasteToolStripMenuItem.Click += pasteToolStripMenuItem_Click;
-            removeToolStripMenuItem.Click += deleteStripMenuItem_Click;
+            removeToolStripMenuItem.Click += removeToolStripMenuItem_Click;
+            findToolStripMenuItem.Click += findToolStripMenuItem_Click;
 
             toolStripMenuItemPName.Click += ToolStripMenuItemPName_Click;
             toolStripMenuItemTime.Click += ToolStripMenuItemTime_Click;
             toolStripMenuItemLink.Click += ToolStripMenuItemLink_Click;
             toolStripMenuItemEmotion.Click += ToolStripMenuItemEmotion_Click;
+            toolStripMenuItemUrl.Click += ToolStripMenuItemUrl_Click;
 
             if (Directory.Exists(ENV.TemplateDir))
                 foreach (var file in Directory.GetFiles(ENV.TemplateDir))
@@ -97,7 +98,7 @@ namespace Text_Editor
                     {
                         var menuItem = o as ToolStripMenuItem;
                         richTextBox1.LoadFile(ENV.TemplateDir + menuItem.Text, RichTextBoxStreamType.RichText);
-                        var ttl = string.Format("{0}{1}", fileName.Replace(".rtf", ""), DateTime.Now.ToString("yy.MM.dd"));
+                        var ttl = string.Format("{0}{1}", fileName.Replace(".rtf", ""), DateTime.Now.ToString("yy.MM.dd")); //--模板
                         ParentC.SetRowTitleInfo(ttl, "Work/285665_calendar_calendar.png");
                     };
                 }
@@ -132,6 +133,10 @@ namespace Text_Editor
         private void ToolStripMenuItemPName_Click(object sender, EventArgs e)
         {
             AddPeople();
+        }
+        private void ToolStripMenuItemUrl_Click(object sender, EventArgs e)
+        {
+            AddUrl();
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -188,7 +193,8 @@ namespace Text_Editor
 
         private void OnSave()
         {
-            HighlightKeywords();
+            if (!memoItemInfo.HasTag("db"))
+                HighlightKeywords();
 
             var txt = richTextBox1.Text;
             foreach(var keys in keywords)
@@ -200,7 +206,17 @@ namespace Text_Editor
             }
         }
 
-        public void Save(bool checkSaveAct)
+        public void SaveOnClose()
+        {
+            if (memoItemInfo != null)
+            {
+                // 立刻存档，并且取消timer
+                if (hasModify || memoItemInfo.GetAndResetDirty())
+                    DelayedExecutor.Trigger("desaySave", 0, () => Save(true));
+            }
+        }
+
+        private void Save(bool checkSaveAct)
         {
             if (checkSaveAct)
             {//修改过才会重新highlight
@@ -213,33 +229,20 @@ namespace Text_Editor
             {
                 string tempFilePath = Path.GetTempFileName();
                 richTextBox1.SaveFile(tempFilePath, RichTextBoxStreamType.RichText);
-              
-                FileEncryption.EncryptFile(tempFilePath, filenamee.Replace(".rtf", ".rz"));
-                File.Delete(filenamee); //如果有未加密文件存在，删一下
+                FileEncryption.EncryptFile(tempFilePath, memoItemInfo.GetPath());
             }
             else
             {
-                richTextBox1.SaveFile(filenamee, RichTextBoxStreamType.RichText);
-                File.Delete(filenamee.Replace(".rtf", ".rz")); //如果有加密文件存在，删一下
+                richTextBox1.SaveFile(memoItemInfo.GetPath(), RichTextBoxStreamType.RichText);
             }
             
-            HLog.Info("SaveFile {0} finish checkSaveAct={1}", filenamee, checkSaveAct);
+            HLog.Info("SaveFile {0} finish checkSaveAct={1}", memoItemInfo.Id, checkSaveAct);
         }
 
         public void LoadFile(MemoItemInfo itemInfo)
         {
-            if (!string.IsNullOrEmpty(filenamee))
-            {
-                // 立刻存档，并且取消timer
-                if (hasModify)
-                    DelayedExecutor.Trigger("desaySave", 0, () => Save(true));
-            }
-
             memoItemInfo = itemInfo;
-            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, memoItemInfo.Id);
-            filenamee = fullPath;
-            if (memoItemInfo.IsEncrypt())
-                fullPath = fullPath.Replace(".rtf", ".rz");
+            var fullPath = memoItemInfo.GetPath();
             hasModify = false;
 
             checkChangeLock = false;
@@ -478,9 +481,17 @@ namespace Text_Editor
             richTextBox1.Redo();    // redo
         }
 
-        private void deleteStripMenuItem_Click(object sender, EventArgs e)
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             richTextBox1.SelectedText = ""; // delete selected text
+        }
+
+        private void findToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(richTextBox1.SelectedText))
+                return;
+
+            PanelManager.Instance.ShowSearchForm(richTextBox1.SelectedText);
         }
 
         private void clearFormattingStripButton_Click(object sender, EventArgs e)
@@ -509,18 +520,9 @@ namespace Text_Editor
                 string fileName = openImageDlg.FileName;
                 if (null == fileName || fileName.Trim().Length == 0)
                     return;
-                try
-                {
-                    bmp = new Bitmap(fileName);
-                    Clipboard.SetDataObject(bmp);
-                    DataFormats.Format dataFormat = DataFormats.GetFormat(DataFormats.Bitmap);
-                    if (richTextBox1.CanPaste(dataFormat))
-                        richTextBox1.Paste(dataFormat);
-                }
-                catch (Exception exc)
-                {
-                    MessageBox.Show("图片插入失败。" + exc.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+
+                bmp = new Bitmap(fileName);
+                PanelManager.Instance.ShowEditImage(bmp, img => { Clipboard.SetImage(img); richTextBox1.Paste(); });
             }
         }
 
@@ -528,7 +530,7 @@ namespace Text_Editor
         {
             if (Clipboard.ContainsImage())
             {
-                richTextBox1.Paste();
+                PanelManager.Instance.ShowEditImage(Clipboard.GetImage(), img => { Clipboard.SetImage(img); richTextBox1.Paste(); });
             }
         }
 
@@ -661,14 +663,16 @@ namespace Text_Editor
                     }
 
                     break;
-                case Keys.OemQuestion: //表情
-                    RichtextSelect(richTextBox1.SelectionStart - 1, 1);
-                    richTextBox1.SelectedText = "";
 
-                    Point cursorLocation = richTextBox1.GetPositionFromCharIndex(richTextBox1.SelectionStart);
-                    rjDropdownMenuLine.Show(richTextBox1, cursorLocation.X + 10, cursorLocation.Y + 10);
+            }
 
-                    break;
+            if (e.KeyCode == Keys.OemQuestion && !e.Shift)
+            {
+                RichtextSelect(richTextBox1.SelectionStart - 1, 1);
+                richTextBox1.SelectedText = "";
+
+                Point cursorLocation = richTextBox1.GetPositionFromCharIndex(richTextBox1.SelectionStart);
+                rjDropdownMenuLine.Show(richTextBox1, cursorLocation.X + 10, cursorLocation.Y + 10);
             }
         }
 
@@ -804,7 +808,7 @@ namespace Text_Editor
                     }
 
                     var splitDatas = name.Split('@');
-                    var checkStr = "file://" + splitDatas[splitDatas.Length - 1];
+                    var checkStr = "file://page/" + splitDatas[splitDatas.Length - 1];
 
                     RtfModifier.InsertString(richTextBox1, checkStr);
 
@@ -845,6 +849,29 @@ namespace Text_Editor
                     richTextBox1.SelectionColor = richTextBox1.ForeColor;
 
                     richTextBox1.Focus();
+                }
+            );
+        }
+        private void AddUrl()
+        {
+            var pos = richTextBox1.SelectionStart;
+            Point cursorPosition = richTextBox1.GetPositionFromCharIndex(richTextBox1.SelectionStart);
+
+            // 如果需要，将坐标转换为屏幕坐标
+            cursorPosition = richTextBox1.PointToScreen(cursorPosition);
+
+            PanelManager.Instance.ShowAddUrl((str) =>
+                {
+                    if (string.IsNullOrEmpty(str))
+                    {
+                        richTextBox1.Focus();
+                        return;
+                    }
+
+                    RtfModifier.InsertString(richTextBox1, str);
+
+                    richTextBox1.Focus();
+                    //DelayedActionExecutor.Trigger("choosetarget", 0.1f, () => richTextBox1.Focus()); //防止enter事件击穿
                 }
             );
         }
@@ -975,7 +1002,7 @@ namespace Text_Editor
                 toolStripMenuItemPeople.Visible = false;
             }
 
-            var db = RoleDB.Instance.DB;
+            var db = CsvDbHouse.Instance.RoleDb;
             searchNameList.Clear();
             foreach (var name in db.GetValuesByHeader("姓名"))
             {
@@ -1092,9 +1119,97 @@ namespace Text_Editor
             DoSearch();
         }
 
-        private void richTextBox1_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void toolStripButtonFormatNotion_Click(object sender, EventArgs e)
         {
+            richTextBox1.SuspendPainting();
 
+            for (int i = 0; i < richTextBox1.Lines.Length; i++)
+            {
+                string line = richTextBox1.Lines[i];
+                var lineStart = richTextBox1.GetFirstCharIndexFromLine(i);
+
+                if (line.StartsWith("        - "))
+                {
+                    RichtextSelect(lineStart, 10);
+                    richTextBox1.SelectedText = "";
+                    richTextBox1.SelectionIndent = 90;
+                    SetLineFormatCommon(new int[] { i }, bulletMarker[richTextBox1.SelectionIndent / 30].ToString(), 12, 0, false);
+                }
+                else if (line.StartsWith("    - "))
+                {
+                    RichtextSelect(lineStart, 6);
+                    richTextBox1.SelectedText = "";
+                    richTextBox1.SelectionIndent = 60;
+                    SetLineFormatCommon(new int[] { i }, bulletMarker[richTextBox1.SelectionIndent / 30].ToString(), 12, 0, false);
+                }
+                else if (line.StartsWith("- "))
+                {
+                    RichtextSelect(lineStart, 2);
+                    richTextBox1.SelectedText = "";
+                    richTextBox1.SelectionIndent = 30;
+                    SetLineFormatCommon(new int[] { i }, bulletMarker[richTextBox1.SelectionIndent / 30].ToString(), 12, 0, false);
+                }
+                else if (line.StartsWith("### "))
+                {
+                    RichtextSelect(lineStart, 3);
+                    richTextBox1.SelectedText = "";
+
+                    SetLineFormatCommon(new int[] { i }, "", 16, -10, true);
+                }
+                else if (line.StartsWith("## "))
+                {
+                    RichtextSelect(lineStart, 3);
+                    richTextBox1.SelectedText = "";
+
+                    SetLineFormatCommon(new int[] { i }, "", 18, -30, true);
+                }
+                else
+                {
+                    SetLineFormatCommon(new int[] { i }, "", 12, 0, false);
+                }
+            }
+
+            for (int i = 0; i < richTextBox1.Lines.Length; i++)
+            {
+                string line = richTextBox1.Lines[i];
+                var lineStart = richTextBox1.GetFirstCharIndexFromLine(i);
+                if (!CheckBold(i, line, "**"))
+                    CheckBold(i, line, "*");
+            }
+
+            richTextBox1.ResumePainting();
+            richTextBox1.Invalidate();
+        }
+
+        private bool CheckBold(int i, string line, string marker)
+        {
+            // 寻找第一个 *
+            int firstAsterisk = line.IndexOf(marker);
+
+            // 如果找到第一个 *，则继续寻找第二个 *
+            if (firstAsterisk != -1)
+            {
+                int secondAsterisk = line.IndexOf(marker, firstAsterisk + marker.Length);
+
+                // 如果找到第二个 *，则处理文本
+                if (secondAsterisk != -1)
+                {
+                    var lineStart = richTextBox1.GetFirstCharIndexFromLine(i);
+                    int selectionLength = secondAsterisk - firstAsterisk - marker.Length;
+
+                    RichtextSelect(lineStart + firstAsterisk + marker.Length, selectionLength);
+                    richTextBox1.SelectionFont = new Font(richTextBox1.Font, FontStyle.Bold);
+
+                    // 删除第一个 * 和第二个 *
+                    RichtextSelect(lineStart + secondAsterisk, marker.Length);
+                    richTextBox1.SelectedText = "";
+                    RichtextSelect(lineStart + firstAsterisk, marker.Length);
+                    richTextBox1.SelectedText = "";
+
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
