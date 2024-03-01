@@ -73,7 +73,12 @@ namespace MemoHippo.UIS
 
                         var itemIdStr = fi.Name;
 
-                        string plainText = RtfModifier.ReadRtfPlainText(itemInfo.Id);
+                    if(itemInfo.Title.Contains(searchTxt))
+                        searchResults.Add(new SearchData { Line = itemInfo.Title, Title = itemIdStr, CreateTime = fi.LastWriteTime, LineIndex = 0 });
+                    if (itemInfo.Tag.Contains(searchTxt))
+                        searchResults.Add(new SearchData { Line = itemInfo.Tag, Title = itemIdStr, CreateTime = fi.LastWriteTime, LineIndex = 0 });
+
+                    string plainText = RtfModifier.ReadRtfPlainText(itemId);
 
                         int lineid = 0;
                         foreach (var line in plainText.Split('\n'))
