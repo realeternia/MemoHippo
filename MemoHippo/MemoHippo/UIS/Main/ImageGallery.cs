@@ -30,10 +30,11 @@ namespace MemoHippo.UIS.Main
         {
             doubleBufferedFlowLayoutPanel1.Controls.Clear();
 
-            if (!Directory.Exists(ENV.ImgDir + itemInfo.Id))
+            var imgFolder = itemInfo.GetImageDirectory();
+            if (!Directory.Exists(imgFolder))
                 return;
 
-            foreach (var path in Directory.GetFiles(ENV.ImgDir + itemInfo.Id))
+            foreach (var path in Directory.GetFiles(imgFolder))
             {
                 var showItem = new UCImageGalleryItem();
                 showItem.Init(itemInfo.Id, path);
@@ -45,9 +46,11 @@ namespace MemoHippo.UIS.Main
         {
             // 获取拖放的文件路径
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            if (!Directory.Exists(ENV.ImgDir + itemInfo.Id))
-                Directory.CreateDirectory(ENV.ImgDir + itemInfo.Id);
-            var destPath = Path.Combine(Directory.GetCurrentDirectory(), ENV.ImgDir + itemInfo.Id);
+
+            var imgFolder = itemInfo.GetImageDirectory();
+            if (!Directory.Exists(imgFolder))
+                Directory.CreateDirectory(imgFolder);
+            var destPath = Path.Combine(Directory.GetCurrentDirectory(), imgFolder);
             foreach (var f in files)
             {
                 File.Move(f, destPath + "\\" + new FileInfo(f).Name);

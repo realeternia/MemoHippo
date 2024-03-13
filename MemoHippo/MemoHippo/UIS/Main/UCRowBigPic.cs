@@ -37,14 +37,14 @@ namespace MemoHippo
 
             var drawRect = new Rectangle(2, 37, Width-4, Height - 39);
             Image bmp;
-            var fullPath = string.Format("{0}/{1}/cover.jpg", ENV.ImgDir, ItemId);
+            var fullPath = string.Format("{0}/cover.jpg", itemInfo.GetImageDirectory());
             if (File.Exists(fullPath))
             {
                 bmp = ImageBook.Instance.Load(fullPath);
             }
             else
             {
-                bmp = ImageBook.Instance.Load(string.Format("{0}/d.jpg", ENV.ImgDir));
+                bmp = ImageBook.Instance.Load(string.Format("{0}/d.jpg", ENV.GetImgDir()));
             }
             if (bmp != null)
             {

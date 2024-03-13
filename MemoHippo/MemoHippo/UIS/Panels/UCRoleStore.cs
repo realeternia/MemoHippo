@@ -93,7 +93,7 @@ namespace MemoHippo.UIS
                     if (itemInfo.IsEncrypt())
                         continue;
 
-                    var fullPath = itemInfo.GetPath();
+                    var fullPath = itemInfo.GetFilePath();
                     if (File.Exists(fullPath))
                     {
                         var fi = new FileInfo(fullPath);

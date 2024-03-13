@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using YamlDotNet.Serialization;
 using static MemoHippo.UCTipColumn;
@@ -61,9 +62,9 @@ namespace MemoHippo
             colAddInputBox = new InputTextBox();
             colAddInputBox.OnCustomTextChanged = Hintbox_OnCustomTextChanged;
 
-            if (File.Exists(ENV.BaseDir+ "/memo.yaml"))
+            if (File.Exists("./memo.yaml"))
             {
-                var yaml = File.ReadAllText(ENV.BaseDir + "/memo.yaml", Encoding.UTF8);
+                var yaml = File.ReadAllText("./memo.yaml", Encoding.UTF8);
 
                 var deserializer = new DeserializerBuilder().Build();
                 MemoBook.Instance = deserializer.Deserialize<MemoBook>(yaml);
@@ -273,6 +274,15 @@ namespace MemoHippo
                 return;
             }
 
+            if(!string.IsNullOrEmpty(itemInfo.Folder))
+            {
+                if (!File.Exists(itemInfo.GetFilePath())) //异地文件访问不到的，就不打开了
+                {
+                    HidePaperPad();
+                    return;
+                }
+            }
+
             if (nowRowItem == itemInfo)
                 return;
 
@@ -446,7 +456,7 @@ namespace MemoHippo
 
         private void DeleteRemovedFiles()
         {
-            foreach (var file in Directory.GetFiles(ENV.SaveDir))
+            foreach (var file in Directory.GetFiles(ENV.GetDocDir()))
             {
                 var fi = new FileInfo(file);
                 var itemId = fi.Name;
@@ -517,7 +527,7 @@ namespace MemoHippo
 
             var itemInfo = MemoBook.Instance.RemoveItem(itemId);
 
-            var fullPath = itemInfo.GetPath();
+            var fullPath = itemInfo.GetFilePath();
             if (File.Exists(fullPath))
                 File.Delete(fullPath);
 
@@ -742,13 +752,28 @@ namespace MemoHippo
             }
             else if (e.LinkText.StartsWith("file://img/"))
             {
-                var filePath = e.LinkText.Substring(7 + 4);
-                if (File.Exists(ENV.ImgDir + filePath))
-                    PanelManager.Instance.ShowImageViewer(ENV.ImgDir + filePath);
+                var filePath = e.LinkText.Substring(7);
+                string pattern = @"img\/(?<number>\d+)\/(?<filename>[\w.]+)";
+
+                // 进行匹配
+                Match match = Regex.Match(filePath, pattern);
+
+                // 输出匹配结果
+                if (match.Success)
+                {
+                    string itemId = match.Groups["number"].Value;
+                    string filename = match.Groups["filename"].Value;
+
+                    var imgPath = MemoBook.Instance.GetItem(int.Parse(itemId)).GetImageDirectory() + "/" + filename;
+                    if (File.Exists(imgPath))
+                        PanelManager.Instance.ShowImageViewer(imgPath);
+                }
+
                 return;
             }
             else if (e.LinkText.StartsWith("file://url/"))
             {
+
                 var filePath = e.LinkText.Substring(7 + 4);
                 var realPath = CsvDbHouse.Instance.UrlDb.GetValueByKey(filePath, "url");
                 System.Diagnostics.Process.Start(realPath);

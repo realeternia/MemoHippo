@@ -3,6 +3,7 @@ using MemoHippo.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using static MemoHippo.UCTipColumn;
 
@@ -127,7 +128,11 @@ namespace MemoHippo
         {
             if (icon != null)
                 e.Graphics.DrawImage(icon, 1, 5, 32, 32);
-            e.Graphics.DrawString(title, Font, Brushes.WhiteSmoke, 35, 8);
+
+            if (!string.IsNullOrEmpty(itemInfo.Folder) && !File.Exists(itemInfo.GetFilePath()))
+                e.Graphics.DrawString("[丢失]" + title, Font, Brushes.Red, 35, 8);
+            else
+                e.Graphics.DrawString(title, Font, Brushes.WhiteSmoke, 35, 8);
 
             if (isMouseOver)
                 e.Graphics.DrawImage(Resources.menu, menuRegion);

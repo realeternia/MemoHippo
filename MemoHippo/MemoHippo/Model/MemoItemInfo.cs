@@ -16,6 +16,7 @@ namespace MemoHippo.Model
         public string Parm { get; set; } //额外数据
         public int CatalogId { get; set; } 
         public int ColumnId { get; set; }
+        public string Folder { get; set; }
 
         private bool isDirty;
 
@@ -46,6 +47,24 @@ namespace MemoHippo.Model
                 OnTagRemoved(tagNotInNew);
         }
 
+        public void SetFolder(string val)
+        {
+            if (!string.IsNullOrEmpty(val) && !Directory.Exists(val)) //不存在的路径修改失败
+                return;
+
+            if(File.Exists(GetFilePath()))
+            {
+                File.Move(GetFilePath(), GetFilePath(val));
+            }
+
+            if(Directory.Exists(GetImageDirectory()))
+            {
+                Directory.Move(GetImageDirectory(), GetImageDirectory(val));
+            }
+
+            Folder = val;
+        }
+
         public string GetCatalog() { return MemoBook.Instance.CatalogInfos.Find(a => a.Id == CatalogId).Name; }
         public string GetColumn()
         {
@@ -58,12 +77,13 @@ namespace MemoHippo.Model
             return null;
         }
 
-        public string GetPath()
+        public string GetFilePath(string ckPath = null)
         {
-            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, Id);
-            if (IsEncrypt())
-                fullPath = fullPath.Replace(".rtf", ".rz");
-            return fullPath;
+            return string.Format("{0}/{1}.{2}", ENV.GetDocDir(ckPath == null ? Folder : ckPath), Id, IsEncrypt() ? "rz" : "rtf");
+        }
+        public string GetImageDirectory(string ckPath = null)
+        {
+            return ENV.GetImgDir(ckPath == null ? Folder : ckPath) + Id;
         }
 
         public void SetParm(string key, string v)
@@ -104,24 +124,25 @@ namespace MemoHippo.Model
 
         public DateTime GetCreateTime()
         {
-            return new FileInfo(string.Format("{0}/{1}.{2}", ENV.SaveDir, Id, IsEncrypt() ? "rz" : "rtf")).CreationTime;
+            return new FileInfo(GetFilePath()).CreationTime;
         }
         public DateTime GetModifyTime()
         {
-            return new FileInfo(string.Format("{0}/{1}.{2}", ENV.SaveDir, Id, IsEncrypt() ? "rz" : "rtf")).LastWriteTime;
+            return new FileInfo(GetFilePath()).LastWriteTime;
         }
         public long GetFileLength()
         {
-            var path = string.Format("{0}/{1}.{2}", ENV.SaveDir, Id, IsEncrypt() ? "rz" : "rtf");
+            var path = GetFilePath();
             if (!File.Exists(path))
                 return 0;
             return new FileInfo(path).Length;
         }
         public int GetImageCount()
         {
-            if (!Directory.Exists(ENV.ImgDir + Id))
+            var imgFolder = GetImageDirectory();
+            if (!Directory.Exists(imgFolder))
                 return 0;
-            return Directory.GetFiles(ENV.ImgDir + Id).Length;
+            return Directory.GetFiles(imgFolder).Length;
         }
 
         public bool IsEncrypt()
@@ -153,7 +174,7 @@ namespace MemoHippo.Model
             if(tag == "加密")
             {
                 isDirty = true;
-                File.Delete(string.Format("{0}/{1}.rtf", ENV.SaveDir, Id));
+                File.Delete(string.Format("{0}/{1}.rtf", ENV.GetDocDir(Folder), Id));
             }
         }
 
@@ -162,7 +183,7 @@ namespace MemoHippo.Model
             if (tag == "加密")
             {
                 isDirty = true;
-                File.Delete(string.Format("{0}/{1}.rz", ENV.SaveDir, Id));
+                File.Delete(string.Format("{0}/{1}.rz", ENV.GetDocDir(Folder), Id));
             }
         }
     }

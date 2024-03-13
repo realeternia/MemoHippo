@@ -225,15 +225,16 @@ namespace Text_Editor
                 checkChangeLock = true;
             }
 
+            var savePath = memoItemInfo.GetFilePath();
             if (memoItemInfo.IsEncrypt())
             {
                 string tempFilePath = Path.GetTempFileName();
                 richTextBox1.SaveFile(tempFilePath, RichTextBoxStreamType.RichText);
-                FileEncryption.EncryptFile(tempFilePath, memoItemInfo.GetPath());
+                FileEncryption.EncryptFile(tempFilePath, savePath);
             }
             else
             {
-                richTextBox1.SaveFile(memoItemInfo.GetPath(), RichTextBoxStreamType.RichText);
+                richTextBox1.SaveFile(savePath, RichTextBoxStreamType.RichText);
             }
             
             HLog.Info("SaveFile {0} finish checkSaveAct={1}", memoItemInfo.Id, checkSaveAct);
@@ -242,7 +243,7 @@ namespace Text_Editor
         public void LoadFile(MemoItemInfo itemInfo)
         {
             memoItemInfo = itemInfo;
-            var fullPath = memoItemInfo.GetPath();
+            var fullPath = memoItemInfo.GetFilePath();
             hasModify = false;
 
             checkChangeLock = false;
@@ -284,8 +285,8 @@ namespace Text_Editor
         {
             var itemId = (int)e.ClickedItem.Tag;
 
-            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, itemId);
-            RtfModifier.Modify(richTextBox1.Font, fullPath, richTextBox1.SelectedRtf, memoItemInfo.Title);
+            var iteminfo = MemoBook.Instance.GetItem(itemId);
+            RtfModifier.Modify(richTextBox1.Font, iteminfo.GetFilePath(), richTextBox1.SelectedRtf, memoItemInfo.Title);
         }
 
         public void RichtextSelect(int start, int count)
