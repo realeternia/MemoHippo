@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MemoHippo.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -59,7 +60,7 @@ namespace MemoHippo.Model
 
             if(Directory.Exists(GetImageDirectory()))
             {
-                Directory.Move(GetImageDirectory(), GetImageDirectory(val));
+                SysUtils.MoveDirectory(GetImageDirectory(), GetImageDirectory(val));
             }
 
             Folder = val;

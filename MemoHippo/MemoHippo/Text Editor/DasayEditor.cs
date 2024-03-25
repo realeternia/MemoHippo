@@ -153,7 +153,7 @@ namespace Text_Editor
         {
             richTextBox1.Cut();     // cut text
         }
-        private void ModifyFontStyle(FontStyle flag)
+        private bool ModifyFontStyle(FontStyle flag)
         {
             FontStyle style = FontStyle.Regular;
             Font f = richTextBox1.Font;
@@ -169,6 +169,8 @@ namespace Text_Editor
                 style |= flag;
 
             richTextBox1.SelectionFont = new Font(f, style); // sets the font style
+
+            return (style & flag) == flag;
         }
 
         private void boldStripButton3_Click(object sender, EventArgs e)
@@ -188,7 +190,10 @@ namespace Text_Editor
 
         private void delStripButton_Click(object sender, EventArgs e)
         {
-            ModifyFontStyle(FontStyle.Strikeout);
+            if (ModifyFontStyle(FontStyle.Strikeout))
+                richTextBox1.SelectionColor = Color.DimGray;
+            else
+                richTextBox1.SelectionColor = richTextBox1.ForeColor;
         }
 
         private void OnSave()
@@ -592,6 +597,58 @@ namespace Text_Editor
 
                 RichtextSelect(selectStart, keyword.Length);
                 richTextBox1.SelectionColor = GetKeywordColor(keyword);
+
+                RichtextSelect(selectStart, 0);
+            }
+        }
+
+        private void toolStripButtonPLevel_Click(object sender, EventArgs e)
+        {
+            var keyword = (sender as ToolStripButton).Tag.ToString();
+
+            int currentLineIndex = richTextBox1.GetLineFromCharIndex(richTextBox1.SelectionStart);
+            string currentLineText = richTextBox1.Lines[currentLineIndex];
+
+            int todoIndex = currentLineText.IndexOf(keyword);
+            if (todoIndex != -1)
+            {
+                RemoveWord(currentLineIndex, currentLineText, keyword);
+            }
+            else
+            {
+                var newColor = richTextBox1.ForeColor;
+                // 处理单词互斥
+                if (keyword == "▋▋▋P0")
+                {
+                    RemoveWord(currentLineIndex, currentLineText, "▋▋P1");
+                    RemoveWord(currentLineIndex, currentLineText, "▋P2");
+                    newColor = Color.Red;
+                }
+                else if (keyword == "▋▋P1")
+                {
+                    RemoveWord(currentLineIndex, currentLineText, "▋P2");
+                    RemoveWord(currentLineIndex, currentLineText, "▋▋▋P0");
+                    newColor = Color.Yellow;
+                }
+                else if (keyword == "▋P2")
+                {
+                    RemoveWord(currentLineIndex, currentLineText, "▋▋▋P0");
+                    RemoveWord(currentLineIndex, currentLineText, "▋▋P1");
+                    newColor = Color.LawnGreen;
+                }
+
+                var selectStart = richTextBox1.GetFirstCharIndexFromLine(currentLineIndex);
+                if (IsLineWithSpecialChar(currentLineIndex))
+                {     // 在第二个位置插入 "todo"
+                    selectStart = selectStart + 2;
+                }
+
+                RichtextSelect(selectStart, 0);
+                richTextBox1.SelectedText = keyword + " ";
+                richTextBox1.SelectionColor = richTextBox1.ForeColor;
+
+                RichtextSelect(selectStart, keyword.Length);
+                richTextBox1.SelectionColor = newColor;
 
                 RichtextSelect(selectStart, 0);
             }
