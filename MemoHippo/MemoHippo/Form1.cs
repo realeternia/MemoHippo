@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -54,6 +55,14 @@ namespace MemoHippo
 
         private void Form1_Load(object sender, System.EventArgs e)
         {
+            // 防多开
+            if (ProcessTool.CheckProcessPath("MemoHippo")) // 不需要包含 .exe 扩展名
+            {
+                MessageBox.Show("工具已经在运行中");
+                Close();
+                return;
+            }
+
             FontMgr.Init();
 
             textBoxCatalogTitle.OnLoad();
@@ -753,7 +762,7 @@ namespace MemoHippo
             else if (e.LinkText.StartsWith("file://img/"))
             {
                 var filePath = e.LinkText.Substring(7);
-                string pattern = @"img\/(?<number>\d+)\/(?<filename>[\w.]+)";
+                string pattern = @"img\/(?<number>\d+)\/(?<filename>[\w.-]+)";
 
                 // 进行匹配
                 Match match = Regex.Match(filePath, pattern);

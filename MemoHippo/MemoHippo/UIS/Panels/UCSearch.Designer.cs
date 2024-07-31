@@ -43,6 +43,7 @@ namespace MemoHippo.UIS
             this.rjButton1 = new RJControls.RJButton();
             this.rjButton2 = new RJControls.RJButton();
             this.rjButton3 = new RJControls.RJButton();
+            this.rjButton4 = new RJControls.RJButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -227,10 +228,35 @@ namespace MemoHippo.UIS
             this.rjButton3.UseVisualStyleBackColor = false;
             this.rjButton3.Click += new System.EventHandler(this.rjButton6_Click);
             // 
+            // rjButton4
+            // 
+            this.rjButton4.BackColor = System.Drawing.Color.RoyalBlue;
+            this.rjButton4.BackgroundColor = System.Drawing.Color.RoyalBlue;
+            this.rjButton4.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.rjButton4.BorderRadius = 20;
+            this.rjButton4.BorderSize = 0;
+            this.rjButton4.FlatAppearance.BorderSize = 0;
+            this.rjButton4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rjButton4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
+            this.rjButton4.ForeColor = System.Drawing.Color.Black;
+            this.rjButton4.Image = global::MemoHippo.Properties.Resources.pending;
+            this.rjButton4.Location = new System.Drawing.Point(551, 2);
+            this.rjButton4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.rjButton4.Name = "rjButton4";
+            this.rjButton4.Size = new System.Drawing.Size(121, 39);
+            this.rjButton4.TabIndex = 58;
+            this.rjButton4.Text = "pendin";
+            this.rjButton4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.rjButton4.TextColor = System.Drawing.Color.Black;
+            this.rjButton4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.rjButton4.UseVisualStyleBackColor = false;
+            this.rjButton4.Click += new System.EventHandler(this.rjButton6_Click);
+            // 
             // UCSearch
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.Controls.Add(this.rjButton4);
             this.Controls.Add(this.rjButton3);
             this.Controls.Add(this.rjButton2);
             this.Controls.Add(this.rjButton1);
@@ -259,5 +285,6 @@ namespace MemoHippo.UIS
         private RJButton rjButton1;
         private RJButton rjButton2;
         private RJButton rjButton3;
+        private RJButton rjButton4;
     }
 }

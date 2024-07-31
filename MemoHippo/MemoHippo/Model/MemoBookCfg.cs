@@ -47,6 +47,8 @@ namespace MemoHippo.Model
         public ColorCfg KWFollowColor { get; set; } = new ColorCfg(Color.Crimson);
         [SetupItemDes("外观", "main字色", "编辑器中颜色main")]
         public ColorCfg KWMainColor { get; set; } = new ColorCfg(Color.Fuchsia);
+        [SetupItemDes("外观", "pending字色", "编辑器中颜色pending")]
+        public ColorCfg KWPendingColor { get; set; } = new ColorCfg(Color.RoyalBlue);
 
         public IEnumerable<string> GetNamesOnly()
         {

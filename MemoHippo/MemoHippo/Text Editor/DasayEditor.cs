@@ -26,6 +26,7 @@ namespace Text_Editor
             "share",
             "follow",
             "main",
+            "pending"
         };
 
         private MemoItemInfo memoItemInfo;
@@ -558,32 +559,15 @@ namespace Text_Editor
                 RemoveWord(currentLineIndex, currentLineText, keyword);
             }
             else
-            {
+            {  
                 // 处理单词互斥
-                if(keyword == "todo")
+                string[] words = new string[] { "todo", "done", "follow", "main", "pending" };
+                foreach(var w in words)
                 {
-                    RemoveWord(currentLineIndex, currentLineText, "done");
-                    RemoveWord(currentLineIndex, currentLineText, "follow");
-                    RemoveWord(currentLineIndex, currentLineText, "main");
+                    if(w != keyword)
+                        RemoveWord(currentLineIndex, currentLineText, w);
                 }
-                else if (keyword == "done")
-                {
-                    RemoveWord(currentLineIndex, currentLineText, "todo");
-                    RemoveWord(currentLineIndex, currentLineText, "follow");
-                    RemoveWord(currentLineIndex, currentLineText, "main");
-                }
-                else if (keyword == "follow")
-                {
-                    RemoveWord(currentLineIndex, currentLineText, "todo");
-                    RemoveWord(currentLineIndex, currentLineText, "done");
-                    RemoveWord(currentLineIndex, currentLineText, "main");
-                }
-                else if (keyword == "main")
-                {
-                    RemoveWord(currentLineIndex, currentLineText, "todo");
-                    RemoveWord(currentLineIndex, currentLineText, "done");
-                    RemoveWord(currentLineIndex, currentLineText, "follow");
-                }
+       
 
                 var selectStart = richTextBox1.GetFirstCharIndexFromLine(currentLineIndex);
                 if (IsLineWithSpecialChar(currentLineIndex))
@@ -836,11 +820,11 @@ namespace Text_Editor
 
                     RtfModifier.InsertString(richTextBox1, name);
 
-                    RichtextSelect(pos, name.Length);
-                    richTextBox1.SelectionColor = MemoBook.Instance.Cfg.PeopleColor.ToColor(); //给名字变色
+                    //RichtextSelect(pos, name.Length);
+                    //richTextBox1.SelectionColor = MemoBook.Instance.Cfg.PeopleColor.ToColor(); //给名字变色
 
-                    RichtextSelect(pos + name.Length, 0);
-                    richTextBox1.SelectionColor = richTextBox1.ForeColor;
+                    //RichtextSelect(pos + name.Length, 0);
+                    //richTextBox1.SelectionColor = richTextBox1.ForeColor;
 
                     richTextBox1.Focus();
                     //DelayedActionExecutor.Trigger("choosetarget", 0.1f, () => richTextBox1.Focus()); //防止enter事件击穿
@@ -971,6 +955,34 @@ namespace Text_Editor
                 }
             }
 
+            List<string> names = CsvDbHouse.Instance.RoleDb.GetValuesByHeader("姓名");
+            foreach(var name in MemoBook.Instance.Cfg.PeopleNames)
+            {
+                if (name.Contains("-"))
+                    names.Add(name.Split('-')[0]);
+                else
+                    names.Add(name);
+            }
+            names = names.Distinct().ToList();
+            names.Sort();
+
+            // 遍历关键词并高亮
+            foreach (var name in names)
+            {
+                int index = 0;
+                while (index < richTextBox1.TextLength)
+                {
+                    index = richTextBox1.Find(name, index, RichTextBoxFinds.None);
+                    if (index == -1)
+                        break;
+
+                    RichtextSelect(index, name.Length);
+                    richTextBox1.SelectionColor = MemoBook.Instance.Cfg.PeopleColor.ToColor();
+
+                    index += name.Length;
+                }
+            }
+
             richTextBox1.ResumePainting();
         }
 
@@ -985,6 +997,7 @@ namespace Text_Editor
                 case "share": color = MemoBook.Instance.Cfg.KWShareColor; break;
                 case "follow": color = MemoBook.Instance.Cfg.KWFollowColor; break;
                 case "main": color = MemoBook.Instance.Cfg.KWMainColor; break;
+                case "pending": color = MemoBook.Instance.Cfg.KWPendingColor; break;
             }
 
             return color.ToColor();

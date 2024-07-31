@@ -155,8 +155,8 @@ namespace MemoHippo
                 offset += DrawItem(e.Graphics, Resources.done1, parmCount["done"], 35 + 45 * offset);
             if (parmCount.ContainsKey("follow"))
                 offset += DrawItem(e.Graphics, Resources.follow, parmCount["follow"], 35 + 45 * offset);
-            if (parmCount.ContainsKey("share"))
-                offset += DrawItem(e.Graphics, Resources.share, parmCount["share"], 35 + 45 * offset);
+            //if (parmCount.ContainsKey("share"))
+            //    offset += DrawItem(e.Graphics, Resources.share, parmCount["share"], 35 + 45 * offset);
         }
 
         private int DrawItem(Graphics g, Image img, int val, int posX)

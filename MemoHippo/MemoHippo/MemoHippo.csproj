@@ -359,6 +359,7 @@
     <Compile Include="Utils\ImageBook.cs" />
     <Compile Include="Utils\PageHistoryManager.cs" />
     <Compile Include="Utils\MathTool.cs" />
+    <Compile Include="Utils\ProcessTool.cs" />
     <Compile Include="Utils\ResLoader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -643,6 +644,7 @@
     <None Include="Resources\paper.png" />
     <None Include="Resources\people.png" />
     <None Include="Resources\notion.png" />
+    <None Include="Resources\pending.png" />
     <Content Include="Resources\pictureadd.png" />
     <Content Include="Resources\picturepaste.png" />
     <Content Include="Resources\selector.jpg" />
