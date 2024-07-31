@@ -202,14 +202,14 @@ namespace Text_Editor
             if (!memoItemInfo.HasTag("db"))
                 HighlightKeywords();
 
-            var txt = richTextBox1.Text;
-            foreach(var keys in keywords)
-            {
-                if (keys == "url") //url 只上色，不统计
-                    continue;
-                var todoCount = StringTool.CountSubstring(txt, keys);
-                memoItemInfo.SetParm(keys, todoCount.ToString());
-            }
+            //var txt = richTextBox1.Text;
+            //foreach(var keys in keywords)
+            //{
+            //    if (keys == "url") //url 只上色，不统计
+            //        continue;
+            //    var todoCount = StringTool.CountSubstring(txt, keys);
+            //    memoItemInfo.SetParm(keys, todoCount.ToString());
+            //}
         }
 
         public void SaveOnClose()
@@ -934,7 +934,8 @@ namespace Text_Editor
                         lineStart += 2;
                  
                     RichtextSelect(lineStart, 0);
-                    richTextBox1.SelectedText = "url ";   // 在行首添加 "url"
+                    if (richTextBox1.SelectionFont != null && !richTextBox1.SelectionFont.Strikeout)
+                        richTextBox1.SelectedText = "url ";   // 在行首添加 "url"
                 }
             }
 
@@ -942,6 +943,7 @@ namespace Text_Editor
             foreach (var keyword in keywords)
             {
                 int index = 0;
+                int count = 0;
                 while (index < richTextBox1.TextLength)
                 {
                     index = richTextBox1.Find(keyword, index, RichTextBoxFinds.None);
@@ -949,37 +951,46 @@ namespace Text_Editor
                         break;
 
                     RichtextSelect(index, keyword.Length);
-                    richTextBox1.SelectionColor = GetKeywordColor(keyword);
+                    if (richTextBox1.SelectionFont != null && !richTextBox1.SelectionFont.Strikeout)
+                    {
+                        count++;
+                        richTextBox1.SelectionColor = GetKeywordColor(keyword);
+                    }
 
                     index += keyword.Length;
                 }
+                memoItemInfo.SetParm(keyword, count.ToString());
             }
 
-            List<string> names = CsvDbHouse.Instance.RoleDb.GetValuesByHeader("姓名");
-            foreach(var name in MemoBook.Instance.Cfg.PeopleNames)
+            if(CsvDbHouse.Instance.RoleDb != null)
             {
-                if (name.Contains("-"))
-                    names.Add(name.Split('-')[0]);
-                else
-                    names.Add(name);
-            }
-            names = names.Distinct().ToList();
-            names.Sort();
-
-            // 遍历关键词并高亮
-            foreach (var name in names)
-            {
-                int index = 0;
-                while (index < richTextBox1.TextLength)
+                List<string> names = CsvDbHouse.Instance.RoleDb.GetValuesByHeader("姓名");
+                foreach (var name in MemoBook.Instance.Cfg.PeopleNames)
                 {
-                    index = richTextBox1.Find(name, index, RichTextBoxFinds.None);
-                    if (index == -1)
-                        break;
+                    if (name.Contains("-"))
+                        names.Add(name.Split('-')[0]);
+                    else
+                        names.Add(name);
+                }
+                names = names.Distinct().ToList();
+                names.Sort();
 
-                    RichtextSelect(index, name.Length);
-                    richTextBox1.SelectionColor = MemoBook.Instance.Cfg.PeopleColor.ToColor();
+                // 遍历关键词并高亮
+                foreach (var name in names)
+                {
+                    int index = 0;
+                    while (index < richTextBox1.TextLength)
+                    {
+                        index = richTextBox1.Find(name, index, RichTextBoxFinds.None);
+                        if (index == -1)
+                            break;
 
-                    index += name.Length;
+                        RichtextSelect(index, name.Length);
+                        if (richTextBox1.SelectionFont != null && !richTextBox1.SelectionFont.Strikeout)
+                            richTextBox1.SelectionColor = MemoBook.Instance.Cfg.PeopleColor.ToColor();
+
+                        index += name.Length;
+                    }
                 }
             }
 

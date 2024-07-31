@@ -16,7 +16,7 @@ namespace MemoHippo.UIS
             public string Title;
             public int ItemId;
             public string Line;
-            public int LineIndex;
+            public string SearchPos;
             public DateTime CreateTime;
         }
 
@@ -73,18 +73,18 @@ namespace MemoHippo.UIS
 
                         var itemIdStr = fi.Name;
 
-                    if(itemInfo.Title.Contains(searchTxt))
-                        searchResults.Add(new SearchData { Line = itemInfo.Title, Title = itemIdStr, CreateTime = fi.LastWriteTime, LineIndex = 0 });
-                    if (itemInfo.Tag.Contains(searchTxt))
-                        searchResults.Add(new SearchData { Line = itemInfo.Tag, Title = itemIdStr, CreateTime = fi.LastWriteTime, LineIndex = 0 });
+                        if (itemInfo.Title.Contains(searchTxt))
+                            searchResults.Add(new SearchData { Line = itemInfo.Title, Title = itemIdStr, CreateTime = fi.LastWriteTime, SearchPos = "Title" });
+                        if (itemInfo.Tag.Contains(searchTxt))
+                            searchResults.Add(new SearchData { Line = itemInfo.Tag, Title = itemIdStr, CreateTime = fi.LastWriteTime, SearchPos = "Tag" });
 
-                    string plainText = RtfModifier.ReadRtfPlainText(itemId);
+                        string plainText = RtfModifier.ReadRtfPlainText(itemInfo.Id);
 
                         int lineid = 0;
                         foreach (var line in plainText.Split('\n'))
                         {
                             if (line.IndexOf(searchTxt) >= 0)
-                                searchResults.Add(new SearchData { Line = line, Title = itemIdStr, ItemId = itemInfo.Id, CreateTime = fi.LastWriteTime, LineIndex = lineid + 1 });
+                                searchResults.Add(new SearchData { Line = line, Title = itemIdStr, ItemId = itemInfo.Id, CreateTime = fi.LastWriteTime, SearchPos = "行" + (lineid + 1) });
                             lineid++;
                         }
                     }
@@ -157,7 +157,7 @@ namespace MemoHippo.UIS
             if (itemInfo != null)
             {
                 e.Graphics.DrawImage(ResLoader.Read(itemInfo.Icon), e.Bounds.X + 8, e.Bounds.Y + 10, 24, 24);
-                e.Graphics.DrawString(string.Format("{2} ({0}/{1} Ln:{3})", itemInfo.GetCatalog(), itemInfo.GetColumn(), itemInfo.Title, lineInfo.LineIndex),
+                e.Graphics.DrawString(string.Format("{2} ({0}/{1} {3})", itemInfo.GetCatalog(), itemInfo.GetColumn(), itemInfo.Title, lineInfo.SearchPos),
                     e.Item.Font, Brushes.White, e.Bounds.X + 8 + 30, e.Bounds.Y + 10, StringFormat.GenericDefault);
             }
 
