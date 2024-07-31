@@ -18,6 +18,8 @@ namespace MemoHippo.UIS
             label1.Text = k;
             if (!string.IsNullOrEmpty(v))
                 textBox1.Text = v;
+            else
+                textBox1.Text = "";
         }
 
         public void SetReadOnly(bool readOnly)

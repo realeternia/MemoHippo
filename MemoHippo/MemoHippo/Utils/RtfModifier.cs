@@ -62,7 +62,7 @@ namespace MemoHippo.Utils
         public static string ReadRtfPlainText(int itemId)
         {
             var itemInfo = MemoBook.Instance.GetItem(itemId);
-            var fullPath = itemInfo.GetPath();
+            var fullPath = itemInfo.GetFilePath();
 
             if (!File.Exists(fullPath)) 
                 return "";
@@ -90,7 +90,7 @@ namespace MemoHippo.Utils
         public static void WriteRtfPlainText(int itemId, string str)
         {
             var itemInfo = MemoBook.Instance.GetItem(itemId);
-            var fullPath = itemInfo.GetPath();
+            var fullPath = itemInfo.GetFilePath();
 
             if (!File.Exists(fullPath))
                 return;
@@ -106,11 +106,11 @@ namespace MemoHippo.Utils
                     string tempFilePath = Path.GetTempFileName();
                     richTextBox.SaveFile(tempFilePath, RichTextBoxStreamType.RichText);
                     
-                    FileEncryption.EncryptFile(tempFilePath, itemInfo.GetPath());
+                    FileEncryption.EncryptFile(tempFilePath, fullPath);
                 }
                 else
                 {
-                    richTextBox.SaveFile(itemInfo.GetPath(), RichTextBoxStreamType.RichText);
+                    richTextBox.SaveFile(fullPath, RichTextBoxStreamType.RichText);
                 }
             }
         }

@@ -26,6 +26,7 @@ namespace Text_Editor
             "share",
             "follow",
             "main",
+            "pending"
         };
 
         private MemoItemInfo memoItemInfo;
@@ -153,7 +154,7 @@ namespace Text_Editor
         {
             richTextBox1.Cut();     // cut text
         }
-        private void ModifyFontStyle(FontStyle flag)
+        private bool ModifyFontStyle(FontStyle flag)
         {
             FontStyle style = FontStyle.Regular;
             Font f = richTextBox1.Font;
@@ -169,6 +170,8 @@ namespace Text_Editor
                 style |= flag;
 
             richTextBox1.SelectionFont = new Font(f, style); // sets the font style
+
+            return (style & flag) == flag;
         }
 
         private void boldStripButton3_Click(object sender, EventArgs e)
@@ -188,7 +191,10 @@ namespace Text_Editor
 
         private void delStripButton_Click(object sender, EventArgs e)
         {
-            ModifyFontStyle(FontStyle.Strikeout);
+            if (ModifyFontStyle(FontStyle.Strikeout))
+                richTextBox1.SelectionColor = Color.DimGray;
+            else
+                richTextBox1.SelectionColor = richTextBox1.ForeColor;
         }
 
         private void OnSave()
@@ -225,15 +231,16 @@ namespace Text_Editor
                 checkChangeLock = true;
             }
 
+            var savePath = memoItemInfo.GetFilePath();
             if (memoItemInfo.IsEncrypt())
             {
                 string tempFilePath = Path.GetTempFileName();
                 richTextBox1.SaveFile(tempFilePath, RichTextBoxStreamType.RichText);
-                FileEncryption.EncryptFile(tempFilePath, memoItemInfo.GetPath());
+                FileEncryption.EncryptFile(tempFilePath, savePath);
             }
             else
             {
-                richTextBox1.SaveFile(memoItemInfo.GetPath(), RichTextBoxStreamType.RichText);
+                richTextBox1.SaveFile(savePath, RichTextBoxStreamType.RichText);
             }
             
             HLog.Info("SaveFile {0} finish checkSaveAct={1}", memoItemInfo.Id, checkSaveAct);
@@ -242,7 +249,7 @@ namespace Text_Editor
         public void LoadFile(MemoItemInfo itemInfo)
         {
             memoItemInfo = itemInfo;
-            var fullPath = memoItemInfo.GetPath();
+            var fullPath = memoItemInfo.GetFilePath();
             hasModify = false;
 
             checkChangeLock = false;
@@ -284,8 +291,8 @@ namespace Text_Editor
         {
             var itemId = (int)e.ClickedItem.Tag;
 
-            var fullPath = string.Format("{0}/{1}.rtf", ENV.SaveDir, itemId);
-            RtfModifier.Modify(richTextBox1.Font, fullPath, richTextBox1.SelectedRtf, memoItemInfo.Title);
+            var iteminfo = MemoBook.Instance.GetItem(itemId);
+            RtfModifier.Modify(richTextBox1.Font, iteminfo.GetFilePath(), richTextBox1.SelectedRtf, memoItemInfo.Title);
         }
 
         public void RichtextSelect(int start, int count)
@@ -552,32 +559,15 @@ namespace Text_Editor
                 RemoveWord(currentLineIndex, currentLineText, keyword);
             }
             else
-            {
+            {  
                 // 处理单词互斥
-                if(keyword == "todo")
+                string[] words = new string[] { "todo", "done", "follow", "main", "pending" };
+                foreach(var w in words)
                 {
-                    RemoveWord(currentLineIndex, currentLineText, "done");
-                    RemoveWord(currentLineIndex, currentLineText, "follow");
-                    RemoveWord(currentLineIndex, currentLineText, "main");
+                    if(w != keyword)
+                        RemoveWord(currentLineIndex, currentLineText, w);
                 }
-                else if (keyword == "done")
-                {
-                    RemoveWord(currentLineIndex, currentLineText, "todo");
-                    RemoveWord(currentLineIndex, currentLineText, "follow");
-                    RemoveWord(currentLineIndex, currentLineText, "main");
-                }
-                else if (keyword == "follow")
-                {
-                    RemoveWord(currentLineIndex, currentLineText, "todo");
-                    RemoveWord(currentLineIndex, currentLineText, "done");
-                    RemoveWord(currentLineIndex, currentLineText, "main");
-                }
-                else if (keyword == "main")
-                {
-                    RemoveWord(currentLineIndex, currentLineText, "todo");
-                    RemoveWord(currentLineIndex, currentLineText, "done");
-                    RemoveWord(currentLineIndex, currentLineText, "follow");
-                }
+       
 
                 var selectStart = richTextBox1.GetFirstCharIndexFromLine(currentLineIndex);
                 if (IsLineWithSpecialChar(currentLineIndex))
@@ -591,6 +581,58 @@ namespace Text_Editor
 
                 RichtextSelect(selectStart, keyword.Length);
                 richTextBox1.SelectionColor = GetKeywordColor(keyword);
+
+                RichtextSelect(selectStart, 0);
+            }
+        }
+
+        private void toolStripButtonPLevel_Click(object sender, EventArgs e)
+        {
+            var keyword = (sender as ToolStripButton).Tag.ToString();
+
+            int currentLineIndex = richTextBox1.GetLineFromCharIndex(richTextBox1.SelectionStart);
+            string currentLineText = richTextBox1.Lines[currentLineIndex];
+
+            int todoIndex = currentLineText.IndexOf(keyword);
+            if (todoIndex != -1)
+            {
+                RemoveWord(currentLineIndex, currentLineText, keyword);
+            }
+            else
+            {
+                var newColor = richTextBox1.ForeColor;
+                // 处理单词互斥
+                if (keyword == "▋▋▋P0")
+                {
+                    RemoveWord(currentLineIndex, currentLineText, "▋▋P1");
+                    RemoveWord(currentLineIndex, currentLineText, "▋P2");
+                    newColor = Color.Red;
+                }
+                else if (keyword == "▋▋P1")
+                {
+                    RemoveWord(currentLineIndex, currentLineText, "▋P2");
+                    RemoveWord(currentLineIndex, currentLineText, "▋▋▋P0");
+                    newColor = Color.Yellow;
+                }
+                else if (keyword == "▋P2")
+                {
+                    RemoveWord(currentLineIndex, currentLineText, "▋▋▋P0");
+                    RemoveWord(currentLineIndex, currentLineText, "▋▋P1");
+                    newColor = Color.LawnGreen;
+                }
+
+                var selectStart = richTextBox1.GetFirstCharIndexFromLine(currentLineIndex);
+                if (IsLineWithSpecialChar(currentLineIndex))
+                {     // 在第二个位置插入 "todo"
+                    selectStart = selectStart + 2;
+                }
+
+                RichtextSelect(selectStart, 0);
+                richTextBox1.SelectedText = keyword + " ";
+                richTextBox1.SelectionColor = richTextBox1.ForeColor;
+
+                RichtextSelect(selectStart, keyword.Length);
+                richTextBox1.SelectionColor = newColor;
 
                 RichtextSelect(selectStart, 0);
             }
@@ -778,11 +820,11 @@ namespace Text_Editor
 
                     RtfModifier.InsertString(richTextBox1, name);
 
-                    RichtextSelect(pos, name.Length);
-                    richTextBox1.SelectionColor = MemoBook.Instance.Cfg.PeopleColor.ToColor(); //给名字变色
+                    //RichtextSelect(pos, name.Length);
+                    //richTextBox1.SelectionColor = MemoBook.Instance.Cfg.PeopleColor.ToColor(); //给名字变色
 
-                    RichtextSelect(pos + name.Length, 0);
-                    richTextBox1.SelectionColor = richTextBox1.ForeColor;
+                    //RichtextSelect(pos + name.Length, 0);
+                    //richTextBox1.SelectionColor = richTextBox1.ForeColor;
 
                     richTextBox1.Focus();
                     //DelayedActionExecutor.Trigger("choosetarget", 0.1f, () => richTextBox1.Focus()); //防止enter事件击穿
@@ -913,6 +955,34 @@ namespace Text_Editor
                 }
             }
 
+            List<string> names = CsvDbHouse.Instance.RoleDb.GetValuesByHeader("姓名");
+            foreach(var name in MemoBook.Instance.Cfg.PeopleNames)
+            {
+                if (name.Contains("-"))
+                    names.Add(name.Split('-')[0]);
+                else
+                    names.Add(name);
+            }
+            names = names.Distinct().ToList();
+            names.Sort();
+
+            // 遍历关键词并高亮
+            foreach (var name in names)
+            {
+                int index = 0;
+                while (index < richTextBox1.TextLength)
+                {
+                    index = richTextBox1.Find(name, index, RichTextBoxFinds.None);
+                    if (index == -1)
+                        break;
+
+                    RichtextSelect(index, name.Length);
+                    richTextBox1.SelectionColor = MemoBook.Instance.Cfg.PeopleColor.ToColor();
+
+                    index += name.Length;
+                }
+            }
+
             richTextBox1.ResumePainting();
         }
 
@@ -927,6 +997,7 @@ namespace Text_Editor
                 case "share": color = MemoBook.Instance.Cfg.KWShareColor; break;
                 case "follow": color = MemoBook.Instance.Cfg.KWFollowColor; break;
                 case "main": color = MemoBook.Instance.Cfg.KWMainColor; break;
+                case "pending": color = MemoBook.Instance.Cfg.KWPendingColor; break;
             }
 
             return color.ToColor();
