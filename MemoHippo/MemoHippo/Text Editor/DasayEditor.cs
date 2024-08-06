@@ -869,7 +869,7 @@ namespace Text_Editor
             // 如果需要，将坐标转换为屏幕坐标
             cursorPosition = richTextBox1.PointToScreen(cursorPosition);
 
-            PanelManager.Instance.ShowTimeForm(cursorPosition.X - ParentC.Location.X,
+            PanelManager.Instance.ShowEditTimeForm(cursorPosition.X - ParentC.Location.X,
                 cursorPosition.Y - ParentC.Location.Y,
                 (timeStr) =>
                 {

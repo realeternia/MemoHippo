@@ -4,6 +4,7 @@ using MemoHippo.UIS;
 using MemoHippo.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
@@ -56,7 +57,7 @@ namespace MemoHippo
         private void Form1_Load(object sender, System.EventArgs e)
         {
             // 防多开
-            if (ProcessTool.CheckProcessPath("MemoHippo")) // 不需要包含 .exe 扩展名
+            if (!Debugger.IsAttached && ProcessTool.CheckProcessPath("MemoHippo")) // 不需要包含 .exe 扩展名
             {
                 MessageBox.Show("工具已经在运行中");
                 Close();
@@ -83,6 +84,7 @@ namespace MemoHippo
                 if (itm != null)
                     SelectCatalogItem(itm);
             }
+            TagManager.Init();
 
             rjDropdownMenuCatlog.PrimaryColor = Color.SeaGreen;
             rjDropdownMenuCatlog.MenuItemTextColor = Color.White;

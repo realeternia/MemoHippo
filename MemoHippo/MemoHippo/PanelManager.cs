@@ -24,10 +24,11 @@ namespace MemoHippo
         private InputNumberBox numberBox;
         private InputArrayBox arrayBox;
         private InputColorBox colorBox;
-        private UCGmRunSvTime timePicker;
+        private UCEditTime editTime;
         private UCEditImage editImage;
         private KpImageViewer imageViewer;
         private UCAddUrl addUrl;
+        private UCBGPropertyModify bgModify;
 
         public void Init(Form1 form) 
         {
@@ -203,18 +204,18 @@ namespace MemoHippo
             colorBox.OnInit(c);
         }
 
-        public void ShowTimeForm(int x, int y, Action<string> act)
+        public void ShowEditTimeForm(int x, int y, Action<string> act)
         {
-            if (timePicker == null)
+            if (editTime == null)
             {
-                timePicker = new UCGmRunSvTime();
+                editTime = new UCEditTime();
             }
 
-            timePicker.AfterSelect = act;
+            editTime.AfterSelect = act;
 
-            ReLocate(ref x, ref y, timePicker.Size);
-            ShowBlackPanel(timePicker, x, y, 1);
-            timePicker.OnInit();
+            ReLocate(ref x, ref y, editTime.Size);
+            ShowBlackPanel(editTime, x, y, 1);
+            editTime.OnInit();
         }
         public void ShowEditImage(Image img, Action<Image> callback)
         {
@@ -250,6 +251,18 @@ namespace MemoHippo
             ShowBlackPanel(addUrl, 0, 0);
             addUrl.OnInit();
         }
+        public void ShowBGPropertyModify(string tags, Action<string> callback)
+        {
+            if (bgModify == null)
+            {
+                bgModify = new UCBGPropertyModify();
+            }
+            bgModify.AfterSelect = (s1) => callback(s1);
+
+            ShowBlackPanel(bgModify, 0, 0);
+            bgModify.OnInit(tags);
+        }
+
         public void ShowBlackPanel(Control ctr, int x, int y, float bright = 0.5f)
         {
             Bitmap bitmap = new Bitmap(form1.Width+2, form1.Height+2);

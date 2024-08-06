@@ -76,6 +76,12 @@
     <Compile Include="Model\Types\ShowPaperParm.cs" />
     <Compile Include="PanelManager.cs" />
     <Compile Include="UIS\DocComp\IDocComp.cs" />
+    <Compile Include="UIS\DocComp\UCDocTagItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\DocComp\UCDocTagItem.Designer.cs">
+      <DependentUpon>UCDocTagItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIS\DocComp\UCDocTopBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -164,6 +170,12 @@
     </Compile>
     <Compile Include="UIS\Panels\UCBigBox.Designer.cs">
       <DependentUpon>UCBigBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\Panels\UCEditTime.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\Panels\UCEditTime.designer.cs">
+      <DependentUpon>UCEditTime.cs</DependentUpon>
     </Compile>
     <Compile Include="UIS\Panels\UCRoleStore.cs">
       <SubType>UserControl</SubType>
@@ -426,10 +438,14 @@
     <Compile Include="Utils\RtfModifier.cs" />
     <Compile Include="Utils\StringTool.cs" />
     <Compile Include="Utils\SysUtils.cs" />
+    <Compile Include="Utils\TagManager.cs" />
     <Compile Include="Utils\TextBoxSelectRecover.cs" />
     <Compile Include="Utils\TimeTool.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\DocComp\UCDocTagItem.resx">
+      <DependentUpon>UCDocTagItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\DocComp\UCDocTopBar.resx">
       <DependentUpon>UCDocTopBar.cs</DependentUpon>

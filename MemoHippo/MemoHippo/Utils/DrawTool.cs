@@ -81,5 +81,16 @@ namespace MemoHippo.Utils
             }
             return Brushes.DeepSkyBlue;
         }
+        public static Color GetTagColor(string word)
+        {
+            switch (word)
+            {
+                case "存档": return Color.DarkRed;
+                case "汇总": return Color.MediumPurple;
+                case "加密": return Color.OrangeRed;
+                case "db": return Color.YellowGreen;
+            }
+            return Color.DeepSkyBlue;
+        }
     }
 }

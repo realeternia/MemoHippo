@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 
 namespace MemoHippo.UIS
@@ -29,10 +28,10 @@ namespace MemoHippo.UIS
 
             // 需要逆序
             if (!MemoBook.Instance.Cfg.DisableTag)
-                CheckCtrs(oldCtrList, "multisel", "标签", itemInfo.Tag, (s) => { itemInfo.SetTag(s); });
-            CheckCtrs(oldCtrList, "common", "存储路径", itemInfo.Folder, (s) => { itemInfo.SetFolder(s); });
-            CheckCtrs(oldCtrList, "common", "别名", string.IsNullOrEmpty(itemInfo.NickName) ? itemInfo.Id.ToString() : itemInfo.NickName, (s) => itemInfo.NickName = s);
-            CheckCtrs(oldCtrList, "common", "创建时间", itemInfo.GetCreateTime().ToString(), null);
+                CheckCtrs(oldCtrList, "tag",  "标签", itemInfo.Tag, (s) => { itemInfo.SetTag(s); });
+            CheckCtrs(oldCtrList, "common",  "存储路径", itemInfo.Folder, (s) => { itemInfo.SetFolder(s); });
+            CheckCtrs(oldCtrList, "common",  "别名", string.IsNullOrEmpty(itemInfo.NickName) ? itemInfo.Id.ToString() : itemInfo.NickName, (s) => itemInfo.NickName = s);
+            CheckCtrs(oldCtrList, "common",  "创建时间", itemInfo.GetCreateTime().ToString(), null);
 
             Width = 700 - 5;
             Height = doubleBufferedPanel1.Controls.Count * 37 + 10;
@@ -47,6 +46,8 @@ namespace MemoHippo.UIS
                     found = new UCDocStringItem();
                 else if (type == "multisel")
                     found = new UCDocMultiselItem();
+                else if (type == "tag")
+                    found = new UCDocTagItem();
 
                 var foundCtr = found as Control;
                 foundCtr.Name = k;
