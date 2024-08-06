@@ -138,6 +138,15 @@
     <Compile Include="UIS\Main\UCRowBigPic.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UIS\Panels\UCBGPropertyAttrItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UIS\Panels\UCBGPropertyModify.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\Panels\UCBGPropertyModify.designer.cs">
+      <DependentUpon>UCBGPropertyModify.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIS\Panels\UCEditImage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -149,12 +158,6 @@
     </Compile>
     <Compile Include="UIS\Panels\UCAddUrl.designer.cs">
       <DependentUpon>UCAddUrl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UIS\Panels\UCGmRunSvTime.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UIS\Panels\UCGmRunSvTime.designer.cs">
-      <DependentUpon>UCGmRunSvTime.cs</DependentUpon>
     </Compile>
     <Compile Include="UIS\Panels\UCBigBox.cs">
       <SubType>UserControl</SubType>
@@ -458,14 +461,14 @@
     <EmbeddedResource Include="UIS\Main\UCRowBigPic.resx">
       <DependentUpon>UCRowBigPic.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UIS\Panels\UCBGPropertyModify.resx">
+      <DependentUpon>UCBGPropertyModify.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCEditImage.resx">
       <DependentUpon>UCEditImage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCAddUrl.resx">
       <DependentUpon>UCAddUrl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UIS\Panels\UCGmRunSvTime.resx">
-      <DependentUpon>UCGmRunSvTime.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCBigBox.resx">
       <DependentUpon>UCBigBox.cs</DependentUpon>
