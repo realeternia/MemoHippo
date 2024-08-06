@@ -98,7 +98,9 @@ namespace MemoHippo
             InitMenu();
 
             HLog.Info("main form load finish");
-           // DeleteRemovedFiles();
+            // DeleteRemovedFiles();
+
+            HttpServer.Run(); 
         }
 
         //添加一个新的分类
