@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -102,7 +101,7 @@ namespace MemoHippo
             HLog.Info("main form load finish");
             // DeleteRemovedFiles();
 
-            HttpServer.Run(); 
+            MemoHttpServer.Run(); 
         }
 
         //添加一个新的分类

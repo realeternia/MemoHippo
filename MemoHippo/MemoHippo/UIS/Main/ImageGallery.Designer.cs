@@ -34,24 +34,27 @@ namespace MemoHippo.UIS.Main
             // 
             // doubleBufferedFlowLayoutPanel1
             // 
+            this.doubleBufferedFlowLayoutPanel1.AllowDrop = true;
             this.doubleBufferedFlowLayoutPanel1.AutoScroll = true;
             this.doubleBufferedFlowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(36)))));
             this.doubleBufferedFlowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.doubleBufferedFlowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.doubleBufferedFlowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.doubleBufferedFlowLayoutPanel1.Name = "doubleBufferedFlowLayoutPanel1";
-            this.doubleBufferedFlowLayoutPanel1.Padding = new System.Windows.Forms.Padding(3);
-            this.doubleBufferedFlowLayoutPanel1.Size = new System.Drawing.Size(1042, 727);
+            this.doubleBufferedFlowLayoutPanel1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.doubleBufferedFlowLayoutPanel1.Size = new System.Drawing.Size(1389, 909);
             this.doubleBufferedFlowLayoutPanel1.TabIndex = 0;
             this.doubleBufferedFlowLayoutPanel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.doubleBufferedFlowLayoutPanel1_DragDrop);
             this.doubleBufferedFlowLayoutPanel1.DragEnter += new System.Windows.Forms.DragEventHandler(this.doubleBufferedFlowLayoutPanel1_DragEnter);
             // 
             // ImageGallery
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.doubleBufferedFlowLayoutPanel1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ImageGallery";
-            this.Size = new System.Drawing.Size(1042, 727);
+            this.Size = new System.Drawing.Size(1389, 909);
             this.ResumeLayout(false);
 
         }

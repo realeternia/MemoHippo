@@ -41,8 +41,15 @@
     <ApplicationIcon>ico.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="KSToolHttpLib">
+      <HintPath>.\KSToolHttpLib.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>.\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NPinyin">
       <HintPath>.\NPinyin.dll</HintPath>
@@ -371,6 +378,11 @@
     <Compile Include="Model\MemoCatalogInfo.cs" />
     <Compile Include="Utils\DrawTool.cs" />
     <Compile Include="Utils\FontMgr.cs" />
+    <Compile Include="Utils\HttpHandles\ErrorHandler.cs" />
+    <Compile Include="Utils\HttpHandles\ExceptionHandler.cs" />
+    <Compile Include="Utils\HttpHandles\MemoFileHandler.cs" />
+    <Compile Include="Utils\HttpHandles\HelloHandler.cs" />
+    <Compile Include="Utils\HttpHandles\IndexHandler.cs" />
     <Compile Include="Utils\HttpServer.cs" />
     <Compile Include="Utils\ImageBook.cs" />
     <Compile Include="Utils\PageHistoryManager.cs" />

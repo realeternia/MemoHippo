@@ -75,7 +75,7 @@ namespace MemoHippo.UIS
 
                         if (itemInfo.Title.Contains(searchTxt))
                             searchResults.Add(new SearchData { Line = itemInfo.Title, Title = itemIdStr, CreateTime = fi.LastWriteTime, SearchPos = "Title" });
-                        if (itemInfo.Tag.Contains(searchTxt))
+                        if (itemInfo.Tag != null && itemInfo.Tag.Contains(searchTxt))
                             searchResults.Add(new SearchData { Line = itemInfo.Tag, Title = itemIdStr, CreateTime = fi.LastWriteTime, SearchPos = "Tag" });
 
                         string plainText = RtfModifier.ReadRtfPlainText(itemInfo.Id);
