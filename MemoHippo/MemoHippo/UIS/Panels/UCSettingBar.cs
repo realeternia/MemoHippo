@@ -95,6 +95,15 @@ namespace MemoHippo.UIS
 
                     newCtr = colorItem;
                 }
+                else if (property.PropertyType == typeof(TextColorCfg[]))
+                {
+                    var stringItem = new UCTextColorArrayItem();
+                    var sValue = GetPropertyValue<TextColorCfg[]>(MemoBook.Instance.Cfg, property.Name);
+                    stringItem.SetData(attribute.Name, attribute.Des, sValue);
+                    stringItem.OnModify = (va) => SetPropertyValue(MemoBook.Instance.Cfg, property.Name, va);
+
+                    newCtr = stringItem;
+                }
                 else
                 {
                     var stringItem = new UCSetupStringItem();

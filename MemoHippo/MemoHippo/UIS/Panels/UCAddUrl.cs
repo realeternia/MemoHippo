@@ -20,6 +20,8 @@ namespace MemoHippo.UIS.Panels
                 if (control is TextBox)
                     control.KeyUp += TextBox_KeyDown;
             }
+
+            Panels.PanelBorders.InitBorder(this);
         }
 
 

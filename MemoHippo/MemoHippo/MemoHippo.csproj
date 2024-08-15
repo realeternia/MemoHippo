@@ -44,9 +44,8 @@
     <Reference Include="KSToolHttpLib">
       <HintPath>.\KSToolHttpLib.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=2.0.9.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.10\lib\net45\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>.\Newtonsoft.Json.dll</HintPath>
@@ -81,6 +80,7 @@
     <Compile Include="Model\MemoBookCfg.cs" />
     <Compile Include="Model\Types\ColorCfg.cs" />
     <Compile Include="Model\Types\ShowPaperParm.cs" />
+    <Compile Include="Model\Types\TextColorCfg.cs" />
     <Compile Include="PanelManager.cs" />
     <Compile Include="UIS\DocComp\IDocComp.cs" />
     <Compile Include="UIS\DocComp\UCDocTagItem.cs">
@@ -127,6 +127,12 @@
     <Compile Include="UIS\InputColorBox.Designer.cs">
       <DependentUpon>InputColorBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIS\InputTextColorBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\InputTextColorBox.Designer.cs">
+      <DependentUpon>InputTextColorBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIS\Main\ImageGallery.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -151,6 +157,7 @@
     <Compile Include="UIS\Main\UCRowBigPic.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UIS\Panels\PanelBorders.cs" />
     <Compile Include="UIS\Panels\UCBGPropertyAttrItem.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -313,6 +320,12 @@
     </Compile>
     <Compile Include="UIS\SetupComp\UCSetupStringItem.Designer.cs">
       <DependentUpon>UCSetupStringItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\SetupComp\UCTextColorArrayItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\SetupComp\UCTextColorArrayItem.Designer.cs">
+      <DependentUpon>UCTextColorArrayItem.cs</DependentUpon>
     </Compile>
     <Compile Include="UIS\ViewStack.cs">
       <SubType>Component</SubType>
@@ -592,6 +605,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\SetupComp\UCSetupStringItem.resx">
       <DependentUpon>UCSetupStringItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\SetupComp\UCTextColorArrayItem.resx">
+      <DependentUpon>UCTextColorArrayItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\TransparentPanel.resx">
       <DependentUpon>TransparentPanel.cs</DependentUpon>

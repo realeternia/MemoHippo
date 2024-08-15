@@ -30,6 +30,7 @@ namespace MemoHippo.UIS
             InitializeComponent();
 
             textBox1.OnLoad();
+            Panels.PanelBorders.InitBorder(this);
         }
 
         public void OnInit(string keyword)
@@ -74,9 +75,9 @@ namespace MemoHippo.UIS
                         var itemIdStr = fi.Name;
 
                         if (itemInfo.Title.Contains(searchTxt))
-                            searchResults.Add(new SearchData { Line = itemInfo.Title, Title = itemIdStr, CreateTime = fi.LastWriteTime, SearchPos = "Title" });
+                            searchResults.Add(new SearchData { Line = itemInfo.Title, Title = itemIdStr, ItemId = itemInfo.Id, CreateTime = fi.LastWriteTime, SearchPos = "Title" });
                         if (itemInfo.Tag != null && itemInfo.Tag.Contains(searchTxt))
-                            searchResults.Add(new SearchData { Line = itemInfo.Tag, Title = itemIdStr, CreateTime = fi.LastWriteTime, SearchPos = "Tag" });
+                            searchResults.Add(new SearchData { Line = itemInfo.Tag, Title = itemIdStr, ItemId = itemInfo.Id, CreateTime = fi.LastWriteTime, SearchPos = "Tag" });
 
                         string plainText = RtfModifier.ReadRtfPlainText(itemInfo.Id);
 

@@ -16,6 +16,8 @@ namespace MemoHippo.UIS
         public UCBGPropertyModify()
         {
             InitializeComponent();
+
+            Panels.PanelBorders.InitBorder(this);
         }
 
         public void OnInit(string myTag)

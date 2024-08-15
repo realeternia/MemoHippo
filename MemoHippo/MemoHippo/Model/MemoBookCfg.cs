@@ -35,20 +35,8 @@ namespace MemoHippo.Model
         [SetupItemDes("外观", "ddl字色", "编辑器中ddl时间的颜色")]
         public ColorCfg TimeDDLColor { get; set; } = new ColorCfg(Color.Purple);
 
-        [SetupItemDes("外观", "todo字色", "编辑器中颜色todo")]
-        public ColorCfg KWTodoColor { get; set; } = new ColorCfg(Color.Gray);
-        [SetupItemDes("外观", "done字色", "编辑器中颜色done")]
-        public ColorCfg KWDoneColor { get; set; } = new ColorCfg(Color.LimeGreen);
-        [SetupItemDes("外观", "url字色", "编辑器中颜色url")]
-        public ColorCfg KWUrlColor { get; set; } = new ColorCfg(Color.Cyan);
-        [SetupItemDes("外观", "share字色", "编辑器中颜色share")]
-        public ColorCfg KWShareColor { get; set; } = new ColorCfg(Color.Goldenrod);
-        [SetupItemDes("外观", "follow字色", "编辑器中颜色follow")]
-        public ColorCfg KWFollowColor { get; set; } = new ColorCfg(Color.Crimson);
-        [SetupItemDes("外观", "main字色", "编辑器中颜色main")]
-        public ColorCfg KWMainColor { get; set; } = new ColorCfg(Color.Fuchsia);
-        [SetupItemDes("外观", "pending字色", "编辑器中颜色pending")]
-        public ColorCfg KWPendingColor { get; set; } = new ColorCfg(Color.RoyalBlue);
+        [SetupItemDes("外观", "关键词", "关键词颜色")]
+        public TextColorCfg[] TextColors { get; set; } = new TextColorCfg[0];
 
         public IEnumerable<string> GetNamesOnly()
         {

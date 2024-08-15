@@ -22,7 +22,6 @@ namespace Text_Editor
         {
             "todo",
             "done",
-            "url",
             "share",
             "follow",
             "main",
@@ -939,7 +938,7 @@ namespace Text_Editor
                 }
             }
 
-            // 遍历关键词并高亮
+            // 遍历关键词
             foreach (var keyword in keywords)
             {
                 int index = 0;
@@ -950,19 +949,30 @@ namespace Text_Editor
                     if (index == -1)
                         break;
 
-                    RichtextSelect(index, keyword.Length);
-                    if (richTextBox1.SelectionFont != null && !richTextBox1.SelectionFont.Strikeout)
-                    {
-                        count++;
-                        richTextBox1.SelectionColor = GetKeywordColor(keyword);
-                    }
-
+                    count++;
                     index += keyword.Length;
                 }
                 memoItemInfo.SetParm(keyword, count.ToString());
             }
 
-            if(CsvDbHouse.Instance.RoleDb != null)
+            var textLen = richTextBox1.TextLength;
+            foreach (var keywordInfo in GetKeywordColor())
+            {
+                int index = 0;
+                while (index < textLen)
+                {
+                    index = richTextBox1.Find(keywordInfo.Item1, index, RichTextBoxFinds.None);
+                    if (index == -1)
+                        break;
+
+                    RichtextSelect(index, keywordInfo.Item1.Length);
+                    richTextBox1.SelectionColor = keywordInfo.Item2;
+
+                    index += keywordInfo.Item1.Length;
+                }
+            }
+
+            if (CsvDbHouse.Instance.RoleDb != null)
             {
                 List<string> names = CsvDbHouse.Instance.RoleDb.GetValuesByHeader("姓名");
                 foreach (var name in MemoBook.Instance.Cfg.PeopleNames)
@@ -997,21 +1007,20 @@ namespace Text_Editor
             richTextBox1.ResumePainting();
         }
 
+        private IEnumerable<Tuple<string, Color>> GetKeywordColor()
+        {
+            foreach (var colorCfg in MemoBook.Instance.Cfg.TextColors)
+                yield return new Tuple<string, Color>(colorCfg.Text, colorCfg.Color.ToColor()); // 全局词库
+        }
+
         private static Color GetKeywordColor(string keyword)
         {
-            var color = MemoBook.Instance.Cfg.KWTodoColor;
-            switch (keyword)
+            foreach (var colorCfg in MemoBook.Instance.Cfg.TextColors)
             {
-                case "todo": color = MemoBook.Instance.Cfg.KWTodoColor; break;
-                case "done": color = MemoBook.Instance.Cfg.KWDoneColor; break;
-                case "url": color = MemoBook.Instance.Cfg.KWUrlColor; break;
-                case "share": color = MemoBook.Instance.Cfg.KWShareColor; break;
-                case "follow": color = MemoBook.Instance.Cfg.KWFollowColor; break;
-                case "main": color = MemoBook.Instance.Cfg.KWMainColor; break;
-                case "pending": color = MemoBook.Instance.Cfg.KWPendingColor; break;
+                if (keyword == colorCfg.Text)
+                    return colorCfg.Color.ToColor();
             }
-
-            return color.ToColor();
+            return Color.White;
         }
 
 

@@ -1,4 +1,5 @@
-﻿using MemoHippo.UIS;
+﻿using MemoHippo.Model.Types;
+using MemoHippo.UIS;
 using MemoHippo.UIS.ImageView;
 using MemoHippo.UIS.Panels;
 using MemoHippo.Utils;
@@ -29,6 +30,7 @@ namespace MemoHippo
         private KpImageViewer imageViewer;
         private UCAddUrl addUrl;
         private UCBGPropertyModify bgModify;
+        private InputTextColorBox textColorBox;
 
         public void Init(Form1 form) 
         {
@@ -261,6 +263,20 @@ namespace MemoHippo
 
             ShowBlackPanel(bgModify, 0, 0);
             bgModify.OnInit(tags);
+        }
+        public void ShowTextColorBox(TextColorCfg[] cfg, Action<TextColorCfg[]> callback)
+        {
+            if (textColorBox == null)
+            {
+                textColorBox = new InputTextColorBox();
+                textColorBox.Width = 500;
+            }
+
+            textColorBox.ColorArray = cfg;
+            textColorBox.OnCustomTextChanged = (s1) => callback(s1);
+
+            ShowBlackPanel(textColorBox, 0, 0);
+            textColorBox.OnInit();
         }
 
         public void ShowBlackPanel(Control ctr, int x, int y, float bright = 0.5f)

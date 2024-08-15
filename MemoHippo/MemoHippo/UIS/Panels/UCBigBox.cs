@@ -9,6 +9,8 @@ namespace MemoHippo.UIS.Panels
             InitializeComponent();
             richTextBox1.ShortcutsEnabled = true;    // allow shortcuts
             richTextBox1.DetectUrls = true;    // allow detect url
+
+            Panels.PanelBorders.InitBorder(this);
         }
 
         public void OnInit(string s)

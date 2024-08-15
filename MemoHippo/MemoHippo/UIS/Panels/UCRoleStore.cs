@@ -32,6 +32,8 @@ namespace MemoHippo.UIS
         public UCRoleStore()
         {
             InitializeComponent();
+
+            Panels.PanelBorders.InitBorder(this);
         }
 
         public void OnInit(string keyword)
