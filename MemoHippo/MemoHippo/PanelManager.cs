@@ -101,7 +101,9 @@ namespace MemoHippo
             ReLocate(ref x, ref y, intputPanel.Size);
             ShowBlackPanel(intputPanel, x, y, 1);
 
-            List<string> names = CsvDbHouse.Instance.RoleDb.GetValuesByHeader("姓名");
+            List<string> names = new List<string>();
+            if(CsvDbHouse.Instance.RoleDb != null)
+                names.AddRange(CsvDbHouse.Instance.RoleDb.GetValuesByHeader("姓名"));
             names.AddRange(MemoBook.Instance.Cfg.PeopleNames);
             names.Sort();
             intputPanel.OnInit(names.ToArray());

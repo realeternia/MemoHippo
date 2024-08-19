@@ -56,8 +56,9 @@ namespace MemoHippo.UIS.Panels
 
         private void textBoxYear_KeyPress(object sender, KeyPressEventArgs e)
         {
-            //判断按键是不是要输入的类型。
-            if (((int)e.KeyChar < 48 || (int)e.KeyChar > 57) && (int)e.KeyChar != 8 && (int)e.KeyChar != 46)
+            if (e.KeyChar == (char)Keys.Enter)
+                buttonOk.PerformClick();
+            else if (((int)e.KeyChar < 48 || (int)e.KeyChar > 57) && (int)e.KeyChar != 8 && (int)e.KeyChar != 46)
                 e.Handled = true;
         }
 

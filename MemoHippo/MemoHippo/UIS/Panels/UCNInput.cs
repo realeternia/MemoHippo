@@ -106,8 +106,8 @@ namespace MemoHippo.UIS.Panels
             nowText = nowText.Trim();
             foreach (var matchTxt in wordList)
             {
-                if (results.Count >= 10)
-                    break;
+                //if (results.Count >= 10)
+                //    break;
                 if (string.IsNullOrEmpty(nowText))
                 {
                     results.Add(matchTxt);

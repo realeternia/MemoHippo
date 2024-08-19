@@ -707,7 +707,7 @@ namespace Text_Editor
 
             }
 
-            if (e.KeyCode == Keys.OemQuestion && !e.Shift)
+            if (e.KeyCode == Keys.OemQuestion && e.Control)
             {
                 RichtextSelect(richTextBox1.SelectionStart - 1, 1);
                 richTextBox1.SelectedText = "";
@@ -1094,32 +1094,35 @@ namespace Text_Editor
             }
 
             var db = CsvDbHouse.Instance.RoleDb;
-            searchNameList.Clear();
-            foreach (var name in db.GetValuesByHeader("姓名"))
+            if(db != null)
             {
-                if (nowLine.Contains(name))
-                    searchNameList.Add(name);
-            }
-
-            if (searchNameList.Count > 0)
-            {
-                toolStripMenuItemSearchCard.DropDownItems.Clear();
-                toolStripMenuItemSearchCard.Visible = true;
-
-                foreach (var name in searchNameList)
+                searchNameList.Clear();
+                foreach (var name in db.GetValuesByHeader("姓名"))
                 {
-                    var toolStripMenuItemSearch = new ToolStripMenuItem();
-                    toolStripMenuItemSearch.BackColor = Color.FromArgb(32, 32, 32);
-                    //  this.toolStripMenuItemPeople.Name = "toolStripMenuItemPeople";
-                    toolStripMenuItemSearch.Size = new Size(232, 36);
-                    toolStripMenuItemSearch.Text = name;
-                    toolStripMenuItemSearch.Click += ToolStripMenuItemSearchCard_Click;
-                    toolStripMenuItemSearchCard.DropDownItems.Add(toolStripMenuItemSearch);
+                    if (nowLine.Contains(name))
+                        searchNameList.Add(name);
                 }
-            }
-            else
-            {
-                toolStripMenuItemSearchCard.Visible = false;
+
+                if (searchNameList.Count > 0)
+                {
+                    toolStripMenuItemSearchCard.DropDownItems.Clear();
+                    toolStripMenuItemSearchCard.Visible = true;
+
+                    foreach (var name in searchNameList)
+                    {
+                        var toolStripMenuItemSearch = new ToolStripMenuItem();
+                        toolStripMenuItemSearch.BackColor = Color.FromArgb(32, 32, 32);
+                        //  this.toolStripMenuItemPeople.Name = "toolStripMenuItemPeople";
+                        toolStripMenuItemSearch.Size = new Size(232, 36);
+                        toolStripMenuItemSearch.Text = name;
+                        toolStripMenuItemSearch.Click += ToolStripMenuItemSearchCard_Click;
+                        toolStripMenuItemSearchCard.DropDownItems.Add(toolStripMenuItemSearch);
+                    }
+                }
+                else
+                {
+                    toolStripMenuItemSearchCard.Visible = false;
+                }
             }
 
             rjDropdownMenuBar.Show(rjButtonLeftS, -rjDropdownMenuBar.Width, 0);
