@@ -25,13 +25,42 @@ namespace MemoHippo.Utils
 
             LazyClean();
 
-            var fs = new FileStream(url, FileMode.Open, FileAccess.Read, FileShare.Read);
-            var img = new Bitmap(fs);
-            //var wid = Math.Min(250, img.Width);
-            //var het = img.Height * wid / img.Width;
-            imgDict[url] = new ImageInfo { BMP = img, AccessTime = DateTime.Now };
-            fs.Close();
-            return imgDict[url].BMP;
+            if (!File.Exists(url))
+                return null;
+
+            try
+            {
+                var fs = new FileStream(url, FileMode.Open, FileAccess.Read, FileShare.Read);
+                var img = new Bitmap(fs);
+                //var wid = Math.Min(250, img.Width);
+                //var het = img.Height * wid / img.Width;
+                imgDict[url] = new ImageInfo { BMP = img, AccessTime = DateTime.Now };
+                fs.Close();
+                return imgDict[url].BMP;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public string FindFirstFilePath(string url)
+        {
+            if (!Directory.Exists(url))
+            {
+                return ""; // 目录不存在，返回空字符串
+            }
+
+            string[] files = Directory.GetFiles(url);
+
+            if (files.Length > 0)
+            {
+                return files[0]; // 返回第一个文件路径
+            }
+            else
+            {
+                return ""; // 目录中没有文件，返回空字符串
+            }
         }
 
         private DateTime lastCheckTime;

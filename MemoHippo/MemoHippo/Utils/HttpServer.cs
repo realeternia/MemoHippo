@@ -18,9 +18,14 @@ namespace MemoHippo.Utils
         public static void StartRun()
         {
             var httpRouter = new HttpRouter();
-            var httpServer = new HttpServer(new HttpRequestProvider(), 8082, 1024 * 1024 * 2, 1024 * 1024 * 2);
+            var port = 8081;
+            if (System.Diagnostics.Debugger.IsAttached)
+                port = 8082;
+            var httpServer = new HttpServer(new HttpRequestProvider(), port, 1024 * 1024 * 2, 1024 * 1024 * 2);
             {
-                httpServer.Use(new TcpListenerAdapter(new TcpListener(IPAddress.Any, 8082)));
+
+                httpServer.Use(new TcpListenerAdapter(new TcpListener(IPAddress.Any, port)));
+
                 //httpServer.Use(new ListenerSslDecorator(new TcpListenerAdapter(new TcpListener(IPAddress.Loopback, 443)), serverCertificate));
                 httpServer.Use(new ExceptionHandler(true));
                 //httpServer.Use(new CompressionHandler(DeflateCompressor.Default, GZipCompressor.Default));

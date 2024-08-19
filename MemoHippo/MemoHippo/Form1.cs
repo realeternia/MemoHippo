@@ -576,9 +576,13 @@ namespace MemoHippo
 
         private void doubleBufferedFlowLayoutPanel1_SizeChanged(object sender, EventArgs e)
         {
+            if (doubleBufferedFlowLayoutPanel1.Width == 0) //隐藏不管
+                return;
             viewStack2.Width = doubleBufferedFlowLayoutPanel1.Width;
             viewStack2.Height = doubleBufferedFlowLayoutPanel1.Height - uckvList1.Location.Y - uckvList1.Height-45;
             uckvList1.Width = doubleBufferedFlowLayoutPanel1.Width;
+            uckvList1.OnSizeChanged();
+            ucListSelectBar2.Width = doubleBufferedFlowLayoutPanel1.Width;
             ucDocTopBar1.Width = doubleBufferedFlowLayoutPanel1.Width;
             textBoxRowItemTitle.Width = doubleBufferedFlowLayoutPanel1.Width-100;
         }
