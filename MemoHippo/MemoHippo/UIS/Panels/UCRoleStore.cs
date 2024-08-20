@@ -1,5 +1,4 @@
 ﻿using MemoHippo.Utils;
-using RJControls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -34,6 +33,7 @@ namespace MemoHippo.UIS
             InitializeComponent();
 
             Panels.PanelBorders.InitBorder(this);
+            hintTextBoxSearch.OnLoad();
         }
 
         public void OnInit(string keyword)
@@ -43,14 +43,13 @@ namespace MemoHippo.UIS
 
             panel1.Visible = false;
 
+            hintTextBoxSearch.TrueText = "";
+
+            var db = CsvDbHouse.Instance.RoleDb;
+            RefreshNameList(db);
+            rjComboBox1.SelectedIndex = 0;
             if (nameList.Count == 0)
             {
-                var db = CsvDbHouse.Instance.RoleDb;
-                nameList = db.GetValuesByHeader("姓名", "职级", (a, b) => { return int.Parse(b.Substring(1)) - int.Parse(a.Substring(1)); });
-                rjComboBoxKey.Items.Add("all");
-                rjComboBoxKey.Items.AddRange(nameList.ToArray());
-                rjComboBox1.SelectedIndex = 0;
-
                 crList = db.GetValuesByHeader("TTCCR值").ConvertAll<float>(s => float.Parse(s));
                 crList.RemoveAll(s => s == 0);
                 cr2List = db.GetValuesByHeader("TP1CR值").ConvertAll<float>(s => float.Parse(s));
@@ -63,17 +62,52 @@ namespace MemoHippo.UIS
                 jixiaoList.Sort();
             }
 
-            foreach (var item in rjComboBoxKey.Items)
+            foreach (ListViewItem item in listViewNames.Items)
             {
-                string itemText = item.ToString();
+                string itemText = item.Text;
 
                 // 判断是否为目标项
                 if (itemText == keyword)
                 {
-                    // 设置选中项
-                    rjComboBoxKey.SelectedItem = item;
+                    item.Selected = true; // 设置选中项
                     break; // 可以提前结束循环，因为已经找到了目标项
                 }
+            }
+        }
+
+        private void RefreshNameList(CsvDb db)
+        {
+            nameList = db.GetValuesByHeader("姓名", "职级", (a, b) => { return int.Parse(b.Substring(1)) - int.Parse(a.Substring(1)); });
+            listViewNames.Items.Clear();
+            listViewNames.Items.Add("all");
+            var searchText = hintTextBoxSearch.TrueText;
+            foreach (var name in nameList)
+            {
+                var rowInfo = db.GetRowStringByKey(name);
+                if (!string.IsNullOrEmpty(searchText) && rowInfo.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) < 0)
+                    continue;
+                var listItem = new ListViewItem(name);
+                var job = db.GetValueByKey(name, "岗位");
+                listItem.ForeColor = GetCatalogColor(job);
+                listViewNames.Items.Add(listItem);
+            }
+        }
+
+        private Dictionary<string, Color> colorDict = new Dictionary<string, Color>();
+        private List<Color> leftColor = new List<Color> { Color.Red, Color.Yellow, Color.LightBlue, Color.LawnGreen, Color.Orange, Color.Cyan };
+        private int colorIndex = 0;
+        private Color GetCatalogColor(string type)
+        {
+            if (colorDict.ContainsKey(type))
+            {
+                return colorDict[type];
+            }
+            else
+            {
+                Color color = leftColor[colorIndex % leftColor.Count];
+                colorDict.Add(type, color);
+                colorIndex++;
+                return color;
             }
         }
 
@@ -83,12 +117,14 @@ namespace MemoHippo.UIS
             {
                 listView1.Visible = false; //防止中途绘制出现奇怪问题
                 searchResults.Clear();
-                var searchTxt = rjComboBoxKey.SelectedItem.ToString();
-                if (string.IsNullOrWhiteSpace(searchTxt))
+
+                if (listViewNames.SelectedItems.Count == 0 || string.IsNullOrWhiteSpace(listViewNames.SelectedItems[0].Text))
                 {
                     listView1.VirtualListSize = 0;
                     return;
                 }
+
+                var searchTxt = listViewNames.SelectedItems[0].Text;
 
                 foreach (var itemInfo in MemoBook.Instance.Items)
                 {
@@ -195,23 +231,18 @@ namespace MemoHippo.UIS
             else
                 searchBegin = DateTime.Now.Subtract(TimeSpan.FromDays(365 * 30));
 
-            if (rjComboBoxKey.SelectedItem != null && !string.IsNullOrEmpty(rjComboBoxKey.SelectedItem.ToString()))
+            if (listViewNames.SelectedItems != null && listViewNames.SelectedItems.Count > 0)
                 SearchAct();
-        }
-
-        private void rjComboBoxKey_OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-            SearchAct();
-            UpdateRoleInfo();
         }
 
         private void UpdateRoleInfo()
         {
-            var searchTxt = rjComboBoxKey.SelectedItem.ToString();
-            if (searchTxt == "all")
-            {
+            if (listViewNames.SelectedItems.Count == 0)
                 return;
-            }
+
+            var searchTxt = listViewNames.SelectedItems[0].Text;
+            if (searchTxt == "all")
+                return;
 
             var db = CsvDbHouse.Instance.RoleDb;
             var enterTime = db.GetValueByKey(searchTxt, "入职日期");
@@ -257,6 +288,18 @@ namespace MemoHippo.UIS
         private void rjButtonShow_Click(object sender, EventArgs e)
         {
             panel1.Visible = !panel1.Visible;
+        }
+
+        private void listViewNames_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SearchAct();
+            UpdateRoleInfo();
+        }
+
+        private void hintTextBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            var db = CsvDbHouse.Instance.RoleDb;
+            RefreshNameList(db);
         }
     }
 }

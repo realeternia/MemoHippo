@@ -90,6 +90,20 @@ namespace MemoHippo.Utils
             Save();
         }
 
+        public string GetRowStringByKey(string key)
+        {
+            foreach (string[] row in rows)
+            {
+                if (row[0] == key)
+                {
+                    // 拼接该行数据
+                    return string.Join(", ", row);
+                }
+            }
+
+            throw new ArgumentException($"Key '{key}' not found.");
+        }
+
         public string GetValueByKey(string key, string header)
         {
             int keyIndex = headers.IndexOf(header);

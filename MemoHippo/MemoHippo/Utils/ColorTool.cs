@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace MemoHippo.Utils
 {
@@ -133,6 +134,63 @@ namespace MemoHippo.Utils
         public static Color ColorPlus(Color c, float exp)
         {
             return Color.FromArgb((byte)(c.R * exp), (byte)(c.G * exp), (byte)(c.B * exp));
+        }
+        public static Color GetColorFromString(string input)
+        {
+            // 计算输入字符串的哈希值
+            input += new string(input.Reverse().ToArray()) + input.Length;
+            int hash = input.GetHashCode();
+
+            // 将哈希值映射到颜色范围内（这里是浅色）
+            float hue = ((hash & 0xFF0000) >> 16) / 255.0f; // 色调
+            float saturation = ((hash & 0x00FF00) >> 8) / 255.0f; // 饱和度
+            float brightness = (hash & 0x0000FF) / 255.0f; // 亮度
+
+            // 调整亮度，使颜色更接近白色
+         //   brightness = Math.Max(0.8f, Math.Min(0.65f, brightness + 0.15f)); // 增加亮度
+
+            // 将 HSB 颜色转换为 RGB 颜色
+            var color = HSBtoRGB(hue, saturation, brightness);
+            {
+                int newR = Math.Min(255, (int)(Math.Pow((double)color.R / 255, 0.1) * 255));
+                int newG = Math.Min(255, (int)(Math.Pow((double)color.G / 255, 0.1) * 255));
+                int newB = Math.Min(255, (int)(Math.Pow((double)color.B / 255, 0.1) * 255));
+                color = Color.FromArgb(newR, newG, newB);
+            }
+            return color;
+        }
+
+        public static Color Whiten(Color color, double strong = 0.1)
+        {
+            int newR = Math.Min(255, (int)(Math.Pow((double)color.R / 255, strong) * 255));
+            int newG = Math.Min(255, (int)(Math.Pow((double)color.G / 255, strong) * 255));
+            int newB = Math.Min(255, (int)(Math.Pow((double)color.B / 255, strong) * 255));
+            return Color.FromArgb(newR, newG, newB);
+        }
+
+        public static Color HSBtoRGB(float hue, float saturation, float brightness)
+        {
+            int hi = Convert.ToInt32(Math.Floor(hue * 6)) % 6;
+            float f = hue * 6 - (float)Math.Floor(hue * 6);
+            float p = brightness * (1 - saturation);
+            float q = brightness * (1 - f * saturation);
+            float t = brightness * (1 - (1 - f) * saturation);
+
+            switch (hi)
+            {
+                case 0:
+                    return Color.FromArgb(Convert.ToInt32(brightness * 255), Convert.ToInt32(t * 255), Convert.ToInt32(p * 255));
+                case 1:
+                    return Color.FromArgb(Convert.ToInt32(q * 255), Convert.ToInt32(brightness * 255), Convert.ToInt32(p * 255));
+                case 2:
+                    return Color.FromArgb(Convert.ToInt32(p * 255), Convert.ToInt32(brightness * 255), Convert.ToInt32(t * 255));
+                case 3:
+                    return Color.FromArgb(Convert.ToInt32(p * 255), Convert.ToInt32(q * 255), Convert.ToInt32(brightness * 255));
+                case 4:
+                    return Color.FromArgb(Convert.ToInt32(t * 255), Convert.ToInt32(p * 255), Convert.ToInt32(brightness * 255));
+                default:
+                    return Color.FromArgb(Convert.ToInt32(brightness * 255), Convert.ToInt32(p * 255), Convert.ToInt32(q * 255));
+            }
         }
     }
 }

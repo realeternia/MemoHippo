@@ -974,34 +974,38 @@ namespace Text_Editor
 
             if (CsvDbHouse.Instance.RoleDb != null)
             {
-                List<string> names = CsvDbHouse.Instance.RoleDb.GetValuesByHeader("姓名");
-                foreach (var name in MemoBook.Instance.Cfg.PeopleNames)
+                try
                 {
-                    if (name.Contains("-"))
-                        names.Add(name.Split('-')[0]);
-                    else
-                        names.Add(name);
-                }
-                names = names.Distinct().ToList();
-                names.Sort();
-
-                // 遍历关键词并高亮
-                foreach (var name in names)
-                {
-                    int index = 0;
-                    while (index < richTextBox1.TextLength)
+                    List<string> names = CsvDbHouse.Instance.RoleDb.GetValuesByHeader("姓名");
+                    foreach (var name in MemoBook.Instance.Cfg.PeopleNames)
                     {
-                        index = richTextBox1.Find(name, index, RichTextBoxFinds.None);
-                        if (index == -1)
-                            break;
+                        if (name.Contains("-"))
+                            names.Add(name.Split('-')[0]);
+                        else
+                            names.Add(name);
+                    }
+                    names = names.Distinct().ToList();
+                    names.Sort();
 
-                        RichtextSelect(index, name.Length);
-                        if (richTextBox1.SelectionFont != null && !richTextBox1.SelectionFont.Strikeout)
-                            richTextBox1.SelectionColor = MemoBook.Instance.Cfg.PeopleColor.ToColor();
+                    // 遍历关键词并高亮
+                    foreach (var name in names)
+                    {
+                        int index = 0;
+                        while (index < richTextBox1.TextLength)
+                        {
+                            index = richTextBox1.Find(name, index, RichTextBoxFinds.None);
+                            if (index == -1)
+                                break;
 
-                        index += name.Length;
+                            RichtextSelect(index, name.Length);
+                            if (richTextBox1.SelectionFont != null && !richTextBox1.SelectionFont.Strikeout)
+                                richTextBox1.SelectionColor = MemoBook.Instance.Cfg.PeopleColor.ToColor();
+
+                            index += name.Length;
+                        }
                     }
                 }
+                catch { }
             }
 
             richTextBox1.ResumePainting();
