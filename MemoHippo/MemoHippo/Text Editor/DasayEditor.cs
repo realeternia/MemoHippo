@@ -275,9 +275,6 @@ namespace Text_Editor
             //{
             //    richTextBox1.Clear();
             //}
-            ////让滚动条到最前面
-            //richTextBox1.SelectionStart = 0;
-            //richTextBox1.ScrollToCaret();
         }
 
         private void colorStripDropDownButton_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -1027,11 +1024,6 @@ namespace Text_Editor
             return Color.White;
         }
 
-
-        //****************************************************************************************************************************
-        // richTextBox1_MouseDown - Gets the line and column numbers of the cursor position in the RTB when the mouse clicks an area *
-        //****************************************************************************************************************************
-
         int previousScrollPos = 0;
         private void richTextBox1_VScroll(object sender, EventArgs e)
         {
@@ -1308,6 +1300,13 @@ namespace Text_Editor
                 }
             }
             return false;
+        }
+
+        private void richTextBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            // 修复鼠标点击造成scroll滚动的问题
+            int charIndex = richTextBox1.GetCharIndexFromPosition(e.Location);
+            richTextBox1.SelectionStart = charIndex;
         }
     }
 }

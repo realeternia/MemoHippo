@@ -16,21 +16,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-using System;
 using System.Threading.Tasks;
-using KSToolHttpLib;
-using KSToolHttpLib.Headers;
+using HttpLib;
 
-namespace MemoHippo.Utils.HttpHandles
+namespace HttpLib.Handlers
 {
-    public class HelloHandler : IHttpRequestHandler
+    public class ErrorHandler : IHttpRequestHandler
     {
-
-        public Task Handle(IHttpContext context, Func<Task> next)
+        public Task Handle(HttpContext context, System.Func<Task> next)
         {
-
-            context.Response = new HttpResponse(HttpResponseCode.Ok, "hello", context.Request.Headers.KeepAliveConnection());
-
+            context.Response = new HttpResponse(HttpResponseCode.NotFound, "Page missing, 404", true);
             return Task.Factory.GetCompleted();
         }
     }

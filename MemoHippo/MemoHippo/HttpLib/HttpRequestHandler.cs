@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (C) 2011 uhttpsharp project - http://github.com/raistlinthewiz/uhttpsharp
  *
  * This library is free software; you can redistribute it and/or
@@ -16,17 +16,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+using System;
 using System.Threading.Tasks;
-using KSToolHttpLib;
 
-namespace MemoHippo.Utils.HttpHandles
+namespace HttpLib
 {
-    public class ErrorHandler : IHttpRequestHandler
+    public interface IHttpRequestHandler
     {
-        public Task Handle(IHttpContext context, System.Func<Task> next)
-        {
-            context.Response = new HttpResponse(HttpResponseCode.NotFound, "Page missing, 404", true);
-            return Task.Factory.GetCompleted();
-        }
+        Task Handle(HttpContext context, Func<Task> next);
     }
 }

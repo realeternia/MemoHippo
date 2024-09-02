@@ -19,10 +19,10 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
-using KSToolHttpLib;
-using KSToolHttpLib.Headers;
+using HttpLib;
+using HttpLib.Headers;
 
-namespace MemoHippo.Utils.HttpHandles
+namespace HttpLib.Handlers
 {
     public class IndexHandler : IHttpRequestHandler
     {
@@ -36,7 +36,7 @@ namespace MemoHippo.Utils.HttpHandles
             _response = new HttpResponse(HttpResponseCode.Ok, contents, false);
         }
         
-        public Task Handle(IHttpContext context, Func<Task> next)
+        public Task Handle(HttpContext context, Func<Task> next)
         {
             context.Response = context.Request.Headers.KeepAliveConnection() ? _keepAliveResponse : _response;
             return Task.Factory.GetCompleted();

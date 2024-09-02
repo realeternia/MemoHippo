@@ -41,9 +41,6 @@
     <ApplicationIcon>ico.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="KSToolHttpLib">
-      <HintPath>.\KSToolHttpLib.dll</HintPath>
-    </Reference>
     <Reference Include="log4net, Version=2.0.9.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.10\lib\net45\log4net.dll</HintPath>
     </Reference>
@@ -73,6 +70,38 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ENV.cs" />
+    <Compile Include="HttpLib\TcpClientAdapter.cs" />
+    <Compile Include="HttpLib\Handlers\Compression\CompressedResponse.cs" />
+    <Compile Include="HttpLib\Handlers\Compression\CompressionHandler.cs" />
+    <Compile Include="HttpLib\Handlers\Compression\DeflateCompressor.cs" />
+    <Compile Include="HttpLib\Handlers\Compression\GZipCompressor.cs" />
+    <Compile Include="HttpLib\Handlers\Compression\ICompressor.cs" />
+    <Compile Include="HttpLib\Handlers\FileHandler.cs" />
+    <Compile Include="HttpLib\Handlers\HttpRouter.cs" />
+    <Compile Include="HttpLib\Handlers\IResponseProvider.cs" />
+    <Compile Include="HttpLib\Handlers\IRestController.cs" />
+    <Compile Include="HttpLib\Handlers\RestHandler.cs" />
+    <Compile Include="HttpLib\Headers\EmptyHttpHeaders.cs" />
+    <Compile Include="HttpLib\Headers\HttpHeaders.cs" />
+    <Compile Include="HttpLib\Headers\HttpHeadersExtensions.cs" />
+    <Compile Include="HttpLib\Headers\IHttpHeaders.cs" />
+    <Compile Include="HttpLib\Headers\JsonHttpHeaders.cs" />
+    <Compile Include="HttpLib\Headers\QueryStringHttpHeaders.cs" />
+    <Compile Include="HttpLib\HttpClient.cs" />
+    <Compile Include="HttpLib\HttpContext.cs" />
+    <Compile Include="HttpLib\HttpMethodProvider.cs" />
+    <Compile Include="HttpLib\HttpMethodProviderCache.cs" />
+    <Compile Include="HttpLib\HttpMethods.cs" />
+    <Compile Include="HttpLib\HttpRequest.cs" />
+    <Compile Include="HttpLib\HttpRequestHandler.cs" />
+    <Compile Include="HttpLib\HttpResponse.cs" />
+    <Compile Include="HttpLib\HttpResponseCode.cs" />
+    <Compile Include="HttpLib\HttpServer.cs" />
+    <Compile Include="HttpLib\IHttpMethodProvider.cs" />
+    <Compile Include="HttpLib\LimitedStream.cs" />
+    <Compile Include="HttpLib\TcpListenerAdapter.cs" />
+    <Compile Include="HttpLib\HttpRequestProvider.cs" />
+    <Compile Include="HttpLib\TaskFactoryExtensions.cs" />
     <Compile Include="Model\MemoColumnInfo.cs" />
     <Compile Include="Model\MemoItemInfo.cs" />
     <Compile Include="Model\SetupItemDesAttribute.cs" />
@@ -391,12 +420,11 @@
     <Compile Include="Model\MemoCatalogInfo.cs" />
     <Compile Include="Utils\DrawTool.cs" />
     <Compile Include="Utils\FontMgr.cs" />
-    <Compile Include="Utils\HttpHandles\ErrorHandler.cs" />
-    <Compile Include="Utils\HttpHandles\ExceptionHandler.cs" />
-    <Compile Include="Utils\HttpHandles\MemoFileHandler.cs" />
-    <Compile Include="Utils\HttpHandles\HelloHandler.cs" />
-    <Compile Include="Utils\HttpHandles\IndexHandler.cs" />
-    <Compile Include="Utils\HttpServer.cs" />
+    <Compile Include="HttpLib\Handlers\ErrorHandler.cs" />
+    <Compile Include="HttpLib\Handlers\ExceptionHandler.cs" />
+    <Compile Include="HttpLib\Handlers\IndexHandler.cs" />
+    <Compile Include="HttpLib\Handlers\MemoFileHandler.cs" />
+    <Compile Include="Utils\MemoHttpServer.cs" />
     <Compile Include="Utils\ImageBook.cs" />
     <Compile Include="Utils\PageHistoryManager.cs" />
     <Compile Include="Utils\MathTool.cs" />

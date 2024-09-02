@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
-using KSToolHttpLib;
-using KSToolHttpLib.Headers;
+using HttpLib;
+using HttpLib.Headers;
+using MemoHippo;
+using MemoHippo.Utils;
 
-namespace MemoHippo.Utils.HttpHandles
+namespace HttpLib.Handlers
 {
     public class MemoFileHandler : IHttpRequestHandler
     {
-        public Task Handle(IHttpContext context, Func<Task> next)
+        public Task Handle(HttpContext context, Func<Task> next)
         {
             context.Request.QueryString.TryGetByName("id", out var id);
 

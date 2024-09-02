@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using KSToolHttpLib;
-using HttpResponse = KSToolHttpLib.HttpResponse;
+using MemoHippo.Utils;
 
-namespace MemoHippo.Utils.HttpHandles
+namespace HttpLib.Handlers
 {
     public class ExceptionHandler : IHttpRequestHandler
     {
@@ -17,7 +15,7 @@ namespace MemoHippo.Utils.HttpHandles
             showClient = showToClient;
         }
 
-        public async Task Handle(IHttpContext context, Func<Task> next)
+        public async Task Handle(HttpContext context, Func<Task> next)
         {
             try
             {
