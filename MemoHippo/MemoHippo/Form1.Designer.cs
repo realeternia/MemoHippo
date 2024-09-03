@@ -77,6 +77,7 @@ namespace MemoHippo
             this.toolStripMenuItemCata = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCryto = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ucCatalogFixCalendar = new MemoHippo.UCCatalogFix();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -109,6 +110,7 @@ namespace MemoHippo
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.ucCatalogFixCalendar);
             this.splitContainer1.Panel1.Controls.Add(this.ucCatalogRoleStore);
             this.splitContainer1.Panel1.Controls.Add(this.ucCatalogNew);
             this.splitContainer1.Panel1.Controls.Add(this.ucCatalogSearch);
@@ -172,7 +174,7 @@ namespace MemoHippo
             this.ucCatalogNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
             this.ucCatalogNew.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.ucCatalogNew.ForeColor = System.Drawing.Color.DarkGray;
-            this.ucCatalogNew.Location = new System.Drawing.Point(0, 119);
+            this.ucCatalogNew.Location = new System.Drawing.Point(0, 158);
             this.ucCatalogNew.Margin = new System.Windows.Forms.Padding(0);
             this.ucCatalogNew.Name = "ucCatalogNew";
             this.ucCatalogNew.PicImg = global::MemoHippo.Properties.Resources.noteadd;
@@ -214,10 +216,10 @@ namespace MemoHippo
             this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 160);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 200);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(240, 918);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(240, 878);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // ucListSelectBar1
@@ -637,6 +639,20 @@ namespace MemoHippo
             this.toolStripMenuItem2.Text = "删除";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.deleteToolStripMenuItemRow_Click);
             // 
+            // ucCatalogFixCalendar
+            // 
+            this.ucCatalogFixCalendar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.ucCatalogFixCalendar.Font = new System.Drawing.Font("微软雅黑", 10.5F);
+            this.ucCatalogFixCalendar.ForeColor = System.Drawing.Color.DarkGray;
+            this.ucCatalogFixCalendar.Location = new System.Drawing.Point(0, 119);
+            this.ucCatalogFixCalendar.Margin = new System.Windows.Forms.Padding(0);
+            this.ucCatalogFixCalendar.Name = "ucCatalogFixCalendar";
+            this.ucCatalogFixCalendar.PicImg = global::MemoHippo.Properties.Resources.noteadd;
+            this.ucCatalogFixCalendar.Size = new System.Drawing.Size(240, 38);
+            this.ucCatalogFixCalendar.TabIndex = 5;
+            this.ucCatalogFixCalendar.Title = "日历";
+            this.ucCatalogFixCalendar.Click += new System.EventHandler(this.ucCatalogFixCalendar_Click);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -722,6 +738,7 @@ namespace MemoHippo
         private System.Windows.Forms.TabPage tabPage4;
         private UIS.Main.UCListSelectBar ucListSelectBar2;
         private UIS.Main.ImageGallery imageGallery1;
+        private UCCatalogFix ucCatalogFixCalendar;
     }
 }
 

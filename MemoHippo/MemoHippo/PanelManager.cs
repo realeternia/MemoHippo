@@ -16,7 +16,8 @@ namespace MemoHippo
 
         private Form1 form1;
         private UCSearch searchForm;
-        private UCRoleStore roleStore;
+        private UCSearchRoleStore roleStore;
+        private UCSearchCalendar calendar;
         private UCIconPicker iconPicker;
         private UCNInput intputPanel;
         private UCBigBox bigBox;
@@ -54,13 +55,26 @@ namespace MemoHippo
         {
             if (roleStore == null)
             {
-                roleStore = new UCRoleStore();
+                roleStore = new UCSearchRoleStore();
                 roleStore.Form1 = form1;
             }
 
             ShowBlackPanel(roleStore, 0, 0);
 
             roleStore.OnInit(keyword);
+        }
+
+        public void ShowSearchCalendar(string keyword = "")
+        {
+            if (calendar == null)
+            {
+                calendar = new UCSearchCalendar();
+                calendar.Form1 = form1;
+            }
+
+            ShowBlackPanel(calendar, 0, 0);
+
+            calendar.OnInit(keyword);
         }
 
         private void ReLocate(ref int x, ref int y, Size formSize)

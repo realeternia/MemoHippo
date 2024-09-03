@@ -4,7 +4,7 @@ using RJControls;
 
 namespace MemoHippo.UIS
 {
-    partial class UCRoleStore
+    partial class UCSearchRoleStore
     {
         /// <summary> 
         /// 必需的设计器变量。

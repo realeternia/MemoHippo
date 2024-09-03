@@ -220,11 +220,17 @@
     <Compile Include="UIS\Panels\UCEditTime.designer.cs">
       <DependentUpon>UCEditTime.cs</DependentUpon>
     </Compile>
-    <Compile Include="UIS\Panels\UCRoleStore.cs">
+    <Compile Include="UIS\Panels\UCSearchRoleStore.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UIS\Panels\UCRoleStore.Designer.cs">
-      <DependentUpon>UCRoleStore.cs</DependentUpon>
+    <Compile Include="UIS\Panels\UCSearchRoleStore.Designer.cs">
+      <DependentUpon>UCSearchRoleStore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\Panels\UCSearchCalendar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\Panels\UCSearchCalendar.Designer.cs">
+      <DependentUpon>UCSearchCalendar.cs</DependentUpon>
     </Compile>
     <Compile Include="UIS\Panels\UCSettingItem.cs">
       <SubType>UserControl</SubType>
@@ -489,6 +495,7 @@
     <Compile Include="Utils\ImageTool.cs" />
     <Compile Include="Utils\CsvDbHouse.cs" />
     <Compile Include="Utils\RtfModifier.cs" />
+    <Compile Include="Utils\SearchManager.cs" />
     <Compile Include="Utils\StringTool.cs" />
     <Compile Include="Utils\SysUtils.cs" />
     <Compile Include="Utils\TagManager.cs" />
@@ -542,8 +549,11 @@
     <EmbeddedResource Include="UIS\Panels\UCBigBox.resx">
       <DependentUpon>UCBigBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UIS\Panels\UCRoleStore.resx">
-      <DependentUpon>UCRoleStore.cs</DependentUpon>
+    <EmbeddedResource Include="UIS\Panels\UCSearchRoleStore.resx">
+      <DependentUpon>UCSearchRoleStore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\Panels\UCSearchCalendar.resx">
+      <DependentUpon>UCSearchCalendar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCSettingItem.resx">
       <DependentUpon>UCSettingItem.cs</DependentUpon>

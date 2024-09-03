@@ -8,32 +8,25 @@ using System.Windows.Forms;
 
 namespace MemoHippo.UIS
 {
-    public partial class UCRoleStore : UserControl
+    public partial class UCSearchRoleStore : UserControl
     {
-        class SearchData
-        {
-            public string Title;
-            public string Line;
-            public int LineIndex;
-            public DateTime CreateTime;
-        }
-
-        private List<SearchData> searchResults = new List<SearchData>();
+        private List<SearchManager.SearchData> searchResults = new List<SearchManager.SearchData>();
         public Form1 Form1 { get; set; }
-        private DateTime searchBegin;
-
 
         private List<string> nameList = new List<string>();
         private List<float> crList = new List<float>();
         private List<float> cr2List = new List<float>();
         private List<float> jixiaoList = new List<float>();
 
-        public UCRoleStore()
+        public UCSearchRoleStore()
         {
             InitializeComponent();
 
             Panels.PanelBorders.InitBorder(this);
             hintTextBoxSearch.OnLoad();
+
+            rjComboBox1.SelectedIndex = 0;
+
         }
 
         public void OnInit(string keyword)
@@ -47,7 +40,6 @@ namespace MemoHippo.UIS
 
             var db = CsvDbHouse.Instance.RoleDb;
             RefreshNameList(db);
-            rjComboBox1.SelectedIndex = 0;
             if (nameList.Count == 0)
             {
                 crList = db.GetValuesByHeader("TTCCR值").ConvertAll<float>(s => float.Parse(s));
@@ -73,13 +65,15 @@ namespace MemoHippo.UIS
                     break; // 可以提前结束循环，因为已经找到了目标项
                 }
             }
+
+            SearchManager.GenSearchCache(GetBeginTime());
         }
 
         private void RefreshNameList(CsvDb db)
         {
             nameList = db.GetValuesByHeader("姓名", "职级", (a, b) => { return int.Parse(b.Substring(1)) - int.Parse(a.Substring(1)); });
             listViewNames.Items.Clear();
-            listViewNames.Items.Add("all");
+            //listViewNames.Items.Add("all");
             var searchText = hintTextBoxSearch.TrueText;
             foreach (var name in nameList)
             {
@@ -113,62 +107,20 @@ namespace MemoHippo.UIS
 
         private void SearchAct()
         {
-            DelayedExecutor.Trigger("ucrolesearch", 0.3f, () =>
+            listView1.Visible = false; //防止中途绘制出现奇怪问题
+            searchResults.Clear();
+
+        
+            if (listViewNames.SelectedItems.Count == 0 || string.IsNullOrWhiteSpace(listViewNames.SelectedItems[0].Text))
             {
-                listView1.Visible = false; //防止中途绘制出现奇怪问题
-                searchResults.Clear();
+                listView1.VirtualListSize = 0;
+                return;
+            }
+            var searchTxt = listViewNames.SelectedItems[0].Text;
 
-                if (listViewNames.SelectedItems.Count == 0 || string.IsNullOrWhiteSpace(listViewNames.SelectedItems[0].Text))
-                {
-                    listView1.VirtualListSize = 0;
-                    return;
-                }
-
-                var searchTxt = listViewNames.SelectedItems[0].Text;
-
-                foreach (var itemInfo in MemoBook.Instance.Items)
-                {
-                    if (itemInfo.IsEncrypt())
-                        continue;
-
-                    var fullPath = itemInfo.GetFilePath();
-                    if (File.Exists(fullPath))
-                    {
-                        var fi = new FileInfo(fullPath);
-                        if (fi.LastWriteTime < searchBegin)
-                            continue;
-
-                        var itemIdStr = fi.Name;
-
-                        string plainText = RtfModifier.ReadRtfPlainText(itemInfo.Id);
-
-                        int lineid = 0;
-                        foreach (var line in plainText.Split('\n'))
-                        {
-                            bool hit = false;
-                            if (searchTxt == "all")
-                            {
-                                foreach (var s in nameList)
-                                    if (line.IndexOf(s) >= 0)
-                                    {
-                                        hit = true;
-                                        break;
-                                    }
-                            }
-                            else
-                            {
-                                if (line.IndexOf(searchTxt) >= 0)
-                                    hit = true;
-                            }
-                            if (hit && !line.Contains("url")) //url里一般有减号，剔除掉
-                                searchResults.Add(new SearchData { Line = line.Trim(), Title = itemIdStr, CreateTime = fi.CreationTime, LineIndex = lineid + 1 });
-
-                            lineid++;
-                        }
-                    }
-                }
-
-                searchResults.Sort((a, b) => (int)(b.CreateTime - a.CreateTime).TotalSeconds);
+            SearchManager.DoSearch(searchTxt, results =>
+            {
+                searchResults.AddRange(results);
                 listView1.VirtualListSize = searchResults.Count;
                 listView1.Visible = true;
             });
@@ -224,15 +176,19 @@ namespace MemoHippo.UIS
 
         private void rjComboBox1_OnSelectedIndexChanged(object sender, EventArgs e)
         {
-            if (rjComboBox1.SelectedIndex == 0) //一个月
-                searchBegin = DateTime.Now.Subtract(TimeSpan.FromDays(30));
-            else if (rjComboBox1.SelectedIndex == 1) //三个月
-                searchBegin = DateTime.Now.Subtract(TimeSpan.FromDays(90));
-            else
-                searchBegin = DateTime.Now.Subtract(TimeSpan.FromDays(365 * 30));
-
+            SearchManager.GenSearchCache(GetBeginTime());
             if (listViewNames.SelectedItems != null && listViewNames.SelectedItems.Count > 0)
                 SearchAct();
+        }
+
+        private DateTime GetBeginTime()
+        {
+            if (rjComboBox1.SelectedIndex == 0) //一个月
+                return DateTime.Now.Subtract(TimeSpan.FromDays(30));
+            else if (rjComboBox1.SelectedIndex == 1) //三个月
+                return DateTime.Now.Subtract(TimeSpan.FromDays(90));
+            else
+                return DateTime.Now.Subtract(TimeSpan.FromDays(365 * 30));
         }
 
         private void UpdateRoleInfo()
@@ -241,8 +197,6 @@ namespace MemoHippo.UIS
                 return;
 
             var searchTxt = listViewNames.SelectedItems[0].Text;
-            if (searchTxt == "all")
-                return;
 
             var db = CsvDbHouse.Instance.RoleDb;
             var enterTime = db.GetValueByKey(searchTxt, "入职日期");
