@@ -39,8 +39,9 @@ namespace MemoHippo.UIS
             hintTextBoxSearch.TrueText = "";
 
             var db = CsvDbHouse.Instance.RoleDb;
+            var nameCount = nameList.Count;
             RefreshNameList(db);
-            if (nameList.Count == 0)
+            if (nameCount == 0)
             {
                 crList = db.GetValuesByHeader("TTCCR值").ConvertAll<float>(s => float.Parse(s));
                 crList.RemoveAll(s => s == 0);

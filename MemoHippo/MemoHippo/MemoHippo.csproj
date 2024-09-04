@@ -220,6 +220,12 @@
     <Compile Include="UIS\Panels\UCEditTime.designer.cs">
       <DependentUpon>UCEditTime.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIS\Panels\UCSearchCalendarCell.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\Panels\UCSearchCalendarCell.Designer.cs">
+      <DependentUpon>UCSearchCalendarCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIS\Panels\UCSearchRoleStore.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -548,6 +554,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCBigBox.resx">
       <DependentUpon>UCBigBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\Panels\UCSearchCalendarCell.resx">
+      <DependentUpon>UCSearchCalendarCell.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCSearchRoleStore.resx">
       <DependentUpon>UCSearchRoleStore.cs</DependentUpon>

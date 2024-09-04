@@ -1,10 +1,9 @@
-﻿using MemoHippo.Utils;
+﻿using MemoHippo.UIS.Panels;
+using MemoHippo.Utils;
 using RJControls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace MemoHippo.UIS
@@ -30,7 +29,7 @@ namespace MemoHippo.UIS
             textBox1.Text = keyword;
             textBox1.Focus();
             if (string.IsNullOrEmpty(keyword))
-                listView1.Hide();
+                doubleBufferedPanel1.Hide();
 
             SearchManager.GenSearchCache(GetBeginTime());
         }
@@ -42,13 +41,13 @@ namespace MemoHippo.UIS
 
         private void SearchAct()
         {
-            listView1.Visible = false; //防止中途绘制出现奇怪问题
+            doubleBufferedPanel1.Visible = false; //防止中途绘制出现奇怪问题
+            doubleBufferedPanel1.Controls.Clear();
             searchResults.Clear();
 
-            var searchTxt = textBox1.Text;
+            var searchTxt = textBox1.TrueText.Trim();
             if (string.IsNullOrWhiteSpace(searchTxt))
             {
-                listView1.VirtualListSize = 0;
                 return;
             }
 
@@ -56,89 +55,68 @@ namespace MemoHippo.UIS
             {
                 selectLine = null;
                 searchResults.AddRange(results);
-                listView1.VirtualListSize = searchResults.Count;
-                listView1.Visible = true;
+
+                var startTime = GetStartOfWeek(DateTime.Now);
+                var searchBeginTime = GetBeginTime();
+                int ctrGap = 5;
+                int ctrX = ctrGap;
+                int ctrY = ctrGap + 30;
+                bool firstLine = true;
+                while (startTime > searchBeginTime)
+                {
+                    var endTime = startTime.AddDays(7);
+                    var list = results.FindAll(a => a.CreateTime > startTime && a.CreateTime < endTime);
+                    foreach (var item in list)
+                        results.Remove(item);
+
+                    if(firstLine)
+                    {
+                        var lbl = new Label();
+                        lbl.Text = startTime.Year.ToString() + " / " + startTime.Month.ToString();
+                        lbl.ForeColor = Color.FromArgb(100, Color.LightBlue);
+                        lbl.Location = new System.Drawing.Point(ctrX, ctrGap);
+                        doubleBufferedPanel1.Controls.Add(lbl);
+                    }
+
+                    var ctr = new UCSearchCalendarCell();
+                    ctr.Location = new System.Drawing.Point(ctrX, ctrY);
+                    ctr.Init(startTime, searchTxt, list);
+                    doubleBufferedPanel1.Controls.Add(ctr);
+                    var newstartTime = startTime.AddDays(-7);
+
+                    if (newstartTime.Month != startTime.Month)
+                    {
+                        ctrY = ctrGap + 30;
+                        ctrX += ctrGap + ctr.Width;
+                        firstLine = true;
+                    }
+                    else
+                    {
+                        ctrY += ctrGap + ctr.Height;
+                        firstLine = false;
+                    }
+
+                    startTime = newstartTime;
+                }
+
+                doubleBufferedPanel1.Visible = true;
             });
         }
 
-        private void listView1_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
+        private static DateTime GetStartOfWeek(DateTime date)
         {
-            if (e.ItemIndex >= 0 && e.ItemIndex < searchResults.Count)
-            {
-                ListViewItem item = new ListViewItem(searchResults[e.ItemIndex].Line);
-                item.SubItems.Add(searchResults[e.ItemIndex].Title);
+            // 获取给定日期所在月份的最后一天
+            DateTime lastDayOfMonth = new DateTime(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month));
 
-                e.Item = item;
+            // 从最后一天开始倒退，直到找到一个星期一
+            while (lastDayOfMonth.DayOfWeek != DayOfWeek.Monday)
+            {
+                lastDayOfMonth = lastDayOfMonth.AddDays(-1);
             }
+
+            // 返回找到的最后一个星期一
+            return lastDayOfMonth;
         }
-
-        private static void DrawLine(DrawListViewSubItemEventArgs e, string fullText, string searshText, Font font)
-        {
-            // 逐字绘制
-            float x = e.Bounds.X + 5;
-            float y = e.Bounds.Y + 40;
-
-            List<int> matchIndx = new List<int>();
-
-            foreach (Match match in Regex.Matches(fullText, searshText))
-            {
-                int index = match.Index;
-                for (int i = 0; i < searshText.Length; i++)
-                    matchIndx.Add(index + i);
-            }
-
-            for (int i = 0; i < fullText.Length; i++)
-            {
-                var c = fullText[i];
-                // 随机选择一个画刷
-                var brush = matchIndx.Contains(i) ? Brushes.WhiteSmoke : Brushes.DimGray;
-
-                // 设置字符之间的间距
-                float characterSpacing = -5.0f; // 调整字符之间的距离
-
-                var sf = new StringFormat
-                {
-                    FormatFlags = StringFormatFlags.MeasureTrailingSpaces,
-                    LineAlignment = StringAlignment.Near,
-                    Alignment = StringAlignment.Near
-                };
-                // e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
-                e.Graphics.DrawString(c.ToString(), font, brush, x, y, sf);
-
-                // 更新 x 位置
-                x += e.Graphics.MeasureString(c.ToString(), font).Width + characterSpacing;
-
-                if (x > e.Bounds.X + e.Bounds.Width - 10)
-                    break;
-
-            }
-        }
-
-        private void listView1_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
-        {
-            var lineInfo = searchResults[e.ItemIndex];
-            var itemInfo = MemoBook.Instance.GetItem(lineInfo.ItemId);
-            if (itemInfo != null)
-            {
-                e.Graphics.DrawImage(ResLoader.Read(itemInfo.Icon), e.Bounds.X + 8, e.Bounds.Y + 10, 24, 24);
-                e.Graphics.DrawString(string.Format("{2} ({0}/{1} {3})", itemInfo.GetCatalog(), itemInfo.GetColumn(), itemInfo.Title, lineInfo.SearchPos),
-                    e.Item.Font, Brushes.White, e.Bounds.X + 8 + 30, e.Bounds.Y + 10, StringFormat.GenericDefault);
-            }
-
-            using (var ft = new Font("微软雅黑", 9.5f))
-                DrawLine(e, e.SubItem.Text, textBox1.Text, ft);
-        }
-
-        private void listView1_DrawItem(object sender, DrawListViewItemEventArgs e)
-        {
-            var destRT = new Rectangle(e.Bounds.X + 5, e.Bounds.Y + 5, e.Bounds.Width, e.Bounds.Height - 10);
-            if (selectLine != null && e.ItemIndex == selectLine.Index)
-            {
-                using (var b = new SolidBrush(Color.FromArgb(60, 60, 60)))
-                    e.Graphics.FillRectangle(b, destRT);
-            }
-        }
-
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -159,12 +137,10 @@ namespace MemoHippo.UIS
 
         private DateTime GetBeginTime()
         {
-            if (rjComboBox1.SelectedIndex == 0) //一周
-                return DateTime.Now.Subtract(TimeSpan.FromDays(7));
-            else if (rjComboBox1.SelectedIndex == 1) //一周
-                return DateTime.Now.Subtract(TimeSpan.FromDays(30));
-            else
-                return DateTime.Now.Subtract(TimeSpan.FromDays(365 * 30));
+            if (rjComboBox1.SelectedIndex == 0) //一月
+                return DateTime.Now.Subtract(TimeSpan.FromDays(30*6));
+            else //一年
+                return DateTime.Now.Subtract(TimeSpan.FromDays(365));
         }
     }
 }

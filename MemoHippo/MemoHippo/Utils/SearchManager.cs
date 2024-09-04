@@ -5,7 +5,7 @@ using System.IO;
 
 namespace MemoHippo.Utils
 {
-    internal class SearchManager
+    public class SearchManager
     {
         public class SearchData
         {
