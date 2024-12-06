@@ -46,7 +46,7 @@ namespace MemoHippo.Utils
                 foreach (var itemInfo in searchCaches)
                 {
                     var itemIdStr = itemInfo.Title;
-                    var writeTime = itemInfo.GetModifyTime();
+                    var writeTime = itemInfo.GetCreateTime();
 
                     if (itemInfo.Title.Contains(searchTxt))
                         searchResults.Add(new SearchData { Line = itemInfo.Title, Title = itemIdStr, ItemId = itemInfo.Id, CreateTime = writeTime, SearchPos = "Title" });

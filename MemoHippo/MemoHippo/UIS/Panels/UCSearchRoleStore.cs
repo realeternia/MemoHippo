@@ -89,7 +89,7 @@ namespace MemoHippo.UIS
         }
 
         private Dictionary<string, Color> colorDict = new Dictionary<string, Color>();
-        private List<Color> leftColor = new List<Color> { Color.Red, Color.Yellow, Color.LightBlue, Color.LawnGreen, Color.Orange, Color.Cyan };
+        private List<Color> leftColor = new List<Color> { Color.Red, Color.Yellow, Color.LightBlue, Color.LawnGreen, Color.Orange, Color.Cyan, Color.Purple, Color.Wheat };
         private int colorIndex = 0;
         private Color GetCatalogColor(string type)
         {

@@ -8,6 +8,7 @@ namespace MemoHippo.Model.Types
     {
         public string Text { get; set; }
         public ColorCfg Color { get; set; }
+        public string Tag { get; set; }
 
         public TextColorCfg() { }
 

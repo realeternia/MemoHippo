@@ -4,6 +4,7 @@ using HttpLib;
 using HttpLib.Headers;
 using MemoHippo;
 using MemoHippo.Utils;
+using RtfPipe;
 
 namespace HttpLib.Handlers
 {
@@ -22,12 +23,9 @@ namespace HttpLib.Handlers
             }
             else
             {
-                var text = RtfModifier.ReadRtfPlainText(itemId);
-                text = text.Replace("\n", "<br/>");
-                text = text.Replace("●", "&nbsp;&nbsp;●");
-                text = text.Replace("◆", "&nbsp;&nbsp;&nbsp;&nbsp;◆");
-                text = text.Replace("◇", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;◇");
-                responseString = "<html><body><p style=\"font-size: 120%;\">" + text + "</p></body></html>";
+               var htm = Rtf.ToHtml(new RtfSource(RtfModifier.ReadRtf(itemId)));
+                htm = htm.Replace("top:40px", "top:-4px").Replace("top:24px", "top:-4px");
+                responseString = "<html><body style=\"background-color: black; color: white;\">" + htm + "</body><html>";
             }
 
             context.Response = new HttpResponse(HttpResponseCode.Ok, responseString, context.Request.Headers.KeepAliveConnection());

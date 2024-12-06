@@ -285,7 +285,7 @@ namespace MemoHippo
             if (textColorBox == null)
             {
                 textColorBox = new InputTextColorBox();
-                textColorBox.Width = 500;
+                textColorBox.Width = 550;
             }
 
             textColorBox.ColorArray = cfg;

@@ -48,5 +48,14 @@ namespace MemoHippo.Model
                 yield return realname;
             }
         }
+
+        public IEnumerable<string> GetExportTexts()
+        {
+            foreach (var text in TextColors)
+            {
+                if (!string.IsNullOrEmpty(text.Tag) && text.Tag == "export")
+                    yield return text.Text;
+            }
+        }
     }
 }

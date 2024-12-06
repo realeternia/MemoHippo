@@ -77,6 +77,7 @@
             this.toolStripMenuItemTime = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemUrl = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemLink = new System.Windows.Forms.ToolStripMenuItem();
+            this.wordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.rjDropdownMenuRightClick.SuspendLayout();
             this.rjDropdownMenuBar.SuspendLayout();
@@ -555,12 +556,14 @@
             this.toolStripMenuItemEmotion,
             this.toolStripMenuItemTime,
             this.toolStripMenuItemUrl,
-            this.toolStripMenuItemLink});
+            this.toolStripMenuItemLink,
+            this.wordsToolStripMenuItem});
             this.rjDropdownMenuLine.MenuItemHeight = 25;
             this.rjDropdownMenuLine.MenuItemTextColor = System.Drawing.Color.Empty;
             this.rjDropdownMenuLine.Name = "rjDropdownMenu1";
             this.rjDropdownMenuLine.PrimaryColor = System.Drawing.Color.Empty;
-            this.rjDropdownMenuLine.Size = new System.Drawing.Size(153, 144);
+            this.rjDropdownMenuLine.Size = new System.Drawing.Size(215, 200);
+            this.rjDropdownMenuLine.Opening += new System.ComponentModel.CancelEventHandler(this.rjDropdownMenuLine_Opening);
             // 
             // toolStripMenuItemPName
             // 
@@ -601,6 +604,14 @@
             this.toolStripMenuItemLink.Name = "toolStripMenuItemLink";
             this.toolStripMenuItemLink.Size = new System.Drawing.Size(152, 28);
             this.toolStripMenuItemLink.Text = "页面外链";
+            // 
+            // wordsToolStripMenuItem
+            // 
+            this.wordsToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.wordsToolStripMenuItem.Image = global::MemoHippo.Properties.Resources.copy;
+            this.wordsToolStripMenuItem.Name = "wordsToolStripMenuItem";
+            this.wordsToolStripMenuItem.Size = new System.Drawing.Size(152, 28);
+            this.wordsToolStripMenuItem.Text = "关键词";
             // 
             // DasayEditor
             // 
@@ -673,5 +684,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonP1;
         private System.Windows.Forms.ToolStripButton toolStripButtonP2;
         private System.Windows.Forms.ToolStripButton toolStripButtonPending;
+        private System.Windows.Forms.ToolStripMenuItem wordsToolStripMenuItem;
     }
 }

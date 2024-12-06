@@ -58,6 +58,27 @@ namespace MemoHippo.Utils
             }
             while (pos >= box.Text.Length || box.Text[pos] != str[0]);
         }
+        public static TextReader ReadRtf(int itemId)
+        {
+            var itemInfo = MemoBook.Instance.GetItem(itemId);
+            var fullPath = itemInfo.GetFilePath();
+
+            if (!File.Exists(fullPath))
+                return null;
+
+            if (itemInfo.IsEncrypt())
+            {
+                string tempFilePath = Path.GetTempFileName();
+                FileEncryption.DecryptFile(fullPath, tempFilePath);
+
+                return new StringReader(tempFilePath);
+            }
+            else
+            {
+                return new StreamReader(fullPath);
+            }
+        }
+
 
         public static string ReadRtfPlainText(int itemId)
         {

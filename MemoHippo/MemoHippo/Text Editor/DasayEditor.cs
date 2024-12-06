@@ -115,6 +115,22 @@ namespace Text_Editor
 
         }
 
+        private void rjDropdownMenuLine_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            wordsToolStripMenuItem.DropDownItems.Clear();
+            foreach (var text in MemoBook.Instance.Cfg.GetExportTexts())
+            {
+                var dropItem = new ToolStripMenuItem(text);
+                dropItem.Click += (s, ev) =>
+                {
+                    RtfModifier.InsertString(richTextBox1, "[" + (s as ToolStripMenuItem).Text + "]");
+                    richTextBox1.Focus();
+                };
+
+                wordsToolStripMenuItem.DropDownItems.Add(dropItem);
+            }
+        }
+
         private void ToolStripMenuItemEmotion_Click(object sender, EventArgs e)
         {
             AddIcon();
@@ -706,8 +722,8 @@ namespace Text_Editor
 
             if (e.KeyCode == Keys.OemQuestion && e.Control)
             {
-                RichtextSelect(richTextBox1.SelectionStart - 1, 1);
-                richTextBox1.SelectedText = "";
+                //RichtextSelect(richTextBox1.SelectionStart - 1, 1);
+                //richTextBox1.SelectedText = "";
 
                 Point cursorLocation = richTextBox1.GetPositionFromCharIndex(richTextBox1.SelectionStart);
                 rjDropdownMenuLine.Show(richTextBox1, cursorLocation.X + 10, cursorLocation.Y + 10);
@@ -1308,5 +1324,6 @@ namespace Text_Editor
             int charIndex = richTextBox1.GetCharIndexFromPosition(e.Location);
             richTextBox1.SelectionStart = charIndex;
         }
+
     }
 }

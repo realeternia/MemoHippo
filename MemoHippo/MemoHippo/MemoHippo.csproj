@@ -50,6 +50,9 @@
     <Reference Include="NPinyin">
       <HintPath>.\NPinyin.dll</HintPath>
     </Reference>
+    <Reference Include="RtfPipe, Version=2.0.7677.4303, Culture=neutral, PublicKeyToken=5f6ab4ce530296d2, processorArchitecture=MSIL">
+      <HintPath>..\packages\RtfPipe.2.0.7677.4303\lib\net45\RtfPipe.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -527,6 +530,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\InputColorBox.resx">
       <DependentUpon>InputColorBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\InputTextColorBox.resx">
+      <DependentUpon>InputTextColorBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\Main\ImageGallery.resx">
       <DependentUpon>ImageGallery.cs</DependentUpon>

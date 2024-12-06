@@ -41,13 +41,13 @@ namespace MemoHippo.UIS
             int index = 0;
             foreach (var colorCfg in value)
             {
-                AddLine(index, colorCfg.Text, colorCfg.Color.ToColor());
+                AddLine(index, colorCfg.Text, colorCfg.Tag, colorCfg.Color.ToColor());
                 index++;
             }
-            tableLayoutPanel1.Height = tableLayoutPanel1.RowCount * 30;
+            tableLayoutPanel1.Height = tableLayoutPanel1.RowCount * 30 + 5;
         }
 
-        private void AddLine(int index, string text, Color color)
+        private void AddLine(int index, string text, string tag, Color color)
         {
             var textB = new HintTextBox();
             textB.DefaultText = "点击输入";
@@ -73,6 +73,27 @@ namespace MemoHippo.UIS
             };
             tableLayoutPanel1.Controls.Add(colorBtn, 1, index);
 
+            Button checkBtn = new Button();
+            checkBtn.BackColor = Color.Red;
+            checkBtn.FlatStyle = FlatStyle.Flat;
+            checkBtn.Dock = DockStyle.Fill;
+            checkBtn.Text = tag ?? "";
+            checkBtn.BackColor = string.IsNullOrEmpty(tag) ? Color.White : Color.DarkGreen;
+            checkBtn.Click += (sender, e) =>
+            {
+                if (string.IsNullOrEmpty(checkBtn.Text))
+                {
+                    checkBtn.Text = "export";
+                    checkBtn.BackColor = Color.DarkGreen;
+                }
+                else
+                {
+                    checkBtn.Text = "";
+                    checkBtn.BackColor = Color.White;
+                }
+            };
+            tableLayoutPanel1.Controls.Add(checkBtn, 2, index);
+
             Button removeBtn = new Button();
             removeBtn.FlatStyle = FlatStyle.Flat;
             removeBtn.Dock = DockStyle.Fill;
@@ -83,7 +104,7 @@ namespace MemoHippo.UIS
                 var dts = Export();
                 RefreshControls(dts);
             };
-            tableLayoutPanel1.Controls.Add(removeBtn, 2, index);
+            tableLayoutPanel1.Controls.Add(removeBtn, 3, index);
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -97,8 +118,8 @@ namespace MemoHippo.UIS
         private void rjButtonAddLine_Click(object sender, EventArgs e)
         {
             tableLayoutPanel1.RowCount = tableLayoutPanel1.RowCount + 1;
-            AddLine(tableLayoutPanel1.RowCount - 1, "", Color.LawnGreen);
-            tableLayoutPanel1.Height = tableLayoutPanel1.RowCount * 30;
+            AddLine(tableLayoutPanel1.RowCount - 1, "", "", Color.LawnGreen);
+            tableLayoutPanel1.Height = tableLayoutPanel1.RowCount * 30 + 5;
         }
 
         private TextColorCfg[] Export()
@@ -111,6 +132,7 @@ namespace MemoHippo.UIS
             {
                 Control textBoxControl = tableLayoutPanel1.GetControlFromPosition(0, rowIndex);
                 Control colorBtnControl = tableLayoutPanel1.GetControlFromPosition(1, rowIndex);
+                Control checkBtnControl = tableLayoutPanel1.GetControlFromPosition(2, rowIndex);
 
                 // 移除按钮不是必需的，因为它不包含我们需要的数据  
 
@@ -129,6 +151,8 @@ namespace MemoHippo.UIS
                     configs.Add(new TextColorCfg
                     {
                         Text = text,
+                        Tag = checkBtnControl.Text,
+
                         Color = new ColorCfg { Value = color.ToArgb() } // 假设ColorCfg有一个Value属性来存储颜色的ARGB值  
                     });
                 }
