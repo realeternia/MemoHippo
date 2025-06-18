@@ -37,7 +37,7 @@ namespace MemoHippo.UIS
             CheckCtrs(oldCtrList, "common",  "创建时间", itemInfo.GetCreateTime().ToString(), null);
 
             //Width = 700 - 5; //width 在外部控制
-            Height = doubleBufferedPanel1.Controls.Count * 37 + 10;
+            Height = doubleBufferedPanel1.Controls.Count * 32 + 10;
             doubleBufferedPanel1.Invalidate();
         }
 
@@ -61,7 +61,7 @@ namespace MemoHippo.UIS
 
                 var foundCtr = found as Control;
                 foundCtr.Name = k;
-                foundCtr.Height = 37;
+                foundCtr.Height = 32;
             }
             found.OnModify = onModify;
             found.SetData(k, v);
@@ -69,7 +69,7 @@ namespace MemoHippo.UIS
 
             doubleBufferedPanel1.Controls.Add(found as Control);
             var foundCtr2 = found as Control;
-            foundCtr2.Location = new Point(0, (doubleBufferedPanel1.Controls.Count - 1) * 37);
+            foundCtr2.Location = new Point(0, (doubleBufferedPanel1.Controls.Count - 1) * 32);
             foundCtr2.Width = Math.Max(1, Width - 220);
            // foundCtr2.Dock = DockStyle.Top;
         }

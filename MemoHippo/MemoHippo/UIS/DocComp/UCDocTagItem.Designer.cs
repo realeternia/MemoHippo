@@ -39,9 +39,9 @@ namespace MemoHippo.UIS
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.label1.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.label1.Location = new System.Drawing.Point(10, 8);
+            this.label1.Location = new System.Drawing.Point(10, 6);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 23);
+            this.label1.Size = new System.Drawing.Size(50, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "label1";
             // 
@@ -53,7 +53,7 @@ namespace MemoHippo.UIS
             this.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "UCDocTagItem";
-            this.Size = new System.Drawing.Size(700, 39);
+            this.Size = new System.Drawing.Size(700, 32);
             this.Click += new System.EventHandler(this.UCDocTagItem_Click);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.UCDocTagItem_Paint);
             this.ResumeLayout(false);

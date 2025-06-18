@@ -30,7 +30,7 @@ namespace MemoHippo.UIS
         private void UCDocTagItem_Paint(object sender, PaintEventArgs e)
         {
             var startX = 210;
-            var startY = 5;
+            var startY = 3;
             if (!string.IsNullOrEmpty(tagStr))
             {
                 var dts = tagStr.Split(',');
