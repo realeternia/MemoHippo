@@ -222,7 +222,7 @@ namespace MemoHippo
             colorBox.OnInit(c);
         }
 
-        public void ShowEditTimeForm(int x, int y, Action<string> act)
+        public void ShowEditTimeForm(int x, int y, Action<string> act, Action<uint> actInt = null)
         {
             if (editTime == null)
             {
@@ -230,6 +230,7 @@ namespace MemoHippo
             }
 
             editTime.AfterSelect = act;
+            editTime.AfterSelectInt = actInt;
 
             ReLocate(ref x, ref y, editTime.Size);
             ShowBlackPanel(editTime, x, y, 1);

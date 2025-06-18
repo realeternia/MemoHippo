@@ -759,6 +759,25 @@ namespace MemoHippo
             }
             else if (idx == 2)
             {
+                recordBox1.OnDataChanged = () =>
+                {
+                    // 导出处理后的数据
+                    recordBox1.ExportCheckTimeAndPageWithFirstRowToLast(out string[] timeArray, out int[] pageArray);
+
+                    // 确保数组长度一致且非空
+                    if (timeArray.Length == 0 || timeArray.Length != pageArray.Length)
+                    {
+                        ucMemChart1.InitBars("暂无数据", new string[0], new float[0]);
+                        return;
+                    }
+
+                    // 将时间作为标签（X轴），页码作为数值（Y轴）
+                    string[] labels = timeArray; // 可以直接使用 MM/dd 标签
+                    float[] values = Array.ConvertAll(pageArray, x => (float)x); // 转为 float 数组
+
+                    // 更新图表
+                    ucMemChart1.InitBars("阅读进度", labels, values);
+                };
                 recordBox1.Init(nowRowItem);
             }
         }

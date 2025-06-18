@@ -13,12 +13,5 @@ namespace MemoHippo.Model
         }
 
         public List<ReadProgress> Records = new List<ReadProgress>();
-        public int MaxId = 1001;
-
-        public int GetNextId()
-        {
-            MaxId++;
-            return MaxId;
-        }
     }
 }

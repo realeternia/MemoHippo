@@ -62,6 +62,9 @@ namespace MemoHippo
             this.dasayEditor1 = new Text_Editor.DasayEditor();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.imageGallery1 = new MemoHippo.UIS.Main.ImageGallery();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.recordBox1 = new MemoHippo.UIS.Main.RecordBox();
+            this.ucMemChart1 = new MemoHippo.UIS.UCMemChart();
             this.panelBlack = new MemoHippo.UIS.TransparentPanel();
             this.rjDropdownMenuCol = new RJControls.RJDropdownMenu(this.components);
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,8 +81,6 @@ namespace MemoHippo
             this.toolStripMenuItemCata = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCryto = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.recordBox1 = new MemoHippo.UIS.Main.RecordBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -97,10 +98,10 @@ namespace MemoHippo
             this.viewStack2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             this.rjDropdownMenuCol.SuspendLayout();
             this.rjDropdownMenuCatlog.SuspendLayout();
             this.rjDropdownMenuRow.SuspendLayout();
-            this.tabPage5.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -493,6 +494,37 @@ namespace MemoHippo
             this.imageGallery1.Size = new System.Drawing.Size(477, 711);
             this.imageGallery1.TabIndex = 0;
             // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.recordBox1);
+            this.tabPage5.Controls.Add(this.ucMemChart1);
+            this.tabPage5.Location = new System.Drawing.Point(4, 25);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(483, 717);
+            this.tabPage5.TabIndex = 2;
+            this.tabPage5.Text = "tabPage5";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // recordBox1
+            // 
+            this.recordBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(36)))));
+            this.recordBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.recordBox1.Location = new System.Drawing.Point(3, 149);
+            this.recordBox1.Name = "recordBox1";
+            this.recordBox1.Size = new System.Drawing.Size(477, 565);
+            this.recordBox1.TabIndex = 2;
+            // 
+            // ucMemChart1
+            // 
+            this.ucMemChart1.AutoScroll = true;
+            this.ucMemChart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(36)))));
+            this.ucMemChart1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ucMemChart1.Location = new System.Drawing.Point(3, 3);
+            this.ucMemChart1.Name = "ucMemChart1";
+            this.ucMemChart1.Size = new System.Drawing.Size(477, 146);
+            this.ucMemChart1.TabIndex = 1;
+            // 
             // panelBlack
             // 
             this.panelBlack.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -658,26 +690,6 @@ namespace MemoHippo
             this.toolStripMenuItem2.Text = "删除";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.deleteToolStripMenuItemRow_Click);
             // 
-            // tabPage5
-            // 
-            this.tabPage5.Controls.Add(this.recordBox1);
-            this.tabPage5.Location = new System.Drawing.Point(4, 25);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(483, 717);
-            this.tabPage5.TabIndex = 2;
-            this.tabPage5.Text = "tabPage5";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // recordBox1
-            // 
-            this.recordBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(36)))));
-            this.recordBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.recordBox1.Location = new System.Drawing.Point(3, 3);
-            this.recordBox1.Name = "recordBox1";
-            this.recordBox1.Size = new System.Drawing.Size(477, 711);
-            this.recordBox1.TabIndex = 0;
-            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -711,10 +723,10 @@ namespace MemoHippo
             this.viewStack2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
+            this.tabPage5.ResumeLayout(false);
             this.rjDropdownMenuCol.ResumeLayout(false);
             this.rjDropdownMenuCatlog.ResumeLayout(false);
             this.rjDropdownMenuRow.ResumeLayout(false);
-            this.tabPage5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -767,6 +779,7 @@ namespace MemoHippo
         private UCCatalogFix ucCatalogFixCalendar;
         private System.Windows.Forms.TabPage tabPage5;
         private UIS.Main.RecordBox recordBox1;
+        private UCMemChart ucMemChart1;
     }
 }
 

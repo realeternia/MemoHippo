@@ -9,6 +9,7 @@ namespace MemoHippo.UIS.Panels
     public partial class UCEditTime : UserControl
     {
         public Action<string> AfterSelect;
+        public Action<uint> AfterSelectInt;
 
         public UCEditTime()
         {
@@ -104,6 +105,8 @@ namespace MemoHippo.UIS.Panels
 
             if (AfterSelect != null)
                 AfterSelect((rjToggleButtonIsddl.Checked ? "ddl " : "time ") + TimeTool.FormatTime(nowDate));
+            if (AfterSelectInt != null)
+                AfterSelectInt(TimeTool.DateTimeToUnixTime(nowDate));
 
             PanelManager.Instance.HideBlackPanel();
         }
@@ -115,6 +118,8 @@ namespace MemoHippo.UIS.Panels
                 case Keys.Escape:
                     if (AfterSelect != null)
                         AfterSelect("");
+                    if (AfterSelectInt != null)
+                        AfterSelectInt(0);
                     PanelManager.Instance.HideBlackPanel();
                     break;
             }
@@ -127,6 +132,8 @@ namespace MemoHippo.UIS.Panels
                 case Keys.Escape:
                     if (AfterSelect != null)
                         AfterSelect("");
+                    if (AfterSelectInt != null)
+                        AfterSelectInt(0);
                     PanelManager.Instance.HideBlackPanel();
                     break;
             }

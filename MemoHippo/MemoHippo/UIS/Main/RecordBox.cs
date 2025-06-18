@@ -13,6 +13,8 @@ namespace MemoHippo.UIS.Main
     public partial class RecordBox : UserControl
     {
         private MemoItemInfo itemInfo;
+        public Action OnDataChanged;
+
         public RecordBox()
         {
             InitializeComponent();
@@ -23,8 +25,8 @@ namespace MemoHippo.UIS.Main
 
             ucDataView1.AddColumn(UCDataView.OptiControlTypes.TextBox, "id", "id", 60, UCDataView.OptiTagTypes.None, null, true);
             ucDataView1.AddColumn(UCDataView.OptiControlTypes.TextBox, "时间", "checkTime", 140, UCDataView.OptiTagTypes.Time, null, false);
-            ucDataView1.AddColumn(UCDataView.OptiControlTypes.ComboBox, "页面", "page", 60, UCDataView.OptiTagTypes.None, new string[] { "", "30分", "1小时", "2小时", "3小时" }, false);
-          //  ucDataView1.AddColumn(UCDataView.OptiControlTypes.Button, "保存", "commit", 80, UCDataView.OptiTagTypes.None, null, false);
+            ucDataView1.AddColumn(UCDataView.OptiControlTypes.TextBox, "页面", "page", 60, UCDataView.OptiTagTypes.None, null, false);
+            //  ucDataView1.AddColumn(UCDataView.OptiControlTypes.Button, "保存", "commit", 80, UCDataView.OptiTagTypes.None, null, false);
             ucDataView1.AddColumn(UCDataView.OptiControlTypes.Button, "删除", "delete", 80, UCDataView.OptiTagTypes.None, null, false);
         }
 
@@ -37,33 +39,44 @@ namespace MemoHippo.UIS.Main
 
             ucDataView1.ClearData();
             var rs = MemoBook.Instance.Records.Records.FindAll(a => a.RecordId == itemInfo.Id);
-            if(rs.Count > 0)
+            if (rs.Count > 0)
             {
                 // 这里应该只有一项数据
                 var checkRecord = rs[0];
                 var tubes = new List<UCDataView.OptiDataTube>();
                 int idx = 1;
-                foreach (var recordInfo in checkRecord.Progress.Split('|'))
+                if (!string.IsNullOrEmpty(checkRecord.Progress))
                 {
-                    var reduce = recordInfo.Split(',');
-                    var tube = new UCDataView.OptiDataTube();
-                    tube.Add("id", idx++);
-                    tube.Add("checkTime", reduce[0]);
-                    tube.Add("page", reduce[1]);
-                    tubes.Add(tube);
+                    foreach (var recordInfo in checkRecord.Progress.Split('|'))
+                    {
+                        var reduce = recordInfo.Split(',');
+                        var tube = new UCDataView.OptiDataTube();
+                        tube.Add("id", idx++);
+                        tube.Add("checkTime", reduce[0]);
+                        tube.Add("page", reduce[1]);
+                        tubes.Add(tube);
+                    }
+                    ucDataView1.AddDatas(tubes);
                 }
-                ucDataView1.AddDatas(tubes);
                 ucDataView1.RefreshView();
             }
             //RefreshAll();
 
+            if(OnDataChanged !=null) OnDataChanged();
         }
 
         public void OnNewRecord()
         {
             var tube = new UCDataView.OptiDataTube();
-            tube.Add("id", MemoBook.Instance.Records.GetNextId());
-            tube.Add("checkTime", "");
+            var dts = ucDataView1.ExportData();
+            int newId = 1;
+            if (dts.Count > 0)
+            {
+                int maxId = dts.Max(item => int.Parse(item.GetId()));
+                newId = maxId + 1;
+            }
+            tube.Add("id", newId);
+            tube.Add("checkTime", 0);
             tube.Add("page", 0);
             ucDataView1.AddData(tube);
             ucDataView1.RefreshView();
@@ -117,17 +130,93 @@ namespace MemoHippo.UIS.Main
 
             MemoBook.Instance.Records.Records.AddRange(newRecords);
 
+            if (OnDataChanged != null) OnDataChanged();
+
         }
 
         public bool OnButtonClick(OptiRowDataAgent rowData, int rowIndex, int columnIndex, string colName)
         {
-            if(colName == "begintime")
+            if (colName == "checkTime")
             {
-                PanelManager.Instance.ShowEditTimeForm(0, 0, t => rowData.SetValue(colName, t.ToString()));
+                PanelManager.Instance.ShowEditTimeForm(0, 0, null, t => rowData.SetValue(colName, t.ToString()));
             }
 
             return true;
         }
-    }
 
+        /// <summary>
+        /// 导出当前表格中的 checkTime 和 page 数据为两个数组，并将第一行数据放到最后
+        /// </summary>
+        /// <param name="timeArray">时间数组，格式 MM/dd</param>
+        /// <param name="pageArray">页码数组</param>
+        public void ExportCheckTimeAndPageWithFirstRowToLast(out string[] timeArray, out int[] pageArray)
+        {
+            var dts = ucDataView1.ExportData();
+
+            List<string> times = new List<string>();
+            List<int> pages = new List<int>();
+
+            if (dts.Count == 0)
+            {
+                timeArray = new string[0];
+                pageArray = new int[0];
+                return;
+            }
+
+            // 将第一行缓存到最后添加
+            string firstTime = string.Empty;
+            int firstPage = 0;
+
+            bool isFirst = true;
+
+            foreach (var item in dts)
+            {
+                // 提取 checkTime 字段并格式化为 MM/dd
+                var checkTimeObj = item.GetValue("checkTime");
+                uint checkTime;
+                string timeStr = "-";
+
+                if (checkTimeObj is string checkTimeStr && uint.TryParse(checkTimeStr, out checkTime))
+                {
+                    if (checkTime > 0)
+                    {
+                        var dateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(checkTime).ToLocalTime();
+                        timeStr = dateTime.ToString("MM/dd");
+                    }
+                }
+
+                // 提取 page 字段并尝试解析为整数
+                var pageObj = item.GetValue("page");
+                int pageInt = 0;
+
+                if (pageObj is string pageStr && int.TryParse(pageStr, out int parsedPage))
+                {
+                    pageInt = parsedPage;
+                }
+                else if (pageObj is int pageIntVal)
+                {
+                    pageInt = pageIntVal;
+                }
+
+                if (isFirst)
+                {
+                    firstTime = timeStr;
+                    firstPage = pageInt;
+                    isFirst = false;
+                }
+                else
+                {
+                    times.Add(timeStr);
+                    pages.Add(pageInt);
+                }
+            }
+
+            // 添加第一行到最后
+            times.Add(firstTime);
+            pages.Add(firstPage);
+
+            timeArray = times.ToArray();
+            pageArray = pages.ToArray();
+        }
+    }
 }
