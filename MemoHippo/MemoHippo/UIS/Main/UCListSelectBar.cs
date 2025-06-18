@@ -11,7 +11,8 @@ namespace MemoHippo.UIS.Main
         [EditorBrowsable(EditorBrowsableState.Always)]
         public string TabNames { get; set; } // | 分割
 
-        public int SelectedIndex { get; set; }
+        private int selectedIndex;
+        public int SelectedIndex { get { return selectedIndex; } set { selectedIndex = value; if (OnIndexChanged != null) OnIndexChanged(selectedIndex); } }
 
         public Action<int> OnIndexChanged;
 
@@ -68,8 +69,6 @@ namespace MemoHippo.UIS.Main
                 {
                     SelectedIndex = i;
                     Invalidate();
-                    if (OnIndexChanged != null)
-                        OnIndexChanged(i);
                     break;  // 如果你只想处理一个区域，可以使用break
                 }
             }

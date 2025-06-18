@@ -49,7 +49,7 @@ namespace MemoHippo.UIS
 
         private void CheckCtrs(List<Control> cc, string type, string k, string v, Action<string> onModify)
         {
-            var found = FindCtr(cc, k);
+            var found = FindCtr(cc, k); 
             if(found == null)
             {
                 if (type == "common")

@@ -34,13 +34,13 @@ namespace MemoHippo
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.ucCatalogFixCalendar = new MemoHippo.UCCatalogFix();
             this.ucCatalogRoleStore = new MemoHippo.UCCatalogFix();
             this.ucCatalogNew = new MemoHippo.UCCatalogFix();
             this.ucCatalogSearch = new MemoHippo.UCCatalogFix();
             this.ucCatalogSetup = new MemoHippo.UCCatalogFix();
             this.flowLayoutPanel1 = new MemoHippo.UIS.DoubleBufferedFlowLayoutPanel();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.ucListSelectBar1 = new MemoHippo.UIS.Main.UCListSelectBar();
             this.viewStack1 = new MemoHippo.UIS.ViewStack();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -49,6 +49,7 @@ namespace MemoHippo
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.listView1 = new MemoHippo.UIS.DoubleBufferedListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.textBoxCatalogTitle = new MemoHippo.UIS.HintTextBox();
             this.doubleBufferedFlowLayoutPanel1 = new MemoHippo.UIS.DoubleBufferedFlowLayoutPanel();
             this.ucDocTopBar1 = new MemoHippo.UIS.DocComp.UCDocTopBar();
@@ -77,7 +78,8 @@ namespace MemoHippo
             this.toolStripMenuItemCata = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCryto = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ucCatalogFixCalendar = new MemoHippo.UCCatalogFix();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.recordBox1 = new MemoHippo.UIS.Main.RecordBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -98,6 +100,7 @@ namespace MemoHippo
             this.rjDropdownMenuCol.SuspendLayout();
             this.rjDropdownMenuCatlog.SuspendLayout();
             this.rjDropdownMenuRow.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -124,36 +127,19 @@ namespace MemoHippo
             this.splitContainer1.SplitterDistance = 240;
             this.splitContainer1.TabIndex = 3;
             // 
-            // splitContainer2
+            // ucCatalogFixCalendar
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.splitContainer2.Name = "splitContainer2";
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.ucListSelectBar1);
-            this.splitContainer2.Panel1.Controls.Add(this.viewStack1);
-            this.splitContainer2.Panel1.Controls.Add(this.textBoxCatalogTitle);
-            this.splitContainer2.Panel1.Click += new System.EventHandler(this.splitContainer2_Panel1_Click);
-            this.splitContainer2.Panel1.Resize += new System.EventHandler(this.splitContainer2_Panel1_Resize);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.splitContainer2.Panel2.Controls.Add(this.doubleBufferedFlowLayoutPanel1);
-            this.splitContainer2.Panel2MinSize = 0;
-            this.splitContainer2.Size = new System.Drawing.Size(1569, 1078);
-            this.splitContainer2.SplitterDistance = 1074;
-            this.splitContainer2.TabIndex = 0;
-            // 
-            // imageList1
-            // 
-            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageList1.ImageSize = new System.Drawing.Size(40, 40);
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.ucCatalogFixCalendar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.ucCatalogFixCalendar.Font = new System.Drawing.Font("微软雅黑", 10.5F);
+            this.ucCatalogFixCalendar.ForeColor = System.Drawing.Color.DarkGray;
+            this.ucCatalogFixCalendar.Location = new System.Drawing.Point(0, 119);
+            this.ucCatalogFixCalendar.Margin = new System.Windows.Forms.Padding(0);
+            this.ucCatalogFixCalendar.Name = "ucCatalogFixCalendar";
+            this.ucCatalogFixCalendar.PicImg = global::MemoHippo.Properties.Resources.noteadd;
+            this.ucCatalogFixCalendar.Size = new System.Drawing.Size(240, 38);
+            this.ucCatalogFixCalendar.TabIndex = 5;
+            this.ucCatalogFixCalendar.Title = "日历";
+            this.ucCatalogFixCalendar.Click += new System.EventHandler(this.ucCatalogFixCalendar_Click);
             // 
             // ucCatalogRoleStore
             // 
@@ -222,6 +208,31 @@ namespace MemoHippo
             this.flowLayoutPanel1.Size = new System.Drawing.Size(240, 878);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.ucListSelectBar1);
+            this.splitContainer2.Panel1.Controls.Add(this.viewStack1);
+            this.splitContainer2.Panel1.Controls.Add(this.textBoxCatalogTitle);
+            this.splitContainer2.Panel1.Click += new System.EventHandler(this.splitContainer2_Panel1_Click);
+            this.splitContainer2.Panel1.Resize += new System.EventHandler(this.splitContainer2_Panel1_Resize);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.splitContainer2.Panel2.Controls.Add(this.doubleBufferedFlowLayoutPanel1);
+            this.splitContainer2.Panel2MinSize = 0;
+            this.splitContainer2.Size = new System.Drawing.Size(1569, 1078);
+            this.splitContainer2.SplitterDistance = 1074;
+            this.splitContainer2.TabIndex = 0;
+            // 
             // ucListSelectBar1
             // 
             this.ucListSelectBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -255,10 +266,10 @@ namespace MemoHippo
             this.tabPage1.AutoScroll = true;
             this.tabPage1.BackColor = System.Drawing.Color.Black;
             this.tabPage1.Controls.Add(this.panel1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 28);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1066, 916);
+            this.tabPage1.Size = new System.Drawing.Size(1066, 919);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.Click += new System.EventHandler(this.splitContainer2_Panel1_Click);
@@ -271,7 +282,7 @@ namespace MemoHippo
             this.panel1.Location = new System.Drawing.Point(2, 2);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(500, 909);
+            this.panel1.Size = new System.Drawing.Size(500, 912);
             this.panel1.TabIndex = 0;
             this.panel1.Click += new System.EventHandler(this.splitContainer2_Panel1_Click);
             // 
@@ -290,10 +301,10 @@ namespace MemoHippo
             // 
             this.tabPage2.BackColor = System.Drawing.Color.Black;
             this.tabPage2.Controls.Add(this.listView1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 28);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1066, 916);
+            this.tabPage2.Size = new System.Drawing.Size(1066, 919);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             // 
@@ -312,7 +323,7 @@ namespace MemoHippo
             this.listView1.Location = new System.Drawing.Point(3, 3);
             this.listView1.Name = "listView1";
             this.listView1.OwnerDraw = true;
-            this.listView1.Size = new System.Drawing.Size(1060, 910);
+            this.listView1.Size = new System.Drawing.Size(1060, 913);
             this.listView1.SmallImageList = this.imageList1;
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
@@ -329,6 +340,12 @@ namespace MemoHippo
             // 
             this.columnHeader1.Width = 50;
             // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(40, 40);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            // 
             // textBoxCatalogTitle
             // 
             this.textBoxCatalogTitle.BackColor = System.Drawing.Color.Black;
@@ -340,7 +357,7 @@ namespace MemoHippo
             this.textBoxCatalogTitle.Location = new System.Drawing.Point(24, 36);
             this.textBoxCatalogTitle.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxCatalogTitle.Name = "textBoxCatalogTitle";
-            this.textBoxCatalogTitle.Size = new System.Drawing.Size(451, 40);
+            this.textBoxCatalogTitle.Size = new System.Drawing.Size(451, 32);
             this.textBoxCatalogTitle.TabIndex = 1;
             this.textBoxCatalogTitle.Text = "点击输入标题";
             this.textBoxCatalogTitle.TrueText = "";
@@ -365,14 +382,15 @@ namespace MemoHippo
             // 
             this.ucDocTopBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.ucDocTopBar1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.ucDocTopBar1.Location = new System.Drawing.Point(3, 3);
+            this.ucDocTopBar1.Location = new System.Drawing.Point(2, 2);
+            this.ucDocTopBar1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ucDocTopBar1.Name = "ucDocTopBar1";
             this.ucDocTopBar1.Size = new System.Drawing.Size(476, 27);
             this.ucDocTopBar1.TabIndex = 6;
             // 
             // pictureBoxPaperIcon
             // 
-            this.pictureBoxPaperIcon.Location = new System.Drawing.Point(20, 58);
+            this.pictureBoxPaperIcon.Location = new System.Drawing.Point(20, 56);
             this.pictureBoxPaperIcon.Margin = new System.Windows.Forms.Padding(20, 25, 3, 20);
             this.pictureBoxPaperIcon.Name = "pictureBoxPaperIcon";
             this.pictureBoxPaperIcon.Size = new System.Drawing.Size(32, 32);
@@ -390,10 +408,10 @@ namespace MemoHippo
             this.textBoxRowItemTitle.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.textBoxRowItemTitle.ForeColor = System.Drawing.SystemColors.GrayText;
             this.textBoxRowItemTitle.ForeColorDE = System.Drawing.Color.White;
-            this.textBoxRowItemTitle.Location = new System.Drawing.Point(65, 53);
+            this.textBoxRowItemTitle.Location = new System.Drawing.Point(65, 51);
             this.textBoxRowItemTitle.Margin = new System.Windows.Forms.Padding(10, 20, 10, 20);
             this.textBoxRowItemTitle.Name = "textBoxRowItemTitle";
-            this.textBoxRowItemTitle.Size = new System.Drawing.Size(387, 40);
+            this.textBoxRowItemTitle.Size = new System.Drawing.Size(387, 32);
             this.textBoxRowItemTitle.TabIndex = 2;
             this.textBoxRowItemTitle.Text = "点击输入标题";
             this.textBoxRowItemTitle.TrueText = "";
@@ -403,7 +421,7 @@ namespace MemoHippo
             // 
             this.uckvList1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.uckvList1.BgColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.uckvList1.Location = new System.Drawing.Point(3, 116);
+            this.uckvList1.Location = new System.Drawing.Point(3, 111);
             this.uckvList1.Name = "uckvList1";
             this.uckvList1.Size = new System.Drawing.Size(491, 165);
             this.uckvList1.TabIndex = 5;
@@ -413,19 +431,20 @@ namespace MemoHippo
             this.ucListSelectBar2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.ucListSelectBar2.Font = new System.Drawing.Font("微软雅黑", 10.8F);
             this.ucListSelectBar2.ForeColor = System.Drawing.Color.White;
-            this.ucListSelectBar2.Location = new System.Drawing.Point(3, 287);
+            this.ucListSelectBar2.Location = new System.Drawing.Point(3, 282);
             this.ucListSelectBar2.Name = "ucListSelectBar2";
             this.ucListSelectBar2.SelectedIndex = 0;
             this.ucListSelectBar2.Size = new System.Drawing.Size(485, 35);
             this.ucListSelectBar2.TabIndex = 9;
-            this.ucListSelectBar2.TabNames = "说明|图片";
+            this.ucListSelectBar2.TabNames = "说明|图片|记录";
             // 
             // viewStack2
             // 
             this.viewStack2.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
             this.viewStack2.Controls.Add(this.tabPage3);
             this.viewStack2.Controls.Add(this.tabPage4);
-            this.viewStack2.Location = new System.Drawing.Point(0, 325);
+            this.viewStack2.Controls.Add(this.tabPage5);
+            this.viewStack2.Location = new System.Drawing.Point(0, 320);
             this.viewStack2.Margin = new System.Windows.Forms.Padding(0);
             this.viewStack2.Name = "viewStack2";
             this.viewStack2.SelectedIndex = 0;
@@ -437,10 +456,10 @@ namespace MemoHippo
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.tabPage3.Controls.Add(this.dasayEditor1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 28);
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(483, 714);
+            this.tabPage3.Size = new System.Drawing.Size(483, 717);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "tabPage3";
             // 
@@ -451,17 +470,17 @@ namespace MemoHippo
             this.dasayEditor1.Location = new System.Drawing.Point(3, 3);
             this.dasayEditor1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dasayEditor1.Name = "dasayEditor1";
-            this.dasayEditor1.Size = new System.Drawing.Size(477, 708);
+            this.dasayEditor1.Size = new System.Drawing.Size(477, 711);
             this.dasayEditor1.TabIndex = 0;
             // 
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.tabPage4.Controls.Add(this.imageGallery1);
-            this.tabPage4.Location = new System.Drawing.Point(4, 28);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(483, 714);
+            this.tabPage4.Size = new System.Drawing.Size(483, 717);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "tabPage4";
             // 
@@ -471,7 +490,7 @@ namespace MemoHippo
             this.imageGallery1.Location = new System.Drawing.Point(3, 3);
             this.imageGallery1.Margin = new System.Windows.Forms.Padding(4);
             this.imageGallery1.Name = "imageGallery1";
-            this.imageGallery1.Size = new System.Drawing.Size(477, 708);
+            this.imageGallery1.Size = new System.Drawing.Size(477, 711);
             this.imageGallery1.TabIndex = 0;
             // 
             // panelBlack
@@ -499,13 +518,13 @@ namespace MemoHippo
             this.rjDropdownMenuCol.MenuItemTextColor = System.Drawing.Color.Empty;
             this.rjDropdownMenuCol.Name = "rjDropdownMenu1";
             this.rjDropdownMenuCol.PrimaryColor = System.Drawing.Color.Empty;
-            this.rjDropdownMenuCol.Size = new System.Drawing.Size(115, 60);
+            this.rjDropdownMenuCol.Size = new System.Drawing.Size(107, 52);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(114, 28);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(106, 24);
             this.removeToolStripMenuItem.Text = "删除";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItemDelCol_Click);
             // 
@@ -513,7 +532,7 @@ namespace MemoHippo
             // 
             this.colorToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.colorToolStripMenuItem1.Name = "colorToolStripMenuItem1";
-            this.colorToolStripMenuItem1.Size = new System.Drawing.Size(114, 28);
+            this.colorToolStripMenuItem1.Size = new System.Drawing.Size(106, 24);
             this.colorToolStripMenuItem1.Text = "颜色";
             // 
             // rjDropdownMenuCatlog
@@ -529,13 +548,13 @@ namespace MemoHippo
             this.rjDropdownMenuCatlog.MenuItemTextColor = System.Drawing.Color.Empty;
             this.rjDropdownMenuCatlog.Name = "rjDropdownMenu1";
             this.rjDropdownMenuCatlog.PrimaryColor = System.Drawing.Color.Empty;
-            this.rjDropdownMenuCatlog.Size = new System.Drawing.Size(115, 32);
+            this.rjDropdownMenuCatlog.Size = new System.Drawing.Size(107, 28);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(114, 28);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(106, 24);
             this.toolStripMenuItem1.Text = "删除";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
@@ -556,13 +575,13 @@ namespace MemoHippo
             this.rjDropdownMenuRow.MenuItemTextColor = System.Drawing.Color.Empty;
             this.rjDropdownMenuRow.Name = "rjDropdownMenu1";
             this.rjDropdownMenuRow.PrimaryColor = System.Drawing.Color.Empty;
-            this.rjDropdownMenuRow.Size = new System.Drawing.Size(183, 144);
+            this.rjDropdownMenuRow.Size = new System.Drawing.Size(163, 124);
             // 
             // storeToolStripMenuItem
             // 
             this.storeToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.storeToolStripMenuItem.Name = "storeToolStripMenuItem";
-            this.storeToolStripMenuItem.Size = new System.Drawing.Size(182, 28);
+            this.storeToolStripMenuItem.Size = new System.Drawing.Size(162, 24);
             this.storeToolStripMenuItem.Text = "存档";
             this.storeToolStripMenuItem.Click += new System.EventHandler(this.storeToolStripMenuItem_Click);
             // 
@@ -575,7 +594,7 @@ namespace MemoHippo
             this.toolStripMenuItemBook,
             this.ddlToolStripMenuItem});
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(182, 28);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(162, 24);
             this.toolStripMenuItem3.Text = "小标题样式";
             // 
             // commonToolStripMenuItem1
@@ -583,7 +602,7 @@ namespace MemoHippo
             this.commonToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.commonToolStripMenuItem1.ForeColor = System.Drawing.Color.White;
             this.commonToolStripMenuItem1.Name = "commonToolStripMenuItem1";
-            this.commonToolStripMenuItem1.Size = new System.Drawing.Size(162, 28);
+            this.commonToolStripMenuItem1.Size = new System.Drawing.Size(134, 24);
             this.commonToolStripMenuItem1.Text = "普通";
             this.commonToolStripMenuItem1.Click += new System.EventHandler(this.commonToolStripMenuItem_Click);
             // 
@@ -592,7 +611,7 @@ namespace MemoHippo
             this.nikonToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.nikonToolStripMenuItem1.ForeColor = System.Drawing.Color.White;
             this.nikonToolStripMenuItem1.Name = "nikonToolStripMenuItem1";
-            this.nikonToolStripMenuItem1.Size = new System.Drawing.Size(162, 28);
+            this.nikonToolStripMenuItem1.Size = new System.Drawing.Size(134, 24);
             this.nikonToolStripMenuItem1.Text = "轮播行";
             this.nikonToolStripMenuItem1.Click += new System.EventHandler(this.nikonToolStripMenuItem_Click);
             // 
@@ -601,7 +620,7 @@ namespace MemoHippo
             this.toolStripMenuItemBook.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.toolStripMenuItemBook.ForeColor = System.Drawing.Color.White;
             this.toolStripMenuItemBook.Name = "toolStripMenuItemBook";
-            this.toolStripMenuItemBook.Size = new System.Drawing.Size(162, 28);
+            this.toolStripMenuItemBook.Size = new System.Drawing.Size(134, 24);
             this.toolStripMenuItemBook.Text = "图片预览";
             this.toolStripMenuItemBook.Click += new System.EventHandler(this.toolStripMenuItemBook_Click);
             // 
@@ -610,7 +629,7 @@ namespace MemoHippo
             this.ddlToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.ddlToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.ddlToolStripMenuItem.Name = "ddlToolStripMenuItem";
-            this.ddlToolStripMenuItem.Size = new System.Drawing.Size(162, 28);
+            this.ddlToolStripMenuItem.Size = new System.Drawing.Size(134, 24);
             this.ddlToolStripMenuItem.Text = "截止时间";
             this.ddlToolStripMenuItem.Click += new System.EventHandler(this.ddlToolStripMenuItem_Click);
             // 
@@ -618,7 +637,7 @@ namespace MemoHippo
             // 
             this.toolStripMenuItemCata.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.toolStripMenuItemCata.Name = "toolStripMenuItemCata";
-            this.toolStripMenuItemCata.Size = new System.Drawing.Size(182, 28);
+            this.toolStripMenuItemCata.Size = new System.Drawing.Size(162, 24);
             this.toolStripMenuItemCata.Text = "标记为：汇总";
             this.toolStripMenuItemCata.Click += new System.EventHandler(this.toolStripMenuItemCata_Click);
             // 
@@ -626,7 +645,7 @@ namespace MemoHippo
             // 
             this.toolStripMenuItemCryto.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.toolStripMenuItemCryto.Name = "toolStripMenuItemCryto";
-            this.toolStripMenuItemCryto.Size = new System.Drawing.Size(182, 28);
+            this.toolStripMenuItemCryto.Size = new System.Drawing.Size(162, 24);
             this.toolStripMenuItemCryto.Text = "标记为：加密";
             this.toolStripMenuItemCryto.Click += new System.EventHandler(this.toolStripMenuItemCryto_Click);
             // 
@@ -635,23 +654,29 @@ namespace MemoHippo
             this.toolStripMenuItem2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.toolStripMenuItem2.ForeColor = System.Drawing.Color.IndianRed;
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(182, 28);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(162, 24);
             this.toolStripMenuItem2.Text = "删除";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.deleteToolStripMenuItemRow_Click);
             // 
-            // ucCatalogFixCalendar
+            // tabPage5
             // 
-            this.ucCatalogFixCalendar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.ucCatalogFixCalendar.Font = new System.Drawing.Font("微软雅黑", 10.5F);
-            this.ucCatalogFixCalendar.ForeColor = System.Drawing.Color.DarkGray;
-            this.ucCatalogFixCalendar.Location = new System.Drawing.Point(0, 119);
-            this.ucCatalogFixCalendar.Margin = new System.Windows.Forms.Padding(0);
-            this.ucCatalogFixCalendar.Name = "ucCatalogFixCalendar";
-            this.ucCatalogFixCalendar.PicImg = global::MemoHippo.Properties.Resources.noteadd;
-            this.ucCatalogFixCalendar.Size = new System.Drawing.Size(240, 38);
-            this.ucCatalogFixCalendar.TabIndex = 5;
-            this.ucCatalogFixCalendar.Title = "日历";
-            this.ucCatalogFixCalendar.Click += new System.EventHandler(this.ucCatalogFixCalendar_Click);
+            this.tabPage5.Controls.Add(this.recordBox1);
+            this.tabPage5.Location = new System.Drawing.Point(4, 25);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(483, 717);
+            this.tabPage5.TabIndex = 2;
+            this.tabPage5.Text = "tabPage5";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // recordBox1
+            // 
+            this.recordBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(36)))));
+            this.recordBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.recordBox1.Location = new System.Drawing.Point(3, 3);
+            this.recordBox1.Name = "recordBox1";
+            this.recordBox1.Size = new System.Drawing.Size(477, 711);
+            this.recordBox1.TabIndex = 0;
             // 
             // Form1
             // 
@@ -689,6 +714,7 @@ namespace MemoHippo
             this.rjDropdownMenuCol.ResumeLayout(false);
             this.rjDropdownMenuCatlog.ResumeLayout(false);
             this.rjDropdownMenuRow.ResumeLayout(false);
+            this.tabPage5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -739,6 +765,8 @@ namespace MemoHippo
         private UIS.Main.UCListSelectBar ucListSelectBar2;
         private UIS.Main.ImageGallery imageGallery1;
         private UCCatalogFix ucCatalogFixCalendar;
+        private System.Windows.Forms.TabPage tabPage5;
+        private UIS.Main.RecordBox recordBox1;
     }
 }
 

@@ -19,6 +19,7 @@ namespace MemoHippo
         public int ColumnIndex = 100001;
         public int ItemIndex = 200001;
         public MemoBookCfg Cfg = new MemoBookCfg();
+        public MemoBookProgress Records = new MemoBookProgress();
 
         public void Save()
         {

@@ -105,6 +105,7 @@
     <Compile Include="HttpLib\TcpListenerAdapter.cs" />
     <Compile Include="HttpLib\HttpRequestProvider.cs" />
     <Compile Include="HttpLib\TaskFactoryExtensions.cs" />
+    <Compile Include="Model\MemoBookProgress.cs" />
     <Compile Include="Model\MemoColumnInfo.cs" />
     <Compile Include="Model\MemoItemInfo.cs" />
     <Compile Include="Model\SetupItemDesAttribute.cs" />
@@ -170,6 +171,12 @@
     </Compile>
     <Compile Include="UIS\Main\ImageGallery.Designer.cs">
       <DependentUpon>ImageGallery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIS\Main\RecordBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\Main\RecordBox.Designer.cs">
+      <DependentUpon>RecordBox.cs</DependentUpon>
     </Compile>
     <Compile Include="UIS\Main\UCImageGalleryItem.cs">
       <SubType>UserControl</SubType>
@@ -371,6 +378,12 @@
     <Compile Include="UIS\SetupComp\UCTextColorArrayItem.Designer.cs">
       <DependentUpon>UCTextColorArrayItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIS\UCDataView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\UCDataView.designer.cs">
+      <DependentUpon>UCDataView.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIS\ViewStack.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -537,6 +550,9 @@
     <EmbeddedResource Include="UIS\Main\ImageGallery.resx">
       <DependentUpon>ImageGallery.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UIS\Main\RecordBox.resx">
+      <DependentUpon>RecordBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UIS\Main\UCImageGalleryItem.resx">
       <DependentUpon>UCImageGalleryItem.cs</DependentUpon>
     </EmbeddedResource>
@@ -673,6 +689,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UIS\DocComp\UCDocStringItem.resx">
       <DependentUpon>UCDocStringItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIS\UCDataView.resx">
+      <DependentUpon>UCDataView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="packages.config" />

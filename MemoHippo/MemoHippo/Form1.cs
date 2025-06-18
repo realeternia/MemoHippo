@@ -326,12 +326,12 @@ namespace MemoHippo
             textChangeLock = false;
             uckvList1.Init(itemInfo);
            // dasayEditor1.Location = new Point(uckvList1.Location.X, uckvList1.Location.Y + uckvList1.Height);
-            dasayEditor1.LoadFile(nowRowItem);
-            ucListSelectBar2.TabNames = string.Format("描述 {0:0.0}k|图片 {1} 张", (float)itemInfo.GetFileLength() / 1024, itemInfo.GetImageCount());
-            if (ucListSelectBar2.SelectedIndex != 0)
+          //  dasayEditor1.LoadFile(nowRowItem);
+            ucListSelectBar2.TabNames = string.Format("描述 {0:0.0}k|图片 {1} 张|记录", (float)itemInfo.GetFileLength() / 1024, itemInfo.GetImageCount());
+            //if (ucListSelectBar2.SelectedIndex != 0)
             { //切回首页
                 ucListSelectBar2.SelectedIndex = 0;
-                viewStack2.SelectedIndex = 0;
+             //   viewStack2.SelectedIndex = 0;
             }
             ucListSelectBar2.Invalidate();
 
@@ -749,9 +749,17 @@ namespace MemoHippo
         private void OnSelectBar2IndexChanged(int idx)
         {
             viewStack2.SelectedIndex = idx;
-            if (idx == 1)
+            if (idx == 0)
+            {
+                dasayEditor1.LoadFile(nowRowItem);
+            }
+            else if (idx == 1)
             {
                 imageGallery1.Init(nowRowItem);
+            }
+            else if (idx == 2)
+            {
+                recordBox1.Init(nowRowItem);
             }
         }
         #endregion
