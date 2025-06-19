@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -12,46 +14,38 @@ namespace MemoHippo.Utils
 {
     internal class AITool
     {
-        public class AiResponseModel
+        public class StreamChatResponse
         {
-            public List<Choice> Choices { get; set; }
-
+            public Choice[] choices { get; set; }
             public class Choice
             {
-                public Message Message { get; set; }
-
-                public string Content => Message?.Content;
+                public Delta delta { get; set; }
             }
-
-            public class Message
+            public class Delta
             {
-                public string Role { get; set; }
-                public string Content { get; set; }
+                public string content { get; set; }
             }
         }
 
-        public static async Task<string> CallDeepSeekApi(string context)
+        public static async Task CallDeepSeekApi(string context, Action<string> onStreamReceived = null)
         {
             string apiKey = ConfigLoader.Instance.ApiKey;
-            string apiUrl = "https://api.deepseek.com/v1/chat/completions"; // 假设的 API 地址
+            string apiUrl = "https://api.deepseek.com/v1/chat/completions";
 
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-            // 请求数据
             var requestData = new
             {
                 model = "deepseek-chat",
-                messages = new []
+                messages = new[]
                 {
-                 //   new { role = "system", content = "You are a helpful assistant." },
-                    new { role = "user", content = context }
-                },
-                stream = false,
+            new { role = "user", content = context }
+        },
+                stream = true,
                 temperature = 0.7,
             };
 
-            // 序列化请求数据
-            string jsonData = JsonConvert.SerializeObject(requestData);
+            string jsonData1 = JsonConvert.SerializeObject(requestData);
 
             using (HttpClient client = new HttpClient())
             {
@@ -59,25 +53,41 @@ namespace MemoHippo.Utils
                 client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
 
-                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(apiUrl, content);
+                var httpContent = new StringContent(jsonData1, Encoding.UTF8, "application/json");
 
-                // 检查响应状态
-                if (response.IsSuccessStatusCode)
+                using (var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
                 {
-                    string result = await response.Content.ReadAsStringAsync();
-
-                    // 解析 JSON 响应
-                    var aiResponse = JsonConvert.DeserializeObject<AiResponseModel>(result);
-
-                    // 提取第一个回复内容
-                    return aiResponse.Choices?.FirstOrDefault()?.Content ?? "无法提取回答内容";
-                }
-                else
+                    Content = httpContent
+                })
+                using (var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead))
+                using (var stream = await response.Content.ReadAsStreamAsync())
+                using (var reader = new StreamReader(stream))
                 {
-                    throw new Exception($"API 调用失败: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
+                    while (!reader.EndOfStream)
+                    {
+                        var line = await reader.ReadLineAsync();
+                        if (string.IsNullOrWhiteSpace(line)) continue;
+
+                        // 处理事件流格式
+                        if (line.StartsWith("data: "))
+                        {
+                            var jsonData = line.Substring(6).Trim();
+                            if (jsonData == "[DONE]") break;
+
+                            var chunk = JsonConvert.DeserializeObject<StreamChatResponse>(jsonData);
+                            var content = chunk?.choices?.FirstOrDefault()?.delta?.content;
+
+                            if (!string.IsNullOrEmpty(content))
+                            {
+                                if (onStreamReceived != null)
+                                    onStreamReceived(content);
+                                // 若需要模拟逐字效果，可添加延迟
+                                await Task.Delay(50);
+                            }
+                        }
+                    }
                 }
             }
-        }
+            }
     }
 }

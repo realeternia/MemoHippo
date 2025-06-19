@@ -1289,7 +1289,7 @@ namespace Text_Editor
 
         private void toolStripButtonAI_Click(object sender, EventArgs e)
         {
-            PanelManager.Instance.ShowAIBox("什么是C#语言");
+            PanelManager.Instance.ShowAIBox("将以下内容概括为100字以内的文字  " + richTextBox1.Text);
         }
 
         private bool CheckBold(int i, string line, string marker)
