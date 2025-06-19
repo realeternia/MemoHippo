@@ -437,7 +437,7 @@ namespace MemoHippo
             this.ucListSelectBar2.SelectedIndex = 0;
             this.ucListSelectBar2.Size = new System.Drawing.Size(485, 35);
             this.ucListSelectBar2.TabIndex = 9;
-            this.ucListSelectBar2.TabNames = "说明|图片|记录";
+            this.ucListSelectBar2.TabNames = "说明|图片|进度";
             // 
             // viewStack2
             // 

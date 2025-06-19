@@ -21,6 +21,7 @@ namespace MemoHippo
         private UCIconPicker iconPicker;
         private UCNInput intputPanel;
         private UCBigBox bigBox;
+        private UCAIBox aiBox;
         private UCSettingBar setupBar;
         private InputTextBox inputBox;
         private InputNumberBox numberBox;
@@ -138,7 +139,7 @@ namespace MemoHippo
             intputPanel.OnInit(MemoBook.Instance.GetAllPageInfos());
         }
 
-        public void ShowBigBox(string rtf)
+        public void ShowBigBox(string rtf, string txt = null)
         {
             if (bigBox == null)
             {
@@ -147,7 +148,18 @@ namespace MemoHippo
 
             ShowBlackPanel(bigBox, 0, 0);
 
-            bigBox.OnInit(rtf);
+            bigBox.OnInit(rtf, txt);
+        }
+        public void ShowAIBox(string txt)
+        {
+            if (aiBox == null)
+            {
+                aiBox = new UCAIBox();
+            }
+
+            ShowBlackPanel(aiBox, 0, 0);
+
+            aiBox.OnInit(txt);
         }
 
         public void ShowSetup()

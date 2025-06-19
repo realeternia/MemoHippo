@@ -1287,6 +1287,11 @@ namespace Text_Editor
             richTextBox1.Invalidate();
         }
 
+        private void toolStripButtonAI_Click(object sender, EventArgs e)
+        {
+            PanelManager.Instance.ShowAIBox("什么是C#语言");
+        }
+
         private bool CheckBold(int i, string line, string marker)
         {
             // 寻找第一个 *

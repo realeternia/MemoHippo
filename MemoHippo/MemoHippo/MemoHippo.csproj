@@ -206,6 +206,12 @@
     <Compile Include="UIS\Panels\UCBGPropertyModify.designer.cs">
       <DependentUpon>UCBGPropertyModify.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIS\Panels\UCAIBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIS\Panels\UCAIBox.Designer.cs">
+      <DependentUpon>UCAIBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIS\Panels\UCEditImage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -393,6 +399,8 @@
     <Compile Include="UIS\ViewStack.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Utils\AITool.cs" />
+    <Compile Include="Utils\ConfigLoader.cs" />
     <Compile Include="Utils\CsvDb.cs" />
     <Compile Include="Utils\FileEncryption.cs" />
     <Compile Include="Utils\ColorClassifier.cs" />
@@ -574,6 +582,9 @@
     <EmbeddedResource Include="UIS\Panels\UCBGPropertyModify.resx">
       <DependentUpon>UCBGPropertyModify.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UIS\Panels\UCAIBox.resx">
+      <DependentUpon>UCAIBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UIS\Panels\UCEditImage.resx">
       <DependentUpon>UCEditImage.cs</DependentUpon>
     </EmbeddedResource>
@@ -703,6 +714,9 @@
       <DependentUpon>UCMemChart.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
+    <None Include="config.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -774,6 +788,7 @@
     <None Include="Resources\people.png" />
     <None Include="Resources\notion.png" />
     <None Include="Resources\pending.png" />
+    <None Include="Resources\ds.png" />
     <Content Include="Resources\pictureadd.png" />
     <Content Include="Resources\picturepaste.png" />
     <Content Include="Resources\selector.jpg" />

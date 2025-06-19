@@ -1,10 +1,11 @@
-﻿using System.Windows.Forms;
+﻿using MemoHippo.Utils;
+using System.Windows.Forms;
 
 namespace MemoHippo.UIS.Panels
 {
-    public partial class UCBigBox : UserControl
+    public partial class UCAIBox : UserControl
     {
-        public UCBigBox()
+        public UCAIBox()
         {
             InitializeComponent();
             richTextBox1.ShortcutsEnabled = true;    // allow shortcuts
@@ -13,12 +14,11 @@ namespace MemoHippo.UIS.Panels
             Panels.PanelBorders.InitBorder(this);
         }
 
-        public void OnInit(string s, string txt)
+        public async void OnInit(string txt)
         {
-            if (!string.IsNullOrEmpty(s))
-                richTextBox1.Rtf = s;
-            else
-                richTextBox1.Text = txt;
+            richTextBox1.Text = "ai思考中...";
+            string result = await AITool.CallDeepSeekApi("什么是C#语言");
+            richTextBox1.Text = result;
             richTextBox1.Select(0, 0);
             richTextBox1.SelectionIndent = 0;
         }
