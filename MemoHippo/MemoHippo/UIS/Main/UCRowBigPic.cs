@@ -48,22 +48,19 @@ namespace MemoHippo
             }
             if (bmp != null)
             {
-                // 计算缩放比例
-                float scale = Math.Min((float)drawRect.Width / bmp.Width, (float)drawRect.Height / bmp.Height);
+// 保持宽高比，宽度拉满
+float scale = (float)drawRect.Width / bmp.Width;
 
-                // 计算绘制的宽度和高度
-                int newWidth = (int)(bmp.Width * scale);
-                int newHeight = (int)(bmp.Height * scale);
+int newWidth = drawRect.Width;
+int newHeight = (int)(bmp.Height * scale);
 
-                // 计算绘制的位置使图像居中
-                int x = drawRect.X + (drawRect.Width - newWidth) / 2;
-                int y = drawRect.Y + (drawRect.Height - newHeight) / 2;
+// 计算 Y 偏移量，并限制最小值为 0（防止向上溢出）
+int y = drawRect.Y + Math.Max(0, (drawRect.Height - newHeight) / 2);
 
-                // 创建用于绘制的矩形
-                Rectangle destRect = new Rectangle(x, y, newWidth, newHeight);
+// 创建绘制区域
+Rectangle destRect = new Rectangle(drawRect.X, y, newWidth, newHeight);
 
-                // 绘制图像
-                e.Graphics.DrawImage(bmp, destRect);
+e.Graphics.DrawImage(bmp, destRect);
             }
         }
     }

@@ -129,10 +129,13 @@ namespace MemoHippo
             if (icon != null)
                 e.Graphics.DrawImage(icon, 1, 5, 32, 32);
 
-            if (!string.IsNullOrEmpty(itemInfo.Folder) && !File.Exists(itemInfo.GetFilePath()))
-                e.Graphics.DrawString("[丢失]" + title, Font, Brushes.Red, 35, 8);
-            else
-                e.Graphics.DrawString(title, Font, Brushes.WhiteSmoke, 35, 8);
+            if (itemInfo != null)
+            {
+                if (!string.IsNullOrEmpty(itemInfo.Folder) && !File.Exists(itemInfo.GetFilePath()))
+                    e.Graphics.DrawString("[丢失]" + title, Font, Brushes.Red, 35, 8);
+                else
+                    e.Graphics.DrawString(title, Font, Brushes.WhiteSmoke, 35, 8);
+            }
 
             if (isMouseOver)
                 e.Graphics.DrawImage(Resources.menu, menuRegion);
