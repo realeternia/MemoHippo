@@ -61,21 +61,21 @@
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "游戏名";
+            this.columnHeader2.Text = "总页数";
             this.columnHeader2.Width = 150;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "详情";
-            this.columnHeader3.Width = 500;
+            this.columnHeader3.Width = 800;
             // 
-            // UCStatPlayList
+            // UCStatReadList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(38)))));
             this.Controls.Add(this.listView1);
-            this.Name = "UCStatPlayList";
+            this.Name = "UCStatReadList";
             this.Size = new System.Drawing.Size(962, 861);
             this.ResumeLayout(false);
 

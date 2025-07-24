@@ -14,15 +14,47 @@ namespace MemoHippo.UIS.Panels
 
         public void Init()
         {
-            AddLine("文档总计", "数量", MemoBook.Instance.Items.Count.ToString(), Color.White);
-            AddLine("", "今年文档数", MemoBook.Instance.Items.FindAll(a => a.GetCreateTime().Year == DateTime.Now.Year).Count.ToString(), Color.LawnGreen);
-            AddLine("", "去年文档数", MemoBook.Instance.Items.FindAll(a => a.GetCreateTime().Year == DateTime.Now.Year - 1).Count.ToString(), Color.LightGray);
-            var currentYear = DateTime.Now.Year;
-            var currentMonth = DateTime.Now.Month;
-            AddLine("", "本月文档数", (MemoBook.Instance.Items?.FindAll(a => a.GetCreateTime().Year == currentYear && a.GetCreateTime().Month == currentMonth).Count ?? 0).ToString(), Color.LawnGreen);
             var now = DateTime.Now;
+            var currentYear = now.Year;
+            var currentMonth = now.Month;
             var lastMonth = now.AddMonths(-1);
-            AddLine("", "上月文档数", MemoBook.Instance.Items.FindAll(a => a.GetCreateTime().Year == lastMonth.Year && a.GetCreateTime().Month == lastMonth.Month).Count.ToString(), Color.LightGray);
+
+            int totalCount = 0;
+            int thisYearCount = 0;
+            int lastYearCount = 0;
+            int thisMonthCount = 0;
+            int lastMonthCount = 0;
+
+            if (MemoBook.Instance.Items != null)
+            {
+                foreach (var item in MemoBook.Instance.Items)
+                {
+                    totalCount++;
+                    var createTime = item.GetCreateTime();
+                    if (createTime.Year == currentYear)
+                    {
+                        thisYearCount++;
+                        if (createTime.Month == currentMonth)
+                        {
+                            thisMonthCount++;
+                        }
+                    }
+                    if (createTime.Year == currentYear - 1)
+                    {
+                        lastYearCount++;
+                    }
+                    if (createTime.Year == lastMonth.Year && createTime.Month == lastMonth.Month)
+                    {
+                        lastMonthCount++;
+                    }
+                }
+            }
+
+            AddLine("文档总计", "数量", totalCount.ToString(), Color.White);
+            AddLine("", "今年文档数", thisYearCount.ToString(), Color.LawnGreen);
+            AddLine("", "去年文档数", lastYearCount.ToString(), Color.LightGray);
+            AddLine("", "本月文档数", thisMonthCount.ToString(), Color.LawnGreen);
+            AddLine("", "上月文档数", lastMonthCount.ToString(), Color.LightGray);
         }
 
         private void AddLine(string t, string subt, string val, Color foreColor)

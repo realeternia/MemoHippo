@@ -109,8 +109,6 @@ namespace MemoHippo.UIS.Main
             // 假设当前只保存一条主记录，ID 固定为 itemInfo.Id
             if (recordDict.TryGetValue(itemInfo.Id, out var checkItem))
             {
-                // 修改已有项
-                checkItem.TotalPage = 1000;
                 checkItem.Progress = finalProgress;
             }
             else
@@ -122,7 +120,6 @@ namespace MemoHippo.UIS.Main
                 {
                     Id = itemInfo.Id,
                     RecordId = itemInfo.Id,
-                    TotalPage = totalPage,
                     Progress = finalProgress
                 };
                 newRecords.Add(newRecord);

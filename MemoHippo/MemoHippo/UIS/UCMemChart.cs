@@ -56,8 +56,8 @@ namespace MemoHippo.UIS
 
             int barSpacing = barWidth / 4;
             int xStart = 20 + barSpacing;
-            int maxY = (int)YData.Max();
-            var heightTotal = Height - 20 - 20;
+            int maxY = Math.Max(1, (int)YData.Max());
+            var heightTotal = Height - 20 - 40;
 
             for (int i = 0; i < XData.Length; i++)
             {

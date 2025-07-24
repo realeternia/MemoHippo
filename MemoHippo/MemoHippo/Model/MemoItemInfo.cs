@@ -187,5 +187,6 @@ namespace MemoHippo.Model
                 File.Delete(string.Format("{0}/{1}.rz", ENV.GetDocDir(Folder), Id));
             }
         }
+
     }
 }

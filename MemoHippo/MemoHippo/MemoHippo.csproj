@@ -550,6 +550,7 @@
     <Compile Include="Utils\CsvDbHouse.cs" />
     <Compile Include="Utils\RtfModifier.cs" />
     <Compile Include="Utils\SearchManager.cs" />
+    <Compile Include="Utils\StatHelper.cs" />
     <Compile Include="Utils\StringTool.cs" />
     <Compile Include="Utils\SysUtils.cs" />
     <Compile Include="Utils\TagManager.cs" />
