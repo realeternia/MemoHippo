@@ -4,6 +4,7 @@ using MemoHippo.UIS.Panels;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -24,7 +25,7 @@ namespace MemoHippo.UIS
 
         public void Init()
         {
-            catalogs = new List<string>() { "概况", "购买信息", "游玩记录" };
+            catalogs = new List<string>() { "概况", "最近统计", "游玩记录"};
 
             int index = 0;
             UCSettingItem firstItem = null;
@@ -64,6 +65,40 @@ namespace MemoHippo.UIS
             RefreshItems(mItem.Title);
         }
 
+        private Tuple<List<string>, List<float>> GenerateTimeSeriesData(int days, Func<DateTime, string> labelFormatter, Func<MemoItemInfo, bool> filterCondition)
+        {
+            List<string> xData = new List<string>();
+            List<string> originalDates = new List<string>();
+            Dictionary<string, int> dateCount = new Dictionary<string, int>();
+            DateTime today = DateTime.Today;
+        
+            // 生成日期序列
+            for (int i = days - 1; i >= 0; i--)
+            {
+                DateTime date = today.AddDays(-i);
+                string originalDate = date.ToString("MM-dd");
+                originalDates.Add(originalDate);
+                xData.Add(labelFormatter(date));
+                dateCount[originalDate] = 0;
+            }
+        
+            // 统计符合条件的数据
+            foreach (var item in MemoBook.Instance.Items)
+            {
+                if (filterCondition(item))
+                {
+                    DateTime modifyTime = item.GetModifyTime();
+                    string dateStr = modifyTime.ToString("MM-dd");
+                    if (dateCount.ContainsKey(dateStr))
+                        dateCount[dateStr]++;
+                }
+            }
+        
+            // 转换为图表数据
+            List<float> yData = originalDates.Select(date => (float)dateCount[date]).ToList();
+            return new Tuple<List<string>, List<float>>(xData, yData);
+        }
+
         private void RefreshItems(string cat)
         {
             panel1.SuspendLayout();
@@ -79,47 +114,61 @@ namespace MemoHippo.UIS
                 panel1.Controls.Add(uc);
                 uc.Location = new Point(0, 90);
             }
-            else if (cat == "购买信息")
+            else if (cat == "最近统计")
             {
-                //List<string> xData = new List<string>();
-                //List<float> yData = new List<float>();
-                //for (int i = 2019; i <= 2025; i++)
-                //{
-                //    xData.Add(i.ToString());
-                //    yData.Add(UCStatTotal.SumMoney(i.ToString()));
-                //}
-                //uc = new UCMemChart();
-                //uc.BackColor = Color.FromArgb(16,24,16);
-                //(uc as UCMemChart).InitBars("年购买支付（元）", xData.ToArray(), yData.ToArray());
-                //uc.Width = panel1.Width - 160;
-                //uc.Height = 220;
-                //panel1.Controls.Add(uc);
-                //uc.Location = new Point(60, 90);
-
-                //xData.Clear();
-                //yData.Clear();
-                //for (int year = 2019; year <= 2024; year++)
-                //{
-                //    for (int month = 1; month <= 12; month++)
-                //    {
-                //        string monthStr = month.ToString("D2"); // 确保月份是两位数（如 "01" 而不是 "1"）
-                //        monthStr = $"{year}-{monthStr}";
-                //        if (month == 1)
-                //            xData.Add(year.ToString());
-                //        else if (month == 5 || month == 9)
-                //            xData.Add(month.ToString());
-                //        else
-                //            xData.Add("");
-                //        yData.Add(UCStatTotal.SumMoney(monthStr));
-                //    }
-                //}
+                // 使用封装方法生成数据
+                var result = GenerateTimeSeriesData(
+                    days: 35,
+                    labelFormatter: date =>
+                    {
+                        string day = date.Day.ToString("D2");
+                        if (day == "01")
+                            return $"{date.Month}月";
+                        else if (new[] { "05", "10", "15", "20", "25" }.Contains(day))
+                            return day;
+                        return "";
+                    },
+                    filterCondition: item =>
+                    {
+                        DateTime modifyTime = item.GetModifyTime();
+                        return modifyTime >= DateTime.Today.AddDays(-34) && modifyTime <= DateTime.Today && !item.HasTag("读书") && !item.HasTag("读完");
+                    }
+                );
                 uc = new UCMemChart();
+                (uc as UCMemChart).UseSeparateLastBarColor = false;
                 uc.BackColor = Color.FromArgb(16, 24, 16);
-              //  (uc as UCMemChart).InitBars("月购买支付（元）", xData.ToArray(), yData.ToArray());
+                (uc as UCMemChart).InitBars("修改文件数", result.Item1.ToArray(), result.Item2.ToArray());
                 uc.Width = panel1.Width - 160;
                 uc.Height = 220;
                 panel1.Controls.Add(uc);
-                uc.Location = new Point(60, 90 + 220 + 20);
+                uc.Location = new Point(60, 90);
+
+                // 使用封装方法生成数据
+                result = GenerateTimeSeriesData(
+                    days: 35,
+                    labelFormatter: date =>
+                    {
+                        string day = date.Day.ToString("D2");
+                        if (day == "01")
+                            return $"{date.Month}月";
+                        else if (new[] { "05", "10", "15", "20", "25" }.Contains(day))
+                            return day;
+                        return "";
+                    },
+                    filterCondition: item =>
+                    {
+                        DateTime createTime = item.GetCreateTime();
+                        return createTime >= DateTime.Today.AddDays(-34) && createTime <= DateTime.Today && (item.HasTag("读书") || item.HasTag("读完"));
+                    }
+                );
+                uc = new UCMemChart();
+                (uc as UCMemChart).UseSeparateLastBarColor = false;
+                uc.BackColor = Color.FromArgb(16, 24, 16);
+                (uc as UCMemChart).InitBars("修改读书笔记", result.Item1.ToArray(), result.Item2.ToArray());
+                uc.Width = panel1.Width - 160;
+                uc.Height = 220;
+                panel1.Controls.Add(uc);
+                uc.Location = new Point(60, 90 + 240);                
             }
             else if (cat == "游玩记录")
             {
