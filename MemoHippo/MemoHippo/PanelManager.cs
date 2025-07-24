@@ -18,6 +18,7 @@ namespace MemoHippo
         private UCSearch searchForm;
         private UCSearchRoleStore roleStore;
         private UCSearchCalendar calendar;
+        private UCStatPanel statPanel;
         private UCIconPicker iconPicker;
         private UCNInput intputPanel;
         private UCBigBox bigBox;
@@ -76,6 +77,18 @@ namespace MemoHippo
             ShowBlackPanel(calendar, 0, 0);
 
             calendar.OnInit(keyword);
+        }
+
+        public void ShowStatPanel()
+        {
+            if (statPanel == null)
+            {
+                statPanel = new UCStatPanel();
+            }
+
+            ShowBlackPanel(statPanel, 0, 0);
+
+            statPanel.Init();
         }
 
         private void ReLocate(ref int x, ref int y, Size formSize)

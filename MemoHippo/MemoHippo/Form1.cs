@@ -445,6 +445,12 @@ namespace MemoHippo
         {
             PanelManager.Instance.ShowSearchCalendar();
         }
+
+        private void ucCatalogFixStat_Click(object sender, EventArgs e)
+        {
+            PanelManager.Instance.ShowStatPanel();
+        }
+
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var itemId = int.Parse(rjDropdownMenuCatlog.Tag.ToString());
